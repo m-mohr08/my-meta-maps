@@ -1,0 +1,72 @@
+{
+	"name": "geosoft2/my-meta-maps",
+	"description": "",
+	"php": ">=5.4.0",
+	"version": "1.0.0-dev",
+	"type": "project",
+	"license": "Apache-2.0",
+	"authors": [
+		{
+			"name": "Christopher Rohtermundt",
+            "role": "Developer"
+		},
+		{
+			"name": "Clara Franziska Rendel",
+            "role": "Developer"
+		},
+		{
+			"name": "Matthias Mohr",
+            "role": "Developer"
+		},
+		{
+			"name": "Michael Rieping",
+            "role": "Developer"
+		},
+		{
+			"name": "Milan Köster",
+            "role": "Developer"
+		}
+	],
+	"require": {
+		"laravel/laravel": "4.2.*",
+		"phayes/geophp": "@dev",
+		"mf2/mf2": "0.2.*",
+		"socialism/laravel-opauth": "0.1.*",
+		"opauth/opauth": "0.4.*",
+		"opauth/github": "0.1.*",
+		"opauth/twitter": "0.3.*",
+		"opauth/google": "0.2.*",
+		"opauth/facebook": "0.2.*",
+		"easyrdf/easyrdf": "0.9.*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "4.*"
+	},
+	"autoload": {
+		"classmap": [
+			"app/commands",
+			"app/controllers",
+			"app/models",
+			"app/database/migrations",
+			"app/database/seeds",
+			"app/tests/TestCase.php"
+		]
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"php artisan clear-compiled",
+			"php artisan optimize"
+		],
+		"post-update-cmd": [
+			"php artisan clear-compiled",
+			"php artisan optimize"
+		],
+		"post-create-project-cmd": [
+			"php artisan key:generate"
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "stable"
+}
