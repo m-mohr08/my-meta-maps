@@ -358,7 +358,15 @@
 						<form role="form">
 							<div class="form-group">
 								<label>Team-Name</label>
-								<p>Wir sind ...</p>
+								 <p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>
+                                 <p>Das Team besteht aus:</p>
+                                 <ul class="list-group">
+                                     <li class="list-group-item">Clara Rendel</li>
+                                     <li class="list-group-item">Michael Rieping</li>
+                                     <li class="list-group-item">Christopher Rohtermundt</li>
+                                     <li class="list-group-item">Milan Köster</li>
+                                     <li class="list-group-item">Matthias Mohr</li>
+                                 </ul>
 							</div>
 							<div class="form-group">
 								<label >Lizenzen</label>
