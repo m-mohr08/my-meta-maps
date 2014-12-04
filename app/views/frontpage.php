@@ -344,44 +344,81 @@
 					<div class="modal-body">
 						<form role="form">
 							<div class="form-group">
-								<label>Team-Name</label>
 								<p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>
 								<p>Das Team besteht aus:</p>
 								<ul class="list-group">
-									<li class="list-group-item">Clara Rendel</li>
-									<li class="list-group-item">Michael Rieping</li>
-									<li class="list-group-item">Christopher Rohtermundt</li>
-									<li class="list-group-item">Milan Köster</li>
-									<li class="list-group-item">Matthias Mohr</li>
+									<li class="list-group-item">
+										Clara Rendel
+										<a href="mailto:c_rend02@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Christopher Rohtermundt
+										<a href="mailto:c_roht01@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Matthias Mohr
+										<a href="mailto:m_mohr08@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Michael Rieping
+										<a href="mailto:m_riep03@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Milan Köster
+										<a href="mailto:m_koes18@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
 								</ul>
 							</div>
 							<div class="form-group">
-								<label >Lizenzen</label>
-								<ul class="list-group">
-									<li class="list-group-item">...</li>
-								</ul>
+								<label >Lizenz</label>
+								<p>Copyright 2014 C. Rendel, C. Rohtermundt, M. Mohr, M. Rieping, M. Köster</p>
+								<p>Licensed under the Apache License, Version 2.0 (the "License");
+								you may not use this file except in compliance with the License.
+								You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>.</p>
+								<p>Unless required by applicable law or agreed to in writing, software
+								distributed under the License is distributed on an "AS IS" BASIS,
+								WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+								See the License for the specific language governing permissions and
+								limitations under the License.</p>
 							</div>
 							<div class="form-group">
-								<label >Adresse der öffentliche Datenschnittstelle</label>
-								<p>...</p>
+								<label>Adresse der öffentlichen Datenschnittstelle</label>
+								<p>http://giv-geosoft2b.uni-muenster.de/mmm/api/v1/</p>
 							</div>
 							<div class="form-group">
-								<label >Genutzte Bibliotheken</label>
+								<label>Genutzte Bibliotheken</label>
 								<ul class="list-group">
+									<!-- Server -->
 									<li class="list-group-item">
-										<a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>
+										<a href="http://laravel.com" target="_blank">Laravel</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://jquery.com/" target="_blank">JQuery</a>
+										<a href="http://www.webmapcenter.de/imp/webseite/" target="_blank">IMP - INSPIRE Metadata Parser</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://backbonejs.org/" target="_blank">Backbone.js</a>
+										<a href="http://www.easyrdf.org" target="_blank">EasyRDF</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://underscorejs.org/" target="_blank">Underscore.js</a>
+										<a href="https://github.com/indieweb/php-mf2" target="_blank">php-mf2</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://openlayers.org/" target="_blank">OpenLayers</a>
+										<a href="https://geophp.net" target="_blank">GeoPHP</a>
+									</li>
+									<!-- Client -->
+									<li class="list-group-item">
+										<a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://jquery.com" target="_blank">jQuery</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://backbonejs.org" target="_blank">Backbone.js</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://underscorejs.org" target="_blank">Underscore.js</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://openlayers.org" target="_blank">OpenLayers</a>
 									</li>
 								</ul>
 							</div>
