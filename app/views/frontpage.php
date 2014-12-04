@@ -15,6 +15,10 @@
 
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		
+		<!--Karte-->
+		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
+		<script src="../../js/mapscripts.js" type="text/javascript"></script>
 
 	</head>
 
@@ -159,7 +163,7 @@
 						Karte
 					</h2>
 					<p>
-						Hier kommt die Karte hin.
+						<div id="map" class="map" style="max-height: 600px"></div>
 					</p>
 				</div>
 				<!-- Div for map - ending -->
