@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
-	
+
 	<head>
 
 		<title>My Meta Maps</title>
-		
+
 		<base href="http://giv-geosoft2b.uni-muenster.de/mmm_dev/"> <!-- Do it in a generic way -->
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +12,9 @@
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/style.css">
-		
-		<link rel="shortcut icon" href="#"> <!-- Hier können wir noch ein Schortcut unseres Logo hinzufügen -->
+
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
 
 	</head>
 
@@ -24,59 +25,51 @@
 			<!-- Div/row for navbar-header - beginning -->
 			<div class="row clearfix">
 				<div class="col-md-12 column">
+					<!-- Start: Logo -->
 					<div class="navbar-header">
-						<a class="navbar-brand">
-							<img src="img/logo.png">
+						<a class="navbar-brand logo" href="#">
+							<img src="img/logo.png" alt="My Meta Maps">
 						</a>
-						<b class="navbar-text">My Meta Maps</b> 
-					</div>	
+					</div>
+					<!-- End: Logo -->
 					<!-- Div/row for navbar-collapse - beginning -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<!-- Unordered list for navbar-header of navbar-collapse - beginning -->
-						<ul class="nav navbar-nav navbar-header">
-							<a class="navbar-brand" href="#">
-								<img src="img/flags/en.png">
-							</a>
-							<a class="navbar-brand" href="#">
-								<img src="img/flags/de.png">
-							</a>
-							</a>
-							<a class="navbar-brand" href="#">
-								<img src="img/flags/nl.png">
-							</a>
-						</ul>
-						<!-- Unordered list for navbar-header of navbar-collapse - ending -->
-						<!-- Unordered list for navbar-left of navbar-collapse - beginning -->
+						<!-- Start: Language Chooser -->
 						<ul class="nav navbar-nav navbar-left">
-							<form class="navbar-form navbar-left">
-								<button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"> ? </button>&nbsp;
-							</form>
+							<div class="navbar-form btn-group" role="group">
+								<a href="#" class="btn btn-default active" role="button"><img src="img/flags/en.png" alt="English"></a>
+								<a href="#" class="btn btn-default" role="button"><img src="img/flags/de.png" alt="Deutsch"></a>
+								<a href="#" class="btn btn-default" role="button"><img src="img/flags/nl.png" alt="Nederlands"></a>
+							</div>
 						</ul>
-						<!-- Unordered list for navbar-left of navbar-collapse - ending -->
-						<!-- Unordered list for navbar-right of navbar-collapse - beginning -->
+						<!-- End: Language Chooser -->
 						<ul class="nav navbar-nav navbar-right">
+							<!-- Start: Add geodata/comment -->
 							<form class="navbar-form navbar-left">
 								<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalKommentar" id="commentBtn"> Kommentar erstellen &nbsp;
 									<span class="glyphicon glyphicon-plus-sign"></span>
 								</button>
 							</form>
+							<!-- End: Add geodata/comment -->
+							<!-- Start: Account navigation -->
 							<form class="navbar-form navbar-left">
 								<div class="btn-group" role="group">
 									<button type="submit" class="btn btn-default disabled"> <span class="glyphicon glyphicon-user"></span>&nbsp; Account </button>&nbsp;
-									<button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#ModalAnmelden" id="loginBtn"> Anmelden &nbsp;
+									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalAnmelden" id="loginBtn"> Anmelden &nbsp;
 										<span class="glyphicon glyphicon-log-in"></span>
 									</button>
-								</div>
-							</form>
-							<form class="navbar-form navbar-left">
-								<div class="btn-group" role="group">
-									<button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#ModalRegistrieren" id="registerBtn"> Registrieren&nbsp;
+									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalRegistrieren" id="registerBtn"> Registrieren&nbsp;
 										<span class="glyphicon glyphicon-edit"></span>
 									</button>
 								</div>
 							</form>	
+							<!-- End: Account navigation -->
+							<!-- Start: Help navigation -->
+							<form class="navbar-form navbar-right">
+								<button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button>
+							</form>
+							<!-- End Help navigation -->
 						</ul>
-						<!-- Unordered list for navbar-right of navbar-collapse - ending -->
 					</div>	
 					<!-- Div/row for navbar-collapse - ending -->
 				</div>
@@ -92,17 +85,17 @@
 		<!-- Müsste später durch ein template ersetzt werden, um Benutzerhilfe nur beim ersten Start anzuzeigen 
 			und Einstellungen der Filter speichern zu können -->
 		<header class="container">
-			
+
 			<!-- Div for the alert for user-help - beginning -->
 			<div class="alert alert-warning alert-dismissible">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span>
 				</button>
 				<strong>Benutzerhilfe</strong> &nbsp; 
-				Klicke oben auf <button type="submit" class="btn-sm btn-warning disabled"> ? </button>&nbsp; für weitere Informationen
+				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen
 			</div>
 			<!-- Div for the alert for user-help - ending -->
-			
+
 			<!-- Div for the filters - beginning -->
 			<div class="row clearfix">
 				<div class="col-md-3 column">
@@ -171,7 +164,7 @@
 				</div>
 				<!-- Div for map - ending -->
 				<!-- Div for comments-header - beginning -->
-				
+
 				<div class="col-md-4 column">
 					<h3 class="text-info">
 						Kommentare mit ...
@@ -183,7 +176,7 @@
 								<div class="tabbable" id="tabs-664988">
 									<ul class="nav nav-tabs">
 										<li class="active">
-											<a href="#commentWithGeo" data-toggle="tab">.. räumlichen Bezug</a>
+											<a href="#commentWithGeo" data-toggle="tab">... räumlichen Bezug</a>
 										</li>
 										<li>
 											<a href="#commentWithOutGeo" data-toggle="tab">... ohne räumlichen Bezug</a>
@@ -220,29 +213,29 @@
 										</div>
 										<div class="tab-pane" id="commentWithOutGeo">
 											<div class="tab-pane active" id="commentWithGeo">
-											<!-- Div for comments - beginning -->
-											<div style="overflow-y: auto; max-height: 400px">
-												<div class="row clearfix">
-													<div class="col-md-12 column">
-														<div class="panel panel-info">
-															<!-- Unordered list for comments -->
-															<ul class="list-group">
-																<li class="list-group-item">Geodatensatz xyz - noch nicht klickbar</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-																<li class="list-group-item">Geodatensatz xyz</li>
-															</ul>
+												<!-- Div for comments - beginning -->
+												<div style="overflow-y: auto; max-height: 400px">
+													<div class="row clearfix">
+														<div class="col-md-12 column">
+															<div class="panel panel-info">
+																<!-- Unordered list for comments -->
+																<ul class="list-group">
+																	<li class="list-group-item">Geodatensatz xyz - noch nicht klickbar</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																	<li class="list-group-item">Geodatensatz xyz</li>
+																</ul>
+															</div>
 														</div>
 													</div>
 												</div>
+												<!-- Div for comments - ending -->
 											</div>
-											<!-- Div for comments - ending -->
-										</div>
 										</div>
 									</div>
 								</div>
@@ -250,25 +243,19 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- Div for comments-header - ending -->
-				
+
 			</div>
 			<!-- Div for map/comments - ending -->
 		</section>
 		<!-- Section - ending -->
 
 		<br> <!-- Spacing to the footer/navbar on the bottom -->
-		
+
 		<footer>
 			<nav class="navbar navbar-default" role="navigation">
 				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<a href="https://github.com/m-mohr/my-meta-maps" target="_blank">GitHub-Projekt</a>
-					</li>
-					<li>
-						<a href="www.icondrawer.com " target="_blank">icondrawer.com</a>
-					</li>
 					<form class="navbar-form navbar-right">
 						<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalImpressum"> Impressum&nbsp;
 							<span class="glyphicon glyphicon-info-sign"></span>
@@ -357,44 +344,81 @@
 					<div class="modal-body">
 						<form role="form">
 							<div class="form-group">
-								<label>Team-Name</label>
-								 <p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>
-                                 <p>Das Team besteht aus:</p>
-                                 <ul class="list-group">
-                                     <li class="list-group-item">Clara Rendel</li>
-                                     <li class="list-group-item">Michael Rieping</li>
-                                     <li class="list-group-item">Christopher Rohtermundt</li>
-                                     <li class="list-group-item">Milan Köster</li>
-                                     <li class="list-group-item">Matthias Mohr</li>
-                                 </ul>
-							</div>
-							<div class="form-group">
-								<label >Lizenzen</label>
+								<p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>
+								<p>Das Team besteht aus:</p>
 								<ul class="list-group">
-									<li class="list-group-item">...</li>
+									<li class="list-group-item">
+										Clara Rendel
+										<a href="mailto:c_rend02@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Christopher Rohtermundt
+										<a href="mailto:c_roht01@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Matthias Mohr
+										<a href="mailto:m_mohr08@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Michael Rieping
+										<a href="mailto:m_riep03@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
+									<li class="list-group-item">
+										Milan Köster
+										<a href="mailto:m_koes18@uni-muenster.de" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
+									</li>
 								</ul>
 							</div>
 							<div class="form-group">
-								<label >Adresse der öffentliche Datenschnittstelle</label>
-								<p>...</p>
+								<label >Lizenz</label>
+								<p>Copyright 2014 C. Rendel, C. Rohtermundt, M. Mohr, M. Rieping, M. Köster</p>
+								<p>Licensed under the Apache License, Version 2.0 (the "License");
+								you may not use this file except in compliance with the License.
+								You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>.</p>
+								<p>Unless required by applicable law or agreed to in writing, software
+								distributed under the License is distributed on an "AS IS" BASIS,
+								WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+								See the License for the specific language governing permissions and
+								limitations under the License.</p>
 							</div>
 							<div class="form-group">
-								<label >Genutzte Bibliotheken</label>
+								<label>Adresse der öffentlichen Datenschnittstelle</label>
+								<p>http://giv-geosoft2b.uni-muenster.de/mmm/api/v1/</p>
+							</div>
+							<div class="form-group">
+								<label>Genutzte Bibliotheken</label>
 								<ul class="list-group">
+									<!-- Server -->
 									<li class="list-group-item">
-										<a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>
+										<a href="http://laravel.com" target="_blank">Laravel</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://jquery.com/" target="_blank">JQuery</a>
+										<a href="http://www.webmapcenter.de/imp/webseite/" target="_blank">IMP - INSPIRE Metadata Parser</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://backbonejs.org/" target="_blank">Backbone.js</a>
+										<a href="http://www.easyrdf.org" target="_blank">EasyRDF</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://underscorejs.org/" target="_blank">Underscore.js</a>
+										<a href="https://github.com/indieweb/php-mf2" target="_blank">php-mf2</a>
 									</li>
 									<li class="list-group-item">
-										<a href="http://openlayers.org/" target="_blank">OpenLayers</a>
+										<a href="https://geophp.net" target="_blank">GeoPHP</a>
+									</li>
+									<!-- Client -->
+									<li class="list-group-item">
+										<a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://jquery.com" target="_blank">jQuery</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://backbonejs.org" target="_blank">Backbone.js</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://underscorejs.org" target="_blank">Underscore.js</a>
+									</li>
+									<li class="list-group-item">
+										<a href="http://openlayers.org" target="_blank">OpenLayers</a>
 									</li>
 								</ul>
 							</div>
@@ -474,7 +498,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Modal for Users -->
 		<div id="User">
 
