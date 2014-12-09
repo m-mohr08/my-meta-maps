@@ -13,32 +13,21 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		
-		<!-- For formValidation-plugin -->
-		<link href="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/css/formValidator.css" rel="stylesheet">
+		<!-- For formValidator-plugin -->
+		<link href="plugins/formValidator/css/formValidator.css" rel="stylesheet">
 	    
 	    <!-- For rating-plugin -->
-	    <link href="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
+	    <link href="plugins/barRating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
 	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
 	          type="text/css"/>
 	    
 	    <!-- For rating-plugin; loaded in header, otherwise it doesnt works -->
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	    <script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/jquery.barrating.js"></script>
-    	<script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/rating-views.js"></script>
+	    <script type="text/javascript" src="plugins/barRating/jquery.barrating.js"></script>
+    	<script type="text/javascript" src="plugins/barRating/rating-views.js"></script>
 	    
 	    <!-- Placed here, otherwise plugin doesnt works -->
 	    <base href="http://giv-geosoft2b.uni-muenster.de/mmm_dev/"> <!-- Do it in a generic way -->
-		
-		<!--
-		<link href="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/css/examples.css" rel="stylesheet" type="text/css"/>
-    	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
-          type="text/css"/> 
-         Überschneidet sich dieses css mit dem von Bootstrap ??? -->        
-		
-		<!-- Plugin for rating; loaded in header (?!) 
-    	<script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/jquery.barrating.js"></script>
-    	<script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/magic.js"></script>
-    	-->
 
 	</head>
 
@@ -570,9 +559,9 @@
 		<script type="text/javascript" src="js/scripts.js"></script>
 		
 		<!-- For formValidator-plugin -->
-		<script type="text/javascript" src="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/bvalidator.jquery.js"></script>
-		<script type="text/javascript" src="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/validator-views.js"></script>
-		<script type="text/javascript" src="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/magic.js"></script>
+		<script type="text/javascript" src="plugins/formValidator/bvalidator.jquery.js"></script>
+		<script type="text/javascript" src="plugins/formValidator/validator-views.js"></script>
+		<script type="text/javascript" src="plugins/formValidator/magic.js"></script>
 
 	</body>
 
