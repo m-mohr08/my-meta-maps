@@ -4,17 +4,41 @@
 	<head>
 
 		<title>My Meta Maps</title>
-
-		<base href="http://giv-geosoft2b.uni-muenster.de/mmm_dev/"> <!-- Do it in a generic way -->
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta charset="utf-8">
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/style.css">
-
+    
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>	
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+	    
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		
+		<!-- For formValidation-plugin -->
+		<link href="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/css/formValidator.css" rel="stylesheet">
+	    
+	    <!-- For rating-plugin -->
+	    <link href="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
+	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
+	          type="text/css"/>
+	    
+	    <!-- For rating-plugin; loaded in header, otherwise it doesnt works -->
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	    <script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/jquery.barrating.js"></script>
+    	<script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/rating-views.js"></script>
+	    
+	    <!-- Placed here, otherwise plugin doesnt works -->
+	    <base href="http://giv-geosoft2b.uni-muenster.de/mmm_dev/"> <!-- Do it in a generic way -->
+		
+		<!--
+		<link href="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/css/examples.css" rel="stylesheet" type="text/css"/>
+    	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
+          type="text/css"/> 
+         Überschneidet sich dieses css mit dem von Bootstrap ??? -->        
+		
+		<!-- Plugin for rating; loaded in header (?!) 
+    	<script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/jquery.barrating.js"></script>
+    	<script type="text/javascript" src="plugins/Minimal-jQuery-Rating-Widget-Plugin-Bar-Rating/magic.js"></script>
+    	-->
 
 	</head>
 
@@ -95,20 +119,21 @@
 				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen
 			</div>
 			<!-- Div for the alert for user-help - ending -->
-
+			<hr>
 			<!-- Div for the filters - beginning -->
 			<div class="row clearfix">
 				<div class="col-md-3 column">
-					<div class="input-group">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								Räumlicher Filter <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Auswahl</a></li>
-							</ul>
-						</div>
-					</div>
+					<div class="input select rating-d">
+					    <label for="example-d">Räumlicher Filter</label>
+						<select id="example-d" name="rating">
+					 	   <option value="5">5</option>
+						   <option value="10">10</option>
+						   <option value="20">20</option>
+						   <option value="50">50</option>
+						   <option value="100">100</option>
+						   <option value="200">200</option>
+						</select>
+				    </div>
 				</div>
 				<div class="col-md-3 column">
 					<div class="input-group">
@@ -123,16 +148,16 @@
 					</div>
 				</div>
 				<div class="col-md-3 column">
-					<div class="input-group">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								Numerischer Filter <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Slider</a></li>
-							</ul>
-						</div>
-					</div>
+					<div class="input select rating-f">
+			            <label for="example-f">Filter für Bewertung</label>
+			            <select id="example-f" name="rating">
+			                <option value="1">1</option>
+			                <option value="2">2</option>
+			                <option value="3">3</option>
+			                <option value="4">4</option>
+			                <option value="5">5</option>
+			            </select>
+			        </div>
 				</div>
 				<div class="col-md-3 column">
 					<div class="input-group">
@@ -143,7 +168,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- Div for the filters - beginning -->
+			<!-- Div for the filters - ending -->
 			<hr>		
 		</header>
 		<!-- Header - ending -->
@@ -167,7 +192,7 @@
 
 				<div class="col-md-4 column">
 					<h3 class="text-info">
-						Kommentare mit ...
+						Kommentare ...
 					</h3>
 					<br>
 					<div>
@@ -176,10 +201,10 @@
 								<div class="tabbable" id="tabs-664988">
 									<ul class="nav nav-tabs">
 										<li class="active">
-											<a href="#commentWithGeo" data-toggle="tab">... räumlichen Bezug</a>
+											<a href="#commentWithGeo" data-toggle="tab">... mit räuml. Bezug</a>
 										</li>
 										<li>
-											<a href="#commentWithOutGeo" data-toggle="tab">... ohne räumlichen Bezug</a>
+											<a href="#commentWithOutGeo" data-toggle="tab">... ohne räuml. Bezug</a>
 										</li>
 									</ul>
 									<div class="tab-content">
@@ -287,11 +312,10 @@
 							<div class="form-group">
 								<label>Passwort</label>
 								<input type="password" class="form-control" id="passwordLogin" />
+								<br>
+								<button type="button" class="btn btn-primary" data-dismiss="modal" id="loginModalBtn">Anmelden</button>
 							</div>
 						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal" id="loginModalBtn">Anmelden</button>
 					</div>
 				</div>
 			</div>
@@ -307,27 +331,37 @@
 						<h4 class="modal-title" id="meinModalLabel">Registrieren</h4>
 					</div>
 					<div class="modal-body">
-						<form role="form">
-							<div class="form-group">
-								<label>Benutzername (optional)</label>
-								<input type="text" class="form-control" id="usernameRegister" />
-							</div>
-							<div class="form-group">
-								<label>Email-Adresse</label>
-								<input type="email" class="form-control" id="mailAdress" />
-							</div>
-							<div class="form-group">
-								<label>Passwort</label>
-								<input type="password" class="form-control" id="passwordRegister" />
-							</div>
-							<div class="form-group">
-								<label>Passwort wiederholen</label>
-								<input type="password" class="form-control" id="passwordRepeat" />
-							</div>
+						
+						<form action="" id="form-direct-a">
+
+							<label for="nameInput">Name</label>
+							<input class="form-control" name="nameInput" id="inputName" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+			
 						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="registerModalBtn">Registrieren</button>
+			
+						<form action="" id="form-row">
+							
+							<div class="row form-group">
+								<label for="mailInput">E-Mail-Adresse</label>
+								<input class="form-control" name="mailInput" id="inputName" type="text" data-bvStrict="email" data-bvEmpty="@">
+								<div class="help-block error-message">Dies ist keine E-Mail-Adresse</div>
+							</div>
+							
+							<div class="row form-group">
+								<label for="passwordInput">Passwort</label>
+								<input class="form-control" name="passwordInput" id="inputPassword" type="password" data-bvStrict="reg:^.{5,}">
+								<span class="help-block error-message">Passwort muss mindestens aus 5 Zeichen bestehen</span>
+							</div>
+							
+							<div class="row form-group">
+								<label for="passRepeatInput">Passwort wiederholen</label>
+								<input class="form-control" name="passRepeatInput" id="inputPassRepeat" type="password" data-bvStrict="same:passwordInput">
+								<span class="help-block error-message">Passwörter stimmen nicht überein</span>
+							</div>
+							
+							<button type="submit" class="btn btn-primary">Registrieren</button>
+							
+						</form>
 					</div>
 				</div>
 			</div>
@@ -462,36 +496,60 @@
 						<h4 class="modal-title" id="meinModalLabel">Kommentar erstellen</h4>
 					</div>
 					<div class="modal-body">
-						<form role="form">
-							<div class="form-group">
-								<label>URL des Geodatensatzes*</label>
-								<input type="url" class="form-control" id="geoURL" />
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Freitext*</label>
-								<br>
-								<form action="textarea.htm">
-									<textarea name="user_eingabe" cols="75" rows="10"></textarea> <!-- Größe muss noch angepasst werden -->
-								</form>
-							</div>
-							<div class="btn-group" id="ratingModal"> <!-- Sterne dienen nur als Platzhalter -->
-								<label for="exampleInputEmail1">Bewertung (optional)</label>
-								<br>
-								<button type="submit" class="btn-sm btn-primary"><span class="glyphicon glyphicon-star-empty"></span>&nbsp; </button>
-								<button type="submit" class="btn-sm btn-primary"><span class="glyphicon glyphicon-star-empty"></span>&nbsp; </button>
-								<button type="submit" class="btn-sm btn-primary"><span class="glyphicon glyphicon-star-empty"></span>&nbsp; </button>
-								<button type="submit" class="btn-sm btn-primary"><span class="glyphicon glyphicon-star-empty"></span>&nbsp; </button>
-								<button type="submit" class="btn-sm btn-primary"><span class="glyphicon glyphicon-star-empty"></span>&nbsp; </button>						
-							</div>
+			
+						<form action="" id="form-direct-b">
+
+							<label for="titleInput">Titel</label>
+							<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+							
+							<!-- Füge was passendes in bvalidator.jquery.js hinzu, sodass es verplfichtend wird -->
+							<label for="titleInput">URL*</label>
+							<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+							
+							<!-- Füge was passendes in bvalidator.jquery.js hinzu, sodass es verplfichtend wird -->
+							<!-- In textArea ändern -->
+							<label for="titleInput">Freitext*</label>
+							<input class="form-control" name="textInput" id="inputText" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+			
 						</form>
+						
+						<div class="input select rating-f">
+							<label for="example-i">Bewertung</label>
+						    <select id="example-i" name="rating">
+						    	<option value="1">1</option>
+						        <option value="2">2</option>
+						        <option value="3">3</option>
+						        <option value="4">4</option>
+						        <option value="5">5</option>
+							</select>
+						</div>
+						
+						<br>
+						
+						<form action="" id="form-row-other">
+							
+							<!-- Ändere in bvalidator.jquery.js '.validation(date) ... ', damit dies hier optional wird -->
+							<div class="row form-group">
+								<label for="startPointInput">Zeitpunkt - Start</label>
+								<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy" data-bvSwitch="dd-mm-yyyy">
+								<div class="help-block error-message">Falsches Format</div>
+							</div>
+							
+							<div class="row form-group">
+								<label for="endPointInput">Zeitpunkt - Ende</label>
+								<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy" data-bvSwitch="dd-mm-yyyy">
+								<div class="help-block error-message">Falsches Format</div>
+							</div>
+							
+						</form>
+							
+						<button type="submit" class="btn btn-primary">Erstellen</button>
+						
 					</div>
 					<div class="modal-footer">
 						<div class="row clearfix">
 							<div class="col-md-2 column">
 								<label for="exampleInputEmail1">*Verpflichtend</label>
-							</div>
-							<div class="col-md-10 column">
-								<button type="button" class="btn btn-primary" >Erstellen</button>
 							</div>
 						</div>
 					</div>
@@ -510,6 +568,11 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/scripts.js"></script>
+		
+		<!-- For formValidator-plugin -->
+		<script type="text/javascript" src="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/bvalidator.jquery.js"></script>
+		<script type="text/javascript" src="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/validator-views.js"></script>
+		<script type="text/javascript" src="plugins/jQuery-Plugin-For-Easy-Client-Side-Form-Validation-bValidator/magic.js"></script>
 
 	</body>
 
