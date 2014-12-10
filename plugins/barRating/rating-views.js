@@ -6,6 +6,7 @@ $(function () {
         });
 
         $('#example-c, #example-d').barrating('show', {
+        	initialRating: true,
 	        showValues:true,
             showSelectedRating:false
         });
@@ -20,6 +21,7 @@ $(function () {
         });
 
         $('#example-f').barrating({ 
+        	initialRating: true,
          	showSelectedRating:false});
 
         $('#example-g').barrating('show', {
@@ -32,6 +34,7 @@ $(function () {
            	readonly:true});
            	
         $('#example-i').barrating({ 
+        	initialRating: true,
             showSelectedRating:false});
 
             $(this).addClass('deactivated');

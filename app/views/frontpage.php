@@ -111,7 +111,7 @@
 			<hr>
 			<!-- Div for the filters - beginning -->
 			<div class="row clearfix">
-				<div class="col-md-3 column">
+				<div class="col-md-4 column">
 					<div class="input select rating-d">
 					    <label for="example-d">Räumlicher Filter</label>
 						<select id="example-d" name="rating">
@@ -121,10 +121,11 @@
 						   <option value="50">50</option>
 						   <option value="100">100</option>
 						   <option value="200">200</option>
+						   <option value="200">500</option>
 						</select>
 				    </div>
 				</div>
-				<div class="col-md-3 column">
+				<div class="col-md-2 column">
 					<div class="input-group">
 						<div class="btn-group">
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -491,15 +492,23 @@
 							<label for="titleInput">Titel</label>
 							<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
 							
-							<!-- Füge was passendes in bvalidator.jquery.js hinzu, sodass es verplfichtend wird -->
-							<label for="titleInput">URL*</label>
-							<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+						</form>
+						
+						<!-- Validation auf URL fehlt noch -->
+						<form action="" id="form-row-adding">
 							
-							<!-- Füge was passendes in bvalidator.jquery.js hinzu, sodass es verplfichtend wird -->
-							<!-- In textArea ändern -->
-							<label for="titleInput">Freitext*</label>
-							<input class="form-control" name="textInput" id="inputText" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
-			
+							<div class="row form-group">
+								<label for="URLInput">URL*</label>
+								<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="URL" data-bvSwitch="">
+								<div class="help-block error-message">Bitte füge eine (valide) URL eines Geodatensatzes hinzu</div>
+							</div>
+							
+							<div class="row form-group">
+								<label for="textInput">Freitext*</label>
+								<textarea class="form-control" rows="3" name="textInput" id="inputText" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
+								<div class="help-block error-message">Bitte füge einen Freitext hinzu</div>
+							</div>
+				
 						</form>
 						
 						<div class="input select rating-f">
@@ -517,22 +526,22 @@
 						
 						<form action="" id="form-row-other">
 							
-							<!-- Ändere in bvalidator.jquery.js '.validation(date) ... ', damit dies hier optional wird -->
 							<div class="row form-group">
 								<label for="startPointInput">Zeitpunkt - Start</label>
-								<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy" data-bvSwitch="dd-mm-yyyy">
+								<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
 								<div class="help-block error-message">Falsches Format</div>
 							</div>
 							
 							<div class="row form-group">
 								<label for="endPointInput">Zeitpunkt - Ende</label>
-								<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy" data-bvSwitch="dd-mm-yyyy">
+								<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
 								<div class="help-block error-message">Falsches Format</div>
 							</div>
 							
 						</form>
 							
-						<button type="submit" class="btn btn-primary">Erstellen</button>
+						<button type="submit" class="btn btn-primary" id="addCommentBtn" onclick="changeClass('addCommentBtn', 'btn btn-primary disabled'); changeClass('addedCommentBtn', 'btn btn-info')">Erstellen</button>&nbsp;&nbsp;&nbsp;
+						<button type="submit" class="btn btn-info disabled" id="addedCommentBtn">Kommentar einsehen</button>
 						
 					</div>
 					<div class="modal-footer">
@@ -554,14 +563,21 @@
 		<!-- Modals ending -->
 
 		<!-- Load at the end to load the site faster -->
+		
+		<!-- Libaries -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/scripts.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 		
 		<!-- For formValidator-plugin -->
 		<script type="text/javascript" src="plugins/formValidator/bvalidator.jquery.js"></script>
 		<script type="text/javascript" src="plugins/formValidator/validator-views.js"></script>
 		<script type="text/javascript" src="plugins/formValidator/magic.js"></script>
+		
+		<!-- Comment-MVC -->
+		<script type="text/javascript" src="js/models/commentModel.js"></script>
+		<script type="text/javascript" src="js/models/commentView.js"></script>
+		<script type="text/javascript" src="js/models/commentController.js"></script>
 
 	</body>
 

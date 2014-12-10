@@ -456,6 +456,9 @@ jQuery.bValidator
 .validation('empty', function(value) {
 	return (value == '');
 })
+.validation('URL', function(value) {
+	return (value.match(/http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/) != null && value.length != 0);
+})
 .validation('if', function(value, args, elem) {
 	// arg[0] = rule name -> if
 	// arg[1] = name of other input

@@ -1,5 +1,7 @@
 $(function(){
 				$('#form-row').bValidator();
+				
+				$('#form-row-adding').bValidator();
 
 				$('#form-row-other').bValidator();
 
