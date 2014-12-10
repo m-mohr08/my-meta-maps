@@ -17,12 +17,13 @@
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		
 		<!--Karte-->
+		<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
 		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
-		<script src="../../js/mapscripts.js" type="text/javascript"></script>
-
+		<script src="../../js/mapscript.js" type="text/javascript"></script>
+		<script src="../../css/mapstyle.css" type="text/css"></script>
 	</head>
 
-	<body>
+	<body onload="drawmap()">
 
 		<!-- Navbar - beginning -->
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -163,7 +164,7 @@
 						Karte
 					</h2>
 					<p>
-						<div id="map" class="map" style="max-height: 600px"></div>
+						<div id="map"></div>
 					</p>
 				</div>
 				<!-- Div for map - ending -->
