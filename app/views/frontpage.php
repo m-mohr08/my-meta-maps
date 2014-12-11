@@ -15,10 +15,16 @@
 
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
-
+		
+		<!--Karte-->
+		<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
+		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
+		<script src="js/mapscript.js" type="text/javascript"></script>
+		<script src="css/mapstyle.css" type="text/css"></script>
+		
 	</head>
 
-	<body>
+	<body onload="drawmap()">
 
 		<!-- Navbar - beginning -->
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -159,7 +165,7 @@
 						Karte
 					</h2>
 					<p>
-						Hier kommt die Karte hin.
+						<div id="map"></div>
 					</p>
 				</div>
 				<!-- Div for map - ending -->

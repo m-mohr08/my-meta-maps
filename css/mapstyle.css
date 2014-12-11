@@ -1,0 +1,7 @@
+/**
+ * 	style of the basemap
+ */
+  html, body, #map {
+          width: 100%;
+          height: 100%;
+      }
