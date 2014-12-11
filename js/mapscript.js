@@ -1,3 +1,6 @@
+/*
+ * Function to draw a OSM Map
+ */
 function drawmap() {
 	var view = new ol.View({
 		center : [0, 0],
