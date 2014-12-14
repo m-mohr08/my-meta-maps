@@ -2,6 +2,11 @@
 * Model for adding comments/geodata
 */
 CommentAdd = Backbone.Model.extend({
+	
+	initialize: function(){
+          console.log("New CommentAdd-Model added");
+    },
+     
 	urlRoot: '/geodata/app'
 });
 
@@ -15,7 +20,7 @@ CommentsWithSpatial = Backbone.Model.extend({
 /*
 * Collection of CommentsWithSpatial-models
 */
-CommentsWSList = CommentsWithSpatial.Collection.extend({
+CommentsWSList = Backbone.Collection.extend({
 	model: CommentsWithSpatial
 });
 
@@ -29,7 +34,7 @@ CommentsNoSpatial = Backbone.Model.extend({
 /*
 * Collection of CommentsNo-models
 */
-CommentsWSList = CommentsNoSpatial.Collection.extend({
+CommentsWSList = Backbone.Collection.extend({
 	model: CommentsNoSpatial
 });
 
