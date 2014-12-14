@@ -1,0 +1,68 @@
+/* Main
+ * ========================================================================== */
+
+/* Basic style
+ * -------------------------------------------------------------------------- */
+
+/* Footer */
+
+.docs-footer {
+    border-top: 1px solid #eee;
+    margin-top: 100px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+/* Reset Bootstrap
+ * -------------------------------------------------------------------------- */
+
+code {
+    white-space: normal;
+}
+
+/* Top navbar */
+
+.docs-navbar-top {
+    margin-bottom: 0;
+    border-bottom-width: 0;
+}
+
+.docs-navbar-top .nav > li > a {
+    border-left: 1px solid transparent;
+}
+
+.docs-navbar-top .nav > li > a:hover {
+    border-color: #39c;
+    background-color: #fcfcfc;
+}
+
+@media (min-width: 768px) {
+    .docs-navbar-top .nav > li > a {
+        border-bottom: 1px solid transparent;
+        border-left: 0;
+    }
+}
+
+.docs-navbar-top .navbar-toggle {
+    border-color: #39c;
+}
+
+.docs-navbar-top .navbar-toggle .icon-bar {
+    background-color: #39c;
+}
+
+/* Banner */
+
+.docs-jumbotron {
+    background-color: #39c;
+    color: #fff;
+}
+
+
+/* Google code prettify
+ * -------------------------------------------------------------------------- */
+pre.prettyprint {
+    border: 1px solid #ddd !important;
+    padding: 10px 15px !important;
+}

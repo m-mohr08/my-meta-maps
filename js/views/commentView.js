@@ -21,7 +21,6 @@ CommentAddView = Backbone.View.extend({
 	 */
 	createComment: function(event) {
 		
-		
 		console.log( "Titel des erstellten Kommentar:" + $("#inputTitle").val());
 		
 		// Creates details of a comment with typed in values

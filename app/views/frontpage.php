@@ -13,7 +13,7 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 
-		<!--Karte-->
+		<!-- For the Map -->
 		<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
 		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
 		<script src="js/mapscript.js" type="text/javascript"></script>
@@ -21,13 +21,17 @@
 
 		<!-- For formValidator-plugin -->
 		<link href="plugins/formValidator/css/formValidator.css" rel="stylesheet">
+		
+		<!-- For the datePicker-plugin -->
+		<link rel="stylesheet" href="plugins/datePicker/prettify.css">
+	    <link rel="stylesheet" href="plugins/datePickerdatepicker.min.css">
+	    <link rel="stylesheet" href="plugins/datePicker/docs.css">
 	    
-	    <!-- For rating-plugin -->
+	    <!-- For barRating-plugin -->
 	    <link href="plugins/barRating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
-	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
-	          type="text/css"/>
+	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" type="text/css"/>
 	    
-	    <!-- For rating-plugin; loaded in header, otherwise it doesnt works -->
+	    <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	    <script type="text/javascript" src="plugins/barRating/jquery.barrating.js"></script>
     	<script type="text/javascript" src="plugins/barRating/rating-views.js"></script>
@@ -562,20 +566,27 @@
 
 		<!-- Load at the end to load the site faster -->
 		
-		<!-- Libaries -->
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+		<!-- Libaries (jQuery in head) -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>	
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 		
 		<!-- For formValidator-plugin -->
 		<script type="text/javascript" src="plugins/formValidator/bvalidator.jquery.js"></script>
 		<script type="text/javascript" src="plugins/formValidator/validator-views.js"></script>
-		<script type="text/javascript" src="plugins/formValidator/magic.js"></script>
+		
+		<!-- For the datePicker-plugin -->
+		<script type="text/javascript" src="plugins/datePickerprettify.js"></script>
+		<script type="text/javascript" src="plugins/datePicker/main.js"></script>
+	    <script type="text/javascript" src="plugins/datePickerdatepicker.min.js"></script>
+	    <script type="text/javascript" src="plugins/datePicker/datePicker-views.js"></script>
 		
 		<!-- Comment-MVC -->
 		<script type="text/javascript" src="js/models/commentModel.js"></script>
 		<script type="text/javascript" src="js/models/commentView.js"></script>
 		<script type="text/javascript" src="js/models/commentController.js"></script>
+		
+		<script type="text/javascript" src="js/helpers.js"></script>
 
 	</body>
 
