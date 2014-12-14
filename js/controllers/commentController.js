@@ -23,7 +23,7 @@ function commentController(model, details) {
 function successComment() {
 	
 	console.log("Adding comment was successfull");
-	changeClass('addCommentBtn', 'btn btn-succes disabled');
+	changeClass('addCommentBtn', 'btn btn-success disabled');
 	changeClass('addedCommentBtn', 'btn btn-info');
 }
 

@@ -341,7 +341,7 @@
 								
 							</form>
 								
-							<button type="submit" class="btn btn-primary" id="addCommentBtn" onclick="changeClass('addCommentBtn', 'btn btn-primary disabled'); changeClass('addedCommentBtn', 'btn btn-info')">Erstellen</button>&nbsp;&nbsp;&nbsp;
+							<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>&nbsp;&nbsp;&nbsp;
 							<button type="submit" class="btn btn-info disabled" id="addedCommentBtn">Erstellten Kommentar anschauen</button>
 							
 						</div>
