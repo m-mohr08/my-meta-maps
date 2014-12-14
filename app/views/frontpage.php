@@ -107,7 +107,7 @@
 		<!-- Header - beginning --> 
 		<!-- Müsste später durch ein template ersetzt werden, um Benutzerhilfe nur beim ersten Start anzuzeigen 
 			und Einstellungen der Filter speichern zu können -->
-		<header class="container">
+		<header class="container" style="margin-left: 30px; margin-right: 30px">
 
 			<!-- Div for the alert for user-help - beginning -->
 			<div class="alert alert-warning alert-dismissible">
