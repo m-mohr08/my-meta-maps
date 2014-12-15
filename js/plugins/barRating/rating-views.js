@@ -1,28 +1,29 @@
 $(function () {
 	$('.rating-enable').click(function () {
-	    $('#example-a').barrating();
+    	$('#example-a').barrating();
 
         $('#example-b').barrating('show', {
+           	showSelectedRating:true
         });
 
         $('#example-c, #example-d').barrating('show', {
-        	initialRating: true,
-	        showValues:true,
+           	initialRating: true,
+            showValues:true,
             showSelectedRating:false
         });
 
         $('#example-e').barrating('show', {
-     		initialRating:'A',                    
-        	showValues:true,
-        	showSelectedRating:false,
-        	onSelect:function(value, text) {
-        		alert('Selected rating: ' + value);
-        	}
+            initialRating:'A',                    
+            showValues:true,
+            showSelectedRating:false,
+            onSelect:function(value, text) {
+            alert('Selected rating: ' + value);
+        }
         });
 
         $('#example-f').barrating({ 
         	initialRating: true,
-         	showSelectedRating:false});
+           	showSelectedRating:false});
 
         $('#example-g').barrating('show', {
             showSelectedRating:true,
@@ -30,16 +31,12 @@ $(function () {
         });
                 
         $('#example-h').barrating({ 
-         	showSelectedRating:false,
-           	readonly:true});
-           	
-        $('#example-i').barrating({ 
-        	initialRating: true,
-            showSelectedRating:false});
+          	initialRating: true,
+           	showSelectedRating:false});
 
-            $(this).addClass('deactivated');
-            $('.rating-disable').removeClass('deactivated');
-        });
+        $(this).addClass('deactivated');
+        $('.rating-disable').removeClass('deactivated');
+  	});
 
         $('.rating-disable').click(function () {
        		$('select').barrating('destroy');

@@ -23,18 +23,18 @@
 		<link href="plugins/formValidator/css/formValidator.css" rel="stylesheet">
 		
 		<!-- For the datePicker-plugin -->
-		<link rel="stylesheet" href="plugins/datePicker/prettify.css">
-	    <link rel="stylesheet" href="plugins/datePickerdatepicker.min.css">
-	    <link rel="stylesheet" href="plugins/datePicker/docs.css">
+		<link rel="stylesheet" href="js/plugins/datePicker/prettify.css">
+	    <link rel="stylesheet" href="js/plugins/datePicker/datepicker.min.css">
+	    <link rel="stylesheet" href="js/plugins/datePicker/docs.css">
 	    
 	    <!-- For barRating-plugin -->
-	    <link href="plugins/barRating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
+	    <link href="js/plugins/barRating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
 	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" type="text/css"/>
 	    
 	    <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	    <script type="text/javascript" src="plugins/barRating/jquery.barrating.js"></script>
-    	<script type="text/javascript" src="plugins/barRating/rating-views.js"></script>
+	    <script type="text/javascript" src="js/plugins/barRating/jquery.barrating.js"></script>
+    	<script type="text/javascript" src="js/plugins/barRating/rating-views.js"></script>
 
 	</head>
 
@@ -100,7 +100,11 @@
 
 		<!-- Spacing to the navbar -->
 		<div id="spacing" style="height: 70px;">&nbsp;</div>
-
+		
+		<div class="buttons">
+            <button class="blue-pill deactivated rating-enable" style="display: none;">enable</button>
+        </div>
+	
 		<!-- Header - beginning --> 
 		<!-- Müsste später durch ein template ersetzt werden, um Benutzerhilfe nur beim ersten Start anzuzeigen 
 			und Einstellungen der Filter speichern zu können -->
@@ -115,12 +119,11 @@
 				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen
 			</div>
 			<!-- Div for the alert for user-help - ending -->
-			<hr>
+
 			<!-- Div for the filters - beginning -->
 			<div class="row clearfix">
-				<div class="col-md-4 column">
+				<div class="col-md-3 column">
 					<div class="input select rating-d">
-					    <label for="example-d">Räumlicher Filter</label>
 						<select id="example-d" name="rating">
 					 	   <option value="5">5</option>
 						   <option value="10">10</option>
@@ -128,25 +131,12 @@
 						   <option value="50">50</option>
 						   <option value="100">100</option>
 						   <option value="200">200</option>
-						   <option value="500">500</option>
+						   <option value="200">500</option>
 						</select>
 				    </div>
 				</div>
 				<div class="col-md-2 column">
-					<div class="input-group">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								Zeitlicher Filter <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Kalender</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 column">
-					<div class="input select rating-f">
-			            <label for="example-f">Filter für Bewertung</label>
+					<div class="input select rating-f" style="margin-left: 12px">
 			            <select id="example-f" name="rating">
 			                <option value="1">1</option>
 			                <option value="2">2</option>
@@ -156,6 +146,22 @@
 			            </select>
 			        </div>
 				</div>
+				<div class="col-md-2 column">
+			    	<div class="form-group">
+			        	<div class="input-group">
+			            	<input class="form-control" type="text" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
+								<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+			            </div>
+			        </div> 
+			    </div>
+			    <div class="col-md-2 column">
+			    	<div class="form-group">
+			        	<div class="input-group">
+			            	<input class="form-control" type="text" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
+								<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+			            </div>
+			        </div> 
+			    </div>
 				<div class="col-md-3 column">
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Stichwortsuche">
@@ -164,15 +170,15 @@
 						</div>
 					</div>
 				</div>
+			<!-- Div for the filters - beginning -->
 			</div>
-			<!-- Div for the filters - ending -->
 			<hr>		
 		</header>
 		<!-- Header - ending -->
 
 		<!-- Section - beginning -->
 		<!-- Müsste später durch ein template ersetzt werden -->
-		<section class="container">	
+		<section class="row clearfix" style="margin-left: 30px; margin-right: 30px">	
 			<!-- Div for map/comments - beginning -->
 			<div class="row clearfix" id="mapComments">
 				<!-- Div for map - beginning -->
@@ -182,7 +188,7 @@
 					</p>
 				</div>
 				<!-- Div for map - ending -->
-
+				
 				<!-- Div for comments - beginning -->
 				<div class="col-md-4 column">
 					<h3 class="text-info">
@@ -551,8 +557,6 @@
 			</div>
 		</div>
 
-		
-
 		<!-- Modal for Users -->
 		<div id="ModalUser">
 
@@ -569,19 +573,19 @@
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 		
 		<!-- For formValidator-plugin -->
-		<script type="text/javascript" src="plugins/formValidator/bvalidator.jquery.js"></script>
-		<script type="text/javascript" src="plugins/formValidator/validator-views.js"></script>
+		<script type="text/javascript" src="js/plugins/formValidator/bvalidator.jquery.js"></script>
+		<script type="text/javascript" src="js/plugins/formValidator/validator-views.js"></script>
 		
 		<!-- For the datePicker-plugin -->
-		<script type="text/javascript" src="plugins/datePickerprettify.js"></script>
-		<script type="text/javascript" src="plugins/datePicker/main.js"></script>
-	    <script type="text/javascript" src="plugins/datePickerdatepicker.min.js"></script>
-	    <script type="text/javascript" src="plugins/datePicker/datePicker-views.js"></script>
+		<script type="text/javascript" src="js/plugins/datePicker/prettify.js"></script>
+		<script type="text/javascript" src="js/plugins/datePicker/main.js"></script>
+	    <script type="text/javascript" src="js/plugins/datePicker/datepicker.min.js"></script>
+	    <script type="text/javascript" src="js/plugins/datePicker/datePicker-views.js"></script>
 		
 		<!-- Comment-MVC -->
 		<script type="text/javascript" src="js/models/commentModel.js"></script>
-		<script type="text/javascript" src="js/models/commentView.js"></script>
-		<script type="text/javascript" src="js/models/commentController.js"></script>
+		<script type="text/javascript" src="js/views/commentView.js"></script>
+		<script type="text/javascript" src="js/controllers/commentController.js"></script>
 		
 		<script type="text/javascript" src="js/helpers.js"></script>
 
