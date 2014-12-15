@@ -35,9 +35,6 @@
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	    <script type="text/javascript" src="plugins/barRating/jquery.barrating.js"></script>
     	<script type="text/javascript" src="plugins/barRating/rating-views.js"></script>
-	    
-	    <!-- Placed here, otherwise plugin doesnt works -->
-	    <base href="http://giv-geosoft2b.uni-muenster.de/mmm_dev/"> <!-- Do it in a generic way -->
 
 	</head>
 
