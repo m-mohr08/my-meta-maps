@@ -20,7 +20,7 @@
 		<script src="css/mapstyle.css" type="text/css"></script>
 
 		<!-- For formValidator-plugin -->
-		<link href="plugins/formValidator/css/formValidator.css" rel="stylesheet">
+		<link href="js/plugins/formValidator/css/formValidator.css" rel="stylesheet">
 		
 		<!-- For the datePicker-plugin -->
 		<link rel="stylesheet" href="js/plugins/datePicker/prettify.css">
