@@ -1,43 +1,27 @@
 /*
 * View for CommentAdd
 */
-var CommentAddView = Backbone.View.extend({ 
-
-	events: {
-		// 'keyup #idDesURLFeldes': '???', 
-		'click #addCommentBtn': 'createComment'
-	},
+CommentAddView = Backbone.View.extend({ 
 
 	initialize: function(){
-	
-		// needed to execute the functions
-		_.bindAll(this, 'succesComment', 'failComment', 'createComment');
-	},
-
-	/*
-	* In case of successfull adding of comment
-	* Change the color of adding-button to 'success disabled'
-	* and of the 'comment-info'-button from 'disabled' to 'info'  
-	*/
-	successComment: function() {
-	
-		changeClass('addCommentBtn', 'btn btn-succes disabled');
-		changeClass('addedCommentBtn', 'btn btn-info');
-	},
-
-	/*
-	* In case of failed adding of comment
-	* Change the color of adding-button to 'danger'
-	*/
-	failComment: function() {
-		
-		changeClass('addCommentBtn', 'btn btn-danger');
-	},
+            this.render();
+        },
+        
+    render: function(){
+    	var template = _.template( $("#addCommentTemplate").html(), {} );
+            this.$el.html( template );
+    },
+    
+    events: {
+    	"click #addCommentBtn": "createComment"
+    },
 
 	/*
 	 * This function is called when anybody creates a comment
 	 */
-	createComment: function(event){
+	createComment: function(event) {
+		
+		console.log( "Titel des erstellten Kommentar:" + $("#inputTitle").val());
 		
 		// Creates details of a comment with typed in values
 		var details = createDetails();
@@ -48,3 +32,5 @@ var CommentAddView = Backbone.View.extend({
 		commentController(caModel, details);
 	}
 });
+
+var CommentAddView = new CommentAddView({ el: $("#addCommentContainer") });

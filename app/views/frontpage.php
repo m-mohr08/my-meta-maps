@@ -13,7 +13,7 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 
-		<!--Karte-->
+		<!-- For the Map -->
 		<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
 		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
 		<script src="js/mapscript.js" type="text/javascript"></script>
@@ -21,13 +21,17 @@
 
 		<!-- For formValidator-plugin -->
 		<link href="plugins/formValidator/css/formValidator.css" rel="stylesheet">
+		
+		<!-- For the datePicker-plugin -->
+		<link rel="stylesheet" href="plugins/datePicker/prettify.css">
+	    <link rel="stylesheet" href="plugins/datePickerdatepicker.min.css">
+	    <link rel="stylesheet" href="plugins/datePicker/docs.css">
 	    
-	    <!-- For rating-plugin -->
+	    <!-- For barRating-plugin -->
 	    <link href="plugins/barRating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
-	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
-	          type="text/css"/>
+	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" type="text/css"/>
 	    
-	    <!-- For rating-plugin; loaded in header, otherwise it doesnt works -->
+	    <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	    <script type="text/javascript" src="plugins/barRating/jquery.barrating.js"></script>
     	<script type="text/javascript" src="plugins/barRating/rating-views.js"></script>
@@ -103,7 +107,7 @@
 		<!-- Header - beginning --> 
 		<!-- Müsste später durch ein template ersetzt werden, um Benutzerhilfe nur beim ersten Start anzuzeigen 
 			und Einstellungen der Filter speichern zu können -->
-		<header class="container">
+		<header class="row clearfix" style="margin-left: 30px; margin-right: 30px">
 
 			<!-- Div for the alert for user-help - beginning -->
 			<div class="alert alert-warning alert-dismissible">
@@ -176,97 +180,78 @@
 			<div class="row clearfix" id="mapComments">
 				<!-- Div for map - beginning -->
 				<div class="col-md-8 column">
-					<h2>
-						Karte
-					</h2>
 					<p>
 						<div id="map"></div>
 					</p>
 				</div>
 				<!-- Div for map - ending -->
-				<!-- Div for comments-header - beginning -->
 
+				<!-- Div for comments - beginning -->
 				<div class="col-md-4 column">
 					<h3 class="text-info">
 						Kommentare ...
 					</h3>
 					<br>
-					<div>
-						<div class="row clearfix">
-							<div class="col-md-12 column">
-								<div class="tabbable" id="tabs-664988">
-									<ul class="nav nav-tabs">
-										<li class="active">
-											<a href="#commentWithGeo" data-toggle="tab">... mit räuml. Bezug</a>
-										</li>
-										<li>
-											<a href="#commentWithOutGeo" data-toggle="tab">... ohne räuml. Bezug</a>
-										</li>
+					
+					<!-- Tabs for comments with and woithout spatial reference -->
+					<ul class="nav nav-tabs nav-justified">
+					    <li class="active"><a href="#commentWithGeo" data-toggle="tab">... mit räuml. Bezug</a></li>
+					    <li><a href="#commentWithOutGeo" data-toggle="tab">... ohne räuml. Bezug</a></li>
+					</ul>
+					
+					<div class="tab-content">
+						<!-- Tab for comments with spatial reference -->		
+						<div class="tab-pane active" id="commentWithGeo">
+							<div style="overflow-y: auto; max-height: 400px">
+								<div class="panel panel-primary">
+									<!-- Unordered list for comments with spatial reference-->
+									<!-- Durch template ersetzen -->
+									<ul class="list-group">
+										<li class="list-group-item">Geodatensatz ??? - noch nicht klickbar</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
+										<li class="list-group-item">Geodatensatz ???</li>
 									</ul>
-									<div class="tab-content">
-										<div class="tab-pane active" id="commentWithGeo">
-											<!-- Div for comments - beginning -->
-											<div style="overflow-y: auto; max-height: 400px">
-												<div class="row clearfix">
-													<div class="col-md-12 column">
-														<div class="panel panel-info">
-															<!-- Unordered list for comments -->
-															<ul class="list-group">
-																<li class="list-group-item">Geodatensatz ??? - noch nicht klickbar</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-																<li class="list-group-item">Geodatensatz ???</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- Div for comments - ending -->
-										</div>
-										<div class="tab-pane" id="commentWithOutGeo">
-											<div class="tab-pane active" id="commentWithGeo">
-												<!-- Div for comments - beginning -->
-												<div style="overflow-y: auto; max-height: 400px">
-													<div class="row clearfix">
-														<div class="col-md-12 column">
-															<div class="panel panel-info">
-																<!-- Unordered list for comments -->
-																<ul class="list-group">
-																	<li class="list-group-item">Geodatensatz xyz - noch nicht klickbar</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																	<li class="list-group-item">Geodatensatz xyz</li>
-																</ul>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- Div for comments - ending -->
-											</div>
-										</div>
+								</div>
+							</div>
+						</div>
+						<!-- Tab for comments with spatial reference -->
+						<div class="tab-pane" id="commentWithOutGeo">
+							<div class="tab-pane active" id="commentWithGeo">
+								<div style="overflow-y: auto; max-height: 400px">
+									<div class="panel panel-primary">
+										<!-- Unordered list for comments -->
+										<!-- Durch template ersetzen -->
+										<ul class="list-group">
+											<li class="list-group-item">Geodatensatz xyz - noch nicht klickbar</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+											<li class="list-group-item">Geodatensatz xyz</li>
+										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<!-- Div for comments-header - ending -->
-
+				<!-- Div for comments - ending -->
 			</div>
 			<!-- Div for map/comments - ending -->
 		</section>
@@ -275,7 +260,7 @@
 		<br> <!-- Spacing to the footer/navbar on the bottom -->
 
 		<footer>
-			<nav class="navbar navbar-default" role="navigation">
+			<nav class="navbar navbar-default" style="margin-bottom: 0px" role="navigation">
 				<ul class="nav navbar-nav navbar-right">
 					<form class="navbar-form navbar-right">
 						<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalImpressum"> Impressum&nbsp;
@@ -290,6 +275,91 @@
 		<!-- Modals; will shown if a certain button is clicked -->
 		<!-- Manche müssen wir noch zu templates ändern oder durch andere Möglichkeiten ersetzen -->
 		<!-- Vielleicht kann man auch nur ein Modal für alle 'bereit stellen' -->
+		
+		<div id="addCommentContainer">
+			<!-- Has to be empty -->
+		</div>
+		
+		<!-- Lässt sich dies irgendwie extrahieren ??? -->
+		<script type="text/template" id="addCommentTemplate">
+	 		 <!-- Modal for comments -->
+			<div class="modal fade" id="ModalAddComment" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
+							<h4 class="modal-title" id="meinModalLabel">Kommentar erstellen</h4>
+						</div>
+						
+						<div class="modal-body">
+							
+							<form action="" id="form-direct-a">
+	
+								<label for="titleInput">Titel</label>
+								<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+								
+							</form>
+											
+							<form action="" id="form-row-adding">
+								
+								<div class="row form-group">
+									<label for="URLInput">URL*</label>
+									<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="URL" data-bvSwitch="">
+									<div class="help-block error-message">Bitte füge eine (valide) URL eines Geodatensatzes hinzu</div>
+								</div>
+								
+								<div class="row form-group">
+									<label for="textInput">Freitext*</label>
+									<textarea class="form-control" rows="3" name="textInput" id="inputText" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
+									<div class="help-block error-message">Bitte füge einen Freitext hinzu</div>
+								</div>
+					
+							</form>
+							
+							<div class="input select rating-f">
+								<label for="example-h">Bewertung</label>
+							    <select id="example-h" name="rating">
+							    	<option value="1">1</option>
+							        <option value="2">2</option>
+							        <option value="3">3</option>
+							        <option value="4">4</option>
+							        <option value="5">5</option>
+								</select>
+							</div>
+							
+							<br>
+							
+							<form action="" id="form-row-other">
+								
+								<div class="row form-group">
+									<label for="startPointInput">Zeitpunkt - Start</label>
+									<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
+									<div class="help-block error-message">Falsches Format</div>
+								</div>
+								
+								<div class="row form-group">
+									<label for="endPointInput">Zeitpunkt - Ende</label>
+									<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
+									<div class="help-block error-message">Falsches Format</div>
+								</div>
+								
+							</form>
+								
+							<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>&nbsp;&nbsp;&nbsp;
+							<button type="submit" class="btn btn-info disabled" id="addedCommentBtn">Erstellten Kommentar anschauen</button>
+							
+						</div>
+						<div class="modal-footer">
+							<div class="row clearfix">
+								<div class="col-md-2 column">
+									<label for="exampleInputEmail1">*Verpflichtend</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
 
 		<!-- Modal for login -->
 		<div class="modal fade" id="ModalAnmelden" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
@@ -328,11 +398,11 @@
 					</div>
 					<div class="modal-body">
 						
-						<form action="" id="form-direct-a">
-
-							<label for="nameInput">Name</label>
-							<input class="form-control" name="nameInput" id="inputName" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
-			
+						<form action="" id="form-direct-b">
+							<div class="row form-group">
+								<label for="nameInput">Name</label>
+								<input class="form-control" name="nameInput" id="inputName" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+							</div>
 						</form>
 			
 						<form action="" id="form-row">
@@ -355,9 +425,10 @@
 								<span class="help-block error-message">Passwörter stimmen nicht überein</span>
 							</div>
 							
-							<button type="submit" class="btn btn-primary">Registrieren</button>
-							
 						</form>
+						
+						<button type="submit" class="btn btn-primary">Registrieren</button>
+						
 					</div>
 				</div>
 			</div>
@@ -483,106 +554,39 @@
 			</div>
 		</div>
 
-		<!-- Modal for comments -->
-		<div class="modal fade" id="ModalKommentar" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-						<h4 class="modal-title" id="meinModalLabel">Kommentar erstellen</h4>
-					</div>
-					<div class="modal-body">
-			
-						<form action="" id="form-direct-b">
-
-							<label for="titleInput">Titel</label>
-							<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
-							
-						</form>
-						
-						<form action="" id="form-row-adding">
-							
-							<div class="row form-group">
-								<label for="URLInput">URL*</label>
-								<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="URL" data-bvSwitch="">
-								<div class="help-block error-message">Bitte füge eine (valide) URL eines Geodatensatzes hinzu</div>
-							</div>
-							
-							<div class="row form-group">
-								<label for="textInput">Freitext*</label>
-								<textarea class="form-control" rows="3" name="textInput" id="inputText" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
-								<div class="help-block error-message">Bitte füge einen Freitext hinzu</div>
-							</div>
-				
-						</form>
-						
-						<div class="input select rating-f">
-							<label for="example-i">Bewertung</label>
-						    <select id="example-i" name="rating">
-						    	<option value="1">1</option>
-						        <option value="2">2</option>
-						        <option value="3">3</option>
-						        <option value="4">4</option>
-						        <option value="5">5</option>
-							</select>
-						</div>
-						
-						<br>
-						
-						<form action="" id="form-row-other">
-							
-							<div class="row form-group">
-								<label for="startPointInput">Zeitpunkt - Start</label>
-								<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
-								<div class="help-block error-message">Falsches Format</div>
-							</div>
-							
-							<div class="row form-group">
-								<label for="endPointInput">Zeitpunkt - Ende</label>
-								<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
-								<div class="help-block error-message">Falsches Format</div>
-							</div>
-							
-						</form>
-							
-						<button type="submit" class="btn btn-primary" id="addCommentBtn" onclick="changeClass('addCommentBtn', 'btn btn-primary disabled'); changeClass('addedCommentBtn', 'btn btn-info')">Erstellen</button>&nbsp;&nbsp;&nbsp;
-						<button type="submit" class="btn btn-info disabled" id="addedCommentBtn">Kommentar einsehen</button>
-						
-					</div>
-					<div class="modal-footer">
-						<div class="row clearfix">
-							<div class="col-md-2 column">
-								<label for="exampleInputEmail1">*Verpflichtend</label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
 		<!-- Modal for Users -->
-		<div id="User">
+		<div id="ModalUser">
 
 		</div>
 
 		<!-- Modals ending -->
 
+
 		<!-- Load at the end to load the site faster -->
 		
-		<!-- Libaries -->
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+		<!-- Libaries (jQuery in head) -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>	
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 		
 		<!-- For formValidator-plugin -->
 		<script type="text/javascript" src="plugins/formValidator/bvalidator.jquery.js"></script>
 		<script type="text/javascript" src="plugins/formValidator/validator-views.js"></script>
-		<script type="text/javascript" src="plugins/formValidator/magic.js"></script>
+		
+		<!-- For the datePicker-plugin -->
+		<script type="text/javascript" src="plugins/datePickerprettify.js"></script>
+		<script type="text/javascript" src="plugins/datePicker/main.js"></script>
+	    <script type="text/javascript" src="plugins/datePickerdatepicker.min.js"></script>
+	    <script type="text/javascript" src="plugins/datePicker/datePicker-views.js"></script>
 		
 		<!-- Comment-MVC -->
 		<script type="text/javascript" src="js/models/commentModel.js"></script>
 		<script type="text/javascript" src="js/models/commentView.js"></script>
 		<script type="text/javascript" src="js/models/commentController.js"></script>
+		
+		<script type="text/javascript" src="js/helpers.js"></script>
 
 	</body>
 
