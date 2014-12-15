@@ -20,9 +20,7 @@ CommentAddView = Backbone.View.extend({
 	 * This function is called when anybody creates a comment
 	 */
 	createComment: function(event) {
-		
-		console.log( "Titel des erstellten Kommentar:" + $("#inputTitle").val());
-		
+				
 		// Creates details of a comment with typed in values
 		var details = createDetails();
 		// Creates a new CommentAdd-Model

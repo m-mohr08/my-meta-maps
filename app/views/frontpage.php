@@ -66,7 +66,7 @@
 						<ul class="nav navbar-nav navbar-right">
 							<!-- Start: Add geodata/comment -->
 							<form class="navbar-form navbar-left">
-								<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalKommentar" id="commentBtn"> Kommentar erstellen &nbsp;
+								<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalAddComment" id="commentBtn"> Kommentar erstellen &nbsp;
 									<span class="glyphicon glyphicon-plus-sign"></span>
 								</button>
 							</form>
@@ -75,10 +75,10 @@
 							<form class="navbar-form navbar-left">
 								<div class="btn-group" role="group">
 									<button type="submit" class="btn btn-default disabled"> <span class="glyphicon glyphicon-user"></span>&nbsp; Account </button>&nbsp;
-									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalAnmelden" id="loginBtn"> Anmelden &nbsp;
+									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalLogin" id="loginBtn"> Anmelden &nbsp;
 										<span class="glyphicon glyphicon-log-in"></span>
 									</button>
-									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalRegistrieren" id="registerBtn"> Registrieren&nbsp;
+									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalRegister" id="registerBtn"> Registrieren&nbsp;
 										<span class="glyphicon glyphicon-edit"></span>
 									</button>
 								</div>
@@ -116,15 +116,15 @@
 					<span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span>
 				</button>
 				<strong>Benutzerhilfe</strong> &nbsp; 
-				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen
+				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen
 			</div>
 			<!-- Div for the alert for user-help - ending -->
 
 			<!-- Div for the filters - beginning -->
 			<div class="row clearfix">
 				<div class="col-md-3 column">
-					<div class="input select rating-d">
-						<select id="example-d" name="rating">
+					<div class="input select rating-underline">
+						<select id="spatialFilter">
 					 	   <option value="5">5</option>
 						   <option value="10">10</option>
 						   <option value="20">20</option>
@@ -136,8 +136,8 @@
 				    </div>
 				</div>
 				<div class="col-md-2 column">
-					<div class="input select rating-f" style="margin-left: 12px">
-			            <select id="example-f" name="rating">
+					<div class="input select rating-stars" style="margin-left: 12px">
+			            <select id="ratingFilter">
 			                <option value="1">1</option>
 			                <option value="2">2</option>
 			                <option value="3">3</option>
@@ -266,7 +266,7 @@
 			<nav class="navbar navbar-default" style="margin-bottom: 0px" role="navigation">
 				<ul class="nav navbar-nav navbar-right">
 					<form class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalImpressum"> Impressum&nbsp;
+						<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalInfo"> Impressum&nbsp;
 							<span class="glyphicon glyphicon-info-sign"></span>
 						</button>
 					</form>
@@ -296,14 +296,14 @@
 						
 						<div class="modal-body">
 							
-							<form action="" id="form-direct-a">
+							<form action="" id="form-direct-comment">
 	
 								<label for="titleInput">Titel</label>
 								<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
 								
 							</form>
 											
-							<form action="" id="form-row-adding">
+							<form action="" id="form-row-comment-a">
 								
 								<div class="row form-group">
 									<label for="URLInput">URL*</label>
@@ -319,7 +319,7 @@
 					
 							</form>
 							
-							<div class="input select rating-f">
+							<div class="input select rating-stars">
 								<label for="example-h">Bewertung</label>
 							    <select id="example-h" name="rating">
 							    	<option value="1">1</option>
@@ -332,7 +332,7 @@
 							
 							<br>
 							
-							<form action="" id="form-row-other">
+							<form action="" id="form-row-comment-b">
 								
 								<div class="row form-group">
 									<label for="startPointInput">Zeitpunkt - Start</label>
@@ -355,7 +355,7 @@
 						<div class="modal-footer">
 							<div class="row clearfix">
 								<div class="col-md-2 column">
-									<label for="exampleInputEmail1">*Verpflichtend</label>
+									<label>*Verpflichtend</label>
 								</div>
 							</div>
 						</div>
@@ -365,7 +365,7 @@
 		</script>
 
 		<!-- Modal for login -->
-		<div class="modal fade" id="ModalAnmelden" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+		<div class="modal fade" id="ModalLogin" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -373,7 +373,9 @@
 						<h4 class="modal-title" id="meinModalLabel">Anmelden</h4>
 					</div>
 					<div class="modal-body">
-						<form role="form">
+						
+						<form action="" id="form-direct-login">
+							
 							<div class="form-group">
 								<label>Benutzername / Email-Adresse</label>
 								<input type="text" class="form-control" id="usernameLogin" />
@@ -384,6 +386,7 @@
 								<br>
 								<button type="button" class="btn btn-primary" data-dismiss="modal" id="loginModalBtn">Anmelden</button>
 							</div>
+							
 						</form>
 					</div>
 				</div>
@@ -392,7 +395,7 @@
 
 		<!-- Modal for register -->
 		<!-- Erfolgsmeldung fehlt noch -->
-		<div class="modal fade" id="ModalRegistrieren" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+		<div class="modal fade" id="ModalRegister" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -401,14 +404,14 @@
 					</div>
 					<div class="modal-body">
 						
-						<form action="" id="form-direct-b">
+						<form action="" id="form-direct-register">
 							<div class="row form-group">
 								<label for="nameInput">Name</label>
 								<input class="form-control" name="nameInput" id="inputName" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
 							</div>
 						</form>
 			
-						<form action="" id="form-row">
+						<form action="" id="form-row-register">
 							
 							<div class="row form-group">
 								<label for="mailInput">E-Mail-Adresse</label>
@@ -438,7 +441,7 @@
 		</div>
 
 		<!-- Modal for info-site -->
-		<div class="modal fade" id="ModalImpressum" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+		<div class="modal fade" id="ModalInfo" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -536,7 +539,7 @@
 		</div>
 
 		<!-- Modal for user-help -->
-		<div class="modal fade" id="ModalHilfe" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+		<div class="modal fade" id="ModalHelp" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
