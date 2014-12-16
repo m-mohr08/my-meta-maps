@@ -131,7 +131,7 @@
 						   <option value="50">50</option>
 						   <option value="100">100</option>
 						   <option value="200">200</option>
-						   <option value="200">500</option>
+						   <option value="500">500</option>
 						</select>
 				    </div>
 				</div>
@@ -295,15 +295,13 @@
 						</div>
 						
 						<div class="modal-body">
-							
-							<form action="" id="form-direct-comment">
-	
+											
+							<form id="form-comment" onsubmit="return false">
+								
+								<div class="row form-group">
 								<label for="titleInput">Titel</label>
 								<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
-								
-							</form>
-											
-							<form action="" id="form-row-comment-a">
+								</div>
 								
 								<div class="row form-group">
 									<label for="URLInput">URL*</label>
@@ -316,23 +314,19 @@
 									<textarea class="form-control" rows="3" name="textInput" id="inputText" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
 									<div class="help-block error-message">Bitte füge einen Freitext hinzu</div>
 								</div>
-					
-							</form>
-							
-							<div class="input select rating-stars">
-								<label for="example-h">Bewertung</label>
-							    <select id="example-h" name="rating">
-							    	<option value="1">1</option>
-							        <option value="2">2</option>
-							        <option value="3">3</option>
-							        <option value="4">4</option>
-							        <option value="5">5</option>
-								</select>
-							</div>
-							
-							<br>
-							
-							<form action="" id="form-row-comment-b">
+								
+								<div class="row form-group">
+									<div class="input select rating-stars">
+										<label for="example-h">Bewertung</label>
+									    <select id="example-h" name="rating">
+									    	<option value="1">1</option>
+									        <option value="2">2</option>
+									        <option value="3">3</option>
+									        <option value="4">4</option>
+									        <option value="5">5</option>
+										</select>
+									</div>
+								</div>
 								
 								<div class="row form-group">
 									<label for="startPointInput">Zeitpunkt - Start</label>
@@ -346,10 +340,9 @@
 									<div class="help-block error-message">Falsches Format</div>
 								</div>
 								
+								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>&nbsp;&nbsp;&nbsp;
+					
 							</form>
-								
-							<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>&nbsp;&nbsp;&nbsp;
-							<button type="submit" class="btn btn-info disabled" id="addedCommentBtn">Erstellten Kommentar anschauen</button>
 							
 						</div>
 						<div class="modal-footer">
@@ -374,17 +367,18 @@
 					</div>
 					<div class="modal-body">
 						
-						<form action="" id="form-direct-login">
+						<form id="form-login">
 							
-							<div class="form-group">
-								<label>Benutzername / Email-Adresse</label>
-								<input type="text" class="form-control" id="usernameLogin" />
+							<div class="row form-group">
+								<label for="usernameInput">E-Mail-Adresse / Benuzername</label>
+								<input class="form-control" rows="3" name="usernameInput" id="inputUsername" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
+								<div class="help-block error-message">Bitte füge deine E-Mail-Adresse oder deine Benutzernamen hinzu</div>
 							</div>
-							<div class="form-group">
-								<label>Passwort</label>
-								<input type="password" class="form-control" id="passwordLogin" />
-								<br>
-								<button type="button" class="btn btn-primary" data-dismiss="modal" id="loginModalBtn">Anmelden</button>
+								
+							<div class="row form-group">
+								<label for="passwordLoginInput">Passwort</label>
+								<input class="form-control" name="passwordLoginInput" id="inputPasswordLogin" type="password" data-bvStrict="reg:^.{5,}">
+								<span class="help-block error-message">Passwort muss mindestens aus 5 Zeichen bestehen</span>
 							</div>
 							
 						</form>
@@ -403,15 +397,13 @@
 						<h4 class="modal-title" id="meinModalLabel">Registrieren</h4>
 					</div>
 					<div class="modal-body">
-						
-						<form action="" id="form-direct-register">
+			
+						<form id="form-register">
+							
 							<div class="row form-group">
 								<label for="nameInput">Name</label>
 								<input class="form-control" name="nameInput" id="inputName" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
 							</div>
-						</form>
-			
-						<form action="" id="form-row-register">
 							
 							<div class="row form-group">
 								<label for="mailInput">E-Mail-Adresse</label>
@@ -420,20 +412,19 @@
 							</div>
 							
 							<div class="row form-group">
-								<label for="passwordInput">Passwort</label>
-								<input class="form-control" name="passwordInput" id="inputPassword" type="password" data-bvStrict="reg:^.{5,}">
+								<label for="passwordRegisterInput">Passwort</label>
+								<input class="form-control" name="passwordRegisterInput" id="inputPasswordRegister" type="password" data-bvStrict="reg:^.{5,}">
 								<span class="help-block error-message">Passwort muss mindestens aus 5 Zeichen bestehen</span>
 							</div>
 							
 							<div class="row form-group">
 								<label for="passRepeatInput">Passwort wiederholen</label>
-								<input class="form-control" name="passRepeatInput" id="inputPassRepeat" type="password" data-bvStrict="same:passwordInput">
+								<input class="form-control" name="passRepeatInput" id="inputPassRepeat" type="password" data-bvStrict="same:passwordRegisterInput">
 								<span class="help-block error-message">Passwörter stimmen nicht überein</span>
 							</div>
 							
+							<button type="submit" class="btn btn-primary">Registrieren</button>
 						</form>
-						
-						<button type="submit" class="btn btn-primary">Registrieren</button>
 						
 					</div>
 				</div>

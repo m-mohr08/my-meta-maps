@@ -23,11 +23,19 @@ CommentAddView = Backbone.View.extend({
 				
 		// Creates details of a comment with typed in values
 		var details = createDetails();
-		// Creates a new CommentAdd-Model
-		var caModel = new CommentAdd();
 		
-		// Call commentController with caModel and details
-		commentController(caModel, details);
+		// If the typed in URL is not valid or the text to the comment is empty
+		if(validateURL(details.URL) === false || details.text === '') {
+			// do nothing; the formValidator will make this for you ;)
+		}
+		
+		else {
+			// Creates a new CommentAdd-Model
+			var caModel = new CommentAdd();
+			
+			// Call commentController with caModel and details
+			commentController(caModel, details);
+		}
 	}
 });
 
