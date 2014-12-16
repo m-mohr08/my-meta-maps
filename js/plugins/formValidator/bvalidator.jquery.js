@@ -502,7 +502,6 @@ jQuery.bValidator
 	return (value.match(/^.{2,}$/) != null);
 })
 .validation('date', function(value, args) {
-	console.log(args[1]);
 	var mask = regex = args[1];
 	var matches = day = month = year = null;
 
