@@ -15,6 +15,8 @@ function createDetails() {
 		// "rating": readInput('example-i') funktioniert noch nicht
 		
 	};
+	
+	return details;
 }
 
 function validateURL(url) {
