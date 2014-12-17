@@ -24,11 +24,18 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
-
-	'local' => array('homestead'),
-
-));
+$env = $app->detectEnvironment(function() {
+	$port = isset($_SERVER['SERVER_PORT']) ? intval($_SERVER['SERVER_PORT']) : 0;
+	if ($port >= 8090 & $port < 8100) {
+		return 'dev';
+	}
+	else if ($port == 8080 || PHP_SAPI === 'cli') {
+		return 'testing';
+	}
+	else {
+		return 'production';
+	}
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -54,8 +61,7 @@ $app->bindInstallPaths(require __DIR__.'/paths.php');
 |
 */
 
-$framework = $app['path.base'].
-                 '/vendor/laravel/framework/src';
+$framework = $app['path.base'].'/vendor/laravel/framework/src';
 
 require $framework.'/Illuminate/Foundation/start.php';
 
