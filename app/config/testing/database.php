@@ -21,7 +21,7 @@ return array(
 	'connections' => array(
 
 		'pgsql' => array(
-			'driver'   => 'pgsql',
+			'driver'   => 'postgis',
 			'host'     => 'localhost',
 			'database' => 'project_test',
 			'username' => 'postgres',
