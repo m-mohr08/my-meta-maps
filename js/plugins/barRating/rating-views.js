@@ -11,8 +11,8 @@ $(function () {
           	initialRating: true,
            	showSelectedRating:false});
 
-        $('#example-h').barrating({ 
-          	initialRating: true,
+        $('#ratingComment').barrating({ 
+            initialRating: true,
            	showSelectedRating:false});
 
         $(this).addClass('deactivated');

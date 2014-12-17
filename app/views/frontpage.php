@@ -27,6 +27,9 @@
 	    <link rel="stylesheet" href="js/plugins/datePicker/datepicker.min.css">
 	    <link rel="stylesheet" href="js/plugins/datePicker/docs.css">
 	    
+	    <!-- For smoothCheckbox-plugin -->
+	    <link href="js/plugins/smoothCheckbox/bootstrap-toggle.css" rel="stylesheet" type="text/css">
+	    
 	    <!-- For barRating-plugin -->
 	    <link href="js/plugins/barRating/css/rating-plugin.css" rel="stylesheet" type="text/css"/>
 	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" type="text/css"/>
@@ -86,7 +89,7 @@
 							<!-- End: Account navigation -->
 							<!-- Start: Help navigation -->
 							<form class="navbar-form navbar-right">
-								<button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#ModalHilfe" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button>
+								<button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#ModalHelp" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button>
 							</form>
 							<!-- End Help navigation -->
 						</ul>
@@ -317,8 +320,9 @@
 								
 								<div class="row form-group">
 									<div class="input select rating-stars">
-										<label for="example-h">Bewertung</label>
-									    <select id="example-h" name="rating">
+										<label for="ratingComment">Bewertung</label>
+										<input type="checkbox" id="checkBoxRating" onchange="checkCheckBox()" data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="default" data-style="slow" data-size="mini">
+										<select id="ratingComment" name="rating">
 									    	<option value="1">1</option>
 									        <option value="2">2</option>
 									        <option value="3">3</option>
@@ -329,18 +333,23 @@
 								</div>
 								
 								<div class="row form-group">
-									<label for="startPointInput">Zeitpunkt - Start</label>
-									<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
-									<div class="help-block error-message">Falsches Format</div>
+									<label for="startDateInput">Zeitraum</label>
+									<div class="input-group">
+						            	<input class="form-control" name="startDateInput" id="inputStartDate" type="text" data-bvStrict="empty|datesRelation:endDateInput" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-startComment">
+											<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						            </div>
+						            <span class="help-block error-message">Dies ist kein valides Datum oder Startzeitpunkt muss vor Endzeitpunkt sein</span>
 								</div>
 								
 								<div class="row form-group">
-									<label for="endPointInput">Zeitpunkt - Ende</label>
-									<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
-									<div class="help-block error-message">Falsches Format</div>
+									<div class="input-group">
+						            	<input class="form-control" name="endDateInput" id="inputEndDate" type="text" data-bvStrict="date:dd/mm/yyyy|empty" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-endComment">
+											<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						            </div>
+						            <span class="help-block error-message">Dies ist kein valides Datum</span>
 								</div>
 								
-								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>&nbsp;&nbsp;&nbsp;
+								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>
 					
 							</form>
 							
@@ -380,6 +389,8 @@
 								<input class="form-control" name="passwordLoginInput" id="inputPasswordLogin" type="password" data-bvStrict="reg:^.{5,}">
 								<span class="help-block error-message">Passwort muss mindestens aus 5 Zeichen bestehen</span>
 							</div>
+							
+							<button type="submit" class="btn btn-primary" id="loginBtn">Anmelden</button>
 							
 						</form>
 					</div>
@@ -573,8 +584,11 @@
 		<!-- For the datePicker-plugin -->
 		<script type="text/javascript" src="js/plugins/datePicker/prettify.js"></script>
 		<script type="text/javascript" src="js/plugins/datePicker/main.js"></script>
-	    <script type="text/javascript" src="js/plugins/datePicker/datepicker.min.js"></script>
+	    <script type="text/javascript" src="js/plugins/datePicker/datepicker.js"></script>
 	    <script type="text/javascript" src="js/plugins/datePicker/datePicker-views.js"></script>
+	    
+	    <!-- For the smoothCheckbox-plugin -->
+	    <script type="text/javascript" src="js/plugins/smoothCheckbox/bootstrap-toggle.js"></script>
 		
 		<!-- Comment-MVC -->
 		<script type="text/javascript" src="js/models/commentModel.js"></script>
