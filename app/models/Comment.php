@@ -14,7 +14,7 @@ class Comment extends Eloquent {
 	 * 
 	 * @var boolean
 	 */
-	public $timestamps = false;
+	public $timestamps = true;
 
 	/**
 	 * The attributes excluded from the model's JSON form.
