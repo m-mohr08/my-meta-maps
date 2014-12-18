@@ -29,7 +29,7 @@ return array(
 	|
 	*/
 
-	'lifetime' => 120,
+	'lifetime' => 15,
 
 	'expire_on_close' => false,
 
@@ -70,7 +70,7 @@ return array(
 	|
 	*/
 
-	'table' => 'sessions',
+	'table' => 'Session',
 
 	/*
 	|--------------------------------------------------------------------------
