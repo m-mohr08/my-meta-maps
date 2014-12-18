@@ -516,10 +516,6 @@ jQuery.bValidator
 
 	return (!!value.match(re));
 })
-.validation('datesRelation', function(value, args) {
-	
-	return validateDatesRelation(value, $('form [name="'+args[1]+'"]').val());
-})
 .validation('nin', function(value) {
 	return (value.match(/^[0-9]{6}\/[0-9]{3,4}$/) != null);
 })
