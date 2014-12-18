@@ -15,11 +15,11 @@ function createDetails() {
 		// "rating": readInput('example-i') funktioniert noch nicht
 		
 	};
+	
+	return details;
 }
 
-function changeClass(id, newClass) {
-    
-    var property = document.getElementById(id);
-    
-    property.className = newClass;  
+function validateURL(url) {
+	
+	return (url.match(/http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/) != null && url.length != 0);
 }

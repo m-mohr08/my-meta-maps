@@ -1,3 +1,12 @@
 .logo {
   margin: -5px 0 -5px 0;
 }
+
+.commentScrollBox {
+	overflow-y: auto;
+	max-height: 500px;
+}
+
+.commentScrollBox .list-group {
+    margin-bottom: 0px;
+}
