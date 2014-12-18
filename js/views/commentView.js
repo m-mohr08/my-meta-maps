@@ -24,12 +24,16 @@ CommentAddView = Backbone.View.extend({
 		// Creates details of a comment with typed in values
 		var details = createDetails();
 		
-		// If the typed in URL is not valid or the text to the comment is empty
-		if(validateURL(details.URL) === false || details.text === '') {
-			// do nothing; the formValidator will make this for you ;)
+		if(validateURL(details.URL) === false || details.text === '' 
+			|| validateDateFormat(details.startDate) === false || validateDateFormat(details.endDate) === false
+			|| validateDatesRelation(details.startDate, details.endDate) === false) {
+			// do nothing; the formValidator will do this for you ;)
 		}
 		
 		else {
+			
+			console.log('Details of added comment are: ' + JSON.stringify(details));
+			
 			// Creates a new CommentAdd-Model
 			var caModel = new CommentAdd();
 			
