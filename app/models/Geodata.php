@@ -7,7 +7,7 @@ class Geodata extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Geodata';
+	protected $table = 'mmm_geodata';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 

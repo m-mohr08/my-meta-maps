@@ -14,7 +14,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'User';
+	protected $table = 'mmm_user';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 

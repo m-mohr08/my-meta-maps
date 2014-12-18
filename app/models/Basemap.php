@@ -7,7 +7,7 @@ class Basemap extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Basemaps';
+	protected $table = 'mmm_basemap';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 

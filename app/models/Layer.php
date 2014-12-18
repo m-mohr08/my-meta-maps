@@ -7,7 +7,7 @@ class Layer extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Layer';
+	protected $table = 'mmm_layer';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 

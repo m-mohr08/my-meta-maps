@@ -7,7 +7,7 @@ class Comment extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Comment';
+	protected $table = 'mmm_comment';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 
