@@ -301,6 +301,23 @@
 								</div>
 								
 								<div class="row form-group">
+									<label for="startDateInput">Zeitraum</label>
+									<div class="input-group">
+						            	<input class="form-control" readonly name="startDateInput" id="inputStartDate" type="text" data-bvStrict="datesRelation:endDateInput" placeholder="Startzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-startComment">
+											<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						            </div>
+						            <span class="help-block error-message">Überprüfe bitte noch mal beide Daten</span>
+								</div>
+								
+								<div class="row form-group">
+									<div class="input-group">
+						            	<input class="form-control" readonly name="endDateInput" id="inputEndDate" type="text" data-bvStrict="date:dd/mm/yyyy|empty" placeholder="Endzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-endComment">
+											<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						            </div>
+						            <span class="help-block error-message">Übeprüfe bitte noch mal dieses Datum</span>
+								</div>
+								
+								<div class="row form-group">
 									<div class="input select rating-stars">
 										<label for="ratingComment">Bewertung</label>
 										<select id="ratingComment" name="rating">
@@ -312,23 +329,6 @@
 									        <option value="5">5</option>
 										</select>
 									</div>
-								</div>
-								
-								<div class="row form-group">
-									<label for="startDateInput">Zeitraum</label>
-									<div class="input-group">
-						            	<input class="form-control" name="startDateInput" id="inputStartDate" type="text" data-bvStrict="datesRelation:endDateInput" placeholder="Startzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-startComment">
-											<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						            </div>
-						            <span class="help-block error-message">Dies ist kein valides Datum oder Startzeitpunkt muss vor Endzeitpunkt sein</span>
-								</div>
-								
-								<div class="row form-group">
-									<div class="input-group">
-						            	<input class="form-control" name="endDateInput" id="inputEndDate" type="text" data-bvStrict="date:dd/mm/yyyy|empty" placeholder="Endzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-endComment">
-											<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						            </div>
-						            <span class="help-block error-message">Dies ist kein valides Datum</span>
 								</div>
 								
 								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>

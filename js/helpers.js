@@ -67,11 +67,11 @@ function validateDatesRelation (startDate, endDate) {
 		return false;
 	}
 	
-	else if(dateStart[1] > dateEnd[1]) {
+	else if((dateStart[1] > dateEnd[1]) & (dateStart[2] === dateEnd[2])) {
 		return false;
 	}
 	
-	else if(dateStart[0] >= dateEnd[0]) {
+	else if((dateStart[0] >= dateEnd[0]) & (dateStart[1] === dateEnd[1])) {
 		return false;
 	}
 	
