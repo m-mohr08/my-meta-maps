@@ -301,9 +301,27 @@
 								</div>
 								
 								<div class="row form-group">
+									<label for="startDateInput">Zeitraum</label>
+									<div class="input-group">
+						            	<input class="form-control" readonly name="startDateInput" id="inputStartDate" type="text" data-bvStrict="datesRelation:endDateInput" placeholder="Startzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-startComment">
+											<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						            </div>
+						            <span class="help-block error-message">Überprüfe bitte noch mal beide Daten</span>
+								</div>
+								
+								<div class="row form-group">
+									<div class="input-group">
+						            	<input class="form-control" readonly name="endDateInput" id="inputEndDate" type="text" data-bvStrict="date:dd/mm/yyyy|empty" placeholder="Endzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-endComment">
+											<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						            </div>
+						            <span class="help-block error-message">Übeprüfe bitte noch mal dieses Datum</span>
+								</div>
+								
+								<div class="row form-group">
 									<div class="input select rating-stars">
-										<label for="example-h">Bewertung</label>
-									    <select id="example-h" name="rating">
+										<label for="ratingComment">Bewertung</label>
+										<select id="ratingComment" name="rating">
+											<option ></option>
 									    	<option value="1">1</option>
 									        <option value="2">2</option>
 									        <option value="3">3</option>
@@ -313,19 +331,7 @@
 									</div>
 								</div>
 								
-								<div class="row form-group">
-									<label for="startPointInput">Zeitpunkt - Start</label>
-									<input class="form-control" name="startPointInput" id="inputStartPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
-									<div class="help-block error-message">Falsches Format</div>
-								</div>
-								
-								<div class="row form-group">
-									<label for="endPointInput">Zeitpunkt - Ende</label>
-									<input class="form-control" name="endPointInput" id="inputEndPoint" type="text" data-bvStrict="date:dd-mm-yyyy|empty" data-bvSwitch="dd-mm-yyyy">
-									<div class="help-block error-message">Falsches Format</div>
-								</div>
-								
-								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>&nbsp;&nbsp;&nbsp;
+								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>
 					
 							</form>
 							
@@ -365,6 +371,8 @@
 								<input class="form-control" name="passwordLoginInput" id="inputPasswordLogin" type="password" data-bvStrict="reg:^.{5,}">
 								<span class="help-block error-message">Passwort muss mindestens aus 5 Zeichen bestehen</span>
 							</div>
+							
+							<button type="submit" class="btn btn-primary">Anmelden</button>
 							
 						</form>
 					</div>
@@ -409,6 +417,7 @@
 							</div>
 							
 							<button type="submit" class="btn btn-primary">Registrieren</button>
+							
 						</form>
 						
 					</div>
