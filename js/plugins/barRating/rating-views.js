@@ -11,7 +11,7 @@ $(function () {
           	initialRating: true,
            	showSelectedRating:false});
 
-        $('#example-h').barrating({ 
+        $('#ratingComment').barrating({ 
           	initialRating: true,
            	showSelectedRating:false});
 
