@@ -7,7 +7,7 @@ class Layer extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Layer';
+	protected $table = 'mmm_layer';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 
@@ -22,6 +22,14 @@ class Layer extends Eloquent {
 	 * @var array
 	 */
 	protected $hidden = array();
+
+    public function geodata() {
+        return $this->belongsTo('Geodata');
+    }
+
+    public function comments() {
+        return $this->hasMany('Comment');
+    }
 
 }
 ?>

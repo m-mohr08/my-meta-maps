@@ -1,5 +1,5 @@
-/bootstrap/compiled.php
-/vendor
+bootstrap/compiled.php
+vendor
 composer.phar
 composer.lock
 .env.*.php
@@ -20,3 +20,4 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 .project
+_ide_helper.php
