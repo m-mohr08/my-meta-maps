@@ -33,7 +33,7 @@
 	    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" type="text/css"/>
 	    
 	    <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
-	    <script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.js"></script>
+	    <script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.min.js"></script>
     	<script type="text/javascript" src="/js/plugins/barRating/rating-views.js"></script>
 
 	</head>
@@ -125,7 +125,7 @@
 				<div class="col-md-3 column">
 					<div class="input select rating-underline">
 						<select id="spatialFilter">
-					 	   <option value=""></option>
+					 	   <option value="" selected="selected"></option>
 					 	   <option value="5">5</option>
 						   <option value="10">10</option>
 						   <option value="20">20</option>
@@ -139,7 +139,7 @@
 				<div class="col-md-2 column">
 					<div class="input select rating-stars" style="margin-left: 12px">
 			            <select id="ratingFilter">
-			                <option value=""></option>
+			                <option value="" selected="selected"></option>
 			                <option value="1">1</option>
 			                <option value="2">2</option>
 			                <option value="3">3</option>
@@ -323,7 +323,7 @@
 									<div class="input select rating-stars">
 										<label for="ratingComment">Bewertung</label>
 										<select id="ratingComment" name="rating">
-											<option value=""></option>
+											<option value="" selected="selected"></option>
 									    	<option value="1">1</option>
 									        <option value="2">2</option>
 									        <option value="3">3</option>
