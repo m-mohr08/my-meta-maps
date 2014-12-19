@@ -23,5 +23,13 @@ class Layer extends Eloquent {
 	 */
 	protected $hidden = array();
 
+    public function geodata() {
+        return $this->belongsTo('Geodata');
+    }
+
+    public function comments() {
+        return $this->hasMany('Comment');
+    }
+
 }
 ?>

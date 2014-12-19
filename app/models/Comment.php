@@ -23,5 +23,17 @@ class Comment extends Eloquent {
 	 */
 	protected $hidden = array();
 
+	public function user() {
+		return $this->belongsTo('User');
+	}
+
+	public function layer() {
+		return $this->belongsTo('Layer');
+	}
+	
+    public function geodata() {
+        return $this->belongsTo('Geodata');
+    }
+
 }
 ?>
