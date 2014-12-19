@@ -1,18 +1,13 @@
-function readInput(id) {
-  	var input = document.getElementById(id).value;
-  	return input;
-}
-
 function createDetails() {
 	
 	var details = {
 		
-		"title" : readInput('inputTitle'),
-		"URL" : readInput('inputURL'),
-		"text" : readInput('inputText'),
-		"startDate": readInput('inputStartDate'),
-		"endDate": readInput('inputEndDate'),		
-		"rating": readInput('ratingComment')
+		"title" : $("#inputTitle").val(),
+		"URL" : $("#inputURL").val(),
+		"text" : $("#inputText").val(),
+		"startDate": $("#inputStartDate").val(),
+		"endDate": $("#inputEndDate").val(),		
+		"rating": $("#ratingComment").val()
 		
 	};
 	
@@ -22,32 +17,6 @@ function createDetails() {
 function validateURL(url) {
 	
 	return (url.match(/http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/) != null && url.length != 0);
-}
-
-function validateDateFormat(date) {
-	
-	if(date === '') {
-		
-		return true;
-	}
-	
-	else {
-		
-		// from formValidator-plugin
-		var mask = regex = 'dd/mm/yyyy';
-		var matches = day = month = year = null;
-	
-		regex = regex.replace('mm', '[01][0-9]');
-		regex = regex.replace('m', '[1]?[0-9]');
-		regex = regex.replace('dd', '[0123][0-9]');
-		regex = regex.replace('d', '[0123]?[0-9]');
-		regex = regex.replace('yyyy', '[0-9]{4}');
-		regex = regex.replace('yy', '[0-9]{2}');
-		var pattern = '^' + regex + '$';
-		var re = new RegExp(pattern, '');
-	
-		return (!!date.match(re));
-	}
 }
 
 function validateDatesRelation (startDate, endDate) {
@@ -60,6 +29,10 @@ function validateDatesRelation (startDate, endDate) {
 	}
 	
 	else if(startDate === '' & endDate != '') {
+		return false;
+	}
+	
+	else if(startDate != '' & endDate === '') {
 		return false;
 	}
 	

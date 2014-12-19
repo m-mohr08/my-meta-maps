@@ -2,17 +2,14 @@ $(function () {
 	$('.rating-enable').click(function () {
             	
     	$('#spatialFilter').barrating('show', {
-           	initialRating: "",
             showValues:true,
             showSelectedRating:false
         });
                 
         $('#ratingFilter').barrating({ 
-          	initialRating: "",
            	showSelectedRating:false});
 
-        $('#ratingComment').barrating({ 
-          	initialRating: "",
+        $('#ratingComment').barrating({
            	showSelectedRating:false});
 
         $(this).addClass('deactivated');

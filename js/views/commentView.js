@@ -25,7 +25,6 @@ CommentAddView = Backbone.View.extend({
 		var details = createDetails();
 		
 		if(validateURL(details.URL) === false || details.text === '' 
-			|| validateDateFormat(details.startDate) === false || validateDateFormat(details.endDate) === false
 			|| validateDatesRelation(details.startDate, details.endDate) === false) {
 			// do nothing; the formValidator will do this for you ;)
 		}
