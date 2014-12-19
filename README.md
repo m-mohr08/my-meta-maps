@@ -45,7 +45,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 1. Install [Apache HTTPD](http://httpd.apache.org) 2.2 (or newer) with [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) extension
 2. Install [PostgreSQL](http://www.postgresql.org) 9.1 (or newer)
 3. Install [PostGIS](http://postgis.net) 2.0 (or newer)
-4. Install [PHP](http://php.net) 5.4 (or newer)
+4. Install [PHP](http://php.net) 5.4 (or newer) with JSON, MCrypt and the other default PHP extensions.
 5. Install [Composer](https://getcomposer.org/)
 
 ### Set up My Meta Maps
