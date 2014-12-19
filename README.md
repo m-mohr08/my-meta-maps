@@ -5,13 +5,12 @@ My Meta Maps
 My Meta Maps is a web-app to rate and comment geo data. 
 
 This project was developed by students of B.Sc. Geoinformatics of the Institute for geoinformatics at the WWU Münster. 
-+ C. Rendel (@crend02)
-+ C. Rohtermundt (@CRoh)
-+ M. Mohr (@m-mohr)
-+ M. Rieping (@MRieping)
-+ M. Köster (@MilanMilanMilan)
++ C. Rendel
++ C. Rohtermundt
++ M. Mohr
++ M. Rieping
++ M. Köster
 
-## Instructions
 To use or test our web-app visit: http://giv-geosoft2b.uni-muenster.de/ (only inside of WWU Münster network)
 
 For development or other code related tasks simply clone or fork the my-meta-maps repository.
@@ -25,6 +24,7 @@ For development or other code related tasks simply clone or fork the my-meta-map
 + [EasyRDF](http://www.easyrdf.org/)
 + [php-mf2](https://github.com/indieweb/php-mf2)
 + [GeoPHP](https://geophp.net/)
+
 ### Client
 + [Bootstrap](http://getbootstrap.com/)
 + [jQuery](http://jquery.com/)
@@ -50,8 +50,10 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 ### Set up My Meta Maps
 1. Download the files from this repository and upload them to the root folder of your web server.
-2. Run `composer install` in the root directory of your web server to install all project dependencies.
-3. Create a new PostgreSQL database with UTF8 encoding using `CREATE DATABASE project ENCODING 'UTF8';`.
-4. Enable PostGIS extension on your new database using `CREATE EXTENSION postgis;`.
-5. Create database tables using `php artisan migrate` (working directory should be the root directory of your web server).
-6. We are done! Visit your web server and My Meta Maps should be shown in your browser.
+2. Run `composer install` (cmd line) in the root directory of your web server to install all project dependencies.
+3. Create a new PostgreSQL database with UTF8 encoding using the SQL command `CREATE DATABASE project ENCODING 'UTF8';` or any PostgreSQL database administration tool.
+4. Enable PostGIS extension on your new database using the SQL command `CREATE EXTENSION postgis;`.
+5. Run `php artisan migrate` (cmd line) in root directory of your web server to create the needed database tables.
+6. Open `app/config/production/database.php` and change the database settings to fit your PostgreSQL installation.
+7. Open `app/config/app.php` and change the settings (url, timezone, key, locale) according to your project environment.
+8. You are done! Visit your web server and My Meta Maps should be shown in your browser.
