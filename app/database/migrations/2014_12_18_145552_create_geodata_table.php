@@ -25,7 +25,7 @@ class CreateGeodataTable extends Migration {
 			$table->text('copyright');
 			$table->datetime('creation')->nullable();
 			$table->datetime('modified')->nullable();
-			$table->string('language');
+			$table->string('language', 2)->nullable();
 		});
 		// PostGIS
 		DB::statement("ALTER TABLE {$tableName} ADD COLUMN bbox GEOGRAPHY(POLYGON,4326)");
