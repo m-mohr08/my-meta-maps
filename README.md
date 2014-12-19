@@ -56,4 +56,5 @@ Unless required by applicable law or agreed to in writing, software distributed 
 5. Run `php artisan migrate` (cmd line) in root directory of your web server to create the needed database tables.
 6. Open `app/config/production/database.php` and change the database settings to fit your PostgreSQL installation.
 7. Open `app/config/app.php` and change the settings (url, timezone, key, locale) according to your project environment.
-8. You are done! Visit your web server and My Meta Maps should be shown in your browser.
+8. Depending on your server OS you might need to set the `app/storage` permissions recursively to readable, writable and executable. Having the root directory of your web server as working directory, you could execute use `chmod -R 0777 app/storage` (cmd line) on linux. Windows usually doesn't need any permissions to be set.
+9. You are done! Visit your web server and My Meta Maps should be shown in your browser.
