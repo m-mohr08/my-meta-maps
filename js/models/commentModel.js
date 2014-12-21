@@ -34,7 +34,7 @@ CommentsNoSpatial = Backbone.Model.extend({
 /*
 * Collection of CommentsNo-models
 */
-CommentsNSList = Backbone.Collection.extend({
+CommentsWSList = Backbone.Collection.extend({
 	model: CommentsNoSpatial
 });
 

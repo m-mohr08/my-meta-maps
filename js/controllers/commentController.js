@@ -1,28 +1,37 @@
 /*
-* Send a GET-request to the server
+* Send a POST-request (because no id is specified) to the server
 */
-function commentController(model, view) {
+function commentController(model, details) {
 	
-	model.fetch({
+	model.save(details, {
 		
-        success: function (model) {
-            
-        	var commentJSON = model.toJSON();
-			var commentList = [];
-			
-			if (typeof json.geodata !== 'undefined') {
-				list = json.geodata;
-			}
-			else if (typeof json.geodata_junk !== 'undefined') {
-				list = json.geodata_junk;
-			}
-			
-			view.showComments(commentList);
-        },
-        
-        error: function() {
-        	
-			view.addError();
+		success: function () {
+			successComment();
+		},
+	
+		error: function () {
+			failComment();
 		}
-   });
+	});
+};
+
+/*
+* In case of successfull adding of comment
+* Change the color of adding-button to 'success disabled'
+* and of the 'comment-info'-button from 'disabled' to 'info'  
+*/
+function successComment() {
+	
+	console.log("Adding comment was successfull");
+	
+	// success-alert an einem bestimmten Platz erstellen; fehlt noch
+}
+
+/*
+* In case of failed adding of comment
+* Change the color of adding-button to 'danger'
+*/
+function failComment() {
+		
+	console.log("Adding comment failed");
 };

@@ -222,7 +222,7 @@
 							<a href="#" class="list-group-item">Geodatensatz ???</a>
 							<a href="#" class="list-group-item">Geodatensatz ???</a>
 						</div>
-						<!-- Tab for comments without spatial reference -->
+						<!-- Tab for comments with spatial reference -->
 						<div role="tabpanel" class="tab-pane list-group" id="commentWithOutGeo">
 							<!-- Unordered list for comments -->
 							<!-- Durch template ersetzen -->
@@ -547,11 +547,8 @@
 		
 		<!-- Comment-MVC -->
 		<script type="text/javascript" src="/js/models/commentModel.js"></script>
-		<script type="text/javascript" src="/js/views/commentAddView.js"></script>
 		<script type="text/javascript" src="/js/views/commentView.js"></script>
-		<script type="text/javascript" src="/js/controllers/commentAddController.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
-		
 		
 		<script type="text/javascript" src="/js/helpers.js"></script>
 
