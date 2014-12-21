@@ -14,7 +14,7 @@ class CreateBasemapTable extends Migration {
 		$basemap = new Basemap();
 		Schema::create($basemap->getTable(), function($table) {
 			$table->increments('id');
-			$table->string('name');
+			$table->string('name', 100);
 			$table->string('url')->unique();
 			$table->boolean('active');
 		});
