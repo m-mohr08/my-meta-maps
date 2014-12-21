@@ -3,12 +3,15 @@
 class BasedataApiController extends BaseApiController {
 	
 	public function getBasemaps() {
-		
+		$basemaps = Basemap::active()->get(array('url', 'name'));
+		$json = array(
+			'basemaps' => $basemaps
+		);
+		return $this->getJsonResponse($json);
 	}
 	
 	public function getDoc($page) {
-		// $page is validated in routes controller?
-		// Todo: return as JSON
+		// $page is checked in routes file for being only alphanumeric with dashes
 		return View::make("pages.{$page}");
 	}
 	
