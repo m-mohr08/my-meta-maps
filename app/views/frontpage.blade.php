@@ -204,6 +204,7 @@
 					    <li><a href="#commentWithOutGeo" data-toggle="tab">... ohne räumlichen Bezug</a></li>
 					</ul>
 					<div class="tab-content commentScrollBox">
+						
 						<!-- Tab for comments with spatial reference -->		
 						<div role="tabpanel" class="tab-pane active list-group" id="commentWithGeo">
 							<!-- Unordered list for comments with spatial reference-->
@@ -222,7 +223,8 @@
 							<a href="#" class="list-group-item">Geodatensatz ???</a>
 							<a href="#" class="list-group-item">Geodatensatz ???</a>
 						</div>
-						<!-- Tab for comments with spatial reference -->
+						
+						<!-- Tab for comments without spatial reference -->
 						<div role="tabpanel" class="tab-pane list-group" id="commentWithOutGeo">
 							<!-- Unordered list for comments -->
 							<!-- Durch template ersetzen -->
@@ -239,6 +241,7 @@
 							<a href="#" class="list-group-item">Geodatensatz xyz</a>
 							<a href="#" class="list-group-item">Geodatensatz xyz</a>
 						</div>
+						
 					</div>
 				</div>
 				<!-- Div for comments - ending -->
@@ -490,10 +493,12 @@
 	    <script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
 	    <script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
 		
-		<!-- Comment-MVC -->
+		<!-- Comment-MVC's -->
 		<script type="text/javascript" src="/js/models/commentModel.js"></script>
 		<script type="text/javascript" src="/js/views/commentView.js"></script>
+		<script type="text/javascript" src="/js/views/commentAddView.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
+		<script type="text/javascript" src="/js/controllers/commentAddController.js"></script>
 		
 		<script type="text/javascript" src="/js/helpers.js"></script>
 
