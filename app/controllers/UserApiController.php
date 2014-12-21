@@ -11,7 +11,32 @@ class UserApiController extends BaseApiController {
 	}
 	
 	public function postRegister() {
+		$user = new User();
+
+		$data = Input::only('name', 'email', 'password', 'password_confirmation');
 		
+		$validator = Validator::make($data,
+			array(
+				'name' => 'required|min:3|max:60|unique:'.$user->getTable(),
+				'email' => 'required|email|unique:'.$user->getTable(),
+				'password' => 'required|confirmed|min:4|max:255',
+				'password_confirmation' => 'required'
+			)
+		);
+		
+		if ($validator->fails()) {
+			return $this->getConflictResponse($validator->messages());
+		}
+		
+		$user->name = $data['name'];
+		$user->email = $data['email'];
+		$user->password = $data['password']; // TODO: Hashing
+		if ($user->save()) {
+			return $this->getJsonResponse();
+		}
+		else{
+			return $this->getErrorResponse();
+		}
 	}
 	
 	public function postChange($what) {
@@ -19,7 +44,25 @@ class UserApiController extends BaseApiController {
 	}
 	
 	public function postCheck($what) {
-		
+		$rules = array();
+
+		switch($what) {
+			case 'email':
+			case 'name':
+				$user = new User();
+				$rules[$what] = 'unique:'.$user->getTable();
+				break;
+			default: 
+				return $this->getConflictResponse();
+		}
+
+		$validator = Validator::make(Input::only($what), $rules);
+		if ($validator->fails()) {
+			return $this->getConflictResponse();
+		}
+		else {
+			return $this->getJsonResponse();
+		}
 	}
 
 	/**
