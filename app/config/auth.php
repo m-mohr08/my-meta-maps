@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'table' => 'users',
+	'table' => 'mmm_user',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -59,13 +59,9 @@ return array(
 	*/
 
 	'reminder' => array(
-
 		'email' => 'emails.auth.reminder',
-
-		'table' => 'password_reminders',
-
-		'expire' => 60,
-
+		'table' => 'mmm_password_reminder',
+		'expire' => 180,
 	),
 
 );

@@ -1,0 +1,67 @@
+/******* rating underline *******/
+
+.rating-underline .br-widget {
+    height: 52px;
+}
+
+.rating-underline .br-widget a {
+    display: block;
+    width: 40px;
+    padding: 5px 0 5px 0;
+    height: 30px;
+    float: left;
+    background-color: white;
+    border-bottom: 2px solid #e3e3e3;
+    color: #646464;
+    margin: 1px;
+    text-decoration: none;
+    line-height: 2.1;
+    text-align: center;
+}
+
+.rating-underline .br-widget a span {
+    color: #b6b6b6;
+}
+
+.rating-underline .br-widget a.br-active,
+.rating-underline .br-widget a.br-selected {
+
+    border-bottom: 2px solid #59a6d6;
+}
+
+.rating-underline .br-widget a:hover span,
+.rating-underline .br-widget a.br-current span {
+    color: #59a6d6;
+}
+
+/******* rating stars *******/
+
+.rating-stars .br-widget {
+    height: 24px;
+}
+
+.rating-stars .br-widget a {
+    background: url('../img/star.png');
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 24px;
+    height: 24px;
+    display: block;
+    float: left;
+}
+
+.rating-stars .br-widget a:hover,
+.rating-stars .br-widget a.br-active,
+.rating-stars .br-widget a.br-selected {
+    background-position: 0 24px;
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio : 1.5),
+(min-resolution: 192dpi) {
+    .rating-f .br-widget a {
+        background: url('../img/star@2x.png');
+        background-size: 24px 48px;
+    }
+}

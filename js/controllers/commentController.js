@@ -23,8 +23,8 @@ function commentController(model, details) {
 function successComment() {
 	
 	console.log("Adding comment was successfull");
-	changeClass('addCommentBtn', 'btn btn-success disabled');
-	changeClass('addedCommentBtn', 'btn btn-info');
+	
+	// success-alert an einem bestimmten Platz erstellen; fehlt noch
 }
 
 /*
@@ -34,5 +34,4 @@ function successComment() {
 function failComment() {
 		
 	console.log("Adding comment failed");
-	changeClass('addCommentBtn', 'btn btn-danger');
 };

@@ -1,13 +1,13 @@
 <?php
 
-class Layer extends Eloquent {
+class SavedSearch extends Eloquent {
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'mmm_layer';
+	protected $table = 'mmm_saved_search';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 
@@ -22,14 +22,6 @@ class Layer extends Eloquent {
 	 * @var array
 	 */
 	protected $hidden = array();
-
-    public function geodata() {
-        return $this->belongsTo('Geodata');
-    }
-
-    public function comments() {
-        return $this->hasMany('Comment');
-    }
 
 }
 ?>

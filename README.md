@@ -2,41 +2,26 @@ My Meta Maps
 ============
 
 ## Introduction
-
 My Meta Maps is a web-app to rate and comment geo data. 
 
-This project was developed by students of geoinformatics of the institute for geoinformatics at the WWU Münster. 
+This project was developed by students of B.Sc. Geoinformatics of the Institute for geoinformatics at the WWU Münster. 
 + C. Rendel
 + C. Rohtermundt
 + M. Mohr
 + M. Rieping
 + M. Köster
 
-## Instructions
+To use or test our web-app visit: http://giv-geosoft2b.uni-muenster.de/ (only inside of WWU Münster network)
 
-To use or test our web-app just visit: http://giv-geosoft2b.uni-muenster.de/
+For development or other code related tasks simply clone or fork the my-meta-maps repository.
 
-especially for reviewing our code:
+For more information on this project visit the [My Meta Maps Wiki](https://github.com/m-mohr/my-meta-maps/wiki)!
 
-1. Clone the my-meta-maps repository
+## Installation
 
-
-## Used technologies / libraries
-
-+ [Laravel](http://laravel.com/)
-+ [IMP - INSPIRE Metadata Parser](http://www.webmapcenter.de/imp/webseite/)
-+ [EasyRDF](http://www.easyrdf.org/)
-+ [php-mf2](https://github.com/indieweb/php-mf2)
-+ [GeoPHP](https://geophp.net/)
-+ [Bootstrap](http://getbootstrap.com/)
-+ [jQuery](http://jquery.com/)
-+ [Backbone.js](http://backbonejs.org/)
-+ [Underscore.js](http://underscorejs.org/)
-+ [OpenLayers](http://openlayers.org/)
-
+See the [installation instruction](https://github.com/m-mohr/my-meta-maps/wiki/Installation) on the project wiki for more information.
 
 ## License
-
 Copyright 2014 C. Rendel, C. Rohtermundt, M. Mohr, M. Rieping, M. Köster
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
