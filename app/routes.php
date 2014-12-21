@@ -12,70 +12,98 @@
  */
 
 // Frontpage
-Route::get('/', function() {
-	return View::make('frontpage');
-});
+Route::get('/', 'HomeController@showFrontpage');
 
 // Permalink for search
-Route::get('/search/{hash}', function($hash) {
-	App::abort(501);
-});
+Route::get('/search/{hash}', 'HomeController@showSearch');
 
 // Permalink for geo data set and comments
 Route::group(array('prefix' => '/geodata'), function() {
+
 	// Permalink for all comments of a geo data set
-	Route::get('/{geodata}/', function($geodata) {
-		App::abort(501);
-	});
+	Route::get('/{geodata}/', 'HomeController@showGeodata');
 
 	// Permalink for specific comment of a geo data set
-	Route::get('/{geodata}/comment/{comment}', function($geodata, $comment) {
-		App::abort(501);
-	});
-});
+	Route::get('/{geodata}/comment/{comment}', 'HomeController@showComment');
 
-
-// Permalink for search
-Route::get('/language/{language}', function($language) {
-	App::abort(501);
 });
 
 // External API
 Route::get('/api/v1/search', function() {
-	App::abort(501);
+	// TODO: Implement external API
 });
 
 // Internal API for backbone communication
 Route::group(array('prefix' => '/api/internal'), function() {
 
-	// Authentification: login, logout, password reset, register
-	Route::group(array('prefix' => '/auth'), function() {
-		// TODO
-	});
+	// Get basemaps
+	Route::get('/basemaps', 'BasedataApiController@getBasemaps');
 
-	// User related tasks
-	Route::group(array('prefix' => '/user'), function() {
-		// TODO
-	});
+	// Geodata related stuff
+	Route::get('/doc/{page}', 'BasedataApiController@getDoc')->where('page', '[\w\d-]+');
 
 	// Get language files
-	Route::get('/language/{language}', function($language) {
-		App::abort(501);
-	});
+	Route::get('/language/{language}', 'BasedataApiController@getLanguage')->where('language', '[a-z]{2}'); // TODO: Are those regexp case insensitive?
 
-	// Get basemaps
-	Route::get('/basemaps', function() {
-		App::abort(501);
+	// All user based things, like authentification, registering, changing data, ...
+	Route::group(array('prefix' => '/user'), function() {
+		
+		// Login
+		Route::post('/login/{method}', 'UserApiController@postLogin');
+		
+		// Logout
+		Route::post('/logout', 'UserApiController@postLogout');
+
+		// Logout
+		Route::post('/register', 'UserApiController@postRegister');
+
+		// Change user data
+		Route::post('/change/{what}', 'UserApiController@postChange');
+
+		// Check user data
+		Route::post('/check/{what}', 'UserApiController@postCheck');
+		
+		Route::group(array('prefix' => '/remind'), function() {
+		
+			// Remind/Reset password
+			Route::post('/request', 'UserApiController@postRemindRequest');
+
+			// Remind/Reset password
+			Route::post('/reset', 'UserApiController@postRemindReset');
+		
+		});
+		
 	});
 
 	// Geodata related stuff
 	Route::group(array('prefix' => '/geodata'), function() {
-		// TODO
+	
+		// Add geodata / comment
+		Route::get('/{id}/comments', 'GeodataApiController@getComments')->where('id', '\d+');
+		
+		// Add geodata / comment
+		Route::post('/add', 'GeodataApiController@postAdd');
+
+		// Parse metadata
+		Route::post('/metadata', 'GeodataApiController@postMetadata');
+
+		// Get list of geodata
+		Route::post('/list/{junk?}', 'GeodataApiController@postList')->where('junk', '(|junk)');
+
+		// Add geodata / comment
+		Route::post('/keywords', 'GeodataApiController@postKeywords');
+		
+		// Permalinks for search
+		Route::group(array('prefix' => '/search'), function() {
+
+			// Save search
+			Route::post('/save', 'GeodataApiController@postSearchSave');
+
+			// Load search
+			Route::post('/load/{id}', 'GeodataApiController@getSearchLoad');
+			
+		});
+
 	});
 
-	// Geodata related stuff
-	Route::get('/doc/{page}', function($page) {
-		// Todo: return as JSON
-		return View::make("pages.{$page}");
-	})->where('page', '[\w\d-]+');
 });
