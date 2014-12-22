@@ -19,7 +19,7 @@ class CreateGeodataTable extends Migration {
 			$table->string('url')->unique();
 			$table->text('title');
 			$table->text('abstract');
-			$table->text('subject');
+			$table->text('keywords');
 			$table->text('publisher');
 			$table->text('author');
 			$table->text('copyright');
