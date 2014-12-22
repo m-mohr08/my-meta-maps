@@ -72,6 +72,8 @@ return array(
 	"unique"               => ":attribute muss einmalig sein oder wird bereits genutzt",
 	"url"                  => ":attribute ist keine gültige URL.",
 	"timezone"             => ":attribute muss eine gültige Zeitzone sein.",
+	"check_hash"			   => ":attribute ist nicht gültig.",
+	"check_language"        => "Die gewählte Sprache wird nicht unterstützt.",
 
 	/*
 	|--------------------------------------------------------------------------

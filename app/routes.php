@@ -52,7 +52,10 @@ Route::group(array('prefix' => '/api/internal'), function() {
 		Route::post('/login/{method}', 'UserApiController@postLogin');
 		
 		// Logout
-		Route::post('/logout', 'UserApiController@postLogout');
+		Route::get('/logout', 'UserApiController@getLogout');
+		
+		// Logout
+		Route::get('/keepalive', 'UserApiController@getKeepalive');
 
 		// Logout
 		Route::post('/register', 'UserApiController@postRegister');
