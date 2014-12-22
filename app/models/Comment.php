@@ -7,14 +7,14 @@ class Comment extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Comment';
+	protected $table = 'mmm_comment';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 
 	 * 
 	 * @var boolean
 	 */
-	public $timestamps = false;
+	public $timestamps = true;
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -22,6 +22,18 @@ class Comment extends Eloquent {
 	 * @var array
 	 */
 	protected $hidden = array();
+
+	public function user() {
+		return $this->belongsTo('User');
+	}
+
+	public function layer() {
+		return $this->belongsTo('Layer');
+	}
+	
+    public function geodata() {
+        return $this->belongsTo('Geodata');
+    }
 
 }
 ?>

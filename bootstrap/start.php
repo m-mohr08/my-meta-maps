@@ -26,11 +26,10 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(function() {
 	$port = isset($_SERVER['SERVER_PORT']) ? intval($_SERVER['SERVER_PORT']) : 0;
-	if ($port >= 8090 & $port < 8100) {
-		return 'dev';
-	}
-	else if ($port == 8080 || PHP_SAPI === 'cli') {
+	if (defined('PHPUNIT_ENVIRONMENT')) {
 		return 'testing';
+	}else if ($port >= 8090 & $port < 8100) {
+		return 'dev';
 	}
 	else {
 		return 'production';

@@ -1,13 +1,13 @@
 <?php
 
-class Search extends Eloquent {
+class SavedSearch extends Eloquent {
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'Search';
+	protected $table = 'mmm_saved_search';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 

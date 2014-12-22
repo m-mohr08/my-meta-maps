@@ -7,7 +7,7 @@ class Geodata extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'Geodata';
+	protected $table = 'mmm_geodata';
 	
 	/**
 	 * Tell the ORM to use timestamp fields or not. 
@@ -23,5 +23,13 @@ class Geodata extends Eloquent {
 	 */
 	protected $hidden = array();
 
+	public function comments() {
+		return $this->hasMany('Comment');
+	}
+
+	public function layers() {
+		return $this->hasMany('Layer');
+	}
+	
 }
 ?>
