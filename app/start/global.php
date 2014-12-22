@@ -69,13 +69,13 @@ App::down(function()
 
 /*
 |--------------------------------------------------------------------------
-| Require The Filters File
+| Require important files
 |--------------------------------------------------------------------------
 |
-| Next we will load the filters file for the application. This gives us
-| a nice separate location to store our route and application filter
-| definitions instead of putting them all in the main routes file.
+| Next we will load the filters and other files for the application. This gives us
+| a nice separate location to store some important global functionality.
 |
 */
 
 require app_path().'/filters.php';
+require app_path().'/validations.php';

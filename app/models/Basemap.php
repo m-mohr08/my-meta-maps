@@ -22,6 +22,11 @@ class Basemap extends Eloquent {
 	 * @var array
 	 */
 	protected $hidden = array();
+	
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 
 }
 ?>
