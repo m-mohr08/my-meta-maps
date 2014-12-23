@@ -1,5 +1,7 @@
 <?php
 
+use \GeoMetadata\GeoMetadata;
+
 class GeodataApiController extends BaseApiController {
 	
 	public function __construct() {

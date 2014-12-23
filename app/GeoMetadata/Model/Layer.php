@@ -19,8 +19,6 @@ namespace GeoMetadata\Model;
 
 class Layer {
 	
-	public function __construct($id = null, $title = null, BoundingBox $boundingBox = null);
-	
 	public function getId();
 	public function setId($id);
 

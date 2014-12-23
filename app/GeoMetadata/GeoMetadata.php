@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace GeoMetadata;
+
 use GeoMetadata\Service\Parser;
 
 class GeoMetadata {
