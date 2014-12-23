@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Model;
 
-class Layer {
+interface Layer {
 	
 	public function getId();
 	public function setId($id);
