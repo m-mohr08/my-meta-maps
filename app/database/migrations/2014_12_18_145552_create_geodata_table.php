@@ -23,6 +23,7 @@ class CreateGeodataTable extends Migration {
 			$table->text('publisher');
 			$table->text('author');
 			$table->text('copyright');
+			$table->text('license');
 			$table->datetime('creation')->nullable();
 			$table->datetime('modified')->nullable();
 			$table->string('language', 2)->nullable();

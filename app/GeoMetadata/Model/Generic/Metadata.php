@@ -1,41 +1,48 @@
 <?php
+/* 
+ * Copyright 2014 Matthias Mohr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
+namespace GeoMetadata\Model\Generic;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'mmm_geodata';
+class Metadata implements \GeoMetadata\Model\Metadata {
 	
-	/**
-	 * Tell the ORM to use timestamp fields or not. 
-	 * 
-	 * @var boolean
-	 */
-	public $timestamps = false;
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array();#
+	protected $url;
+	protected $service;
+	protected $layers;
 	
-	// Attributes for the interface - not stored in DB
-	private $service;
-	private $extra = array();
+	protected $title;
+	protected $boundingBox;
+	protected $keywords;
+	protected $description;
+	protected $language;
+	protected $author;
+	protected $publisher;
+	protected $copyright;
+	protected $license;
 
-	public function comments() {
-		return $this->hasMany('Comment');
+	protected $creationTime;
+	protected $modifiedTime;
+	
+	protected $extra;
+	
+	public function __construct() {
+		$this->layers = array();
+		$this->keywords = array();
+		$this->extra = array();
 	}
-
-	public function layers() {
-		return $this->hasMany('Layer');
-	}
-	
-	// Implementation of interface
 
 	public function getUrl(){
 		return $this->url;
@@ -51,23 +58,28 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 
 	public function setService($service){
 		$this->service = $service;
-		$this->datatype = ($this->service != null) ? $this->service->getType() : '';
 	}
 
 	public function getLayers(){
-		// TODO: Implementation
+		return $this->layers;
 	}
 
 	public function addLayer(\GeoMetadata\Model\Layer $layer){
-		// TODO: Implementation
+		$this->layers[] = $layer;
 	}
 
 	public function createLayer($id, $title = null, \GeoMetadata\Model\BoundingBox $bbox = null){
-		// TODO: Implementation
+		$this->layers[] = new Layer($id, $title, $bbox);
 	}
 
 	public function removeLayer(\GeoMetadata\Model\Layer $layer){
-		// TODO: Implementation
+		foreach ($this->layers as $key => $value) {
+			if ($value === $layer) {
+				unset($this->layers[$key]);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public function getTitle(){
@@ -79,37 +91,35 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	}
 
 	public function getBoundingBox(){
-		// TODO: Implementation
+		return $this->boundingBox;
 	}
 	
 	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox) {
-		// TODO: Implementation
+		$this->boundingBox = $bbox;
 	}
 	
 	public function createBoundingBox($west, $north, $east, $south) {
-		// TODO: Implementation
+		$this->boundingBox = BoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
 	}
 
 	public function getKeywords(){
-		return explode('|', $this->keywords);
+		return $this->keywords;
 	}
 
 	public function setKeywords(array $keywords){
-		$this->keywords = implode('|', $keywords);
+		$this->keywords = $keywords;
 	}
 
 	public function addKeyword($keyword){
-		$keywords = $thi->getKeywords();
-		$keywords[] = $keyword;
-		$this->setKeywords($keywords);
+		$this->keywords[] = $keyword;
 	}
 
 	public function getDescription(){
-		return $this->abstract;
+		return $this->description;
 	}
 
 	public function setDescription($description){
-		$this->abstract = $description;
+		$this->description = $description;
 	}
 
 	public function getLanguage(){
@@ -153,19 +163,19 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	}
 
 	public function getCreationTime(){
-		return $this->creation;
+		return $this->creationTime;
 	}
 
 	public function setCreationTime(\DateTime $creation){
-		$this->creation = $creation; // TODO: Convert to SQL timestamps?
+		$this->creationTime = $creation;
 	}
 
 	public function getModifiedTime(){
-		return $this->modified;
+		return $this->modifiedTime;
 	}
 
 	public function setModifiedTime(\DateTime $modified){
-		$this->modified = $modified; // TODO: Convert to SQL timestamps?
+		$this->modifiedTime = $modified;
 	}
 	
 	public function setData($key, $value) {
@@ -182,4 +192,3 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	}
 	
 }
-?>

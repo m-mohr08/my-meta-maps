@@ -1,0 +1,71 @@
+<?php
+/* 
+ * Copyright 2014 Matthias Mohr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace GeoMetadata\Model;
+
+interface Metadata {
+
+	public function getUrl();
+	public function setUrl($url);
+
+	public function getService();
+	public function setService($service);
+
+	public function getLayers();
+	public function addLayer(Layer $layer);
+	public function createLayer($id, $title = null, BoundingBox $bbox = null);
+	public function removeLayer(Layer $layer);
+
+	public function getTitle();
+	public function setTitle($title);
+
+	public function getBoundingBox();
+	public function setBoundingBox(BoundingBox $bbox);
+	public function createBoundingBox($west, $north, $east, $south);
+
+	public function getKeywords();
+	public function setKeywords(array $keywords);
+	public function addKeyword($keyword);
+
+	public function getDescription();
+	public function setDescription($description);
+
+	public function getLanguage();
+	public function setLanguage($language);
+
+	public function getAuthor();
+	public function setAuthor($author);
+
+	public function getPublisher();
+	public function setPublisher($publisher);
+
+	public function getCopyright();
+	public function setCopyright($copyright);
+
+	public function getLicense();
+	public function setLicense($license);
+
+	public function getCreationTime();
+	public function setCreationTime(\DateTime $creation);
+
+	public function getModifiedTime();
+	public function setModifiedTime(\DateTime $modified);
+
+	public function setData($key, $value);
+	public function getData($key);
+	
+}
