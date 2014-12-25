@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Model\Generic;
 
-class BoundingBox implements \GeoMetadata\Model\BoundingBox {
+class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	
 	protected $north;
 	protected $east;

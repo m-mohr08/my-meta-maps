@@ -17,14 +17,14 @@
 
 namespace GeoMetadata\Model\Generic;
 
-class Layer implements \GeoMetadata\Model\Layer {
+class GmLayer implements \GeoMetadata\Model\Layer {
 	
 	protected $id;
 	protected $title;
 	protected $boundingBox;
 	protected $extra;
 	
-	public function __construct($id = null, $title = null, BoundingBox $boundingBox = null) {
+	public function __construct($id = null, $title = null, GmBoundingBox $boundingBox = null) {
 		$this->id = $id;
 		$this->title = $title;
 		$this->boundingBox = $boundingBox;
@@ -51,12 +51,12 @@ class Layer implements \GeoMetadata\Model\Layer {
 		return $this->boundingBox;
 	}
 	
-	public function setBoundingBox(BoundingBox $bbox) {
+	public function setBoundingBox(GmBoundingBox $bbox) {
 		$this->boundingBox = $bbox;
 	}
 	
 	public function createBoundingBox($west, $north, $east, $south) {
-		$this->boundingBox = BoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
 	}
 	
 	public function setData($key, $value) {

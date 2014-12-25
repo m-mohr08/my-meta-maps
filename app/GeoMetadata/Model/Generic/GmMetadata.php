@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Model\Generic;
 
-class Metadata implements \GeoMetadata\Model\Metadata {
+class GmMetadata implements \GeoMetadata\Model\Metadata {
 	
 	protected $url;
 	protected $service;
@@ -69,7 +69,7 @@ class Metadata implements \GeoMetadata\Model\Metadata {
 	}
 
 	public function createLayer($id, $title = null, \GeoMetadata\Model\BoundingBox $bbox = null){
-		$this->layers[] = new Layer($id, $title, $bbox);
+		$this->layers[] = new GmLayer($id, $title, $bbox);
 	}
 
 	public function removeLayer(\GeoMetadata\Model\Layer $layer){
@@ -99,7 +99,7 @@ class Metadata implements \GeoMetadata\Model\Metadata {
 	}
 	
 	public function createBoundingBox($west, $north, $east, $south) {
-		$this->boundingBox = BoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
 	}
 
 	public function getKeywords(){

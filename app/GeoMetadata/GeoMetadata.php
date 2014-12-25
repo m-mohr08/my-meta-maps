@@ -52,7 +52,7 @@ class GeoMetadata {
 	public function getModel($new = true) {
 		if ($new) {
 			if ($this->model == null) {
-				return new \GeoMetadata\Model\Generic\Metadata();
+				return new \GeoMetadata\Model\Generic\GmMetadata();
 			}
 			else {
 				$class = get_class($this->model);
