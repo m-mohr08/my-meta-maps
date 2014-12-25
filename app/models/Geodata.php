@@ -24,7 +24,6 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	protected $hidden = array();#
 	
 	// Attributes for the interface - not stored in DB
-	private $service;
 	private $extra = array();
 
 	public function comments() {
@@ -36,6 +35,10 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	}
 	
 	// Implementation of interface
+	
+	public function createObject() {
+		return new static();
+	}
 
 	public function getUrl(){
 		return $this->url;
@@ -45,13 +48,12 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 		$this->url = $url;
 	}
 
-	public function getService(){
-		return $this->service;
+	public function getServiceCode(){
+		return $this->datatype;
 	}
 
-	public function setService($service){
-		$this->service = $service;
-		$this->datatype = ($this->service != null) ? $this->service->getType() : '';
+	public function setServiceCode($service){
+		$this->datatype = ($this->service != null) ? $this->service->getCode() : '';
 	}
 
 	public function getLayers(){

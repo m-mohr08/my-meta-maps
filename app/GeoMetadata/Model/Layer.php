@@ -26,7 +26,7 @@ interface Layer {
 	public function setTitle($title);
 
 	public function getBoundingBox();
-	public function setBoundingBox(GmBoundingBox $bbox);
+	public function setBoundingBox(BoundingBox $bbox);
 	public function createBoundingBox($west, $north, $east, $south);
 
 	public function setData($key, $value);

@@ -20,13 +20,20 @@ namespace GeoMetadata\Service;
 interface Parser {
 	
 	/**
+	 * Creates a new parser object.
+	 * 
+	 * @return Parser
+	 */
+	public function createObject();
+	
+	/**
 	 * Returns the internal name of the parser.
 	 * 
 	 * Should be unique across all parsers.
 	 * 
 	 * @return string Internal type name of the parser.
 	 */
-	public function getType();
+	public function getCode();
 	
 	/**
 	 * Returns the displayable name of the parser.
@@ -36,7 +43,15 @@ interface Parser {
 	public function getName();
 	
 	/**
-	 * Quickly checks whether the given content is compatible to the parser.
+	 * Quickly checks whether the given URL might contain data of this type.
+	 * 
+	 * @param string $url String URL of the service (optional) for a really fast check.
+	 * @return boolean true if URL is of this service type, false if no answer can be made.
+	 */
+	public function detectByUrl($url);
+	
+	/**
+	 * Checks whether the given service data is of this type.
 	 * 
 	 * @param string $source String containing the data to parse.
 	 * @return boolean true if content can be parsed, false if not.

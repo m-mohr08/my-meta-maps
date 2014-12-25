@@ -1,21 +1,23 @@
 <?php
 
+use \GeoMetadata\GmRegistry;
 use \GeoMetadata\GeoMetadata;
 
 class GeodataApiController extends BaseApiController {
 	
 	public function __construct() {
-		GeoMetadata::registerService(new \GeoMetadata\Service\Microformats2());
-		GeoMetadata::setLogger(array('App', 'debug'));
+		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
+		GmRegistry::setLogger(array('App', 'debug'));
+		GmRegistry::setProxy('wwwproxy.uni-muenster.de:80', 80); // TODO: Don't hard wire this
 	}
 	
-	protected function buildGeodata(\GeoMetadata\Model\Metadata $geodata, $datatype) {
+	protected function buildGeodata(\GeoMetadata\Model\Metadata $geodata) {
 		$json = array(
 			'geodata' => array(
 				'id' => 0,
 				'url' => $geodata->getUrl(),
 				'metadata' => array(
-					'datatype' => $datatype,
+					'datatype' => $geodata->getServiceCode(),
 					'title' => $geodata->getTitle(),
 					'bbox' => (string) $geodata->getBoundingBox(),
 					'keywords' => $geodata->getKeywords(),
@@ -51,26 +53,28 @@ class GeodataApiController extends BaseApiController {
 	
 	public function postMetadata() {
 		$url = Input::get('url');
-		// Try to get existing metadata for the URL
-		$geodata = Geodata::where('url', '=', $url)->first();
-		if ($geodata != null) {
-			$json = $this->buildGeodata($geodata, $geodata->type);
-			$json['geodata']['id'] = $geodata->id;
-			$json['geodata']['isNew'] = false;
-			return $this->getJsonResponse($json);
-		}
-		else {
-			// No metadata found in DB, parse them from the URL
-			$geo = new GeoMetadata();
-			$geo->setURL($url);
-			$parser = $geo->detect();
-			if ($parser != null) {
-				$metadata = $geo->parse($parser);
-				if ($metadata != null) {
-					$json = $this->buildGeodata($metadata, $parser->getType());
-					$json['geodata']['id'] = 0;
-					$json['geodata']['isNew'] = true;
-					return $this->getJsonResponse($json);
+		if (filter_var($url, FILTER_VALIDATE_URL)) {
+			// Try to get existing metadata for the URL
+			$geodata = Geodata::where('url', '=', $url)->first();
+			if ($geodata != null) {
+				$json = $this->buildGeodata($geodata);
+				$json['geodata']['id'] = $geodata->id;
+				$json['geodata']['isNew'] = false;
+				return $this->getJsonResponse($json);
+			}
+			else {
+				// No metadata found in DB, parse them from the URL
+				$geo = new GeoMetadata();
+				$geo->setURL($url);
+				$parser = $geo->detect();
+				if ($parser != null) {
+					$metadata = $geo->parse($parser);
+					if ($metadata != null) {
+						$json = $this->buildGeodata($metadata);
+						$json['geodata']['id'] = 0;
+						$json['geodata']['isNew'] = true;
+						return $this->getJsonResponse($json);
+					}
 				}
 			}
 		}

@@ -24,16 +24,17 @@ class GeoMetadata {
 	private $url;
 	private $data;
 	private $model;
+	private $net;
 	
 	public function __construct() {
-		$this->model = null;
+		$this->net = new GmNet();
 	}
 	
 	public function setURL($url) {
 		$this->url = $url;
 	}
 	
-	public function getURL($url) {
+	public function getURL() {
 		return $this->url;
 	}
 	
@@ -55,22 +56,32 @@ class GeoMetadata {
 				return new \GeoMetadata\Model\Generic\GmMetadata();
 			}
 			else {
-				$class = get_class($this->model);
-				return new $class;
+				return $this->model->createObject();
 			}
 		}
 		else {
 			return $this->model;
 		}
 	}
-	
+
 	public function detect($all = false) {
-		if (!$this->init()) {
+		$services = GmRegistry::getServices();
+
+		// Quick check for URLs, works not for $all = true as not all parsers support it.
+		if ($all === false) {
+			foreach ($services as $service) {
+				if ($service->detectByUrl($this->data)) {
+					return $service;
+				}
+			}
+		}
+		
+		if (!$this->loadData()) {
 			return null;
 		}
 		
 		$detected = array();
-		foreach (self::getServices() as $service) {
+		foreach ($services as $service) {
 			if ($service->detect($this->data)) {
 				if ($all) {
 					$detected[] = $service;
@@ -85,13 +96,13 @@ class GeoMetadata {
 	}
 	
 	public function parse(Parser $parser) {
-		if (!$this->init() || $parser == null) {
+		if ($parser == null || !$this->loadData()) {
 			return null;
 		}
 
 		$model = $this->getModel();
 		$model->setUrl($this->url);
-		$model->setService($parser->getType());
+		$model->setServiceCode($parser->getCode());
 		if ($parser->parse($this->data, $model)) {
 			return $model;
 		}
@@ -100,9 +111,10 @@ class GeoMetadata {
 		}
 	}
 	
-	protected function init() {
+	protected function loadData() {
 		if (empty($this->data) && !empty($this->url)) {
-			$this->data = $this->fetch($this->url);
+			$net = new GmNet();
+			$this->data = $net->get($this->url);
 		}
 		
 		if (empty($this->data)) {
@@ -111,66 +123,6 @@ class GeoMetadata {
 		else {
 			return true;
 		}
-	}
-
-	/**
-	 * Downloads the content of a URL and returns it.
-	 * 
-	 * @param string $url URL to the data.
-	 * @param int $timeout Timeout for the connection.
-	 * @return Returns the content as string or null on failure.
-	 */
-	protected function fetch($url, $timeout = 5) {
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0');
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
-		// TODO: Don't hard wire this proxy here...
-		curl_setopt($ch, CURLOPT_PROXY, 'wwwproxy.uni-muenster.de:80');
-		curl_setopt($ch, CURLOPT_PROXYPORT, 80);
-		$data = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
-		return ($httpcode >= 200 && $httpcode < 300) ? $data : null;
-	}
-	
-	// Static part of the class
-	
-	private static $services = array();
-	private static $logger = null;
-	
-	public static function registerService(Parser $parser) {
-		if ($parser != null) {
-			self::$services[$parser->getType()] = $parser;
-		}
-	}
-
-	public static function getServices() {
-		return array_values(self::$services);
-	}
-
-	public static function getService($type) {
-		if (isset(self::$services[$type])) {
-			return self::$services[$type];
-		}
-		else {
-			return null;
-		}
-	}
-	
-	public static function setLogger($logger) {
-		if (is_callable(self::$logger)) {
-			self::$logger = $logger;
-		}
-	}
-	
-	public static function debug($message) {
-		call_user_func(self::$logger, $message);
 	}
 
 }

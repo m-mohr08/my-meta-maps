@@ -19,9 +19,7 @@ namespace GeoMetadata\Service;
 
 use Mf2;
 
-class Microformats2 implements Parser {
-	
-	protected $cache = array();
+class Microformats2 extends ParserParser {
 	
 	/**
 	 * Returns the internal name of the parser.
@@ -30,7 +28,7 @@ class Microformats2 implements Parser {
 	 * 
 	 * @return string Internal type name of the parser.
 	 */
-	public function getType() {
+	public function getCode() {
 		return 'mf2';
 	}
 	
@@ -42,33 +40,25 @@ class Microformats2 implements Parser {
 	public function getName() {
 		return 'microformats2';
 	}
-	
-	/**
-	 * Quickly checks whether the given content is compatible to the parser.
-	 * 
-	 * @param string $source String containing the data to parse.
-	 * @return boolean true if content can be parsed, false if not.
-	 */
-	public function detect($source) {
-		$json = $this->getJSON($source);
-		return !empty($json['items']);
+
+	public function detectByUrl($url) {
+		return false;
 	}
 
-	/**
-	 * Parses the data.
-	 * 
-	 * @param string $source String containing the data to parse.
-	 * @param GeoMetadata\Model\Metadata $model An instance of a model class to fill with the data.
-	 * @return boolean true on success, false on failure.
-	 */
-	public function parse($source, \GeoMetadata\Model\Metadata &$model) {
-		$json = $this->getJSON($source);
+	protected function createParser($source) {
+		$parser = Mf2\parse($source);
 
-		if (!isset($json['items'])) {
+		if (!isset($parser['items'])) {
 			// No data at all, return
-			return false;
+			return null;
 		}
 		
+		return $parser;
+	}
+
+	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
+		$json = $this->getParser();
+
 		// Get all latitude and longitude values to calculate a bbox from them
 		$lat = array();
 		$lon = array();
@@ -81,7 +71,7 @@ class Microformats2 implements Parser {
 		
 		if (count($lat) == 0 || count($lon) == 0) {
 			// No geodata available, return
-			return false;
+			return null;
 		}
 		
 		// Build the bounding box from the lon/lat values
@@ -112,17 +102,5 @@ class Microformats2 implements Parser {
 
 		return true;
 	}
-	
-	protected function getJSON($source) {
-		$checksum = crc32($source);
-		if (isset($this->cache[$checksum])) {
-			return $this->cache[$checksum];
-		}
-		else {
-			$json = Mf2\parse($source);
-			$this->cache[$checksum] = $json;
-			return $json;
-		}
-	}
-	
+
 }

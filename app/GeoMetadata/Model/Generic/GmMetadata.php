@@ -44,6 +44,10 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->extra = array();
 	}
 
+	public function createObject() {
+		return new static();
+	}
+
 	public function getUrl(){
 		return $this->url;
 	}
@@ -52,11 +56,11 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->url = $url;
 	}
 
-	public function getService(){
+	public function getServiceCode(){
 		return $this->service;
 	}
 
-	public function setService($service){
+	public function setServiceCode($service){
 		$this->service = $service;
 	}
 

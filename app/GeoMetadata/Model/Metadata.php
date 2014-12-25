@@ -18,23 +18,25 @@
 namespace GeoMetadata\Model;
 
 interface Metadata {
+	
+	public function createObject();
 
 	public function getUrl();
 	public function setUrl($url);
 
-	public function getService();
-	public function setService($service);
+	public function getServiceCode();
+	public function setServiceCode($service);
 
 	public function getLayers();
-	public function addLayer(GmLayer $layer);
-	public function createLayer($id, $title = null, GmBoundingBox $bbox = null);
-	public function removeLayer(GmLayer $layer);
+	public function addLayer(Layer $layer);
+	public function createLayer($id, $title = null, BoundingBox $bbox = null);
+	public function removeLayer(Layer $layer);
 
 	public function getTitle();
 	public function setTitle($title);
 
 	public function getBoundingBox();
-	public function setBoundingBox(GmBoundingBox $bbox);
+	public function setBoundingBox(BoundingBox $bbox);
 	public function createBoundingBox($west, $north, $east, $south);
 
 	public function getKeywords();
