@@ -130,14 +130,6 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 		$this->author = $author;
 	}
 
-	public function getPublisher(){
-		return $this->publisher;
-	}
-
-	public function setPublisher($publisher){
-		$this->publisher = $publisher;
-	}
-
 	public function getCopyright(){
 		return $this->copyright;
 	}

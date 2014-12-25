@@ -52,9 +52,6 @@ interface Metadata {
 	public function getAuthor();
 	public function setAuthor($author);
 
-	public function getPublisher();
-	public function setPublisher($publisher);
-
 	public function getCopyright();
 	public function setCopyright($copyright);
 

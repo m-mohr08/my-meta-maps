@@ -25,7 +25,6 @@ class GeodataApiController extends BaseApiController {
 					'language' => $geodata->getLanguage(),
 					'copyright' => $geodata->getCopyright(),
 					'author' => $geodata->getAuthor(),
-					'publisher' => $geodata->getPublisher(),
 					'modified' => $geodata->getModifiedTime(), // TODO: Return as proper timestamp
 					'abstract' => $geodata->getDescription(),
 					'license' => $geodata->getLicense()

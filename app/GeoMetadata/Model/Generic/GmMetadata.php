@@ -29,7 +29,6 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 	protected $description;
 	protected $language;
 	protected $author;
-	protected $publisher;
 	protected $copyright;
 	protected $license;
 
@@ -140,14 +139,6 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 
 	public function setAuthor($author){
 		$this->author = $author;
-	}
-
-	public function getPublisher(){
-		return $this->publisher;
-	}
-
-	public function setPublisher($publisher){
-		$this->publisher = $publisher;
 	}
 
 	public function getCopyright(){
