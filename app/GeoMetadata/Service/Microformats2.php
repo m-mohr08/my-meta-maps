@@ -48,7 +48,7 @@ class Microformats2 extends ParserParser {
 	protected function createParser($source) {
 		$parser = Mf2\parse($source);
 
-		if (!isset($parser['items'])) {
+		if (empty($parser['items'])) {
 			// No data at all, return
 			return null;
 		}

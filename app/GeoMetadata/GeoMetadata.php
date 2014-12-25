@@ -70,7 +70,7 @@ class GeoMetadata {
 		// Quick check for URLs, works not for $all = true as not all parsers support it.
 		if ($all === false) {
 			foreach ($services as $service) {
-				if ($service->detectByUrl($this->data)) {
+				if ($service->detectByUrl($this->url)) {
 					return $service;
 				}
 			}
