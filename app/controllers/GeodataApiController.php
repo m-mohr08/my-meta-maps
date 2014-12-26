@@ -7,6 +7,7 @@ class GeodataApiController extends BaseApiController {
 	
 	public function __construct() {
 		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
+		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
 		GmRegistry::setLogger(array('App', 'debug'));
 		GmRegistry::setProxy('wwwproxy.uni-muenster.de:80', 80); // TODO: Don't hard wire this
 	}
@@ -35,7 +36,7 @@ class GeodataApiController extends BaseApiController {
 
 		$layers = $geodata->getLayers();
 		foreach($layers as $layer) {
-			$json['geodata']['layer'] = array(
+			$json['geodata']['layer'][] = array(
 				'id' => $layer->getId(),
 				'title' => $layer->getTitle(),
 				'bbox' => (string) $layer->getBoundingBox()

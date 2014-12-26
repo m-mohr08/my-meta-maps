@@ -29,7 +29,7 @@ interface Metadata {
 
 	public function getLayers();
 	public function addLayer(Layer $layer);
-	public function createLayer($id, $title = null, BoundingBox $bbox = null);
+	public function createLayer($id, $title = null);
 	public function removeLayer(Layer $layer);
 
 	public function getTitle();

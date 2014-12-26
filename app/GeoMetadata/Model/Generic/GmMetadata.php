@@ -71,8 +71,10 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->layers[] = $layer;
 	}
 
-	public function createLayer($id, $title = null, \GeoMetadata\Model\BoundingBox $bbox = null){
-		$this->layers[] = new GmLayer($id, $title, $bbox);
+	public function createLayer($id, $title = null){
+		$layer = new GmLayer($id, $title, null);
+		$this->layers[] = $layer;
+		return $layer;
 	}
 
 	public function removeLayer(\GeoMetadata\Model\Layer $layer){
@@ -103,6 +105,7 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 	
 	public function createBoundingBox($west, $north, $east, $south) {
 		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+		return $this->boundingBox;
 	}
 
 	public function getKeywords(){

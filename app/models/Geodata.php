@@ -64,7 +64,7 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 		// TODO: Implementation
 	}
 
-	public function createLayer($id, $title = null, \GeoMetadata\Model\BoundingBox $bbox = null){
+	public function createLayer($id, $title = null){
 		// TODO: Implementation
 	}
 

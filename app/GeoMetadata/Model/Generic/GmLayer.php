@@ -57,6 +57,7 @@ class GmLayer implements \GeoMetadata\Model\Layer {
 	
 	public function createBoundingBox($west, $north, $east, $south) {
 		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+		return $this->boundingBox;
 	}
 	
 	public function setData($key, $value) {
