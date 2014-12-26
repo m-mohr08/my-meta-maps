@@ -151,7 +151,7 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	}
 
 	public function setCreationTime(\DateTime $creation){
-		$this->creation = $creation; // TODO: Convert to SQL timestamps?
+		$this->creation = Carbon::instance($creation);
 	}
 
 	public function getModifiedTime(){
@@ -159,7 +159,7 @@ class Geodata extends Eloquent implements \GeoMetadata\Model\Metadata {
 	}
 
 	public function setModifiedTime(\DateTime $modified){
-		$this->modified = $modified; // TODO: Convert to SQL timestamps?
+		$this->modified = Carbon::instance($modified);
 	}
 	
 	public function setData($key, $value) {

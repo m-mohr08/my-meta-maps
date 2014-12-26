@@ -22,11 +22,11 @@ class GeodataApiController extends BaseApiController {
 					'title' => $geodata->getTitle(),
 					'bbox' => (string) $geodata->getBoundingBox(),
 					'keywords' => $geodata->getKeywords(),
-					'creation' => $geodata->getCreationTime(), // TODO: Return as proper timestamp
+					'creation' => self::toDate($geodata->getCreationTime()),
 					'language' => $geodata->getLanguage(),
 					'copyright' => $geodata->getCopyright(),
 					'author' => $geodata->getAuthor(),
-					'modified' => $geodata->getModifiedTime(), // TODO: Return as proper timestamp
+					'modified' => self::toDate($geodata->getModifiedTime()),
 					'abstract' => $geodata->getDescription(),
 					'license' => $geodata->getLicense()
 				),
