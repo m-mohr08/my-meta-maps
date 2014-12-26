@@ -8,8 +8,9 @@ class GeodataApiController extends BaseApiController {
 	public function __construct() {
 		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
 		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
+
 		GmRegistry::setLogger(array('App', 'debug'));
-		GmRegistry::setProxy('wwwproxy.uni-muenster.de:80', 80); // TODO: Don't hard wire this
+		GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
 	}
 	
 	protected function buildGeodata(\GeoMetadata\Model\Metadata $geodata) {
