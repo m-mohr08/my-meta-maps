@@ -51,7 +51,7 @@ class GmLayer implements \GeoMetadata\Model\Layer {
 		return $this->boundingBox;
 	}
 	
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox) {
+	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
 		$this->boundingBox = $bbox;
 	}
 	

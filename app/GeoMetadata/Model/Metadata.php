@@ -36,7 +36,7 @@ interface Metadata {
 	public function setTitle($title);
 
 	public function getBoundingBox();
-	public function setBoundingBox(BoundingBox $bbox);
+	public function setBoundingBox(BoundingBox $bbox = null);
 	public function createBoundingBox($west, $north, $east, $south);
 
 	public function getKeywords();
@@ -59,10 +59,10 @@ interface Metadata {
 	public function setLicense($license);
 
 	public function getCreationTime();
-	public function setCreationTime(\DateTime $creation);
+	public function setCreationTime(\DateTime $creation = null);
 
 	public function getModifiedTime();
-	public function setModifiedTime(\DateTime $modified);
+	public function setModifiedTime(\DateTime $modified = null);
 
 	public function setData($key, $value);
 	public function getData($key);

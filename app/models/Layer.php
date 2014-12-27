@@ -28,7 +28,7 @@ class Layer extends Eloquent {
     }
 
     public function comments() {
-        return $this->hasMany('Comment');
+        return $this->hasMany('Comment', 'layer_id');
     }
 
 }

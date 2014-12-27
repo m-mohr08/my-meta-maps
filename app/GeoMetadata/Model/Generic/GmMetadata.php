@@ -99,7 +99,7 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		return $this->boundingBox;
 	}
 	
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox) {
+	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
 		$this->boundingBox = $bbox;
 	}
 	
@@ -164,7 +164,7 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		return $this->creationTime;
 	}
 
-	public function setCreationTime(\DateTime $creation){
+	public function setCreationTime(\DateTime $creation = null){
 		$this->creationTime = $creation;
 	}
 
@@ -172,7 +172,7 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		return $this->modifiedTime;
 	}
 
-	public function setModifiedTime(\DateTime $modified){
+	public function setModifiedTime(\DateTime $modified = null){
 		$this->modifiedTime = $modified;
 	}
 	

@@ -55,6 +55,10 @@ class GmRegistry {
 		return $services;
 	}
 
+	public static function getServiceCodes() {
+		return array_keys(self::$services);
+	}
+
 	public static function getService($type) {
 		if (isset(self::$services[$type])) {
 			return self::$services[$type]->createObject();

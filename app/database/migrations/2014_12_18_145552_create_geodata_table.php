@@ -18,11 +18,11 @@ class CreateGeodataTable extends Migration {
 			$table->string('datatype');
 			$table->string('url')->unique();
 			$table->text('title');
-			$table->text('abstract');
-			$table->text('keywords');
-			$table->text('author');
-			$table->text('copyright');
-			$table->text('license');
+			$table->text('abstract')->nullable();
+			$table->text('keywords')->nullable();
+			$table->text('author')->nullable();
+			$table->text('copyright')->nullable();
+			$table->text('license')->nullable();
 			$table->datetime('creation')->nullable();
 			$table->datetime('modified')->nullable();
 			$table->string('language', 2)->nullable();
@@ -32,7 +32,7 @@ class CreateGeodataTable extends Migration {
 		// Fulltext search
 		DB::statement("ALTER TABLE {$tableName} ADD COLUMN searchtext TSVECTOR");
 		DB::statement("CREATE INDEX searchtext_gin_{$tableName} ON {$tableName} USING GIN(searchtext)");
-		DB::statement("CREATE TRIGGER ts_searchtext_{$tableName} BEFORE INSERT OR UPDATE ON {$tableName} FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('searchtext', 'pg_catalog.simple', 'title', 'abstract', 'subject', 'publisher', 'author', 'copyright')");
+		DB::statement("CREATE TRIGGER ts_searchtext_{$tableName} BEFORE INSERT OR UPDATE ON {$tableName} FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('searchtext', 'pg_catalog.simple', 'title', 'abstract', 'keywords', 'author', 'copyright', 'license')");
 	}
 
 	/**
