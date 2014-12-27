@@ -37,11 +37,11 @@ class GeodataApiController extends BaseApiController {
 		);
 
 		$layers = $geodata->layers;
-		if (!is_array($layers)) {
+		if (!is_object($layers)) {
 			$layers = array();
 		}
 		if ($geodata instanceof GmGeodata) {
-			$layers = array_merge($layers, $geodata->getLayers());
+			$layers = array_merge($layers->asArray(), $geodata->getLayers());
 		}
 		foreach($layers as $layer) {
 			$json['geodata']['layer'][] = array(
@@ -132,13 +132,12 @@ class GeodataApiController extends BaseApiController {
 		$comment->rating = empty($data['rating']) ? null : $data['rating'];
 		$comment->start = empty($data['start']) ? null : new Carbon($data['start']);
 		$comment->end = empty($data['end']) ? null : new Carbon($data['end']);
-		$comment->geom = empty($data['geometry']) ? null : $data['geometry']; // TODO: Aply ST_GeomFromText?
+		$comment->geom = empty($data['geometry']) ? null : $data['geometry'];
 		if (!$comment->save()) {
 			return $this->getConflictResponse();
 		}
 		
-		return $this->getJsonResponse('OK :)');
-		// TODO: Build response as specified in ch. 4.3
+		return $this->getJsonResponse($this->buildGeodata($geodata));
 	}
 	
 	public function postMetadata() {
@@ -156,7 +155,6 @@ class GeodataApiController extends BaseApiController {
 			else {
 				// No metadata found in DB, parse them from the URL
 				$metadata = $this->parseMetadata($url, new GmGeodata());
-				// TODO: Implement to return datatypes as array
 				if ($metadata != null) {
 					$json = $this->buildGeodata($metadata);
 					$json['geodata']['id'] = 0;
