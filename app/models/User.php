@@ -33,6 +33,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function comments() {
 		return $this->hasMany('Comment');
 	}
+	
+	/**
+	 * 
+	 * @return int Last activity 
+	 */
+	public static function getLastActivityFromSession() {
+		$bag = Session::getMetadataBag();
+		if ($bag) {
+			return $bag->getLastUsed();
+		}
+		else {
+			return 0;
+		}
+	}
 
 }
 ?>
