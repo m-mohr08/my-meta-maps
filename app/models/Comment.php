@@ -34,6 +34,17 @@ class Comment extends Eloquent {
     public function geodata() {
         return $this->belongsTo('Geodata');
     }
+	
+	public function getGeomAttribute($value) {
+		if (!empty($value)) {
+			// TODO: THIS SHOULD BE AVOIDED IN ANY CASE! Need to change this...
+			$result = DB::selectOne("SELECT ST_AsText('{$value}') AS geom");
+			return $result->geom;
+		}
+		else {
+			return null;
+		}
+	}
 
 }
 ?>
