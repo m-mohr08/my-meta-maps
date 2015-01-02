@@ -24,7 +24,7 @@ CommentAddView = Backbone.View.extend({
 		// Creates details of a comment with typed in values
 		var details = createDetails();
 		
-		if(validateURL(details.URL) === false || details.text === '' 
+		if(validateURL(details.url) === false || details.text === '' 
 			|| validateDatesRelation(details.startDate, details.endDate) === false) {
 			// do nothing; the formValidator will do this for you ;)
 		}
@@ -36,8 +36,17 @@ CommentAddView = Backbone.View.extend({
 			// Creates a new CommentAdd-Model
 			var caModel = new CommentAdd();
 			
-			// Call commentController with caModel and details
-			commentController(caModel, details);
+			var caURLModel = new CommentAddURL();
+			
+			commentAddURLController(caURLModel, details);
+			
+			if(details.title != '') {
+				// Call commentController with caModel and details
+				commentAddController(caModel, details);
+			}
+			
+			
+			
 		}
 	}
 });
