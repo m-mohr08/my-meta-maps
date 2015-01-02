@@ -88,3 +88,14 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Dump database queries for debugging purposes
+|--------------------------------------------------------------------------
+*/
+if (Config::get('database.debug')) {
+	Event::listen('illuminate.query', function($sql){
+		echo $sql . PHP_EOL;
+	});
+}

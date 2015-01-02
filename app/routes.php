@@ -43,7 +43,7 @@ Route::group(array('prefix' => '/api/internal'), function() {
 	Route::get('/doc/{page}', 'BasedataApiController@getDoc')->where('page', '[\w\d-]+');
 
 	// Get language files
-	Route::get('/language/{language}', 'BasedataApiController@getLanguage')->where('language', '[a-z]{2}'); // TODO: Are those regexp case insensitive?
+	Route::get('/language/{language}', 'BasedataApiController@getLanguage')->where('language', '[a-z]{2}');
 
 	// All user based things, like authentification, registering, changing data, ...
 	Route::group(array('prefix' => '/user'), function() {
@@ -52,7 +52,10 @@ Route::group(array('prefix' => '/api/internal'), function() {
 		Route::post('/login/{method}', 'UserApiController@postLogin');
 		
 		// Logout
-		Route::post('/logout', 'UserApiController@postLogout');
+		Route::get('/logout', 'UserApiController@getLogout');
+		
+		// Logout
+		Route::get('/keepalive', 'UserApiController@getKeepalive');
 
 		// Logout
 		Route::post('/register', 'UserApiController@postRegister');

@@ -43,6 +43,9 @@
 		"phpunit/phpunit": "4.*"
 	},
 	"autoload": {
+		"psr-0": {
+			"GeoMetadata\\": "app/"
+		},
 		"classmap": [
 			"app/commands",
 			"app/controllers",
