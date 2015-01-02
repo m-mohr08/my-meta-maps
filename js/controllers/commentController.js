@@ -11,13 +11,17 @@ function commentController(model, view) {
 			var commentList = [];
 			
 			if (typeof json.geodata !== 'undefined') {
-				list = json.geodata;
+				
+				commentList = json.geodata;
+				
 			}
 			else if (typeof json.geodata_junk !== 'undefined') {
-				list = json.geodata_junk;
+				
+				commentList = json.geodata_junk;
 			}
 			
 			view.showComments(commentList);
+			
         },
         
         error: function() {

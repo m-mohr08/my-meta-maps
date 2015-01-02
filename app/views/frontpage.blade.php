@@ -480,6 +480,9 @@
 
 		<!-- Load at the end to load the site faster -->
 		
+		<!-- Load this first to have all functions before loading other scripts -->
+		<script type="text/javascript" src="/js/helpers.js"></script>
+		
 		<!-- Libaries (jQuery in head) -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>	
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
@@ -499,8 +502,7 @@
 		<script type="text/javascript" src="/js/views/commentAddView.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentAddController.js"></script>
-		
-		<script type="text/javascript" src="/js/helpers.js"></script>
+		<script type="text/javascript" src="/js/controllers/commentAddURLController.js"></script>
 
 	</body>
 
