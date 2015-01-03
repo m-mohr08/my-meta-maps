@@ -8,8 +8,13 @@ CommentAddView = Backbone.View.extend({
         },
         
     render: function(){
-    	var template = _.template( $("#addCommentTemplate").html(), {} );
-            this.$el.html( template );
+    	
+    	var that = this;
+    	
+    	$.get('/js/templates/addCommentTemplate.html', function(data){
+			template = _.template(data, {});
+			that.$el.html(template);
+		}, 'html');
     },
     
     events: {
@@ -31,22 +36,12 @@ CommentAddView = Backbone.View.extend({
 		
 		else {
 			
-			console.log('Details of added comment are: ' + JSON.stringify(details));
-			
 			// Creates a new CommentAdd-Model
 			var caModel = new CommentAdd();
 			
 			var caURLModel = new CommentAddURL();
 			
-			commentAddURLController(caURLModel, details);
-			
-			if(details.title != '') {
-				// Call commentController with caModel and details
-				commentAddController(caModel, details);
-			}
-			
-			
-			
+			commentAddURLController(caURLModel, caModel, details);
 		}
 	}
 });

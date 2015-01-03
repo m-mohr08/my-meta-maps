@@ -1,37 +1,22 @@
 /*
-* Send a POST-request (because no id is specified) to the server
+* Send a POST-request (because no id is specified) to the server to save a comment
 */
 function commentAddController(model, details) {
 	
 	model.save(details, {
 		
+		// In case of successfull adding of comment
 		success: function () {
-			successComment();
+			
+			console.log('Details of added comment are: ' + JSON.stringify(details));
+			
+			console.log("Adding comment was successfull");
 		},
 	
+		// In case of failed adding of comment
 		error: function () {
-			failComment();
+			
+			console.log("Adding comment failed");
 		}
 	});
-};
-
-/*
-* In case of successfull adding of comment
-* Change the color of adding-button to 'success disabled'
-* and of the 'comment-info'-button from 'disabled' to 'info'  
-*/
-function successComment() {
-	
-	console.log("Adding comment was successfull");
-	
-	// success-alert an einem bestimmten Platz erstellen; fehlt noch
-}
-
-/*
-* In case of failed adding of comment
-* Change the color of adding-button to 'danger'
-*/
-function failComment() {
-		
-	console.log("Adding comment failed");
 };

@@ -31,10 +31,6 @@
 	    <!-- For barRating-plugin -->
 	    <link rel="stylesheet" href="/js/plugins/barRating/css/rating-plugin.css" type="text/css"/>
 	    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" type="text/css"/>
-	    
-	    <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
-	    <script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.min.js"></script>
-    	<script type="text/javascript" src="/js/plugins/barRating/rating-views.js"></script>
 
 	</head>
 
@@ -275,82 +271,7 @@
 		
 		<!-- Lässt sich dies irgendwie extrahieren ??? -->
 		<script type="text/template" id="addCommentTemplate">
-	 		 <!-- Modal for comments -->
-			<div class="modal fade" id="ModalAddComment" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-							<h4 class="modal-title" id="meinModalLabel">Kommentar erstellen</h4>
-						</div>
-						
-						<div class="modal-body">
-											
-							<form id="form-comment" onsubmit="return false">
-								
-								<div class="row form-group">
-								<label for="titleInput">Titel</label>
-								<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
-								</div>
-								
-								<div class="row form-group">
-									<label for="URLInput">URL*</label>
-									<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="URL" data-bvSwitch="">
-									<div class="help-block error-message">Bitte füge eine (valide) URL eines Geodatensatzes hinzu</div>
-								</div>
-								
-								<div class="row form-group">
-									<label for="textInput">Freitext*</label>
-									<textarea class="form-control" rows="3" name="textInput" id="inputText" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
-									<div class="help-block error-message">Bitte füge einen Freitext hinzu</div>
-								</div>
-								
-								<div class="row form-group">
-									<label for="startDateInput">Zeitraum</label>
-									<div class="input-group">
-						            	<input class="form-control" readonly name="startDateInput" id="inputStartDate" type="text" data-bvStrict="datesRelation:endDateInput" placeholder="Startzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-startComment">
-											<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						            </div>
-						            <span class="help-block error-message">Überprüfe bitte noch mal beide Daten</span>
-								</div>
-								
-								<div class="row form-group">
-									<div class="input-group">
-						            	<input class="form-control" readonly name="endDateInput" id="inputEndDate" type="text" data-bvStrict="date:dd/mm/yyyy|empty" placeholder="Endzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-endComment">
-											<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						            </div>
-						            <span class="help-block error-message">Übeprüfe bitte noch mal dieses Datum</span>
-								</div>
-								
-								<div class="row form-group">
-									<div class="input select rating-stars">
-										<label for="ratingComment">Bewertung</label>
-										<select id="ratingComment" name="rating">
-											<option value="" selected="selected"></option>
-									    	<option value="1">1</option>
-									        <option value="2">2</option>
-									        <option value="3">3</option>
-									        <option value="4">4</option>
-									        <option value="5">5</option>
-										</select>
-									</div>
-								</div>
-								
-								<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>
-					
-							</form>
-							
-						</div>
-						<div class="modal-footer">
-							<div class="row clearfix">
-								<div class="col-md-2 column">
-									<label>*Verpflichtend</label>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+	 		 
 		</script>
 
 		<!-- Modal for login -->
@@ -487,14 +408,6 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>	
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
-		
-		<!-- For formValidator-plugin -->
-		<script type="text/javascript" src="/js/plugins/formValidator/bvalidator.jquery.js"></script>
-		<script type="text/javascript" src="/js/plugins/formValidator/validator-views.js"></script>
-		
-		<!-- For the datePicker-plugin -->
-	    <script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-	    <script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
 		
 		<!-- Comment-MVC's -->
 		<script type="text/javascript" src="/js/models/commentModel.js"></script>

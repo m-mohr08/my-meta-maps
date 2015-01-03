@@ -1,15 +1,17 @@
 /*
-* Send a GET-request to the server
+* Send a POST-request to the server
 */
-function commentAddURLController(model, details) {
+function commentAddURLController(modelURL, modelAdd, details) {
 	
-	model.fetch({
+	modelURL.save(details, {
 		
-        success: function (model) {
+        success: function (data) {
         	
         	console.log('Try to validate URL');
+        	
+        	var json = data.toJSON();
             
-        	var isNew = model.get(geodata.isNew);
+        	var isNew = json.geodata.isNew;
         	
         	if(isNew === true) {
         		
@@ -30,17 +32,25 @@ function commentAddURLController(model, details) {
         		if(details.title != '') {
         			
         			console.log('Title can not specify by a user');
-        			
-        			alert('Your URL was added already - the title of your comment will be: ' + model.get(geodata.metadata.title));
         		
-        			details.title = model.get(geodata.metadata.title);
+        			details.title = json.geodata.metadata.title;
+        			
+        			alert('Your URL was added already - the title of your comment will be: ' + json.geodata.metadata.title);
+        			
+					// Call commentController with caModel and details
+					commentAddController(modelAdd, details);
         		} 
         		
         		else {
         			
-        			console.log('Title will be assinged automatically');
+        			console.log('Title is empty - it will be assinged automatically');
      
-        			details.title = model.get(geodata.metadata.title);
+        			details.title = json.geodata.metadata.title;
+        			
+        			alert('You did not enter a title - the title of your comment will be: ' + json.geodata.metadata.title);
+        			
+					// Call commentController with caModel and details
+					commentAddController(modelAdd, details);
         		}
         	}
 			
