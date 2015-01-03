@@ -85,11 +85,11 @@ CommentWithSpatialView = CommentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return '/templates/commentWithSpatialTemplate.html';
+		return '/js/templates/commentWithSpatialTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		return '/templates/commentWithSpatialTemplate_bit.html';
+		return '/js/templates/commentWithSpatialTemplate_bit.html';
 	},
 
 	createModel: function(value) {
@@ -106,11 +106,11 @@ CommentNoSpatialView = CommentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return 'templates/commentNoSpatialTemplate.html';
+		return 'js/templates/commentNoSpatialTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		return 'templates/commentNoSpatialTemplate_bit.html';
+		return '/js/templates/commentNoSpatialTemplate_bit.html';
 	},
 
 	createModel: function(value) {
