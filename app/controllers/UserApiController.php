@@ -6,7 +6,7 @@ class UserApiController extends BaseApiController {
 		return array(
 			'session' => array(
 				'session' => Session::getId(),
-				'lastActivity' => User::getLastActivityFromSession() // TODO: Return a proper formatted date/time
+				'lastActivity' => self::toDate(User::getLastActivityFromSession())
 			)
 		);
 	}
@@ -57,7 +57,7 @@ class UserApiController extends BaseApiController {
 	}
 	
 	public function getKeepalive() {
-		Session::migrate(true); // Check whether this is really the best solution.
+		Session::migrate(true); // TODO: Check whether this is really the best solution.
 		return $this->getSessionResponse();
 	}
 	
@@ -180,6 +180,7 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postRemindRequest() {
+		// TODO: Change this laravel implementation to suit our needs and the CS-Protocol
 		switch ($response = Password::remind(Input::only('email')))
 		{
 			case Password::INVALID_USER:
@@ -196,6 +197,7 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postRemindReset() {
+		// TODO: Change this laravel implementation to suit our needs and the CS-Protocol
 		$credentials = Input::only(
 			'email', 'password', 'password_confirmation', 'token'
 		);

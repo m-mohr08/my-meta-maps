@@ -2,12 +2,12 @@ function createDetails() {
 	
 	var details = {
 		
-		"title" : $("#inputTitle").val(),
-		"URL" : $("#inputURL").val(),
+		"url" : $("#inputURL").val(),
 		"text" : $("#inputText").val(),
 		"startDate": $("#inputStartDate").val(),
 		"endDate": $("#inputEndDate").val(),		
-		"rating": $("#ratingComment").val()
+		"rating": $("#ratingComment").val(),
+		"title" : $("#inputTitle").val()
 		
 	};
 	

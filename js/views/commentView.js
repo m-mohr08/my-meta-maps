@@ -20,6 +20,7 @@ CommentView = Backbone.View.extend({
 		}, this);
 
 		var that = this;
+		
 		$.get(this.getPageTemplate(), function(data){
 			template = _.template(data, {});
 			that.$el.html(template);
@@ -84,11 +85,11 @@ CommentWithSpatialView = CommentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return 'templates/commentsWithSpatialTemplate.html';
+		return '/js/templates/commentWithSpatialTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		return 'templates/commentsWithSpatialTemplate_bit.html';
+		return '/js/templates/commentWithSpatialTemplate_bit.html';
 	},
 
 	createModel: function(value) {
@@ -105,11 +106,11 @@ CommentNoSpatialView = CommentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return 'templates/commentsNoSpatialTemplate.html';
+		return 'js/templates/commentNoSpatialTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		return 'templates/commentsNoSpatialTemplate_bit.html';
+		return '/js/templates/commentNoSpatialTemplate_bit.html';
 	},
 
 	createModel: function(value) {
