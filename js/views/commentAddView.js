@@ -46,4 +46,4 @@ CommentAddView = Backbone.View.extend({
 	}
 });
 
-var CommentAddView = new CommentAddView({ el: $("#addCommentContainer") });
+var commentAddView = new CommentAddView({ el: $("#addCommentContainer") });
