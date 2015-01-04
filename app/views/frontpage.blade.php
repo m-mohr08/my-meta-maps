@@ -70,7 +70,8 @@
 							<!-- Start: Account navigation -->
 							<form class="navbar-form navbar-left">
 								<div class="btn-group" role="group">
-									<button type="submit" class="btn btn-default disabled"> <span class="glyphicon glyphicon-user"></span>&nbsp; Account </button>&nbsp;
+									<button type="submit" class="btn btn-default disabled" data-toggle="modal" data-target="#ModalUserAccount" id="userAccountBtn"> 
+										<span class="glyphicon glyphicon-user"></span>&nbsp; Account </button>&nbsp;
 									<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalLogin" id="loginBtn"> Anmelden &nbsp;
 										<span class="glyphicon glyphicon-log-in"></span>
 									</button>
@@ -233,6 +234,9 @@
 		
 		<!-- View for register -->
 		<script type="text/javascript" src="/js/views/registerView.js"></script>
+		
+		<!-- View for userAccount -->
+		<script type="text/javascript" src="/js/views/userAccountView.js"></script>
 		
 		<!-- View for filter -->
 		<script type="text/javascript" src="/js/views/filterView.js"></script>
