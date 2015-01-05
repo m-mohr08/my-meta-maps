@@ -130,9 +130,7 @@
 			<div class="row clearfix" id="mapComments">
 				<!-- Div for map - beginning -->
 				<div class="col-md-8 column">
-					<p>
-						<div id="map"></div>
-					</p>
+					<div id="map"></div>
 				</div>
 				<!-- Div for map - ending -->
 				
@@ -229,11 +227,15 @@
 		<!-- View for info and help-site -->
 		<script type="text/javascript" src="/js/views/infoAndHelpSiteView.js"></script>
 		
+		<!-- Models for user -->
+		<script type="text/javascript" src="/js/models/userModel.js"></script>
+		
 		<!-- View for login -->
 		<script type="text/javascript" src="/js/views/loginView.js"></script>
 		
-		<!-- View for register -->
+		<!-- View and controller for register -->
 		<script type="text/javascript" src="/js/views/registerView.js"></script>
+		<script type="text/javascript" src="/js/controllers/userRegisterController.js"></script>
 		
 		<!-- View for userAccount -->
 		<script type="text/javascript" src="/js/views/userAccountView.js"></script>

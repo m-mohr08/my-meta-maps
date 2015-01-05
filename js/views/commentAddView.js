@@ -27,11 +27,12 @@ CommentAddView = Backbone.View.extend({
 	createComment: function(event) {
 				
 		// Creates details of a comment with typed in values
-		var details = createDetails();
+		var details = createDetailsForComment();
 		
 		if(validateURL(details.url) === false || details.text === '' 
 			|| validateDatesRelation(details.startDate, details.endDate) === false) {
-			// do nothing; the formValidator will do this for you ;)
+				
+				// do nothing; the formValidator will do this for you ;)
 		}
 		
 		else {
