@@ -1,23 +1,23 @@
 /*
-* Send a GET-request to the server
+* Send a POST-request to the server to get comments
 */
 function commentController(model, view) {
 	
-	model.fetch({
+	model.save({
 		
-        success: function (model) {
+        success: function (data) {
             
-        	var commentJSON = model.toJSON();
+        	var commentJSON = data.toJSON();
 			var commentList = [];
 			
-			if (typeof json.geodata !== 'undefined') {
+			if (typeof commentJSON.geodata !== 'undefined') {
 				
-				commentList = json.geodata;
+				commentList = commentJSON.geodata;
 				
 			}
-			else if (typeof json.geodata_junk !== 'undefined') {
+			else if (typeof commentJSON.geodata_junk !== 'undefined') {
 				
-				commentList = json.geodata_junk;
+				commentList = commentJSON.geodata_junk;
 			}
 			
 			view.showComments(commentList);

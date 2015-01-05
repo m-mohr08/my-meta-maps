@@ -85,11 +85,11 @@ CommentWithSpatialView = CommentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return '/js/templates/commentWithSpatialTemplate.html';
+		return '/js/templates/showCommentTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		return '/js/templates/commentWithSpatialTemplate_bit.html';
+		return '/js/templates/showCommentTemplate_bit.html';
 	},
 
 	createModel: function(value) {
@@ -106,11 +106,11 @@ CommentNoSpatialView = CommentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return 'js/templates/commentNoSpatialTemplate.html';
+		return 'js/templates/showCommentTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		return '/js/templates/commentNoSpatialTemplate_bit.html';
+		return '/js/templates/showCommentTemplate_bit.html';
 	},
 
 	createModel: function(value) {
@@ -120,5 +120,5 @@ CommentNoSpatialView = CommentView.extend({
 	}
 });
 
-var CommentWithSpatialView = new CommentWithSpatialView({ el: $("#commentWithGeo") });
-var CommentNoSpatialView = new CommentNoSpatialView({ el: $("#commentWithOutGeo") });
+var commentWithSpatialView = new CommentWithSpatialView({ el: $("#commentWithGeo") });
+var commentNoSpatialView = new CommentNoSpatialView({ el: $("#commentWithOutGeo") });
