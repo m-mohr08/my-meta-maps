@@ -149,7 +149,7 @@ class GeodataApiController extends BaseApiController {
 		$comment = new Comment();
 		$comment->geodata()->associate($geodata);
 		if (Auth::check()) {
-			$comment->user = Auth::user();
+			$comment->user()->associate(Auth::user());
 		}
 		if ($foundLayer !== null) {
 			$comment->layer()->associate($foundLayer);
