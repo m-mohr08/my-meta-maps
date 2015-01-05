@@ -19,7 +19,7 @@ namespace GeoMetadata\Service;
 
 class OgcWebMapService extends OgcWebServices {
 
-	public function detect($source) {
+	public function verify($source) {
 		// We don't parse the XML here as the regexp matching the root tags is much faster and we don't ask for validity anyway.
 		return preg_match('~<((?:WMS|WMT_MS)_Capabilities)(?:\s[^>]+)?>.+</\1>~is', $source);
 	}

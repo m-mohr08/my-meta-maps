@@ -70,15 +70,27 @@ class GeodataApiController extends BaseApiController {
 		return $json;
 	}
 	
-	protected function parseMetadata($url, $model = null) {
-		$geo = new GeoMetadata();
-		$geo->setURL($url);
-		$geo->setModel($model);
-		$parser = $geo->detect();
-		if ($parser != null) {
-			return $geo->parse($parser);
+	protected function parseMetadata($url, $code, $model = null) {
+		$geo = GeoMetadata::withUrl($url, $code);
+		if ($geo != null) {
+			$geo->setModel($model);
+			return $geo->parse();
 		}
 		return null;
+	}
+	
+	public function getMetadataFormats() {
+		$data = array();
+		$services = GmRegistry::getServices();
+		foreach($services as $service) {
+			$data[] = array(
+				'code' => $service->getCode(),
+				'name' => $service->getName()
+			);
+		}
+		return $this->getJsonResponse(array(
+			'formats' => $data
+		));
 	}
 	
 	public function postAdd() {
@@ -106,13 +118,11 @@ class GeodataApiController extends BaseApiController {
 		
 		if (empty($geodata)) {
 			// Add geodata from remote service
-			$geodata = $this->parseMetadata($data['url'], new GmGeodata());
+			$geodata = $this->parseMetadata($data['url'], $data['datatype'], new GmGeodata());
 			if ($geodata == null) {
 				return $this->getConflictResponse();
 			}
-			// Add geodata from user (overwrites parsed data if needed)
-			$geodata->url = $data['url'];
-			$geodata->datatype = $data['datatype'];
+			// Add geodata from user (user may override the title for new URLs)
 			$geodata->title = $data['title'];
 			if (!$geodata->save()) {
 				return $this->getConflictResponse();
@@ -157,30 +167,37 @@ class GeodataApiController extends BaseApiController {
 	}
 	
 	public function postMetadata() {
-		$url = Input::get('url');
-		if (filter_var($url, FILTER_VALIDATE_URL)) {
-			// Try to get existing metadata for the URL
-			$geodata = Geodata::where('url', '=', $url)->first();
-			if ($geodata != null) {
-				$json = $this->buildGeodata($geodata);
-				$json['geodata']['id'] = $geodata->id;
-				$json['geodata']['isNew'] = false;
-				$json['geodata']['metadata']['datatype'] = array($json['geodata']['metadata']['datatype']);
+		$data = Input::only('url', 'datatype');
+		
+		$validator = Validator::make($data,
+			array(
+				'url' => 'required|url',
+				'datatype' => 'required|in:'.implode(',', GmRegistry::getServiceCodes())
+			)
+		);
+		if ($validator->fails()) {
+			return $this->getConflictResponse($validator->messages());
+		}
+		
+		// Try to get existing metadata for the URL
+		$geodata = Geodata::where('url', '=', $data['url'])->first();
+		if ($geodata != null) {
+			$json = $this->buildGeodata($geodata);
+			$json['geodata']['id'] = $geodata->id;
+			$json['geodata']['isNew'] = false;
+			return $this->getJsonResponse($json);
+		}
+		else {
+			// No metadata found in DB, parse them from the URL
+			$metadata = $this->parseMetadata($data['url'], $data['datatype'], new GmGeodata());
+			if ($metadata != null) {
+				$json = $this->buildGeodata($metadata);
+				$json['geodata']['id'] = 0;
+				$json['geodata']['isNew'] = true;
 				return $this->getJsonResponse($json);
 			}
-			else {
-				// No metadata found in DB, parse them from the URL
-				$metadata = $this->parseMetadata($url, new GmGeodata());
-				if ($metadata != null) {
-					$json = $this->buildGeodata($metadata);
-					$json['geodata']['id'] = 0;
-					$json['geodata']['isNew'] = true;
-					// TODO: Allow to return all suitable datatypes from the detection process in buildGeodata.
-					$json['geodata']['metadata']['datatype'] = array($json['geodata']['metadata']['datatype']);
-					return $this->getJsonResponse($json);
-				}
-			}
 		}
+
 		$error = Lang::get('validation.url', array('attribute' => 'URL'));
 		return $this->getConflictResponse(array('url' => $error));
 	}

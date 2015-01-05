@@ -18,32 +18,33 @@
 namespace GeoMetadata\Service;
 
 abstract class OgcWebServices extends ParserParser {
-
-	public function getBaseUrl($url) {
-		// For OGC based services we don't need to store the query parameters
-		$index = strpos('?', $url);
+	
+	/**
+	 * Takes the user specified URL and builds the service (or base) url from it.
+	 * 
+	 * @param string $url URL
+	 * @return string Base URL of the service
+	 */
+	public function getServiceUrl($url) {
+		// For OGC based services we don't need to store the query parameters.
+		// We always append the ? to the OGC base url.
+		$index = strpos($url, '?');
 		if ($index !== false) {
 			return substr($url, 0, $index+1);
 		}
 		else {
-			return $url + '?';
+			return $url . '?';
 		}
 	}
-
+	
 	/**
-	 * Quickly checks whether the given URL might contain data of this type.
+	 * Takes the user specified URL and builds the metadata url of the service from it.
 	 * 
-	 * @param string $url String URL of the service (optional) for a really fast check.
-	 * @return boolean true if URL is of this service type, false if no answer can be made.
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
 	 */
-	public function detectByUrl($url) {
-		if ($url != null) {
-			$type = $this->parseServiceType($url);
-			if ($type !== null) {
-				return ($type == $this->getCode());
-			}
-		}
-		return false;
+	public function getMetadataUrl($url) {
+		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . $this->getCode();
 	}
 	
 	protected function parseServiceType($url) {

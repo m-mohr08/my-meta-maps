@@ -43,12 +43,20 @@ interface Parser {
 	public function getName();
 	
 	/**
-	 * Quickly checks whether the given URL might contain data of this type.
+	 * Takes the user specified URL and builds the service (or base) url from it.
 	 * 
-	 * @param string $url String URL of the service (optional) for a really fast check.
-	 * @return boolean true if URL is of this service type, false if no answer can be made.
+	 * @param string $url URL
+	 * @return string Base URL of the service
 	 */
-	public function detectByUrl($url);
+	public function getServiceUrl($url);
+	
+	/**
+	 * Takes the user specified URL and builds the metadata url of the service from it.
+	 * 
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
+	 */
+	public function getMetadataUrl($url);
 	
 	/**
 	 * Checks whether the given service data is of this type.
@@ -56,7 +64,7 @@ interface Parser {
 	 * @param string $source String containing the data to parse.
 	 * @return boolean true if content can be parsed, false if not.
 	 */
-	public function detect($source);
+	public function verify($source);
 	
 	/**
 	 * Parses the data.

@@ -29,7 +29,7 @@ abstract class ParserParser implements Parser {
 		return $this->parser;
 	}
 
-	public function detect($source) {
+	public function verify($source) {
 		return ($this->createParser($source) !== null);
 	}
 	
