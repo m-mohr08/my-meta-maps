@@ -60,7 +60,7 @@ class GmRegistry {
 	}
 
 	public static function getService($type) {
-		if (isset(self::$services[$type])) {
+		if (is_string($type) && isset(self::$services[$type])) {
 			return self::$services[$type]->createObject();
 		}
 		else {
