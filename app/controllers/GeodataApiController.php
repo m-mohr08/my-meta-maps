@@ -55,12 +55,9 @@ class GeodataApiController extends BaseApiController {
 			)
 		);
 
-		$layers = $geodata->layers;
-		if (!is_object($layers)) {
-			$layers = array();
-		}
+		$layers = empty($geodata->layers) ? array() : (array) $geodata->layers;
 		if ($geodata instanceof GmGeodata) {
-			$layers = array_merge($layers->asArray(), $geodata->getLayers());
+			$layers = array_merge($layers, $geodata->getLayers());
 		}
 		foreach($layers as $layer) {
 			$json['geodata']['layer'][] = array(
@@ -193,7 +190,11 @@ class GeodataApiController extends BaseApiController {
 	}
 	
 	public function postKeywords() {
-		
+		$q = Input::get('q');
+		$metadata = Input::get('metadata');
+		if (strlen($q) >= 3) {
+			// TODO
+		}
 	}
 	
 	public function postSearchSave() {

@@ -101,6 +101,15 @@ abstract class OgcWebServices extends ParserParser {
 		return $data;
 	}
 	
+	protected function getAttrsAsArray(&$node) {
+		// To avoid the "Node no longer exists" error we need to copy the elements to an separate array.
+		$data = array();
+		foreach ($node->attributes() as $key => $value) {
+			$data[$key] = strval($value);
+		}
+		return $data;
+	}
+	
 	protected function selectHierarchyAsOne($path, $parent = null) {
 		$node = $this->selectOne($path, $parent,  false);
 		if ($node != null) {

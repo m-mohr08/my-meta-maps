@@ -64,7 +64,7 @@ class OgcWebMapService extends OgcWebServices {
 				$layer = $model->createLayer($name, $title, null);
 				
 				if (is_object($node->LatLonBoundingBox)) {
-					$bbox = $node->LatLonBoundingBox->attributes();
+					$bbox = $this->getAttrsAsArray($node->LatLonBoundingBox);
 					if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
 						$layer->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
 					}
