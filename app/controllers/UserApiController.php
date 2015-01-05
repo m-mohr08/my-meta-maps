@@ -180,14 +180,14 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postRemindRequest() {
-		// TODO: Change this laravel implementation to suit our needs and the CS-Protocol
 		switch ($response = Password::remind(Input::only('email')))
 		{
-			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
-
 			case Password::REMINDER_SENT:
-				return Redirect::back()->with('status', Lang::get($response));
+				return $this->getJsonResponse();
+			default: // which should be only the case Password::INVALID_USER
+				return $this->getConflictResponse(array(
+					'email' => Lang::get($response)
+				));
 		}
 	}
 
@@ -197,7 +197,6 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postRemindReset() {
-		// TODO: Change this laravel implementation to suit our needs and the CS-Protocol
 		$credentials = Input::only(
 			'email', 'password', 'password_confirmation', 'token'
 		);
@@ -205,19 +204,25 @@ class UserApiController extends BaseApiController {
 		$response = Password::reset($credentials, function($user, $password)
 		{
 			$user->password = Hash::make($password);
-
 			$user->save();
 		});
 
 		switch ($response)
 		{
 			case Password::INVALID_PASSWORD:
+				return $this->getConflictResponse(array(
+					'password' => Lang::get($response)
+				));
 			case Password::INVALID_TOKEN:
+				return $this->getConflictResponse(array(
+					'token' => Lang::get($response)
+				));
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
-
+				return $this->getConflictResponse(array(
+					'email' => Lang::get($response)
+				));
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
+				return $this->getJsonResponse();
 		}
 	}
 	
