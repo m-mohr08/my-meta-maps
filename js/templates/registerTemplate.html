@@ -7,16 +7,17 @@
 			</div>
 			<div class="modal-body">
 			
-				<form id="form-register">
+				<form id="form-register" onsubmit="return false">
 							
 					<div class="row form-group">
 						<label for="nameInput">Name</label>
-						<input class="form-control" name="nameInput" id="inputName" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+						<input class="form-control" name="nameInput" id="inputNameForRegister" type="text" data-bvStrict="reg:^.{5,}">
+						<div class="help-block error-message">Bitte füge Namen mit mid. 5 Zeichen hinzu</div>
 					</div>
 							
 					<div class="row form-group">
 						<label for="mailInput">E-Mail-Adresse</label>
-						<input class="form-control" name="mailInput" id="inputName" type="text" data-bvStrict="email" data-bvEmpty="@">
+						<input class="form-control" name="mailInput" id="inputMailForRegister" type="text" data-bvStrict="email" data-bvEmpty="@">
 						<div class="help-block error-message">Dies ist keine E-Mail-Adresse</div>
 					</div>
 					
@@ -28,11 +29,11 @@
 							
 					<div class="row form-group">
 						<label for="passRepeatInput">Passwort wiederholen</label>
-						<input class="form-control" name="passRepeatInput" id="inputPassRepeat" type="password" data-bvStrict="same:passwordRegisterInput">
+						<input class="form-control" name="passRepeatInput" id="inputPasswordRepeat" type="password" data-bvStrict="same:passwordRegisterInput">
 						<span class="help-block error-message">Passwörter stimmen nicht überein</span>
 					</div>
 						
-					<button type="submit" class="btn btn-primary">Registrieren</button>
+					<button type="submit" class="btn btn-primary" id="registerBtn">Registrieren</button>
 							
 				</form>
 						
@@ -40,3 +41,7 @@
 		</div>
 	</div>
 </div>
+
+<!-- For formValidator-plugin -->
+<script type="text/javascript" src="/js/plugins/formValidator/bvalidator.jquery.js"></script>
+<script type="text/javascript" src="/js/plugins/formValidator/validator-views.js"></script>

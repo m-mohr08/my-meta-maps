@@ -1,4 +1,4 @@
-function createDetails() {
+function createDetailsForComment() {
 	
 	var details = {
 		
@@ -51,4 +51,28 @@ function validateDatesRelation (startDate, endDate) {
 	else {
 		return true;
 	}
+}
+
+function readInputForRegister() {
+	
+	var inputRegister = {
+		
+		"name" : $("#inputNameForRegister").val(),
+		"email" : $("#inputMailForRegister").val(),
+		"password" : $("#inputPasswordRegister").val(),
+		"password_confirmation" : $("#inputPasswordRepeat").val()
+		
+	};
+	
+	return inputRegister;
+}
+
+function validateEmail(email) {
+	
+	return (email.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/) != null && email.length != 0);
+}
+
+function checkPasswords(password, passwordRepeat) {
+	
+	return (password === passwordRepeat);
 }
