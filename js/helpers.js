@@ -72,7 +72,28 @@ function validateEmail(email) {
 	return (email.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/) != null && email.length != 0);
 }
 
+function validateNameForRegister(name) {
+	
+	return (name.length >= 5 && name.length <= 60 && name.match(/@/) === null);
+}
+
+
 function checkPasswords(password, passwordRepeat) {
 	
 	return (password === passwordRepeat);
+}
+
+function readInputLogin() {
+	
+	var inputLogin = {
+		
+		"identifier" : $("#inputUsername").val(),
+		"password" : $("#inputPasswordLogin").val(),
+		"remember" : $("#remember").val()
+		
+	};
+	
+	console.log('inputLOGIN: ' + inputLogin.remember);
+	
+	return inputLogin;
 }

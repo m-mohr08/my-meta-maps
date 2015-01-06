@@ -10,9 +10,9 @@
 				<form id="form-register" onsubmit="return false">
 							
 					<div class="row form-group">
-						<label for="nameInput">Name</label>
-						<input class="form-control" name="nameInput" id="inputNameForRegister" type="text" data-bvStrict="reg:^.{5,}">
-						<div class="help-block error-message">Bitte füge Namen mit mid. 5 Zeichen hinzu</div>
+						<label for="nameInput">Benutzername</label>
+						<input class="form-control" name="nameInput" id="inputNameForRegister" type="text" data-bvStrict="nameForRegister:3:60">
+						<div class="help-block error-message">Bitte füge Namen mit mind. 5 und max. 60 Zeichen und ohne '@' hinzu</div>
 					</div>
 							
 					<div class="row form-group">

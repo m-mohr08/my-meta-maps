@@ -486,6 +486,9 @@ jQuery.bValidator
 .validation('reg', function(value, args) {
 	return (value.match(args[1]) != null);
 })
+.validation('nameForRegister', function(value, args) {
+	return (value.length >= args[1] && value.length <= args[2] && value.match(/@/) === null);
+})
 .validation('notEmpty', function(value) {
 	return (value.match(/^.+$/) != null);
 })
