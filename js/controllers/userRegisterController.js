@@ -11,9 +11,25 @@ function userRegisterController(model, inputRegister) {
 		},
 	
 		// In case of failed registration
-		error: function () {
+		error: function (data, response) {
 			
-			alert('The registration failed - try it later again');
+			console.log('Registration failed');
+			
+			if (typeof response.responseJSON.name !== 'undefined' && typeof response.responseJSON.email !== 'undefined') {
+				
+			}
+			
+			else if (typeof response.responseJSON.name !== 'undefined') {
+				
+				
+			}
+			
+			else if (typeof response.responseJSON.email !== 'undefined') {
+				
+				
+			}
+			
+			
 		}
 	});
 };
