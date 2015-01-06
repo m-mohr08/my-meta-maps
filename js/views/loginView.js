@@ -14,6 +14,22 @@ LoginView = Backbone.View.extend({
 			that.$el.html(template);
 		}, 'html');
 		
+	},
+	
+	events: {
+    	"click #loginBtn": "login"
+    },
+
+	/*
+	 * This function is called when anybody creates a comment
+	 */
+	register: function(event) {
+		
+		console.log('Try to register');
+				
+		// Creates details of a comment with typed in values
+		var inputLogin = readInputLogin();
+		
 	}
 });
 

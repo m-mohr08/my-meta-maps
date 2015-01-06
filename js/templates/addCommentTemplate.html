@@ -12,37 +12,38 @@
 				<form id="form-comment" onsubmit="return false">
 								
 					<div class="row form-group">
-						<label for="URLInput">URL*</label>
-						<input class="form-control" name="URLInput" id="inputURL" type="text" data-bvStrict="URL" data-bvSwitch="">
-						<div class="help-block error-message">Bitte füge eine (valide) URL eines Geodatensatzes hinzu</div>
+						<label for="url">URL*</label>
+						<input class="form-control" name="url" id="inputURL" type="text">
+						<div class="help-block error-message"></div>
 					</div>
 								
 					<div class="row form-group">
-						<label for="titleInput">Titel</label>
-						<input class="form-control" name="titleInput" id="inputTitle" type="text" data-bvStrict="true" data-bvTransform="noSpaces">
+						<label for="title">Titel</label>
+						<input class="form-control" name="title" id="inputTitle" type="text">
+						<div class="help-block error-message"></div>
 					</div>
 								
 					<div class="row form-group">
-						<label for="textInput">Freitext*</label>
-						<textarea class="form-control" rows="3" name="textInput" id="inputText" type="text" data-bvStrict="notEmpty" data-bvSwitch=""></textarea>
-						<div class="help-block error-message">Bitte füge einen Freitext hinzu</div>
+						<label for="text">Freitext*</label>
+						<textarea class="form-control" rows="3" name="text" id="inputText" type="text">
+						<div class="help-block error-message"></div>
 					</div>
 								
 					<div class="row form-group">
-						<label for="startDateInput">Zeitraum</label>
+						<label for="startDate">Zeitraum</label>
 							<div class="input-group">
-					            <input class="form-control" readonly name="startDateInput" id="inputStartDate" type="text" data-bvStrict="datesRelation:endDateInput" placeholder="Startzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-startComment">
+					            <input class="form-control" readonly name="startDate" id="inputStartDate" type="text"placeholder="Startzeitpunkt">
 								<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 					        </div>
-					        <span class="help-block error-message">Überprüfe bitte noch mal beide Daten</span>
+					        <span class="help-block error-message"></span>
 					</div>
 								
 					<div class="row form-group">
 						<div class="input-group">
-					    	<input class="form-control" readonly name="endDateInput" id="inputEndDate" type="text" data-bvStrict="date:dd/mm/yyyy|empty" placeholder="Endzeitpunkt" data-date-format="dd/mm/yyyy" datepicker data-trigger="#show-datepicker-endComment">
+					    	<input class="form-control" readonly name="endDate" id="inputEndDate" type="text"placeholder="Endzeitpunkt">
 							<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 					    </div>
-					    <span class="help-block error-message">Übeprüfe bitte noch mal dieses Datum</span>
+					    <span class="help-block error-message"></span>
 					</div>
 								
 					<div class="row form-group">
@@ -80,10 +81,6 @@
  <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
  <script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.min.js"></script>
  <script type="text/javascript" src="/js/plugins/barRating/rating-views.js"></script>
-			
-<!-- For formValidator-plugin -->
-<script type="text/javascript" src="/js/plugins/formValidator/bvalidator.jquery.js"></script>
-<script type="text/javascript" src="/js/plugins/formValidator/validator-views.js"></script>
 		
 <!-- For the datePicker-plugin -->
 <script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
