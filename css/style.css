@@ -10,3 +10,21 @@
 .commentScrollBox .list-group {
     margin-bottom: 0px;
 }
+
+.form-group .error-message {
+	display: none;
+}
+
+.form-group.invalid .error-message {
+	display: block;
+	color: #a94442;
+	font-size: 0.9em;
+}
+
+.form-group.invalid input, .form-group.invalid textarea, .form-group.invalid select {
+	border-color: #a94442;
+}
+
+.form-group.invalid label {
+	color: #a94442;
+}

@@ -211,8 +211,27 @@ class GeodataApiController extends BaseApiController {
 		return $this->getConflictResponse(array('url' => $error));
 	}
 	
-	public function postList($junk = '') {
-		
+	public function postList() {
+		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata');
+		$validator = Validator::make($input,
+			array(
+				'q' => '',
+				'bbox' => 'geometry:wkt,Polygon',
+				'radius' => 'integer|between:1,500',
+				'start' => 'date8601',
+				'end' => 'date8601',
+				'rating' => 'integer|between:1,5',
+				'metadata' => 'boolean'
+			)
+		);
+		$data = $validator->valid(); // TODO: Not all elements might be here, so we have to check that.
+		$data['start'] = !empty($data['start']) ? new Carbon($data['start']) : null;
+		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;
+		$data['metadata'] = ($data['metadata'] !== null) ? $data['metadata'] : false;
+
+		$geodata = Geodata::with('layers')->filter($data)->orderBy('title')->get();
+
+		return $this->getJsonResponse($this->buildMultipleGeodata($geodata->all()));
 	}
 	
 	public function postKeywords() {
@@ -231,7 +250,7 @@ class GeodataApiController extends BaseApiController {
 		
 	}
 	
-	public function getComments($id) {
+	public function postComments($id) {
 		
 	}
 	

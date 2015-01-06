@@ -48,6 +48,11 @@ class Geodata extends Eloquent {
 	public function layers() {
 		return $this->hasMany('Layer', 'geodata_id');
 	}
+	
+	public function scopeFilter($query, array $filter) {
+		//TODO: Filter
+		return $query;
+	}
 
 	public function getKeywords(){
 		return explode('|', $this->keywords);
