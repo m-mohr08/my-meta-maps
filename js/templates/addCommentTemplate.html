@@ -14,19 +14,19 @@
 					<div class="row form-group">
 						<label for="url">URL*</label>
 						<input class="form-control" name="url" id="inputURL" type="text">
-						<div class="help-block error-message"></div>
+						<div class="error-message"></div>
 					</div>
 								
 					<div class="row form-group">
 						<label for="title">Titel</label>
 						<input class="form-control" name="title" id="inputTitle" type="text">
-						<div class="help-block error-message"></div>
+						<div class="error-message"></div>
 					</div>
 								
 					<div class="row form-group">
 						<label for="text">Freitext*</label>
-						<textarea class="form-control" rows="3" name="text" id="inputText" type="text">
-						<div class="help-block error-message"></div>
+						<textarea class="form-control" rows="3" name="text" id="inputText"></textarea>
+						<div class="error-message"></div>
 					</div>
 								
 					<div class="row form-group">
@@ -35,7 +35,7 @@
 					            <input class="form-control" readonly name="startDate" id="inputStartDate" type="text"placeholder="Startzeitpunkt">
 								<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 					        </div>
-					        <span class="help-block error-message"></span>
+					        <span class="error-message"></span>
 					</div>
 								
 					<div class="row form-group">
@@ -43,7 +43,7 @@
 					    	<input class="form-control" readonly name="endDate" id="inputEndDate" type="text"placeholder="Endzeitpunkt">
 							<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 					    </div>
-					    <span class="help-block error-message"></span>
+					    <div class="error-message"></div>
 					</div>
 								
 					<div class="row form-group">
@@ -58,6 +58,7 @@
 								<option value="5">5</option>
 							</select>
 						</div>
+						<div class="error-message"></div>
 					</div>
 							
 					<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>

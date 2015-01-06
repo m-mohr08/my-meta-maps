@@ -7,13 +7,15 @@ function userRegisterController(model, inputRegister) {
 		
 		// In case of successfull registration
 		success: function () {
-			
+			FormErrorMessages.remove('#form-register');
 		},
 	
 		// In case of failed registration
 		error: function (data, response) {
 			
 			console.log('Registration failed');
+			
+			FormErrorMessages.apply('#form-register', response.responseJSON);
 			
 			if (typeof response.responseJSON.name !== 'undefined' && typeof response.responseJSON.email !== 'undefined') {
 				
