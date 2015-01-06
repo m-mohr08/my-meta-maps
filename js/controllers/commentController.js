@@ -8,17 +8,7 @@ function commentController(model, view) {
         success: function (data) {
             
         	var commentJSON = data.toJSON();
-			var commentList = [];
-			
-			if (typeof commentJSON.geodata !== 'undefined') {
-				
-				commentList = commentJSON.geodata;
-				
-			}
-			else if (typeof commentJSON.geodata_junk !== 'undefined') {
-				
-				commentList = commentJSON.geodata_junk;
-			}
+			var commentList = commentJSON.geodata;
 			
 			view.showComments(commentList);
 			
