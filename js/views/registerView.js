@@ -33,7 +33,6 @@ RegisterView = Backbone.View.extend({
 		var userRegister = new UserRegister();
 			
 		userRegisterController(userRegister, inputRegister);
-		}
 	}
 });
 
