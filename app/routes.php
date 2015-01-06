@@ -90,6 +90,9 @@ Route::group(array('prefix' => '/api/internal'), function() {
 		// Parse metadata
 		Route::post('/metadata', 'GeodataApiController@postMetadata');
 
+		// Get metadata formats
+		Route::get('/formats', 'GeodataApiController@getMetadataFormats');
+
 		// Get list of geodata
 		Route::post('/list/{junk?}', 'GeodataApiController@postList')->where('junk', '(|junk)');
 

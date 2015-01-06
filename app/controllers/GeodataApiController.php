@@ -1,9 +1,28 @@
 <?php
+/* 
+ * Copyright 2014/15 Matthias Mohr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 use \Carbon\Carbon;
 use \GeoMetadata\GmRegistry;
 use \GeoMetadata\GeoMetadata;
 
+/**
+ * This controller handles the internal API requests related to geodata/comment tasks, like adding and retrieving comments, parsing metadata, storing permalinks for searches etc.
+ * Request is always a GET or POST request with JSON based parameters. Reponse is always JSON based, too.
+ */
 class GeodataApiController extends BaseApiController {
 	
 	public function __construct() {
@@ -14,37 +33,43 @@ class GeodataApiController extends BaseApiController {
 		GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
 	}
 	
-	protected function buildGeodata(Geodata $geodata) {
-		$json = array(
-			'geodata' => array(
-				'id' => $geodata->id,
-				'url' => $geodata->url,
-				'metadata' => array(
-					'datatype' => $geodata->datatype,
-					'title' => $geodata->title,
-					'bbox' => $geodata->bbox,
-					'keywords' => $geodata->getKeywords(),
-					'creation' => self::toDate($geodata->creation),
-					'language' => $geodata->language,
-					'copyright' => $geodata->copyright,
-					'author' => $geodata->author,
-					'modified' => self::toDate($geodata->modified),
-					'abstract' => $geodata->abstract,
-					'license' => $geodata->license
-				),
-				'layer' => array()
-			)
-		);
-
-		$layers = $geodata->layers;
-		if (!is_object($layers)) {
-			$layers = array();
+	protected function buildSingleGeodata(Geodata $geodata) {
+		return array('geodata' => $this->buildGeodataEntry($geodata));
+	}
+	
+	protected function buildMultipleGeodata(array $list) {
+		$json = array('geodata' => array());
+		foreach ($list as $geodata) {
+			$json['geodata'][] = $this->buildGeodataEntry($geodata);
 		}
+		return $json;
+	}
+	
+	protected function buildGeodataEntry(Geodata $geodata) {
+		$json =  array(
+			'id' => $geodata->id,
+			'url' => $geodata->url,
+			'metadata' => array(
+				'datatype' => $geodata->datatype,
+				'title' => $geodata->title,
+				'bbox' => $geodata->bbox,
+				'keywords' => $geodata->getKeywords(),
+				'creation' => self::toDate($geodata->creation),
+				'language' => $geodata->language,
+				'copyright' => $geodata->copyright,
+				'author' => $geodata->author,
+				'modified' => self::toDate($geodata->modified),
+				'abstract' => $geodata->abstract,
+				'license' => $geodata->license
+			),
+			'layer' => array()
+		);
+		$layers = is_object($geodata->layers) ? $geodata->layers->all() : array();
 		if ($geodata instanceof GmGeodata) {
-			$layers = array_merge($layers->asArray(), $geodata->getLayers());
+			$layers = array_merge($layers, $geodata->getLayers());
 		}
 		foreach($layers as $layer) {
-			$json['geodata']['layer'][] = array(
+			$json['layer'][] = array(
 				'id' => $layer->name,
 				'title' => $layer->title,
 				'bbox' => $layer->bbox
@@ -54,15 +79,27 @@ class GeodataApiController extends BaseApiController {
 		return $json;
 	}
 	
-	protected function parseMetadata($url, $model = null) {
-		$geo = new GeoMetadata();
-		$geo->setURL($url);
-		$geo->setModel($model);
-		$parser = $geo->detect();
-		if ($parser != null) {
-			return $geo->parse($parser);
+	protected function parseMetadata($url, $code, $model = null) {
+		$geo = GeoMetadata::withUrl($url, $code);
+		if ($geo != null) {
+			$geo->setModel($model);
+			return $geo->parse();
 		}
 		return null;
+	}
+	
+	public function getMetadataFormats() {
+		$data = array();
+		$services = GmRegistry::getServices();
+		foreach($services as $service) {
+			$data[] = array(
+				'code' => $service->getCode(),
+				'name' => $service->getName()
+			);
+		}
+		return $this->getJsonResponse(array(
+			'formats' => $data
+		));
 	}
 	
 	public function postAdd() {
@@ -80,7 +117,7 @@ class GeodataApiController extends BaseApiController {
 				'geometry' => 'geometry',
 				'start' => 'date8601',
 				'end' => 'date8601',
-				'rating' => 'digits_between:1,5'
+				'rating' => 'integer|between:1,5'
 			)
 		);
 		
@@ -90,13 +127,11 @@ class GeodataApiController extends BaseApiController {
 		
 		if (empty($geodata)) {
 			// Add geodata from remote service
-			$geodata = $this->parseMetadata($data['url'], new GmGeodata());
+			$geodata = $this->parseMetadata($data['url'], $data['datatype'], new GmGeodata());
 			if ($geodata == null) {
 				return $this->getConflictResponse();
 			}
-			// Add geodata from user (overwrites parsed data if needed)
-			$geodata->url = $data['url'];
-			$geodata->datatype = $data['datatype'];
+			// Add geodata from user (user may override the title for new URLs)
 			$geodata->title = $data['title'];
 			if (!$geodata->save()) {
 				return $this->getConflictResponse();
@@ -123,7 +158,7 @@ class GeodataApiController extends BaseApiController {
 		$comment = new Comment();
 		$comment->geodata()->associate($geodata);
 		if (Auth::check()) {
-			$comment->user = Auth::user();
+			$comment->user()->associate(Auth::user());
 		}
 		if ($foundLayer !== null) {
 			$comment->layer()->associate($foundLayer);
@@ -137,34 +172,41 @@ class GeodataApiController extends BaseApiController {
 			return $this->getConflictResponse();
 		}
 		
-		return $this->getJsonResponse($this->buildGeodata($geodata));
+		return $this->getJsonResponse($this->buildSingleGeodata($geodata));
 	}
 	
 	public function postMetadata() {
-		$url = Input::get('url');
-		if (filter_var($url, FILTER_VALIDATE_URL)) {
-			// Try to get existing metadata for the URL
-			$geodata = Geodata::where('url', '=', $url)->first();
-			if ($geodata != null) {
-				$json = $this->buildGeodata($geodata);
-				$json['geodata']['id'] = $geodata->id;
-				$json['geodata']['isNew'] = false;
-				$json['geodata']['metadata']['datatype'] = array($json['geodata']['metadata']['datatype']);
+		$data = Input::only('url', 'datatype');
+		
+		$validator = Validator::make($data,
+			array(
+				'url' => 'required|url',
+				'datatype' => 'required|in:'.implode(',', GmRegistry::getServiceCodes())
+			)
+		);
+		if ($validator->fails()) {
+			return $this->getConflictResponse($validator->messages());
+		}
+		
+		// Try to get existing metadata for the URL
+		$geodata = Geodata::where('url', '=', $data['url'])->first();
+		if ($geodata != null) {
+			$json = $this->buildSingleGeodata($geodata);
+			$json['geodata']['id'] = $geodata->id;
+			$json['geodata']['isNew'] = false;
+			return $this->getJsonResponse($json);
+		}
+		else {
+			// No metadata found in DB, parse them from the URL
+			$metadata = $this->parseMetadata($data['url'], $data['datatype'], new GmGeodata());
+			if ($metadata != null) {
+				$json = $this->buildSingleGeodata($metadata);
+				$json['geodata']['id'] = 0;
+				$json['geodata']['isNew'] = true;
 				return $this->getJsonResponse($json);
 			}
-			else {
-				// No metadata found in DB, parse them from the URL
-				$metadata = $this->parseMetadata($url, new GmGeodata());
-				if ($metadata != null) {
-					$json = $this->buildGeodata($metadata);
-					$json['geodata']['id'] = 0;
-					$json['geodata']['isNew'] = true;
-					// TODO: Allow to return all suitable datatypes from the detection process in buildGeodata.
-					$json['geodata']['metadata']['datatype'] = array($json['geodata']['metadata']['datatype']);
-					return $this->getJsonResponse($json);
-				}
-			}
 		}
+
 		$error = Lang::get('validation.url', array('attribute' => 'URL'));
 		return $this->getConflictResponse(array('url' => $error));
 	}
@@ -174,7 +216,11 @@ class GeodataApiController extends BaseApiController {
 	}
 	
 	public function postKeywords() {
-		
+		$q = Input::get('q');
+		$metadata = Input::get('metadata');
+		if (strlen($q) >= 3) {
+			// TODO
+		}
 	}
 	
 	public function postSearchSave() {

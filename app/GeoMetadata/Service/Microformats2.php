@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,26 @@ namespace GeoMetadata\Service;
 use Mf2;
 
 class Microformats2 extends ParserParser {
+
+	/**
+	 * Takes the user specified URL and builds the metadata url of the service from it.
+	 * 
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
+	 */
+	public function getMetadataUrl($url) {
+		return $url;
+	}
+
+	/**
+	 * Takes the user specified URL and builds the service (or base) url from it.
+	 * 
+	 * @param string $url URL
+	 * @return string Base URL of the service
+	 */
+	public function getServiceUrl($url) {
+		return $url;
+	}
 	
 	/**
 	 * Returns the internal name of the parser.
@@ -39,10 +59,6 @@ class Microformats2 extends ParserParser {
 	 */
 	public function getName() {
 		return 'microformats2';
-	}
-
-	public function detectByUrl($url) {
-		return false;
 	}
 
 	protected function createParser($source) {

@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,111 +17,94 @@
 
 namespace GeoMetadata;
 
-use GeoMetadata\Service\Parser;
-
 class GeoMetadata {
-	
-	private $url;
-	private $data;
-	private $model;
-	private $net;
-	
-	public function __construct() {
-		$this->net = new GmNet();
+
+	protected $serviceUrl;
+	protected $metadataUrl;
+	protected $data;
+	protected $service;
+	protected $model;
+
+	protected function __construct() {
+		// Construction only with static methods withUrl() or withData().
 	}
 	
-	public function setURL($url) {
-		$this->url = $url;
+	public static function withUrl($url, $code) {
+		$instance = new self();
+		$instance->service = GmRegistry::getService($code);
+		if ($instance->service != null) {
+			$instance->serviceUrl = $instance->service->getServiceUrl($url);
+			$instance->metadataUrl = $instance->service->getMetadataUrl($url);
+			
+			$net = new GmNet();
+			$instance->data = $net->get($instance->metadataUrl);
+			if ($instance->data != null && $instance->service->verify($instance->data)) {
+				return $instance;
+			}
+		}
+		return null;
 	}
 	
+	public static function withData($data) {
+		$instance = new self();
+		$instance->data = $data;
+		if ($instance->detect()) {
+			return $instance;
+		}
+		return null;
+	}
+
 	public function getURL() {
-		return $this->url;
+		return $this->serviceUrl;
 	}
-	
-	public function setData($data) {
-		$this->data = $data;
+
+	public function getMetadataURL() {
+		return $this->metadataUrl;
 	}
 	
 	public function getData() {
 		return $this->data;
+	}
+
+	public function getService() {
+		return $this->service;
 	}
 	
 	public function setModel(\GeoMetadata\Model\Metadata $model = null) {
 		$this->model = $model;
 	}
 	
-	public function getModel($new = true) {
-		if ($new) {
-			if ($this->model == null) {
-				return new \GeoMetadata\Model\Generic\GmMetadata();
-			}
-			else {
-				return $this->model->createObject();
-			}
+	protected function createModel() {
+		if ($this->model == null) {
+			return new \GeoMetadata\Model\Generic\GmMetadata();
 		}
 		else {
-			return $this->model;
+			return $this->model->createObject();
 		}
 	}
 
-	public function detect($all = false) {
-		$services = GmRegistry::getServices();
-
-		// Quick check for URLs, works not for $all = true as not all parsers support it.
-		if ($all === false) {
+	protected function detect() {
+		if ($this->service == null) {
+			$services = GmRegistry::getServices();
 			foreach ($services as $service) {
-				if ($service->detectByUrl($this->url)) {
-					return $service;
+				if ($service->verify($this->data)) {
+					$this->service = $service;
+					return true;
 				}
 			}
 		}
-		
-		if (!$this->loadData()) {
-			return null;
-		}
-		
-		$detected = array();
-		foreach ($services as $service) {
-			if ($service->detect($this->data)) {
-				if ($all) {
-					$detected[] = $service;
-				}
-				else {
-					return $service;
-				}
-			}
-		}
-
-		return $detected;
+		return false;
 	}
-	
-	public function parse(Parser $parser) {
-		if ($parser == null || !$this->loadData()) {
-			return null;
-		}
 
-		$model = $this->getModel();
-		$model->setUrl($this->url);
-		$model->setServiceCode($parser->getCode());
-		if ($parser->parse($this->data, $model)) {
+	public function parse() {
+		$model = $this->createModel();
+		$model->setUrl($this->serviceUrl);
+		$model->setServiceCode($this->service->getCode());
+		if ($this->service->parse($this->data, $model)) {
 			return $model;
 		}
 		else {
 			return null;
-		}
-	}
-	
-	protected function loadData() {
-		if (empty($this->data) && !empty($this->url)) {
-			$net = new GmNet();
-			$this->data = $net->get($this->url);
-		}
-		
-		if (empty($this->data)) {
-			return false;
-		}
-		else {
-			return true;
 		}
 	}
 

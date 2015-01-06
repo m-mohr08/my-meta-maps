@@ -1,7 +1,31 @@
 <?php
+/* 
+ * Copyright 2014/15 Matthias Mohr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+/**
+ * This controller handles the internal API requests related to user tasks, like login, logout, passwort retrival, settings, etc.
+ * Request is always a GET or POST request with JSON based parameters. Reponse is always JSON based, too.
+ */
 class UserApiController extends BaseApiController {
-	
+
+	/**
+	 * Builds a array containing the session data of the user.
+	 *
+	 * @return array
+	 */
 	protected function getSessionResponse() {
 		return array(
 			'session' => array(
@@ -11,6 +35,12 @@ class UserApiController extends BaseApiController {
 		);
 	}
 
+	/**
+	 * Builds a response for successful login attempts. Contains user and session data.
+	 * Sent as HTTP 1.1 200 OK with data added as JSON.
+	 *
+	 * @return Response
+	 */
 	protected function getLoginResponse() {
 		$user = Auth::getUser();
 		
@@ -27,7 +57,14 @@ class UserApiController extends BaseApiController {
 		);
 		return $this->getJsonResponse($json);
 	}
-	
+
+	/**
+	 * Handle a POST request to authenticate (login) a user via the specified method.
+	 * 
+	 * Accepcted methods are 'mmm' (authentication via out own login system with email/name and password) and 'oauth'.
+	 *
+	 * @return Response
+	 */
 	public function postLogin($method) {
 		switch($method) {
 		case 'mmm':
@@ -55,17 +92,32 @@ class UserApiController extends BaseApiController {
 			return $this->getNotFoundResponse();
 		}
 	}
-	
+
+	/**
+	 * Handle a POST request to renew the session of a user which avoids the expiry.
+	 *
+	 * @return Response
+	 */	
 	public function getKeepalive() {
 		Session::migrate(true); // TODO: Check whether this is really the best solution.
 		return $this->getSessionResponse();
 	}
-	
+
+	/**
+	 * Handle a POST request to destroy the session of a user (logout).
+	 *
+	 * @return Response
+	 */
 	public function getLogout() {
 		Auth::logout();
 		return $this->getJsonResponse();
 	}
-	
+
+	/**
+	 * Handle a POST request to register a user as member.
+	 *
+	 * @return Response
+	 */
 	public function postRegister() {
 		$user = new User();
 
@@ -94,7 +146,17 @@ class UserApiController extends BaseApiController {
 			return $this->getErrorResponse();
 		}
 	}
-	
+
+	/**
+	 * Handle a POST request to change the settings of the logged in user.
+	 * 
+	 * Depending on the parameter you can change different things:
+	 * 'general': name, email, language
+	 * 'password': password (with password confirmation)
+	 *
+	 * @param string $what 'general' or 'password', depending on what you want to change.
+	 * @return Response
+	 */
 	public function postChange($what) {
 		if (Auth::guest()) {
 			return $this->getForbiddenResponse();
@@ -151,7 +213,13 @@ class UserApiController extends BaseApiController {
 			return $this->getConflictResponse();
 		}
 	}
-	
+
+	/**
+	 * Handle a POST request to check user data (email, name) for duplicity.
+	 *
+	 * @param string $what 'email' or 'name', depending on what you want to check.
+	 * @return Response
+	 */
 	public function postCheck($what) {
 		$rules = array();
 
@@ -175,19 +243,19 @@ class UserApiController extends BaseApiController {
 	}
 
 	/**
-	 * Handle a POST request to remind a user of their password.
+	 * Handle a POST request to remind a user of their password via email.
 	 *
 	 * @return Response
 	 */
 	public function postRemindRequest() {
-		// TODO: Change this laravel implementation to suit our needs and the CS-Protocol
 		switch ($response = Password::remind(Input::only('email')))
 		{
-			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
-
 			case Password::REMINDER_SENT:
-				return Redirect::back()->with('status', Lang::get($response));
+				return $this->getJsonResponse();
+			default: // which should be only the case Password::INVALID_USER
+				return $this->getConflictResponse(array(
+					'email' => Lang::get($response)
+				));
 		}
 	}
 
@@ -197,7 +265,6 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postRemindReset() {
-		// TODO: Change this laravel implementation to suit our needs and the CS-Protocol
 		$credentials = Input::only(
 			'email', 'password', 'password_confirmation', 'token'
 		);
@@ -205,19 +272,25 @@ class UserApiController extends BaseApiController {
 		$response = Password::reset($credentials, function($user, $password)
 		{
 			$user->password = Hash::make($password);
-
 			$user->save();
 		});
 
 		switch ($response)
 		{
 			case Password::INVALID_PASSWORD:
+				return $this->getConflictResponse(array(
+					'password' => Lang::get($response)
+				));
 			case Password::INVALID_TOKEN:
+				return $this->getConflictResponse(array(
+					'token' => Lang::get($response)
+				));
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
-
+				return $this->getConflictResponse(array(
+					'email' => Lang::get($response)
+				));
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
+				return $this->getJsonResponse();
 		}
 	}
 	
