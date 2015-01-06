@@ -28,3 +28,8 @@
 .form-group.invalid label {
 	color: #a94442;
 }
+
+.box-spacing {
+	margin-left: 30px;
+	margin-right: 30px;
+}
