@@ -58,11 +58,11 @@ interface Metadata {
 	public function getLicense();
 	public function setLicense($license);
 
-	public function getCreationTime();
-	public function setCreationTime(\DateTime $creation = null);
+	public function getBeginTime();
+	public function setBeginTime(\DateTime $begin = null);
 
-	public function getModifiedTime();
-	public function setModifiedTime(\DateTime $modified = null);
+	public function getEndTime();
+	public function setEndTime(\DateTime $end = null);
 
 	public function setData($key, $value);
 	public function getData($key);

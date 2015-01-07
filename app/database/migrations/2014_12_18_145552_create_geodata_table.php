@@ -42,8 +42,8 @@ class CreateGeodataTable extends Migration {
 			$table->text('author')->nullable();
 			$table->text('copyright')->nullable();
 			$table->text('license')->nullable();
-			$table->datetime('creation')->nullable();
-			$table->datetime('modified')->nullable();
+			$table->datetime('begin')->nullable();
+			$table->datetime('end')->nullable();
 			$table->string('language', 2)->nullable();
 		});
 		// PostGIS
