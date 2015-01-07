@@ -44,23 +44,66 @@ abstract class OgcWebServices extends ParserParser {
 	 * @return string URL giving the metadata for the service
 	 */
 	public function getMetadataUrl($url) {
-		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . $this->getCode();
-	}
-	
-	protected function parseServiceType($url) {
-		$query = parse_url($url, PHP_URL_QUERY);
-		$params = array();
-		parse_str($query, $params);
-		foreach($params as $key => $value) {
-			if (strtolower($key) == 'service') {
-				return strtolower($value);
-			}
-		}
-		return null;
+		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . strtoupper($this->getCode());
 	}
 
 	protected function createParser($source) {
 		return simplexml_load_string($source);
+	}
+
+	public function verify($source) {
+		return (parent::verify($source) && $this->findNamespace($this->getNamespaceUri()) !== null);
+	}
+
+	public abstract function getNamespaceUri();
+	
+	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
+		$model->setAuthor($this->parseAuthor());
+		$model->setCopyright($this->parseCopyright());
+		$model->setDescription($this->parseAbstract());
+		$model->setKeywords($this->parseKeywords());
+		$model->setLanguage($this->parseLanguage());
+		$model->setLicense($this->parseLicense());
+		$model->setBeginTime($this->parseBeginTime());
+		$model->setEndTime($this->parseEndTime());
+		$model->setTitle($this->parseTitle());
+		
+		$this->parseBoundingBox($model);
+		$this->parseLayer($model);
+
+		return true;
+	}
+	
+	protected abstract function parseAuthor();
+	protected abstract function parseCopyright();
+	protected abstract function parseBeginTime();
+	protected abstract function parseEndTime();
+	protected abstract function parseAbstract();
+	protected abstract function parseKeywords();
+	protected abstract function parseLanguage();
+	protected abstract function parseLicense();
+	protected abstract function parseTitle();
+	protected abstract function parseBoundingBox(\GeoMetadata\Model\Metadata &$model);
+	protected abstract function parseLayer(\GeoMetadata\Model\Metadata &$model);
+
+	protected function findNamespace($nsUri, $parent = null) {
+		if ($parent == null) {
+			$parent = $this->getParser();
+		}
+		if (!is_array($nsUri)) {
+			$nsUri = array($nsUri);
+		}
+		if ($parent !== null) {
+			$namespaces = $parent->getNamespaces();
+			foreach ($namespaces as $prefix => $docUri) {
+				foreach ($nsUri as $supportedUri) {
+					if (stripos($docUri, $supportedUri) !== false) {
+						return $prefix;
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	protected function buildQueryWithoutNs($path) {
@@ -101,29 +144,43 @@ abstract class OgcWebServices extends ParserParser {
 		}
 		return $data;
 	}
+
+	private function normalizeNsPrefix($ns, $node = null) {
+		// Convert namespace uri to namespace prefix ('://' seems to be a good indicator for a uri)
+		// If it's an array we assume that it is an array of namespace uris as multiple ns prefixes are senseless.
+		if (is_array($ns) || strpos($ns, '://') !== false) {
+			$ns = $this->findNamespace($ns, $node);
+		}
+		if ($ns === null) {
+			$ns = '';
+		}
+		return $ns;
+	}
 	
-	protected function getAttrsAsArray(&$node) {
+	protected function getAttrsAsArray(&$node, $ns = '') {
+		$ns = $this->normalizeNsPrefix($ns, $node);
 		// To avoid the "Node no longer exists" error we need to copy the elements to an separate array.
 		$data = array();
-		foreach ($node->attributes() as $key => $value) {
+		foreach ($node->attributes($ns, true) as $key => $value) {
 			$data[$key] = strval($value);
 		}
 		return $data;
 	}
 	
-	protected function selectHierarchyAsOne($path, $parent = null) {
+	protected function selectHierarchyAsOne($path, $ns = '', $parent = null) {
 		$node = $this->selectOne($path, $parent,  false);
+		$ns = $this->normalizeNsPrefix($ns, $node);
 		if ($node != null) {
-			return $this->nodeToText($node);
+			return $this->nodeToText($node, $ns);
 		}
 		else {
 			return null;
 		}
 	}
 	
-	private function nodeToText($node, $output = "", $level = 0) {
-		foreach ($node->children() as $key => $value) {
-			$children = $value->children();
+	private function nodeToText($node, $ns, $output = "", $level = 0) {
+		foreach ($node->children($ns, true) as $key => $value) {
+			$children = $value->children($ns, true);
 			$output .= str_repeat("\t", $level);
 			if (count($children) == 0) {
 				$value = trim((string) $value);
@@ -133,7 +190,7 @@ abstract class OgcWebServices extends ParserParser {
 			}
 			else {
 				$output .= $value->getName() . "\r\n";
-				$output = $this->nodeToText($value, $output, $level + 1);
+				$output = $this->nodeToText($value, $ns, $output, $level + 1);
 			}
 		}
 
