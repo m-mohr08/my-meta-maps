@@ -1,7 +1,14 @@
 /*
+ * Model for validate URL of a new comment which will be added
+ */
+CommentAddFirstStep = Backbone.Model.extend({
+	urlRoot: '/api/internal/geodata/metadata'	
+});
+
+/*
  * Model for adding comments
  */
-CommentAdd = Backbone.Model.extend({     
+CommentAddSecondStep = Backbone.Model.extend({     
 	urlRoot: '/api/internal/geodata/add'
 });
 
@@ -17,13 +24,6 @@ Comments = Backbone.Model.extend({
  */
 CommentsList = Backbone.Collection.extend({
 	model: Comments
-});
-
-/*
- * Model for validate URL of a new comment which will be added
- */
-CommentAddURL = Backbone.Model.extend({
-	urlRoot: '/api/internal/geodata/metadata'	
 });
 
 /*
