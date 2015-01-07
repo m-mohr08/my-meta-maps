@@ -30,7 +30,10 @@ abstract class ParserParser implements Parser {
 	}
 
 	public function verify($source) {
-		return ($this->createParser($source) !== null);
+		if ($this->parser == null) {
+			$this->parser = $this->createParser($source);
+		}
+		return ($this->parser !== null);
 	}
 	
 	/**
