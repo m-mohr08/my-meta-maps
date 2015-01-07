@@ -48,3 +48,11 @@
 	margin-left: 0px;	
 	margin-right: 0px;	
 }
+
+.label-filter {
+	color: grey;
+}
+
+.label-filter:hover	{
+  	color: #428bca;
+}
