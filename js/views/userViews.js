@@ -11,7 +11,7 @@ RegisterView = ModalView.extend({
 	register: function(event) {
 		console.log('Try to register');
 
-		// Creates details of a comment with typed in values
+		// Creates details of a registration with typed in values
 		var inputRegister = {
 			"name" : $("#inputNameForRegister").val(),
 			"email" : $("#inputMailForRegister").val(),
@@ -19,8 +19,7 @@ RegisterView = ModalView.extend({
 			"password_confirmation" : $("#inputPasswordRepeat").val()
 		};
 
-		var userRegister = new UserRegister();
-		userRegisterController(userRegister, inputRegister);
+		userRegisterController(new UserRegister(), inputRegister);
 	}
 });
 
@@ -34,20 +33,54 @@ LoginView = ModalView.extend({
     	"click #loginBtn": "login"
     },
 
-	register: function(event) {
+	login: function(event) {
 		console.log('Try to login');
-		// Creates details of a comment with typed in values
+		
+		// Creates details of a login with typed in values
 		var inputLogin = {
 			"identifier" : $("#inputUsername").val(),
 			"password" : $("#inputPasswordLogin").val(),
 			"remember" : $("#remember").val()
 		};
-		// TODO
+		
+		userLoginController(new UserLogin(), inputLogin);
 	}
 });
 
 ProfileView = ModalView.extend({
+	
 	getPageTemplate: function() {
 		return '/js/templates/userAccountTemplate.html';
+	},
+	
+	events: {
+		"click #changeGeneralDataBtn": "changeGeneral",
+		"click #changePasswordBtn": "changePassword"
+	},
+	
+	changeGeneral: function(event) {
+		console.log('Try to change general user data');
+		
+		// Creates details of a change of general user data with typed in values
+		var inputChangeGeneral = {
+			"name" : $("#inputChangeUsername").val(),
+			"email" : $("#inputChangeMail").val(),
+			"language" : $("#inputChangeLanguage").val()
+		};
+		
+		userChangeGeneralController(new UserChangeGeneral(), inputChangeGeneral);
+	},
+	
+	changePassword: function(event) {
+		console.log('Try to change password of user');
+		
+		// Creates details of a change of password of a user with typed in values
+		var inputChangePassword = {
+			"old_password" : $("#inputChangeOldPassword").val(),
+			"password" : $("#inputChangePassword").val(),
+			"password_confirmation" : $("#inputChangePasswordRepeat").val()
+		};
+		
+		userChangeGeneralController(new UserChangePassword(), inputChangePassword);
 	}
 });

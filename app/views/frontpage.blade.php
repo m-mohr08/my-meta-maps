@@ -143,12 +143,10 @@
 		<script type="text/javascript" src="/js/controllers/commentAddController.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentAddURLController.js"></script>
 		
-		<!-- Models for user -->
+		<!-- User-MVC -->
 		<script type="text/javascript" src="/js/models/userModel.js"></script>
 		<script type="text/javascript" src="/js/views/userViews.js"></script>
-		
-		<!-- View and controller for register -->
-		<script type="text/javascript" src="/js/controllers/userRegisterController.js"></script>
+		<script type="text/javascript" src="/js/controllers/userController.js"></script>
 		
 		<!-- Router -->
 		<script type="text/javascript" src="/js/router.js"></script>

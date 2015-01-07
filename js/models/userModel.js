@@ -18,3 +18,17 @@ UserLogin = Backbone.Model.extend({
 UserLoginOAuth = Backbone.Model.extend({     
 	urlRoot: '/api/internal/user/login/oauth'
 });
+
+/*
+ * Model for change general user data
+ */
+UserChangeGeneral = Backbone.Model.extend({     
+	urlRoot: '/api/internal/user/change/general'
+});
+
+/*
+ * Model for change password
+ */
+UserChangePassword= Backbone.Model.extend({     
+	urlRoot: '/api/internal/user/change/password'
+});
