@@ -28,7 +28,6 @@ class GeodataApiController extends BaseApiController {
 	public function __construct() {
 		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
 		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
-		// GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesCommon());
 		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
 		GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 

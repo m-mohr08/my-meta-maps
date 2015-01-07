@@ -93,7 +93,7 @@ class OgcWebMapService extends OgcWebServices {
 			$name = (string) $node->Name;
 			if (!empty($name)) {
 				$title = (string) $node->Title;
-				$layer = $model->createLayer($name, $title, null);
+				$layer = $model->createLayer($name, $title);
 				
 				if (is_object($node->LatLonBoundingBox)) {
 					$bbox = $this->getAttrsAsArray($node->LatLonBoundingBox);

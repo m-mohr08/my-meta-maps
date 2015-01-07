@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Service;
 
-class OgcWebServicesCommon extends OgcWebServices {
+abstract class OgcWebServicesCommon extends OgcWebServices {
 	
 	public function getName() {
 		return 'OGC OWS Common';
@@ -53,12 +53,6 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return $this->selectHierarchyAsOne(array('ServiceProvider'), $this->getOwsNamespaceUri());
 	}
 
-	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
-		// TODO
-//		$model->createBoundingBox($west, $north, $east, $south);
-//		$this->selectOne(array('DatasetDescriptionSummary', 'WGS84BoundingBox'));
-	}
-
 	protected function parseCopyright() {
 		return null; // Not supported
 	}
@@ -68,7 +62,7 @@ class OgcWebServicesCommon extends OgcWebServices {
 	}
 
 	protected function parseEndTime() {
-		return null;
+		return null; // Not supported
 	}
 
 	protected function parseKeywords() {
@@ -80,10 +74,6 @@ class OgcWebServicesCommon extends OgcWebServices {
 		// The format of this language tag is according to RFC 4646. We expect ISO 639-1, which is not always compatible.
 		// TODO: We need to implement a conversion for the language from RFC 4646 to ISO 639-1 and we might need to check where the language really is located.
 		return $this->selectOne(array('Language'));
-	}
-
-	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
-		// TODO
 	}
 
 	protected function parseLicense() {
@@ -98,6 +88,101 @@ class OgcWebServicesCommon extends OgcWebServices {
 
 	protected function parseTitle() {
 		return $this->selectOne(array('ServiceIdentification', 'Title'));
+	}
+
+	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
+		// There is no bounding box in the metadata for the complete dataset.
+		// We are calculation a bounding box by joining all bboxes of the layers.
+		$bbox = array();
+		$contents = $this->parseOwsContents();
+		foreach($contents as $content) {
+			if (empty($content['bbox'])) {
+				continue; // No bbox, go to next entry
+			}
+			if (!isset($bbox['west']) || $content['bbox']['west'] < $bbox['west']) { // Search minimum
+				$bbox['west'] = $content['bbox']['west'];
+			}
+			if (!isset($bbox['north']) || $content['bbox']['north'] > $bbox['north']) { // Search maximum
+				$bbox['north'] = $content['bbox']['north'];
+			}
+			if (!isset($bbox['east']) || $content['bbox']['east'] < $bbox['east']) { // Search minimum
+				$bbox['east'] = $content['bbox']['east'];
+			}
+			if (!isset($bbox['south']) || $content['bbox']['south'] > $bbox['south']) { // Search maximum
+				$bbox['south'] = $content['bbox']['south'];
+			}
+		}
+		if (count($bbox) == 4) {
+			$model->createBoundingBox($bbox['west'], $bbox['north'], $bbox['east'], $bbox['south']);
+		}
+	}
+
+	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
+		$contents = $this->parseOwsContents();
+		foreach($contents as $content) {
+			$layer = $model->createLayer($content['id'], $content['title']);
+			if (count($content['bbox']) == 4) {
+				$layer->createBoundingBox($content['bbox']['west'], $content['bbox']['north'], $content['bbox']['east'], $content['bbox']['south']);
+			}
+		}
+	}
+	
+	private function parseOwsContents() {
+		// Version 1.0.0 of OWS Common doesn't specify anything for the contents.
+		// This implementation parses for version 1.1.0 and ignores everything from version 1.0.0.
+		$data = array();
+
+		$nodes = $this->selectMany(array('Contents', 'DatasetSummary'), null, false);
+		if (empty($nodes)) {
+			// Can you tell me why some servers use DatasetDescriptionSummary instead of the DatasetSummary tag as specified by the OGC?
+			$nodes = $this->selectMany(array('Contents', 'DatasetDescriptionSummary'), null, false);
+		}
+		foreach($nodes as $node) {
+			$entry = array(
+				'id' => $this->selectOne(array('Identifier'), $node),
+				'title' => $this->selectOne(array('Title'), $node),
+				'bbox' => array()
+			);
+
+			$bbox = $this->parseOwsCoords(
+				$this->selectOne(array('WGS84BoundingBox', 'LowerCorner'), $node),
+				$this->selectOne(array('WGS84BoundingBox', 'UpperCorner'), $node)
+			);
+			if (count($bbox) == 4) {
+				$entry['bbox'] = $bbox;
+			}
+			
+			if (empty($entry['bbox'])) {
+				$crs = strtoupper($this->selectOne(array('BoundingBox', 'crs'), $node));
+				if ($crs == 'CRS:84' || $crs == 'EPSG:4326') {
+					$bbox = $this->parseOwsCoords(
+						$this->selectOne(array('BoundingBox', 'LowerCorner'), $node),
+						$this->selectOne(array('BoundingBox', 'UpperCorner'), $node)
+					);
+					if (count($bbox) == 4) {
+						$entry['bbox'] = $bbox;
+					}
+				}
+			}
+
+			$data[] = $entry;
+		}
+		return $data;
+	}
+		
+	private function parseOwsCoords($min, $max) {
+		$regex = '~(-?\d*\.?\d+)\s+(-?\d*\.?\d+)~';
+		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {
+			return array(
+				'west' => $minMatch[1], // minx
+				'north' => $maxMatch[1], // maxx
+				'east' => $minMatch[2], // miny
+				'south' => $maxMatch[2] // maxy
+			);
+		}
+		else {
+			return array();
+		}
 	}
 
 }
