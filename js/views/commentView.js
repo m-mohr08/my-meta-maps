@@ -74,10 +74,11 @@ CommentView = ContentView.extend({
 	}
 });
 
+
 /*
-* View for CommentAdd
+* View for CommentAdd - Step 1
 */
-CommentAddView = ContentView.extend({ 
+CommentAddViewStep1 = ModalView.extend({ 
 
 	getPageTemplate: function() {
 		return '/js/templates/addCommentTemplate.html';
@@ -96,14 +97,50 @@ CommentAddView = ContentView.extend({
 		// Creates details of a comment with typed in values
 		var details = {
 			"url" : $("#inputURL").val(),
+			"datatype" : $("#inputDataType").val()
+		};
+			
+		// Creates a new CommentAdd-Model
+		commentAddURLController(new CommentAddURL(), details);
+	}
+});
+
+/*
+* View for CommentAdd
+*/
+CommentAddViewStep2 = ContentView.extend({ 
+
+	metadata: null,
+
+	getPageTemplate: function() {
+		return '/js/templates/addCommentSecondStepTemplate.html';
+	},
+	
+	setMetadata: function(json) {
+		this.metadata = json;
+	},
+    
+    events: {
+    	"click #addCommentSecondBtn": "createComment"
+    },
+
+	/*
+	 * This function is called when anybody creates a comment
+	 */
+	createComment: function(event) {
+		console.log('Try to add comment');
+				
+		// Creates details of a comment with typed in values
+		var details = {
+			"url" : $("#inputURL").val(),
 			"text" : $("#inputText").val(),
 			"startDate": $("#inputStartDate").val(),
 			"endDate": $("#inputEndDate").val(),		
 			"rating": $("#ratingComment").val(),
 			"title" : $("#inputTitle").val()
 		};
-			
+
 		// Creates a new CommentAdd-Model
-		commentAddURLController(new CommentAddURL(), new CommentAdd(), details);
+		commentAddController(new CommentAdd(), details);
 	}
 });
