@@ -136,12 +136,10 @@
 		<!-- Basic Views -->
 		<script type="text/javascript" src="/js/views/ApplicationView.js"></script>
 		
-		<!-- Comment-MVC's -->
+		<!-- Comment-MVC -->
 		<script type="text/javascript" src="/js/models/commentModel.js"></script>
 		<script type="text/javascript" src="/js/views/commentView.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
-		<script type="text/javascript" src="/js/controllers/commentAddController.js"></script>
-		<script type="text/javascript" src="/js/controllers/commentAddURLController.js"></script>
 		
 		<!-- User-MVC -->
 		<script type="text/javascript" src="/js/models/userModel.js"></script>
