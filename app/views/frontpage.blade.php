@@ -74,6 +74,7 @@
 							<!-- End: Account navigation -->
 							<!-- Start: Help navigation -->
 							<form class="navbar-form navbar-right">
+								<a href="#/about" class="btn btn-primary"> Impressum&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
 								<a href="#/help" class="btn btn-danger" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></a>
 							</form>
 							<!-- End Help navigation -->
@@ -114,19 +115,6 @@
 
 		</section>
 		<!-- Section - ending -->
-
-		<br> <!-- Spacing to the footer/navbar on the bottom -->
-
-		<footer>
-			<nav class="navbar navbar-default" style="margin-bottom: 0px" role="navigation">
-				<ul class="nav navbar-nav navbar-right">
-					<form class="navbar-form navbar-right">
-						<a href="#/about" class="btn btn-primary"> Impressum&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
-					</form>
-				</ul>
-			</nav>
-		</footer>
-
 
 		<!-- Containers for modals; will shown if a certain button is clicked -->
 		<div id="modal">
