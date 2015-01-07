@@ -33,3 +33,26 @@
 	margin-left: 30px;
 	margin-right: 30px;
 }
+
+.labelComments {
+	font-size: 30px;
+}
+
+.dividing-line {
+	margin-top: -5px;
+ 	border-color: #428bca;
+    border-style: solid;
+}
+
+.form-group-marginSides {
+	margin-left: 0px;	
+	margin-right: 0px;	
+}
+
+.label-filter {
+	color: grey;
+}
+
+.label-filter:hover	{
+  	color: #428bca;
+}

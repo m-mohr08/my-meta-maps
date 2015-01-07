@@ -76,7 +76,7 @@ CommentView = ContentView.extend({
 
 
 /*
-* View for CommentAdd - Step 1
+* View for CommentAddFirstStep
 */
 CommentAddViewStep1 = ModalView.extend({ 
 
@@ -94,19 +94,19 @@ CommentAddViewStep1 = ModalView.extend({
 	createComment: function(event) {
 		console.log('Try to add comment');
 				
-		// Creates details of a comment with typed in values
+		// Creates primary details of a comment with typed in values
 		var details = {
 			"url" : $("#inputURL").val(),
 			"datatype" : $("#inputDataType").val()
 		};
 			
 		// Creates a new CommentAdd-Model
-		commentAddURLController(new CommentAddURL(), details);
+		commentAddFirstStepController(new CommentAddFirstStep(), details);
 	}
 });
 
 /*
-* View for CommentAdd
+* View for CommentAddSecondStep; will only shown after CommentAddViewStep1
 */
 CommentAddViewStep2 = ContentView.extend({ 
 
@@ -130,7 +130,7 @@ CommentAddViewStep2 = ContentView.extend({
 	createComment: function(event) {
 		console.log('Try to add comment');
 				
-		// Creates details of a comment with typed in values
+		// Creates further details of a comment with typed in values
 		var details = {
 			"url" : $("#inputURL").val(),
 			"text" : $("#inputText").val(),
@@ -141,6 +141,6 @@ CommentAddViewStep2 = ContentView.extend({
 		};
 
 		// Creates a new CommentAdd-Model
-		commentAddController(new CommentAdd(), details);
+		commentAddSecondStepController(new CommentAddSecondStep, details);
 	}
 });
