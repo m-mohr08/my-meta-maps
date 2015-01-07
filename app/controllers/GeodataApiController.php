@@ -54,11 +54,11 @@ class GeodataApiController extends BaseApiController {
 				'title' => $geodata->title,
 				'bbox' => $geodata->bbox,
 				'keywords' => $geodata->getKeywords(),
-				'creation' => self::toDate($geodata->creation),
+				'creation' => ($geodata->creation !== null) ? self::toDate($geodata->creation) : null,
 				'language' => $geodata->language,
 				'copyright' => $geodata->copyright,
 				'author' => $geodata->author,
-				'modified' => self::toDate($geodata->modified),
+				'modified' => ($geodata->modified !== null) ? self::toDate($geodata->modified) : null,
 				'abstract' => $geodata->abstract,
 				'license' => $geodata->license
 			),
