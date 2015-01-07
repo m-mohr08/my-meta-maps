@@ -1,54 +1,19 @@
-function createDetails() {
-	
-	var details = {
-		
-		"url" : $("#inputURL").val(),
-		"text" : $("#inputText").val(),
-		"startDate": $("#inputStartDate").val(),
-		"endDate": $("#inputEndDate").val(),		
-		"rating": $("#ratingComment").val(),
-		"title" : $("#inputTitle").val()
-		
-	};
-	
-	return details;
-}
+var FormErrorMessages = {
 
-function validateURL(url) {
+	errorClass: 'invalid',
 	
-	return (url.match(/http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/) != null && url.length != 0);
-}
-
-function validateDatesRelation (startDate, endDate) {
+	apply: function(form, json) {
+		this.remove(form);
+		var that = this;
+		$.each(json, function(field, message) {
+			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
+			elm.addClass(that.errorClass);
+			elm.find('.error-message').text(message);
+		});
+	},
 	
-	var dateStart = startDate.split("/");
-	var dateEnd = endDate.split("/");
-	
-	if(startDate === '' & endDate === '') {
-		return true;
+	remove: function(form) {
+		$(form).find("." + this.errorClass).removeClass(this.errorClass);
 	}
 	
-	else if(startDate === '' & endDate != '') {
-		return false;
-	}
-	
-	else if(startDate != '' & endDate === '') {
-		return false;
-	}
-	
-	else if(dateStart[2] > dateEnd[2]) {
-		return false;
-	}
-	
-	else if((dateStart[1] > dateEnd[1]) & (dateStart[2] === dateEnd[2])) {
-		return false;
-	}
-	
-	else if((dateStart[0] >= dateEnd[0]) & (dateStart[1] === dateEnd[1])) {
-		return false;
-	}
-	
-	else {
-		return true;
-	}
-}
+};

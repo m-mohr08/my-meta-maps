@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ namespace GeoMetadata\Service;
 
 class OgcWebMapService extends OgcWebServices {
 
-	public function detect($source) {
+	public function verify($source) {
 		// We don't parse the XML here as the regexp matching the root tags is much faster and we don't ask for validity anyway.
 		return preg_match('~<((?:WMS|WMT_MS)_Capabilities)(?:\s[^>]+)?>.+</\1>~is', $source);
 	}
@@ -64,7 +64,7 @@ class OgcWebMapService extends OgcWebServices {
 				$layer = $model->createLayer($name, $title, null);
 				
 				if (is_object($node->LatLonBoundingBox)) {
-					$bbox = $node->LatLonBoundingBox->attributes();
+					$bbox = $this->getAttrsAsArray($node->LatLonBoundingBox);
 					if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
 						$layer->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
 					}

@@ -1,54 +1,25 @@
 /*
-* Send a GET-request to the server
+* Send a POST-request to the server
 */
-function commentAddURLController(model, details) {
+function commentAddURLController(modelURL, details) {
 	
-	model.fetch({
+	modelURL.save(details, {
 		
-        success: function (model) {
-        	
+        success: function (data) {
         	console.log('Try to validate URL');
-            
-        	var isNew = model.get(geodata.isNew);
         	
-        	if(isNew === true) {
-        		
-        		console.log('This URL is new');
-        		
-        		if(details.title === '') {
-        			
-        			console.log('Title must not be empty for a new URL');
-        			alert('This is a new geodata - please enter a title');
-        		}
-        		
-        	}
+        	FormErrorMessages.remove('#form-comment');
         	
-        	else {
-        		
-        		console.log('This URL is not new');
-        		
-        		if(details.title != '') {
-        			
-        			console.log('Title can not specify by a user');
-        			
-        			alert('Your URL was added already - the title of your comment will be: ' + model.get(geodata.metadata.title));
-        		
-        			details.title = model.get(geodata.metadata.title);
-        		} 
-        		
-        		else {
-        			
-        			console.log('Title will be assinged automatically');
-     
-        			details.title = model.get(geodata.metadata.title);
-        		}
-        	}
-			
+        	$('#ModalAddComment').modal('hide');
+
+        	var view = new CommentAddViewStep2();
+			view.setMetadata(data.toJSON());
         },
         
         error: function() {
-        	
         	console.log('Can not validate URL');
+
+        	FormErrorMessages.apply('#form-comment');
 		}
    });
 };
