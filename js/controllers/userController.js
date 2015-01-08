@@ -22,7 +22,7 @@ function userRegisterController(model, inputRegister) {
 };
 
 /*
-* Send a POST-request to the server to login a user
+* Send a GET-request to the server to logout a user
 */
 function userLogoutController() {
 	var model = new UserLogout();
