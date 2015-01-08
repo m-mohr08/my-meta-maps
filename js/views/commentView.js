@@ -116,6 +116,10 @@ CommentAddViewStep2 = ContentView.extend({
 		return '/js/templates/addCommentSecondStepTemplate.html';
 	},
 	
+	onLoaded: function() {
+        $('#ratingComment').barrating({ showSelectedRating:false });
+	},
+	
 	setMetadata: function(json) {
 		this.metadata = json;
 	},

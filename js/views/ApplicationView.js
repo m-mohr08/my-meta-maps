@@ -66,6 +66,10 @@ MapView = ContentView.extend({
 			}),
 			view : view
 		});
+           	
+    	$('#spatialFilter').barrating('show', { showValues:true, showSelectedRating:false });
+        $('#ratingFilter').barrating({ showSelectedRating:false });
+		
 	},
 	
 	getPageTemplate: function() {
