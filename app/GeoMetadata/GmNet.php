@@ -25,7 +25,7 @@ class GmNet {
 	protected $proxyPort;
 	
 	public function __construct() {
-		$this->timeout = 5;
+		$this->timeout = 10;
 		$this->proxyHost = GmRegistry::get('gm.proxy.host');
 		$this->proxyPort = GmRegistry::get('gm.proxy.port');
 	}

@@ -137,20 +137,20 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		$this->license = $license;
 	}
 
-	public function getCreationTime(){
-		return $this->creation;
+	public function getBeginTime(){
+		return $this->begin;
 	}
 
-	public function setCreationTime(\DateTime $creation = null){
-		$this->creation = $creation !== null ? Carbon::instance($creation) : null;
+	public function setBeginTime(\DateTime $begin = null){
+		$this->begin = $begin !== null ? Carbon::instance($begin) : null;
 	}
 
-	public function getModifiedTime(){
-		return $this->modified;
+	public function getEndTime(){
+		return $this->end;
 	}
 
-	public function setModifiedTime(\DateTime $modified = null){
-		$this->modified = $modified !== null ? Carbon::instance($modified) : null;
+	public function setEndTime(\DateTime $end = null){
+		$this->end = $end !== null ? Carbon::instance($end) : null;
 	}
 	
 	public function setData($key, $value) {
