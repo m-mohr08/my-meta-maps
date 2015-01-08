@@ -59,19 +59,20 @@
 						<ul class="nav navbar-nav navbar-right">
 							<!-- Start: Add geodata/comment -->
 							<div class="navbar-form navbar-left">
-								<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">Kommentar erstellen&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
+								<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
 							</div>
 							<!-- End: Add geodata/comment -->
 							<!-- Start: Account navigation -->
 							<div class="navbar-form navbar-left">
 								<div id="" class="btn-group" role="group">
-									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;Gast</a>
-									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn">Anmelden&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
-									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">Registrieren&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;@lang('misc.guest')</a>
+									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn">@lang('misc.login')&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
+									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">@lang('misc.register')&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
 								</div>
 							</div>	
 							<!-- End: Account navigation -->
 							<!-- Start: Help navigation -->
+	
 							<div class="navbar-form navbar-right">
 								<a href="#/about" class="btn btn-primary">@lang('misc.imprint')&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
 								<a href="#/help" class="btn btn-danger" id="helpBtn">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a>
@@ -92,9 +93,9 @@
 			@if (empty($_COOKIE['message-user-help']))
 			<!-- Div for the alert for user-help - beginning -->
 			<div id="message-user-help" class="alert alert-warning alert-dismissible">
-				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-				<strong>Benutzerhilfe</strong>&nbsp;&nbsp;
-				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn">Hilfe&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen.
+				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('misc.close')</span></button>
+				<strong>@lang('misc.userinfo')</strong>&nbsp;&nbsp;
+				@lang('misc.'clicktop) <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button> @lang('misc.furtherInfo')
 			</div>
 			<!-- Div for the alert for user-help - ending -->
 			@endif

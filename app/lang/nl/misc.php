@@ -12,7 +12,15 @@ return array(
 	|
 	*/
 
-	'imprint' => 'Contact',
-	'help'  => 'Hulp',
-
+	//variables for frontpage.blade.php
+	'register' => 'Registrieren',
+	'addComment' => 'Kommentar hinzufügen',
+	'guest' => 'Gast',
+	'login' => 'Anmelden',
+	'imprint' => 'Impressum',
+	'help' => 'Hilfe',
+	'close' => 'Schließen',
+	'userinfo' => 'Benutzerhilfe',
+	'clicktop' => 'Klicke oben auf',
+	'furtherInfo' => 'für weitere Informationen.',
 );
