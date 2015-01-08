@@ -7,19 +7,16 @@ function userRegisterController(model, inputRegister) {
 		
 		// In case of successfull registration
 		success: function () {
-			
+			console.log('Registration succeded');
 			FormErrorMessages.remove('#form-register');
-			
-			// TODO
+        	$('#ModalRegister').modal('hide');
+			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun einloggen.');
 		},
 	
 		// In case of failed registration
 		error: function (data, response) {
-			
 			console.log('Registration failed');
-			
 			FormErrorMessages.apply('#form-register', response.responseJSON);
-			
 		}
 	});
 };
@@ -33,19 +30,17 @@ function userLoginController(model, inputLogin) {
 		
 		// In case of successfull login
 		success: function () {
-			
+			console.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
-			
-			// TODO
+        	$('#ModalLogin').modal('hide');
+			MessageBox.addSuccess('Sie haben sich erfolgreich eingeloggt.');
+			// TODO: Buttons im Header tauschen
 		},
 	
 		// In case of failed login
 		error: function (data, response) {
-			
 			console.log('Login failed');
-			
 			FormErrorMessages.apply('#form-login', response.responseJSON);
-			
 		}
 	});
 };

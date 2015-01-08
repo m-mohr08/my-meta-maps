@@ -9,7 +9,7 @@ RegisterView = ModalView.extend({
     },
 
 	register: function(event) {
-		console.log('Try to register');
+		console.log('Trying to register');
 
 		// Creates details of a registration with typed in values
 		var inputRegister = {
