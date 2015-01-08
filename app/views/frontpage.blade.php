@@ -67,11 +67,13 @@
 								<div id="" class="btn-group" role="group">
 									<div class="btn-group" role="group">
 										<a class="btn btn-default dropdown-toggle disabled" id="userAccountBtn" data-toggle="dropdown" aria-expanded="true">
-											<span class="glyphicon glyphicon-user"></span>&nbsp;<span id="userAccountName" data-id="{{{ Auth::id() }}}">{{{ Auth::user()->name }}}</span>&nbsp;<span class="caret"></span>
+											<span class="glyphicon glyphicon-user"></span>&nbsp;<span id="userAccountName" data-id="{{ Auth::id() }}">
+											@if(Auth::user()) {{{ Auth::user()->name }}} @endif
+											</span>&nbsp;<span class="caret"></span>
 										</a>
 										<ul class="dropdown-menu" role="menu" aria-labelledby="userAccountBtn">
 											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.profile();">Profil ändern</a></li>
-											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.profile();">Passwort ändern</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.password();">Passwort ändern</a></li>
 										</ul>
 									</div>
 									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">Registrieren&nbsp;<span class="glyphicon glyphicon-edit"></span></a>

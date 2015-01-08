@@ -23,12 +23,11 @@ var AuthUser = {
 	loggedIn: false,
 	
 	init: function() {
-		var user = $('#userAccountName');
-		var id = user.attr('data-id');
-		user.removeAttr('data-id');
-		if (id && id > 0) {
-			this.setUser(user.text());
-		}
+		var accountArea = $('#userAccountName');
+		var id = accountArea.attr('data-id');
+		accountArea.removeAttr('data-id');
+		var user = (id && id > 0) ? accountArea.text() : null;
+		this.setUser(user);
 	},
 
 	setUser: function(name) {

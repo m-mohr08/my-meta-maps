@@ -8,6 +8,7 @@ var Router = Backbone.Router.extend({
 		'auth': 'loginout',
 		'register': 'register',
 		'profile': 'profile',
+		'password': 'password',
 		'comments/add': 'addComment',
 		'comments/add2': 'addComment2',
 	},
@@ -43,6 +44,10 @@ var Router = Backbone.Router.extend({
 
 	profile: function () {
 		new ProfileView();
+	},
+
+	password: function () {
+		new PasswordView();
 	},
 
 	addComment: function () {
