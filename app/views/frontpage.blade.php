@@ -65,9 +65,19 @@
 							<!-- Start: Account navigation -->
 							<div class="navbar-form navbar-left">
 								<div id="" class="btn-group" role="group">
-									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;@lang('misc.guest')</a>
-									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn">@lang('misc.login')&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
+									<div class="btn-group" role="group">
+										<a class="btn btn-default dropdown-toggle disabled" id="userAccountBtn" data-toggle="dropdown" aria-expanded="true">
+											<span class="glyphicon glyphicon-user"></span>&nbsp;<span id="userAccountName" data-id="{{ Auth::id() }}">
+											@if(Auth::user()) {{{ Auth::user()->name }}} @endif
+											</span>&nbsp;<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="userAccountBtn">
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.profile();">Profil ändern</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.password();">Passwort ändern</a></li>
+										</ul>
+									</div>
 									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">@lang('misc.register')&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+									<a href="javascript:router.loginout();" class="btn btn-primary" id="loginBtn"><span id="logBtnText">@lang('misc.login')&nbsp;</span><span class="glyphicon glyphicon-log-in" id="loginBtnIcon"></span></a>
 								</div>
 							</div>	
 							<!-- End: Account navigation -->
