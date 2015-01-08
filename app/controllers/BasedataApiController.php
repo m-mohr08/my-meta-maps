@@ -35,13 +35,18 @@ class BasedataApiController extends BaseApiController {
 	}
 	
 	public function getLanguage($language) {
-		// $language is checked in routes file for being 2 letters
+		if (!Language::valid($language)) {
+			return $this->getNotFoundResponse();
+		}
 		$loader = Lang::getLoader();
 		$phrases = $loader->load($language, 'client');
 		if (empty($phrases)) {
 			return $this->getNotFoundResponse();
 		}
 		else {
+			// Set the current language to the one requested
+			Language::change($language);
+			// Return the language
 			$json = array(
 				'language' => $language,
 				'phrases' => $phrases

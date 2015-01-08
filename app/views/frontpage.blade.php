@@ -50,9 +50,9 @@
 						<!-- Start: Language Chooser -->
 						<ul class="nav navbar-nav navbar-left">
 							<div class="navbar-form btn-group" role="group">
-								<a href="#/en" class="btn btn-default active" role="button"><img src="/img/flags/en.png" alt="English"></a>
-								<a href="#/de" class="btn btn-default" role="button"><img src="/img/flags/de.png" alt="Deutsch"></a>
-								<a href="#/nl" class="btn btn-default" role="button"><img src="/img/flags/nl.png" alt="Nederlands"></a>
+								@foreach (Language::listing() as $code => $name)
+								<a href="#/{{ $code }}" class="btn btn-default @if(Language::is($code)) active @endif " role="button"><img src="/img/flags/{{ $code }}.png" alt="{{ $name }}"></a>
+								@endforeach
 							</div>
 						</ul>
 						<!-- End: Language Chooser -->
