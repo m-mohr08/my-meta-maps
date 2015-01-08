@@ -28,6 +28,8 @@ class GeodataApiController extends BaseApiController {
 	public function __construct() {
 		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
 		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
+		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
+		GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 
 		GmRegistry::setLogger(array('App', 'debug'));
 		GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
@@ -54,11 +56,11 @@ class GeodataApiController extends BaseApiController {
 				'title' => $geodata->title,
 				'bbox' => $geodata->bbox,
 				'keywords' => $geodata->getKeywords(),
-				'creation' => ($geodata->creation !== null) ? self::toDate($geodata->creation) : null,
 				'language' => $geodata->language,
 				'copyright' => $geodata->copyright,
 				'author' => $geodata->author,
-				'modified' => ($geodata->modified !== null) ? self::toDate($geodata->modified) : null,
+				'beginTime' => ($geodata->begin !== null) ? self::toDate($geodata->begin) : null,
+				'endTime' => ($geodata->end !== null) ? self::toDate($geodata->end) : null,
 				'abstract' => $geodata->abstract,
 				'license' => $geodata->license
 			),

@@ -32,8 +32,8 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 	protected $copyright;
 	protected $license;
 
-	protected $creationTime;
-	protected $modifiedTime;
+	protected $beginTime;
+	protected $endTime;
 	
 	protected $extra;
 	
@@ -160,20 +160,20 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->license = $license;
 	}
 
-	public function getCreationTime(){
-		return $this->creationTime;
+	public function getBeginTime(){
+		return $this->beginTime;
 	}
 
-	public function setCreationTime(\DateTime $creation = null){
-		$this->creationTime = $creation;
+	public function setBeginTime(\DateTime $begin = null){
+		$this->beginTime = $begin;
 	}
 
-	public function getModifiedTime(){
-		return $this->modifiedTime;
+	public function getEndTime(){
+		return $this->endTime;
 	}
 
-	public function setModifiedTime(\DateTime $modified = null){
-		$this->modifiedTime = $modified;
+	public function setEndTime(\DateTime $end = null){
+		$this->endTime = $end;
 	}
 	
 	public function setData($key, $value) {
