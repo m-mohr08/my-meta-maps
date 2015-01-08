@@ -12,4 +12,7 @@ return array(
 	|
 	*/
 
+	'imprint' => 'Impressum',
+	'help' => 'Hilfe',
+
 );

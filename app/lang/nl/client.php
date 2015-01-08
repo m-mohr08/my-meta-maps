@@ -12,7 +12,4 @@ return array(
 	|
 	*/
 
-	'imprint' => 'Contact',
-	'user_guide'  => 'Userhulp',
-
 );

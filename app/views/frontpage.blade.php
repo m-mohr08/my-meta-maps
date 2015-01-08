@@ -5,7 +5,7 @@
 
 		<title>My Meta Maps</title>
     
-	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>	
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -15,33 +15,34 @@
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/helpers.js"></script>
 
 		<!-- For the Map -->
 		<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
-		<link rel="stylesheet" href="/css/mapstyle.css" type="text/css">
 		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
 		
 		<!-- For the datePicker-plugin -->
-	    <link rel="stylesheet" href="/js/plugins/datePicker/datepicker.min.css" type="text/css"/>
+	    <link rel="stylesheet" href="/js/plugins/datePicker/datepicker.min.css" type="text/css">
 	    
 	    <!-- For barRating-plugin -->
-	    <link rel="stylesheet" href="/js/plugins/barRating/css/rating-plugin.css" type="text/css"/>
-	    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" type="text/css"/>
+	    <link rel="stylesheet" href="/js/plugins/barRating/css/rating-plugin.css" type="text/css">
+	    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" type="text/css">
 
 	</head>
 
 	<body>
 
 		<!-- Navbar - beginning -->
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<!-- Div/row for navbar-header - beginning -->
 			<div class="row clearfix">
 				<div class="col-md-12 column">
 					<!-- Start: Logo -->
 					<div class="navbar-header">
-						<a class="navbar-brand logo" href="#">
-							<img src="/img/logo.png" alt="My Meta Maps">
-						</a>
+						<a class="navbar-brand logo" href="#"><img src="/img/logo.png" alt="My Meta Maps"></a>
+						<button type="button" class="navbar-toggle glyphicon glyphicon-chevron-down"  data-toggle="collapse" data-target=".navbar-collapse">
+	                        <span class="sr-only">Toggle navigation</span>
+	                    </button>
 					</div>
 					<!-- End: Logo -->
 					<!-- Div/row for navbar-collapse - beginning -->
@@ -57,26 +58,24 @@
 						<!-- End: Language Chooser -->
 						<ul class="nav navbar-nav navbar-right">
 							<!-- Start: Add geodata/comment -->
-							<form class="navbar-form navbar-left">
-								<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn"> Kommentar erstellen &nbsp;
-									<span class="glyphicon glyphicon-plus-sign"></span>
-								</a>
-							</form>
+							<div class="navbar-form navbar-left">
+								<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">Kommentar erstellen&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
+							</div>
 							<!-- End: Add geodata/comment -->
 							<!-- Start: Account navigation -->
-							<form class="navbar-form navbar-left">
-								<div class="btn-group" role="group">
-									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp; Gast</a>
-									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn"> Anmelden&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
-									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn"> Registrieren&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+							<div class="navbar-form navbar-left">
+								<div id="" class="btn-group" role="group">
+									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;Gast</a>
+									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn">Anmelden&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
+									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">Registrieren&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
 								</div>
-							</form>	
+							</div>	
 							<!-- End: Account navigation -->
 							<!-- Start: Help navigation -->
-							<form class="navbar-form navbar-right">
-								<a href="#/about" class="btn btn-primary"> Impressum&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
-								<a href="#/help" class="btn btn-danger" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></a>
-							</form>
+							<div class="navbar-form navbar-right">
+								<a href="#/about" class="btn btn-primary">@lang('misc.imprint')&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
+								<a href="#/help" class="btn btn-danger" id="helpBtn">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a>
+							</div>
 							<!-- End Help navigation -->
 						</ul>
 					</div>	
@@ -84,51 +83,35 @@
 				</div>
 			</div>
 			<!-- Div/row for navbar-header - ending -->
-		</nav>
+		</div>
 		<!-- Navbar - ending -->
-
-		<!-- Spacing to the navbar -->
-		<div id="spacing" style="height: 70px;">&nbsp;</div>
-		
-		<div class="buttons">
-            <button class="blue-pill deactivated rating-enable" style="display: none;">enable</button>
-        </div>
 	
-		<!-- Header - beginning --> 
-		<header class="row clearfix box-spacing">
+		<!-- Messages box - beginning --> 
+		<div id="messages" class="row clearfix box-spacing">
 
+			@if (empty($_COOKIE['message-user-help']))
 			<!-- Div for the alert for user-help - beginning -->
-			<div class="alert alert-warning alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span>
-				</button>
-				<strong>Benutzerhilfe</strong> &nbsp; 
-				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn"><span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen
+			<div id="message-user-help" class="alert alert-warning alert-dismissible">
+				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
+				<strong>Benutzerhilfe</strong>&nbsp;&nbsp;
+				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn">Hilfe&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen.
 			</div>
 			<!-- Div for the alert for user-help - ending -->
+			@endif
 				
-		</header>
-		<!-- Header - ending -->
+		</div>
+		<!-- Messages box - ending -->
 
-		<!-- Section - beginning -->
-		<section id="content" class="row clearfix box-spacing">
-
-		</section>
-		<!-- Section - ending -->
+		<!-- Content area - beginning -->
+		<div id="content" class="row clearfix box-spacing"></div>
+		<!-- Content area - ending -->
 
 		<!-- Containers for modals; will shown if a certain button is clicked -->
-		<div id="modal">
-			
-		</div>
+		<div id="modal"></div>
 		<!--  Modals ending -->
 
-
 		<!-- Load at the end to load the site faster -->
-		
-		<!-- Load this first to have all functions before loading other scripts -->
-		<script type="text/javascript" src="/js/helpers.js"></script>
-		
-		<!-- Libaries (jQuery in head) -->
+		<!-- Libaries -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>	
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
