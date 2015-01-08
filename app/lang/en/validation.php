@@ -74,6 +74,8 @@ return array(
 	"timezone"             => "The :attribute must be a valid zone.",
 	"check_hash"			   => ":attribute is invalid.",
 	"check_language"        => "The chosen language is not supported.",
+	"geometry"				=> "The given geometric object is invalid.",
+	"date8601"				=> "The given date does not conform to ISO 8601.",
 
 	/*
 	|--------------------------------------------------------------------------

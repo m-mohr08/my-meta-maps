@@ -72,8 +72,10 @@ return array(
 	"unique"               => ":attribute muss einmalig sein oder wird bereits genutzt",
 	"url"                  => ":attribute ist keine gültige URL.",
 	"timezone"             => ":attribute muss eine gültige Zeitzone sein.",
-	"check_hash"			   => ":attribute ist nicht gültig.",
+	"check_hash"			=> ":attribute ist nicht gültig.",
 	"check_language"        => "Die gewählte Sprache wird nicht unterstützt.",
+	"geometry"				=> "Das gegebene geometrische Objekt ist ungültig.",
+	"date8601"				=> "Das gegebene Datum ist nach ISO 8601 nicht gültig.",
 
 	/*
 	|--------------------------------------------------------------------------

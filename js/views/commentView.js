@@ -1,11 +1,8 @@
-CommentView = Backbone.View.extend({
+CommentView = ContentView.extend({
 
 	initialize: function(){
-		
 		this.createCollection();
-
 		this.render();
-
 		var that = this;
 		$(document).ready(function() {
 			that.getComments(null, that);
@@ -20,6 +17,7 @@ CommentView = Backbone.View.extend({
 		}, this);
 
 		var that = this;
+		
 		$.get(this.getPageTemplate(), function(data){
 			template = _.template(data, {});
 			that.$el.html(template);
@@ -28,22 +26,21 @@ CommentView = Backbone.View.extend({
 	},
 
 	createCollection: function() {
-		console.log('Error: Called abstract method!');
+		this.collection = new CommentsWSList();
 	},
 
 	getPageTemplate: function() {
-		console.log('Error: Called abstract method!');
-		return null;
+		return '/js/templates/showCommentTemplate.html';
 	},
 
 	getBitTemplate: function() {
-		console.log('Error: Called abstract method!');
-		return null;
+		return '/js/templates/showCommentTemplate_bit.html';
 	},
 
 	createModel: function(value) {
-		console.log('Error: Called abstract method!');
-		return null;
+		
+		var model = new CommentsWithSpatial();
+		return model;
 	},
 	
 	getComments: function(event, that) {
@@ -77,47 +74,77 @@ CommentView = Backbone.View.extend({
 	}
 });
 
-CommentWithSpatialView = CommentView.extend({
 
-	createCollection: function() {
-		this.collection = new CommentsWSList();
-	},
+/*
+* View for CommentAddFirstStep
+*/
+CommentAddViewStep1 = ModalView.extend({ 
 
 	getPageTemplate: function() {
-		return 'templates/commentsWithSpatialTemplate.html';
+		return '/js/templates/addCommentTemplate.html';
 	},
+    
+    events: {
+    	"click #addCommentBtn": "createComment"
+    },
 
-	getBitTemplate: function() {
-		return 'templates/commentsWithSpatialTemplate_bit.html';
-	},
-
-	createModel: function(value) {
-		
-		var model = new CommentsWithSpatial();
-		return model;
+	/*
+	 * This function is called when anybody creates a comment
+	 */
+	createComment: function(event) {
+		console.log('Try to add comment');
+				
+		// Creates primary details of a comment with typed in values
+		var details = {
+			"url" : $("#inputURL").val(),
+			"datatype" : $("#inputDataType").val()
+		};
+			
+		// Creates a new CommentAdd-Model
+		commentAddFirstStepController(new CommentAddFirstStep(), details);
 	}
 });
 
-CommentNoSpatialView = CommentView.extend({
+/*
+* View for CommentAddSecondStep; will only shown after CommentAddViewStep1
+*/
+CommentAddViewStep2 = ContentView.extend({ 
 
-	createCollection: function() {
-		this.collection = new CommentsNSList();
-	},
+	metadata: null,
 
 	getPageTemplate: function() {
-		return 'templates/commentsNoSpatialTemplate.html';
+		return '/js/templates/addCommentSecondStepTemplate.html';
 	},
-
-	getBitTemplate: function() {
-		return 'templates/commentsNoSpatialTemplate_bit.html';
+	
+	onLoaded: function() {
+        $('#ratingComment').barrating({ showSelectedRating:false });
 	},
+	
+	setMetadata: function(json) {
+		this.metadata = json;
+	},
+    
+    events: {
+    	"click #addCommentSecondBtn": "createComment"
+    },
 
-	createModel: function(value) {
-		
-		var model = new CommentsNoSpatial();
-		return model;
+	/*
+	 * This function is called when anybody creates a comment
+	 */
+	createComment: function(event) {
+		console.log('Try to add comment');
+				
+		// Creates further details of a comment with typed in values
+		var details = {
+			"url" : $("#inputURL").val(),
+			"text" : $("#inputText").val(),
+			"startDate": $("#inputStartDate").val(),
+			"endDate": $("#inputEndDate").val(),		
+			"rating": $("#ratingComment").val(),
+			"title" : $("#inputTitle").val()
+		};
+
+		// Creates a new CommentAdd-Model
+		commentAddSecondStepController(new CommentAddSecondStep, details);
 	}
 });
-
-var CommentWithSpatialView = new CommentWithSpatialView({ el: $("#commentWithGeo") });
-var CommentNoSpatialView = new CommentNoSpatialView({ el: $("#commentWithOutGeo") });

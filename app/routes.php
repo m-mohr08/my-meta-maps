@@ -82,7 +82,7 @@ Route::group(array('prefix' => '/api/internal'), function() {
 	Route::group(array('prefix' => '/geodata'), function() {
 	
 		// Add geodata / comment
-		Route::get('/{id}/comments', 'GeodataApiController@getComments')->where('id', '\d+');
+		Route::post('/{id}/comments', 'GeodataApiController@postComments')->where('id', '\d+');
 		
 		// Add geodata / comment
 		Route::post('/add', 'GeodataApiController@postAdd');
@@ -90,8 +90,11 @@ Route::group(array('prefix' => '/api/internal'), function() {
 		// Parse metadata
 		Route::post('/metadata', 'GeodataApiController@postMetadata');
 
+		// Get metadata formats
+		Route::get('/formats', 'GeodataApiController@getMetadataFormats');
+
 		// Get list of geodata
-		Route::post('/list/{junk?}', 'GeodataApiController@postList')->where('junk', '(|junk)');
+		Route::post('/list', 'GeodataApiController@postList');
 
 		// Add geodata / comment
 		Route::post('/keywords', 'GeodataApiController@postKeywords');

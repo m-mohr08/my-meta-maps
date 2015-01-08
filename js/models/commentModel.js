@@ -1,46 +1,34 @@
 /*
-* Model for adding comments/geodata
-*/
-CommentAdd = Backbone.Model.extend({
-	
-	initialize: function(){
-          console.log("New CommentAdd-Model added");
-    },
-     
-	urlRoot: '/geodata/app'
+ * Model for validate URL of a new comment which will be added
+ */
+CommentAddFirstStep = Backbone.Model.extend({
+	urlRoot: '/api/internal/geodata/metadata'	
 });
 
 /*
-* Model for comments/geodata with spatial reference
-*/
-CommentsWithSpatial = Backbone.Model.extend({
-	urlRoot: '/geodata/list'
+ * Model for adding comments
+ */
+CommentAddSecondStep = Backbone.Model.extend({     
+	urlRoot: '/api/internal/geodata/add'
 });
 
 /*
-* Collection of CommentsWithSpatial-models
-*/
-CommentsWSList = Backbone.Collection.extend({
-	model: CommentsWithSpatial
+ * Model for comments
+ */
+Comments = Backbone.Model.extend({
+	urlRoot: '/api/internal/geodata/list'
 });
 
 /*
-* Model for comments/geodata without spatial reference
-*/
-CommentsNoSpatial = Backbone.Model.extend({
-	urlRoot: '/geodata/list/junk'
+ * Collection of Comments-models
+ */
+CommentsList = Backbone.Collection.extend({
+	model: Comments
 });
 
 /*
-* Collection of CommentsNo-models
-*/
-CommentsNSList = Backbone.Collection.extend({
-	model: CommentsNoSpatial
-});
-
-/*
-* Model for comments of a geodata
-*/
+ * Model for comments of a geodata
+ */
 CommentsOfGeodata = Backbone.Model.extend({
-	urlRoot: '/geodata/id/comments/'
+	urlRoot: '/api/internal/geodata/id/comments'
 });

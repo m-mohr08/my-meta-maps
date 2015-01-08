@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,11 +58,11 @@ interface Metadata {
 	public function getLicense();
 	public function setLicense($license);
 
-	public function getCreationTime();
-	public function setCreationTime(\DateTime $creation = null);
+	public function getBeginTime();
+	public function setBeginTime(\DateTime $begin = null);
 
-	public function getModifiedTime();
-	public function setModifiedTime(\DateTime $modified = null);
+	public function getEndTime();
+	public function setEndTime(\DateTime $end = null);
 
 	public function setData($key, $value);
 	public function getData($key);
