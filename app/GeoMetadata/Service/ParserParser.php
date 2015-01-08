@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,11 @@ abstract class ParserParser implements Parser {
 		return $this->parser;
 	}
 
-	public function detect($source) {
-		return ($this->createParser($source) !== null);
+	public function verify($source) {
+		if ($this->parser == null) {
+			$this->parser = $this->createParser($source);
+		}
+		return ($this->parser !== null);
 	}
 	
 	/**

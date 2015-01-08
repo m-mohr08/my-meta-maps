@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ class GmNet {
 	protected $proxyPort;
 	
 	public function __construct() {
-		$this->timeout = 5;
+		$this->timeout = 10;
 		$this->proxyHost = GmRegistry::get('gm.proxy.host');
 		$this->proxyPort = GmRegistry::get('gm.proxy.port');
 	}

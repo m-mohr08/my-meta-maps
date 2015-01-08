@@ -1,7 +1,25 @@
 <?php
+/* 
+ * Copyright 2014/15 Matthias Mohr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 use \Carbon\Carbon;
 
+/**
+ * Extends the geodata model with the ability to be used as model in GeoMatadata Parser.
+ */
 class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 
 	// Attributes for the interface - not stored in DB
@@ -119,20 +137,20 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		$this->license = $license;
 	}
 
-	public function getCreationTime(){
-		return $this->creation;
+	public function getBeginTime(){
+		return $this->begin;
 	}
 
-	public function setCreationTime(\DateTime $creation = null){
-		$this->creation = $creation !== null ? Carbon::instance($creation) : null;
+	public function setBeginTime(\DateTime $begin = null){
+		$this->begin = $begin !== null ? Carbon::instance($begin) : null;
 	}
 
-	public function getModifiedTime(){
-		return $this->modified;
+	public function getEndTime(){
+		return $this->end;
 	}
 
-	public function setModifiedTime(\DateTime $modified = null){
-		$this->modified = $modified !== null ? Carbon::instance($modified) : null;
+	public function setEndTime(\DateTime $end = null){
+		$this->end = $end !== null ? Carbon::instance($end) : null;
 	}
 	
 	public function setData($key, $value) {

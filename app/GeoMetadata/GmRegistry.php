@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2014 Matthias Mohr
+ * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ class GmRegistry {
 	}
 
 	public static function getService($type) {
-		if (isset(self::$services[$type])) {
+		if (is_string($type) && isset(self::$services[$type])) {
 			return self::$services[$type]->createObject();
 		}
 		else {

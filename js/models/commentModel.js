@@ -1,43 +1,29 @@
 /*
- * Model for adding comments/geodata
+ * Model for validate URL of a new comment which will be added
  */
-CommentAdd = Backbone.Model.extend({     
+CommentAddFirstStep = Backbone.Model.extend({
+	urlRoot: '/api/internal/geodata/metadata'	
+});
+
+/*
+ * Model for adding comments
+ */
+CommentAddSecondStep = Backbone.Model.extend({     
 	urlRoot: '/api/internal/geodata/add'
 });
 
 /*
- * Model for comments/geodata with spatial reference
+ * Model for comments
  */
-CommentsWithSpatial = Backbone.Model.extend({
+Comments = Backbone.Model.extend({
 	urlRoot: '/api/internal/geodata/list'
 });
 
 /*
- * Collection of CommentsWithSpatial-models
+ * Collection of Comments-models
  */
-CommentsWSList = Backbone.Collection.extend({
-	model: CommentsWithSpatial
-});
-
-/*
- * Model for comments/geodata without spatial reference
- */
-CommentsNoSpatial = Backbone.Model.extend({
-	urlRoot: '/api/internal/geodata/list/junk'
-});
-
-/*
- * Collection of CommentsNo-models
- */
-CommentsNSList = Backbone.Collection.extend({
-	model: CommentsNoSpatial
-});
-
-/*
- * Model for validate URL of a new comment which will be added
- */
-CommentAddURL = Backbone.Model.extend({
-	urlRoot: '/api/internal/geodata/metadata'	
+CommentsList = Backbone.Collection.extend({
+	model: Comments
 });
 
 /*
