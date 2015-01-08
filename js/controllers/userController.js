@@ -38,9 +38,14 @@ function userLoginController(model, inputLogin) {
 		},
 	
 		// In case of failed login
-		error: function (data, response) {
+		error: function () {
 			console.log('Login failed');
-			FormErrorMessages.apply('#form-login', response.responseJSON);
+			var msg = 'Die Anmeldedaten sind nicht korrekt.';
+			var errorMessages = {
+				identifier: msg,
+				password: msg
+			};
+			FormErrorMessages.apply('#form-login', errorMessages);
 		}
 	});
 };

@@ -38,9 +38,11 @@ LoginView = ModalView.extend({
 		
 		// Creates details of a login with typed in values
 		var inputLogin = {
-			"identifier" : $("#inputUsername").val(),
-			"password" : $("#inputPasswordLogin").val(),
-			"remember" : $("#remember").val()
+			credentials: {
+				identifier : $("#inputUsername").val(),
+				password : $("#inputPasswordLogin").val(),
+				remember : $("#remember").is(":checked")
+			}
 		};
 		
 		userLoginController(new UserLogin(), inputLogin);
