@@ -158,11 +158,13 @@ abstract class OgcWebServices extends ParserParser {
 	}
 	
 	protected function getAttrsAsArray(&$node, $ns = '') {
-		$ns = $this->normalizeNsPrefix($ns, $node);
-		// To avoid the "Node no longer exists" error we need to copy the elements to an separate array.
 		$data = array();
-		foreach ($node->attributes($ns, true) as $key => $value) {
-			$data[$key] = strval($value);
+		if (is_object($node)) {
+			$ns = $this->normalizeNsPrefix($ns, $node);
+			// To avoid the "Node no longer exists" error we need to copy the elements to an separate array.
+			foreach ($node->attributes($ns, true) as $key => $value) {
+				$data[$key] = strval($value);
+			}
 		}
 		return $data;
 	}
@@ -200,6 +202,11 @@ abstract class OgcWebServices extends ParserParser {
 		}
 
 		return $output;
+	}
+	
+	protected function isWgs84($crs) {
+		$crs = strtolower($crs);
+		return ($crs == 'http://www.opengis.net/def/crs/epsg/0/4326' || $crs == 'epsg:4326' || $crs == 'crs:84');
 	}
 
 }

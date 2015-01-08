@@ -94,7 +94,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		// There is no bounding box in the metadata for the complete dataset.
 		// We are calculation a bounding box by joining all bboxes of the layers.
 		$bbox = array();
-		$contents = $this->parseOwsContents();
+		$contents = $this->parseContents();
 		foreach($contents as $content) {
 			if (empty($content['bbox'])) {
 				continue; // No bbox, go to next entry
@@ -118,7 +118,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 
 	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
-		$contents = $this->parseOwsContents();
+		$contents = $this->parseContents();
 		foreach($contents as $content) {
 			$layer = $model->createLayer($content['id'], $content['title']);
 			if (count($content['bbox']) == 4) {
@@ -127,7 +127,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		}
 	}
 	
-	private function parseOwsContents() {
+	protected function parseContents() {
 		// Version 1.0.0 of OWS Common doesn't specify anything for the contents.
 		// This implementation parses for version 1.1.0 and ignores everything from version 1.0.0.
 		$data = array();
@@ -144,7 +144,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 				'bbox' => array()
 			);
 
-			$bbox = $this->parseOwsCoords(
+			$bbox = $this->parseCoords(
 				$this->selectOne(array('WGS84BoundingBox', 'LowerCorner'), $node),
 				$this->selectOne(array('WGS84BoundingBox', 'UpperCorner'), $node)
 			);
@@ -153,9 +153,9 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 			}
 			
 			if (empty($entry['bbox'])) {
-				$crs = strtoupper($this->selectOne(array('BoundingBox', 'crs'), $node));
-				if ($crs == 'CRS:84' || $crs == 'EPSG:4326') {
-					$bbox = $this->parseOwsCoords(
+				$crs = $this->selectOne(array('BoundingBox', 'crs'), $node);
+				if ($this->isWgs84($crs)) {
+					$bbox = $this->parseCoords(
 						$this->selectOne(array('BoundingBox', 'LowerCorner'), $node),
 						$this->selectOne(array('BoundingBox', 'UpperCorner'), $node)
 					);
@@ -170,7 +170,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		return $data;
 	}
 		
-	private function parseOwsCoords($min, $max) {
+	protected function parseCoords($min, $max) {
 		$regex = '~(-?\d*\.?\d+)\s+(-?\d*\.?\d+)~';
 		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {
 			return array(

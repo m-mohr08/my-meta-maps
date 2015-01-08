@@ -30,5 +30,42 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	public function getCode() {
 		return 'sos';
 	}
+	
+	protected function parseContents() {
+		$data = array();
+
+		$nodes = $this->selectMany(array('Contents', 'ObservationOfferingList', 'ObservationOffering'), null, false);
+		foreach($nodes as $node) {
+			$gmlNsPrefix = 'gml';
+
+			$attributes = $this->getAttrsAsArray($node, $gmlNsPrefix);
+			$ooNode = $node->children($gmlNsPrefix, true);
+			
+			$entry = array(
+				'id' => empty($attributes['id']) ? null : $attributes['id'],
+				'title' => empty($ooNode->description) ? null : strval($ooNode->description),
+				'bbox' => array()
+			);
+
+			if (!empty($ooNode->boundedBy)) {
+				$bbNode = $ooNode->boundedBy->children($gmlNsPrefix, true);
+				if (!empty($bbNode->Envelope)) {
+					$envelopeAttrs = $this->getAttrsAsArray($bbNode->Envelope); // Seems we don't need a ns prefix here
+					if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
+						$envNode = $bbNode->Envelope->children($gmlNsPrefix, true);
+						if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
+							$bbox = $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
+							if (count($bbox) == 4) {
+								$entry['bbox'] = $bbox;
+							}
+						}
+					}
+				}
+			}
+
+			$data[] = $entry;
+		}
+		return $data;
+	}
 
 }

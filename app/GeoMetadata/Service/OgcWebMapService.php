@@ -54,8 +54,8 @@ class OgcWebMapService extends OgcWebServices {
 			}
 		}
 		if ($model->getBoundingBox() == null) {
-			$crs = strtoupper($this->selectOne(array('Capability', 'Layer', 'CRS')));
-			if ($crs == 'CRS:84' || $crs == 'EPSG:4326') {
+			$crs = $this->selectOne(array('Capability', 'Layer', 'CRS'));
+			if ($this->isWgs84($crs)) {
 				$west = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'westBoundLongitude'));
 				$east = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'eastBoundLongitude'));
 				$north = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'northBoundLongitude'));
@@ -102,10 +102,10 @@ class OgcWebMapService extends OgcWebServices {
 					}
 				}
 				else {
-					$parentCrs = strtoupper($this->selectOne(array('Capability', 'Layer', 'CRS')));
+					$parentCrs = $this->selectOne(array('Capability', 'Layer', 'CRS'));
 					// TODO: Check whether this works with $node specified as parent...
-					$layerCrs = strtoupper($this->selectOne(array('CRS'), $node));
-					if ($parentCrs == 'CRS:84' || $parentCrs == 'EPSG:4326' || $layerCrs == 'CRS:84' || $layerCrs == 'EPSG:4326') {
+					$layerCrs = $this->selectOne(array('CRS'), $node);
+					if ($this->isWgs84($parentCrs) || $this->isWgs84($layerCrs)) {
 						$west = $this->selectOne(array('EX_GeographicBoundingBox', 'westBoundLongitude'), $node);
 						$east = $this->selectOne(array('EX_GeographicBoundingBox', 'eastBoundLongitude'), $node);
 						$north = $this->selectOne(array('EX_GeographicBoundingBox', 'northBoundLongitude'), $node);
