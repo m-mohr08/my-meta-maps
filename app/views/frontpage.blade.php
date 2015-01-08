@@ -40,6 +40,9 @@
 					<!-- Start: Logo -->
 					<div class="navbar-header">
 						<a class="navbar-brand logo" href="#"><img src="/img/logo.png" alt="My Meta Maps"></a>
+						<button type="button" class="navbar-toggle glyphicon glyphicon-chevron-down"  data-toggle="collapse" data-target=".navbar-collapse">
+	                        <span class="sr-only">Toggle navigation</span>
+	                    </button>
 					</div>
 					<!-- End: Logo -->
 					<!-- Div/row for navbar-collapse - beginning -->
@@ -47,8 +50,8 @@
 						<!-- Start: Language Chooser -->
 						<ul class="nav navbar-nav navbar-left">
 							<div class="navbar-form btn-group" role="group">
-								<a href="#/de" class="btn btn-default active" role="button"><img src="/img/flags/en.png" alt="English"></a>
-								<a href="#/en" class="btn btn-default" role="button"><img src="/img/flags/de.png" alt="Deutsch"></a>
+								<a href="#/en" class="btn btn-default active" role="button"><img src="/img/flags/en.png" alt="English"></a>
+								<a href="#/de" class="btn btn-default" role="button"><img src="/img/flags/de.png" alt="Deutsch"></a>
 								<a href="#/nl" class="btn btn-default" role="button"><img src="/img/flags/nl.png" alt="Nederlands"></a>
 							</div>
 						</ul>
