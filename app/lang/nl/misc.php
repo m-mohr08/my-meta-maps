@@ -23,4 +23,7 @@ return array(
 	'userinfo' => 'Benutzerhilfe',
 	'clicktop' => 'Klicke oben auf',
 	'furtherInfo' => 'für weitere Informationen.',
+
+	//variables for \app\views\pages\help.blade.php
+	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',
 );

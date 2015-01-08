@@ -24,4 +24,7 @@ return array(
 	'clicktop' => 'Click on',
 	'furtherInfo' => 'for further information.',
 
+	//variables for \app\views\pages\help.blade.php
+	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',
+
 );
