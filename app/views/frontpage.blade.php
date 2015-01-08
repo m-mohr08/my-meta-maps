@@ -65,9 +65,9 @@
 							<!-- Start: Account navigation -->
 							<div class="navbar-form navbar-left">
 								<div id="" class="btn-group" role="group">
-									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;Gast</a>
-									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn">Anmelden&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
+									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;<span id="userAccountName">Gast</span></a>
 									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">Registrieren&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+									<a href="javascript:router.loginout();" class="btn btn-primary" id="loginBtn"><span id="logBtnText">Anmelden</span>&nbsp;<span class="glyphicon glyphicon-log-in" id="loginBtnIcon"></span></a>
 								</div>
 							</div>	
 							<!-- End: Account navigation -->

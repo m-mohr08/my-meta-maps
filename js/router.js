@@ -5,7 +5,7 @@ var Router = Backbone.Router.extend({
 		'about': 'about',
 		'help': 'help',
 		'map': 'map',
-		'login': 'login',
+		'auth': 'loginout',
 		'register': 'register',
 		'profile': 'profile',
 		'comments/add': 'addComment',
@@ -28,8 +28,13 @@ var Router = Backbone.Router.extend({
 		new MapView();
 	},
 
-	login: function () {
-		new LoginView();
+	loginout: function () {
+		if (AuthUser.loggedIn) {
+			userLogoutController();
+		}
+		else {
+			new LoginView();
+		}
 	},
 
 	register: function () {

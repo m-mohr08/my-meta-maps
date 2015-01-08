@@ -18,6 +18,38 @@ var FormErrorMessages = {
 	
 };
 
+var AuthUser = {
+	
+	loggedIn: false,
+
+	setUser: function(name) {
+		this.loggedIn = (name && name.length > 0);
+
+		// Modify register button
+		$('#registerBtn').css('display', this.loggedIn ? 'none' : 'block');
+
+		// Modify account button
+		var accountBtn = $('#userAccountBtn');
+		accountBtn.removeClass('disabled');
+		if (!this.loggedIn) {
+			accountBtn.addClass('disabled');
+		}
+		$('#userAccountName').text(this.loggedIn ? name : 'Gast');
+		
+		// Modify login account
+		var loginIcon = $('#loginBtnIcon');
+		loginIcon.removeClass('glyphicon-log-in');
+		loginIcon.removeClass('glyphicon-log-out');
+		loginIcon.addClass(this.loggedIn ? 'glyphicon-log-out' : 'glyphicon-log-in');
+		$('#logBtnText').text(this.loggedIn ? 'Abmelden' : 'Anmelden');
+		var loginBtn = $('#loginBtn');
+		loginBtn.removeClass('btn-danger');
+		loginBtn.removeClass('btn-primary');
+		loginBtn.addClass(this.loggedIn ? 'btn-danger' : 'btn-primary');
+	}
+	
+};
+
 var MessageBox = {
 
 	dismissPermanently: function(name) {
