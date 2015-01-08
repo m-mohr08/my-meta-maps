@@ -36,22 +36,16 @@ class BasedataApiController extends BaseApiController {
 	
 	public function getLanguage($language) {
 		if (!Language::valid($language)) {
-			return $this->getNotFoundResponse();
+			return Response::make('', 404);
 		}
 		$loader = Lang::getLoader();
 		$phrases = $loader->load($language, 'client');
 		if (empty($phrases)) {
-			return $this->getNotFoundResponse();
+			return Response::make('', 404);
 		}
 		else {
-			// Set the current language to the one requested
-			Language::change($language);
-			// Return the language
-			$json = array(
-				'language' => $language,
-				'phrases' => $phrases
-			);
-			return $this->getJsonResponse($json);
+			$js = 'var phrases = ' . json_encode($phrases);
+			return Response::make($js);
 		}
 	}
 	

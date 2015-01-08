@@ -61,6 +61,7 @@ class Language {
 		else {
 			Session::put('language', strtolower($language));
 		}
+		App::setLocale($language);
 		return true;
 	}
 	

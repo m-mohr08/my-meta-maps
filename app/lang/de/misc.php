@@ -19,7 +19,6 @@ return array(
 	'login' => 'Anmelden',
 	'imprint' => 'Impressum',
 	'help' => 'Hilfe',
-	'close' => 'Schließen',
 	'userinfo' => 'Benutzerhilfe',
 	'clicktop' => 'Klicke oben auf',
 	'furtherInfo' => 'für weitere Informationen.',

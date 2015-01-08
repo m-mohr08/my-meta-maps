@@ -1,20 +1,14 @@
 var Router = Backbone.Router.extend({
 	routes: {
 		'': 'map',
-		'language/:code': 'language',
 		'about': 'about',
 		'help': 'help',
-		'map': 'map',
 		'auth': 'loginout',
 		'register': 'register',
 		'profile': 'profile',
 		'password': 'password',
 		'comments/add': 'addComment',
 		'comments/add2': 'addComment2',
-	},
-
-	language: function (code) {
-		// TODO
 	},
 
 	about: function () {
