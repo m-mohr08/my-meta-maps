@@ -21,6 +21,15 @@ var FormErrorMessages = {
 var AuthUser = {
 	
 	loggedIn: false,
+	
+	init: function() {
+		var user = $('#userAccountName');
+		var id = user.attr('data-id');
+		user.removeAttr('data-id');
+		if (id && id > 0) {
+			this.setUser(user.text());
+		}
+	},
 
 	setUser: function(name) {
 		this.loggedIn = (name && name.length > 0);
@@ -89,3 +98,8 @@ var MessageBox = {
 	}
 	
 };
+
+// Onload initialisation
+$(document).ready(function() {
+	AuthUser.init();
+});
