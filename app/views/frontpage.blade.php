@@ -73,8 +73,8 @@
 							<!-- End: Account navigation -->
 							<!-- Start: Help navigation -->
 							<div class="navbar-form navbar-right">
-								<a href="#/about" class="btn btn-primary">Impressum&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
-								<a href="#/help" class="btn btn-danger" id="helpBtn">Hilfe&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a>
+								<a href="#/about" class="btn btn-primary">@lang('misc.imprint')&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
+								<a href="#/help" class="btn btn-danger" id="helpBtn">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a>
 							</div>
 							<!-- End Help navigation -->
 						</ul>
