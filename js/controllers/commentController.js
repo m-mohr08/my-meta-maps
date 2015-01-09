@@ -6,16 +6,10 @@ function commentsShowController(model) {
 	model.save(null, {
 		
         success: function (data, response) {
-        	console.log('Successfull getting of comments');
-			
 			var commentShowView = new CommentShowView(response);
-			
-			console.log('Response: ' + response);
         },
         
         error: function() {
-        	console.log('Failed getting of comments');
-        	
 			MessageBox.addError('Die Kommentare konnten nicht angezeigt werden.');
 		}
    });

@@ -8,7 +8,6 @@ CommentShowView = ContentView.extend({
 	},
 
 	getPageContent: function() {
-		console.log('Options.geodata: ' + this.options.geodata);
 		return this.options.geodata; 
 	},
 
