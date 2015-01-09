@@ -1,12 +1,13 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentsShowController(model) {
+function commentsShowController(model, mapview) {
 	
 	model.save(null, {
 		
         success: function (data, response) {
 			var commentShowView = new CommentShowView(response);
+			mapview.addGeodataToMap(reponse);
         },
         
         error: function() {
