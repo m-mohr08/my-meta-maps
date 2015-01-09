@@ -9,7 +9,7 @@
 						
 			<div class="modal-body">
 											
-				<form id="form-comment" onsubmit="return false">
+				<form id="form-comment-firstStep" onsubmit="return false">
 								
 					<div class="row form-group form-group-marginSides">
 						<label for="url">URL*</label>

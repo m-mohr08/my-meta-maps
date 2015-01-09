@@ -3,7 +3,19 @@
 */
 function commentsShowController(model) {
 	
-	model.save(null, {
+	var details = {
+			"q" : $("#SearchTerms").val(),
+			"bbox" : getBoundingBox,
+			"radius" : $("#spatialFilter").val(),
+			"startDate": $("#filterStartTime").val(),
+			"endDate": $("#filterEndTime").val(),		
+			"minrating": $("#ratingFilter").val(),
+			"metadata" : $('#includeMetadata').is(':checked')
+		};
+		
+		console.log('Rating: ' + details.minrating);
+	
+	model.save(details, {
 		
         success: function (data, response) {
 			var commentShowView = new CommentShowView(response);
@@ -15,6 +27,11 @@ function commentsShowController(model) {
    });
 };
 
+function getBoundingBox () {
+	
+	return null;
+}
+
 /*
 * Send a POST-request to the server
 */
@@ -25,7 +42,7 @@ function commentAddFirstStepController(model, details) {
         success: function (data) {
         	console.log('Try to validate URL');
         	
-        	FormErrorMessages.remove('#form-comment');
+        	FormErrorMessages.remove('#form-comment-firstStep');
         	
         	$('#ModalAddComment').modal('hide');
 
@@ -33,10 +50,10 @@ function commentAddFirstStepController(model, details) {
 			view.setMetadata(data.toJSON());
         },
         
-        error: function() {
+        error: function(data, response) {
         	console.log('Can not validate URL');
 
-        	FormErrorMessages.apply('#form-comment');
+        	FormErrorMessages.apply('#form-comment-firstStep', response.responseJSON);
 		}
    });
 };
@@ -52,14 +69,17 @@ function commentAddSecondStepController(model, details) {
 		success: function () {
 			
 			console.log('Details of added comment are: ' + JSON.stringify(details));
-			
 			console.log("Adding comment was successfull");
+			
+			FormErrorMessages.remove('#form-comment-secondStep');
 		},
 	
 		// In case of failed adding of comment
-		error: function () {
+		error: function (data, response) {
 			
 			console.log("Adding comment failed");
+			
+			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
 		}
 	});
 };
