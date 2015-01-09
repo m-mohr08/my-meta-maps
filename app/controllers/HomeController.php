@@ -20,24 +20,27 @@
  */
 class HomeController extends BaseController {
 
-	public function showFrontpage()
+	public function getFrontpage($language = null)
 	{
+		if (Language::valid($language) && !Language::is($language)) {
+			Language::change($language);
+		}
 		return View::make('frontpage');
 	}
 	
-	public function showSearch($hash)
+	public function getSearch($hash)
 	{
-		return View::make('frontpage');
+		return Response::make($content, 404);
 	}
 	
-	public function showGeodata($geodata)
+	public function getGeodata($geodata)
 	{
-		return View::make('frontpage');
+		return Response::make($content, 404);
 	}
 	
-	public function showComment($geodata, $comment)
+	public function getComment($geodata, $comment)
 	{
-		return View::make('frontpage');
+		return Response::make($content, 404);
 	}
 
 }

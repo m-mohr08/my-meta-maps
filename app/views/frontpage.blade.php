@@ -14,6 +14,7 @@
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 
+		<script type="text/javascript" src="/api/internal/language/{{ Language::current() }}"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/helpers.js"></script>
 
@@ -50,31 +51,42 @@
 						<!-- Start: Language Chooser -->
 						<ul class="nav navbar-nav navbar-left">
 							<div class="navbar-form btn-group" role="group">
-								<a href="#/en" class="btn btn-default active" role="button"><img src="/img/flags/en.png" alt="English"></a>
-								<a href="#/de" class="btn btn-default" role="button"><img src="/img/flags/de.png" alt="Deutsch"></a>
-								<a href="#/nl" class="btn btn-default" role="button"><img src="/img/flags/nl.png" alt="Nederlands"></a>
+								@foreach (Language::listing() as $code => $name)
+								<a href="/{{ $code }}" class="btn btn-default @if(Language::is($code)) active @endif " role="button"><img src="/img/flags/{{ $code }}.png" alt="{{ $name }}"></a>
+								@endforeach
 							</div>
 						</ul>
 						<!-- End: Language Chooser -->
 						<ul class="nav navbar-nav navbar-right">
 							<!-- Start: Add geodata/comment -->
 							<div class="navbar-form navbar-left">
-								<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">Kommentar erstellen&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
+								<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
 							</div>
 							<!-- End: Add geodata/comment -->
 							<!-- Start: Account navigation -->
 							<div class="navbar-form navbar-left">
 								<div id="" class="btn-group" role="group">
-									<a href="javascript:router.profile();" class="btn btn-default disabled" id="userAccountBtn"><span class="glyphicon glyphicon-user"></span>&nbsp;Gast</a>
-									<a href="javascript:router.login();" class="btn btn-primary" id="loginBtn">Anmelden&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
-									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">Registrieren&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+									<div class="btn-group" role="group">
+										<a class="btn btn-default dropdown-toggle disabled" id="userAccountBtn" data-toggle="dropdown" aria-expanded="true">
+											<span class="glyphicon glyphicon-user"></span>&nbsp;<span id="userAccountName" data-id="{{ Auth::id() }}">
+											@if(Auth::user()) {{{ Auth::user()->name }}} @endif
+											</span>&nbsp;<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="userAccountBtn">
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.profile();">Profil ändern</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.password();">Passwort ändern</a></li>
+										</ul>
+									</div>
+									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">@lang('misc.register')&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+									<a href="javascript:router.loginout();" class="btn btn-primary" id="loginBtn"><span id="logBtnText">@lang('misc.login')</span>&nbsp;<span class="glyphicon glyphicon-log-in" id="loginBtnIcon"></span></a>
 								</div>
 							</div>	
 							<!-- End: Account navigation -->
 							<!-- Start: Help navigation -->
+	
 							<div class="navbar-form navbar-right">
-								<a href="#/about" class="btn btn-primary">Impressum&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
-								<a href="#/help" class="btn btn-danger" id="helpBtn">Hilfe&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a>
+								<a href="#/about" class="btn btn-primary">@lang('misc.imprint')&nbsp; <span class="glyphicon glyphicon-info-sign"></span></a>
+								<a href="#/help" class="btn btn-danger" id="helpBtn">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a>
 							</div>
 							<!-- End Help navigation -->
 						</ul>
@@ -92,9 +104,9 @@
 			@if (empty($_COOKIE['message-user-help']))
 			<!-- Div for the alert for user-help - beginning -->
 			<div id="message-user-help" class="alert alert-warning alert-dismissible">
-				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-				<strong>Benutzerhilfe</strong>&nbsp;&nbsp;
-				Klicke oben auf <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn">Hilfe&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button> für weitere Informationen.
+				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('client.close')</span></button>
+				<strong>@lang('misc.userinfo')</strong>&nbsp;&nbsp;
+				@lang('misc.clicktop') <a href="#/help" class="btn btn-danger btn-xs">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a> @lang('misc.furtherInfo')
 			</div>
 			<!-- Div for the alert for user-help - ending -->
 			@endif

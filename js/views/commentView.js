@@ -30,11 +30,11 @@ CommentView = ContentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return '/js/templates/showCommentTemplate.html';
+		return '/api/internal/doc/showComment';
 	},
 
 	getBitTemplate: function() {
-		return '/js/templates/showCommentTemplate_bit.html';
+		return '/api/internal/doc/showCommentBit.html';
 	},
 
 	createModel: function(value) {
@@ -81,7 +81,7 @@ CommentView = ContentView.extend({
 CommentAddViewStep1 = ModalView.extend({ 
 
 	getPageTemplate: function() {
-		return '/js/templates/addCommentTemplate.html';
+		return '/api/internal/doc/addCommentFirstStep';
 	},
     
     events: {
@@ -113,7 +113,7 @@ CommentAddViewStep2 = ContentView.extend({
 	metadata: null,
 
 	getPageTemplate: function() {
-		return '/js/templates/addCommentSecondStepTemplate.html';
+		return '/api/internal/doc/addCommentSecondStep';
 	},
 	
 	onLoaded: function() {

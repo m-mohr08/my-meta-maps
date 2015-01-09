@@ -10,7 +10,7 @@ function userRegisterController(model, inputRegister) {
 			console.log('Registration succeded');
 			FormErrorMessages.remove('#form-register');
         	$('#ModalRegister').modal('hide');
-			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun einloggen.');
+			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun anmelden.');
 		},
 	
 		// In case of failed registration
@@ -22,6 +22,24 @@ function userRegisterController(model, inputRegister) {
 };
 
 /*
+* Send a GET-request to the server to logout a user
+*/
+function userLogoutController() {
+	var model = new UserLogout();
+	model.fetch({
+		success: function(){
+			console.log('Logout succeded');
+			MessageBox.addSuccess('Sie haben sich erfolgreich abgemeldet.');
+			AuthUser.setUser();
+		},
+		error: function(){
+			console.log('Logout failed');
+			MessageBox.addError('Die Abmeldung ist leider fehlgeschlagen.');
+		}
+	});
+}
+
+/*
 * Send a POST-request to the server to login a user
 */
 function userLoginController(model, inputLogin) {
@@ -29,18 +47,23 @@ function userLoginController(model, inputLogin) {
 	model.save(inputLogin, {
 		
 		// In case of successfull login
-		success: function () {
+		success: function (model, response) {
 			console.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
         	$('#ModalLogin').modal('hide');
-			MessageBox.addSuccess('Sie haben sich erfolgreich eingeloggt.');
-			// TODO: Buttons im Header tauschen
+			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet.');
+			AuthUser.setUser(response.user.name);
 		},
 	
 		// In case of failed login
-		error: function (data, response) {
+		error: function () {
 			console.log('Login failed');
-			FormErrorMessages.apply('#form-login', response.responseJSON);
+			var msg = 'Die Anmeldedaten sind nicht korrekt.';
+			var errorMessages = {
+				identifier: msg,
+				password: msg
+			};
+			FormErrorMessages.apply('#form-login', errorMessages);
 		}
 	});
 };

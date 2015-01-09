@@ -11,8 +11,6 @@ return array(
 	| be used as javascript language phrases at client-side.
 	|
 	*/
-
-	'imprint' => 'Impressum',
-	'user_guide' => 'Benutzerhilfe',
+	'close' => 'Schließen',
 
 );

@@ -1,7 +1,6 @@
 <div class="modal fade" id="ModalLogin" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div>
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
 				<h4 class="modal-title" id="meinModalLabel">Anmelden</h4>
@@ -25,29 +24,14 @@
 					
 					<div class="row checkbox form-group-marginSides">
 						<label for="remember">
-							<input type="checkbox" name="remember" id="remember"> Speichern?
+							<input type="checkbox" name="remember" id="remember"> Angemeldet bleiben?
 						</label>
 					</div>
 						
 					<button type="submit" class="btn btn-primary" id="loginBtn">Anmelden</button>
 							
 				</form>
-				
-			</div>
-		
-			<div class="modal-header">
-					<h4 class="modal-title" id="meinModalLabel2">Anmelden via Facebook, GitHub, Twitter oder Google</h4>
-			</div>
-			
-			<div class="modal-body">
-							
-				<form id="form-login-oauth" onsubmit="return false">
-						
-					<button type="submit" class="btn btn-primary">Anmelden</button>
-								
-				</form>
-					
-			</div>
+	
 			</div>
 		</div>
 	</div>

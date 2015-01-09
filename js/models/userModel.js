@@ -15,6 +15,13 @@ UserLogin = Backbone.Model.extend({
 /*
  * Model for login as user with mmm method 
  */
+UserLogout = Backbone.Model.extend({     
+	urlRoot: '/api/internal/user/logout'
+});
+
+/*
+ * Model for login as user with mmm method 
+ */
 UserLoginOAuth = Backbone.Model.extend({     
 	urlRoot: '/api/internal/user/login/oauth'
 });
