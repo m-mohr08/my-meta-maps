@@ -35,19 +35,19 @@ class GeodataApiController extends BaseApiController {
 		GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
 	}
 	
-	protected function buildSingleGeodata(Geodata $geodata) {
-		return array('geodata' => $this->buildGeodataEntry($geodata));
+	protected function buildSingleGeodata(Geodata $geodata, $addLayer = true) {
+		return array('geodata' => $this->buildGeodataEntry($geodata, $addLayer));
 	}
 	
 	protected function buildMultipleGeodata(array $list) {
 		$json = array('geodata' => array());
 		foreach ($list as $geodata) {
-			$json['geodata'][] = $this->buildGeodataEntry($geodata);
+			$json['geodata'][] = $this->buildGeodataEntry($geodata, false);
 		}
 		return $json;
 	}
 	
-	protected function buildGeodataEntry(Geodata $geodata) {
+	protected function buildGeodataEntry(Geodata $geodata, $addLayer = true) {
 		$json =  array(
 			'id' => $geodata->id,
 			'url' => $geodata->url,
@@ -63,19 +63,24 @@ class GeodataApiController extends BaseApiController {
 				'endTime' => ($geodata->end !== null) ? self::toDate($geodata->end) : null,
 				'abstract' => $geodata->abstract,
 				'license' => $geodata->license
-			),
-			'layer' => array()
+			)
 		);
-		$layers = is_object($geodata->layers) ? $geodata->layers->all() : array();
-		if ($geodata instanceof GmGeodata) {
-			$layers = array_merge($layers, $geodata->getLayers());
+		if (!empty($geodata->comments)) {
+			$json['comments'] = $geodata->comments;
 		}
-		foreach($layers as $layer) {
-			$json['layer'][] = array(
-				'id' => $layer->name,
-				'title' => $layer->title,
-				'bbox' => $layer->bbox
-			);
+		if ($addLayer) {
+			$json['layer'] = array();
+			$layers = is_object($geodata->layers) ? $geodata->layers->all() : array();
+			if ($geodata instanceof GmGeodata) {
+				$layers = array_merge($layers, $geodata->getLayers());
+			}
+			foreach($layers as $layer) {
+				$json['layer'][] = array(
+					'id' => $layer->name,
+					'title' => $layer->title,
+					'bbox' => $layer->bbox
+				);
+			}
 		}
 		
 		return $json;
@@ -174,7 +179,7 @@ class GeodataApiController extends BaseApiController {
 			return $this->getConflictResponse();
 		}
 		
-		return $this->getJsonResponse($this->buildSingleGeodata($geodata));
+		return $this->getJsonResponse($this->buildSingleGeodata($geodata, false));
 	}
 	
 	public function postMetadata() {
@@ -231,8 +236,8 @@ class GeodataApiController extends BaseApiController {
 		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;
 		$data['metadata'] = ($data['metadata'] !== null) ? $data['metadata'] : false;
 
-		$geodata = Geodata::with('layers')->filter($data)->orderBy('title')->get();
-
+		$geodata = Geodata::filter($data)->get();
+		
 		return $this->getJsonResponse($this->buildMultipleGeodata($geodata->all()));
 	}
 	

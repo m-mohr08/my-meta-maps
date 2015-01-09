@@ -1,7 +1,7 @@
 RegisterView = ModalView.extend({
 
 	getPageTemplate: function() {
-		return '/js/templates/registerTemplate.html';
+		return '/api/internal/doc/register';
 	},
 	
 	events: {
@@ -26,7 +26,7 @@ RegisterView = ModalView.extend({
 LoginView = ModalView.extend({
 
 	getPageTemplate: function() {
-		return '/js/templates/loginTemplate.html';
+		return '/api/internal/doc/login';
 	},
 	
 	events: {
@@ -38,9 +38,11 @@ LoginView = ModalView.extend({
 		
 		// Creates details of a login with typed in values
 		var inputLogin = {
-			"identifier" : $("#inputUsername").val(),
-			"password" : $("#inputPasswordLogin").val(),
-			"remember" : $("#remember").val()
+			credentials: {
+				identifier : $("#inputUsername").val(),
+				password : $("#inputPasswordLogin").val(),
+				remember : $("#remember").is(":checked")
+			}
 		};
 		
 		userLoginController(new UserLogin(), inputLogin);
@@ -50,12 +52,11 @@ LoginView = ModalView.extend({
 ProfileView = ModalView.extend({
 	
 	getPageTemplate: function() {
-		return '/js/templates/userAccountTemplate.html';
+		return '/api/internal/doc/userAccount';
 	},
 	
 	events: {
-		"click #changeGeneralDataBtn": "changeGeneral",
-		"click #changePasswordBtn": "changePassword"
+		"click #changeGeneralDataBtn": "changeGeneral"
 	},
 	
 	changeGeneral: function(event) {
@@ -63,12 +64,24 @@ ProfileView = ModalView.extend({
 		
 		// Creates details of a change of general user data with typed in values
 		var inputChangeGeneral = {
-			"name" : $("#inputChangeUsername").val(),
-			"email" : $("#inputChangeMail").val(),
-			"language" : $("#inputChangeLanguage").val()
+			name: $("#inputChangeUsername").val(),
+			email: $("#inputChangeMail").val(),
+			language: $("#inputChangeLanguage").val()
 		};
 		
 		userChangeGeneralController(new UserChangeGeneral(), inputChangeGeneral);
+	},
+
+});
+
+PasswordView = ModalView.extend({
+	
+	getPageTemplate: function() {
+		return '/api/internal/doc/password';
+	},
+	
+	events: {
+		"click #changePasswordBtn": "changePassword"
 	},
 	
 	changePassword: function(event) {
@@ -76,11 +89,11 @@ ProfileView = ModalView.extend({
 		
 		// Creates details of a change of password of a user with typed in values
 		var inputChangePassword = {
-			"old_password" : $("#inputChangeOldPassword").val(),
-			"password" : $("#inputChangePassword").val(),
-			"password_confirmation" : $("#inputChangePasswordRepeat").val()
+			old_password: $("#inputChangeOldPassword").val(),
+			password: $("#inputChangePassword").val(),
+			password_confirmation: $("#inputChangePasswordRepeat").val()
 		};
 		
-		userChangeGeneralController(new UserChangePassword(), inputChangePassword);
+		userChangePasswordController(new UserChangePassword(), inputChangePassword);
 	}
 });

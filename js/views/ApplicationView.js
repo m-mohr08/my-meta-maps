@@ -47,6 +47,7 @@ MapView = ContentView.extend({
             zoom: 2
         });
 
+<<<<<<< HEAD
         var map = new ol.Map({
             layers: [new ol.layer.Tile({
                     source: new ol.source.OSM()
@@ -79,6 +80,29 @@ MapView = ContentView.extend({
     getPageTemplate: function () {
         return '/js/templates/mapTemplate.html';
     }
+=======
+		var map = new ol.Map({
+			layers : [new ol.layer.Tile({
+				source : new ol.source.OSM()
+			})],
+			target : 'map',
+			controls : ol.control.defaults({
+				attributionOptions : /** @type {olx.control.AttributionOptions} */( {
+					collapsible : false
+				})
+			}),
+			view : view
+		});
+           	
+    	$('#spatialFilter').barrating('show', { showValues:true, showSelectedRating:false });
+        $('#ratingFilter').barrating({ showSelectedRating:false });
+		
+	},
+	
+	getPageTemplate: function() {
+		return '/api/internal/doc/map';
+	}
+>>>>>>> 34bb5fe8807c17b3014fadb7049c18a15ca80aad
 });
 
 AboutView = ContentView.extend({

@@ -4,35 +4,7 @@
 			
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-				<h4 class="modal-title" id="meinModalLabel">Ändere deinen Account</h4>
-			</div>
-			
-			<div class="modal-body">
-				
-				<form id="form-changeGeneral" onsubmit="return false">
-					
-					<div class="row form-group form-group-marginSides">
-						<label for="name">Benutzername</label>
-						<input class="form-control" name="name" id="inputChangeUsername" type="text">
-						<div class="error-message"></div>
-					</div>
-							
-					<div class="row form-group form-group-marginSides">
-						<label for="email">E-Mail-Adresse</label>
-						<input class="form-control" name="email" id="inputChangeMail" type="text" placeholder="@">
-						<div class="error-message"></div>
-					</div>
-					
-					<div class="row form-group form-group-marginSides">
-						<label for="language">Sprache</label>
-						<input class="form-control" name="language" id="inputChangeLanguage" type="text">
-						<div class="error-message"></div>
-					</div>
-						
-					<button type="submit" class="btn btn-primary" id="changeGeneralDataBtn">Benutzerdaten ändern</button>
-							
-				</form>	
-				
+				<h4 class="modal-title" id="meinModalLabel">Passwort ändern</h4>
 			</div>
 			
 			<div class="modal-body">
