@@ -133,8 +133,8 @@
 		
 		<!-- Comment-MVC -->
 		<script type="text/javascript" src="/js/models/commentModel.js"></script>
-		<script type="text/javascript" src="/js/views/commentView.js"></script>
 		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
+		<script type="text/javascript" src="/js/views/commentView.js"></script>
 		
 		<!-- User-MVC -->
 		<script type="text/javascript" src="/js/models/userModel.js"></script>

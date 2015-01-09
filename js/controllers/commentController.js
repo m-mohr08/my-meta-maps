@@ -1,20 +1,21 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentController(model, view) {
+function commentsShowController(model, view) {
 	
-	model.save({
+	model.save(null, {
 		
         success: function (data) {
+        	console.log('Successfull getting of comments');
             
         	var commentJSON = data.toJSON();
 			var commentList = commentJSON.geodata;
 			
 			view.showComments(commentList);
-			
         },
         
         error: function() {
+        	console.log('Failed getting of comments');
         	
 			view.addError();
 		}
@@ -24,9 +25,9 @@ function commentController(model, view) {
 /*
 * Send a POST-request to the server
 */
-function commentAddFirstStepController(modelURL, details) {
+function commentAddFirstStepController(model, details) {
 	
-	modelURL.save(details, {
+	model.save(details, {
 		
         success: function (data) {
         	console.log('Try to validate URL');

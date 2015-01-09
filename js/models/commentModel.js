@@ -13,17 +13,17 @@ CommentAddSecondStep = Backbone.Model.extend({
 });
 
 /*
- * Model for comments
+ * Model for (showing) comments
  */
-Comments = Backbone.Model.extend({
+CommentsShow = Backbone.Model.extend({
 	urlRoot: '/api/internal/geodata/list'
 });
 
 /*
  * Collection of Comments-models
  */
-CommentsList = Backbone.Collection.extend({
-	model: Comments
+CommentsShowList = Backbone.Collection.extend({
+	model: CommentsShow
 });
 
 /*

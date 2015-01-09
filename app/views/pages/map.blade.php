@@ -2,6 +2,8 @@
 	
 	<div class="row clearfix">
 		
+		<div class="col-md-12 column">
+		
 		<div class="col-md-3 column">
 			
 			<div class="col-md-12 column">
@@ -116,6 +118,8 @@
 			
 		</div>
 		
+		</div>
+		
 	</div>
 	
 </div>
@@ -138,7 +142,7 @@
 		
 		<hr class="dividing-line">
 
-		<div id="commentsShow">
+		<div id="showComments">
 			
 		</div>
 		

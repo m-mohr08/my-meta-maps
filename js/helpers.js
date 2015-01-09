@@ -231,3 +231,12 @@ Lang = {
 $(document).ready(function() {
 	AuthUser.init();
 });
+
+/*
+ * Make table rows clickable 
+ */
+function makeClickable(elem) {
+	$(".hrefRow", elem).click(function() {
+		window.document.location = $(this).data("url");
+	});
+}

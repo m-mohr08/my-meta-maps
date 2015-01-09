@@ -9,6 +9,7 @@ var Router = Backbone.Router.extend({
 		'password': 'password',
 		'comments/add': 'addComment',
 		'comments/add2': 'addComment2',
+		'showComments': 'showComments',
 	},
 
 	about: function () {
@@ -50,6 +51,10 @@ var Router = Backbone.Router.extend({
 
 	addComment2: function () {
 		new CommentAddViewStep2();
+	},
+	
+	showComments: function() {
+		new CommentShowView();
 	}
 
 });

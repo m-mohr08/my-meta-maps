@@ -1,12 +1,12 @@
-CommentView = ContentView.extend({
+/*
+ * View for CommentsShow; showing comments
+ */
+CommentShowView = ContentView.extend({
 
 	initialize: function(){
+		
 		this.createCollection();
 		this.render();
-		var that = this;
-		$(document).ready(function() {
-			that.getComments(null, that);
-		});
 	},
 
 	render: function() {
@@ -18,15 +18,17 @@ CommentView = ContentView.extend({
 
 		var that = this;
 		
-		$.get(this.getPageTemplate(), function(data){
+		$.get(this.getPageTemplate(), function(data) {
 			template = _.template(data, {});
 			that.$el.html(template);
 		}, 'html');
 		
+		this.getComments(that);
+		
 	},
 
 	createCollection: function() {
-		this.collection = new CommentsWSList();
+		this.collection = new CommentsShowList();
 	},
 
 	getPageTemplate: function() {
@@ -34,50 +36,57 @@ CommentView = ContentView.extend({
 	},
 
 	getBitTemplate: function() {
-		return '/api/internal/doc/showCommentBit.html';
-	},
-
-	createModel: function(value) {
-		
-		var model = new CommentsWithSpatial();
-		return model;
+		return '/api/internal/doc/showCommentBit';
 	},
 	
-	getComments: function(event, that) {
-		
+	getComments: function(that) {
+		console.log('Try to get comments');
+			
 		that = that || this;
-		var model = that.createModel();
-		that.collection.add(model);
 		
-		commentController(model, that);
+		var commentsShow = new CommentsShow();
+		
+		that.collection.add(commentsShow);
+		
+		commentsShowController(commentsShow, that);
 	},
 
 	showComments: function(list) {
+		console.log('Try to show comments');
 		
 		//In case of an empty data list print out error message
-		if(typeof list !== 'object' || list.length === 0){
+		if(typeof list !== 'object' || list.length === 0) {
+			console.log('Comment-list is empty');
 			this.addError();
 		}
 		
 		//If data list contains elements, append them to the list
 		else {
-			$.get(this.getBitTemplate(), function(data){
+			console.log('Comment-list is not empty - try to load bitTemplate');
+			
+			$.get(this.getBitTemplate(), function(data) {
 				var template = _.template(data, {list: list});
 				$('#resultList', this.el).html(template);
+				makeClickable(this.el);
 			}, 'html');
 		}
 	},
 
 	addError: function() {
-		
 		console.log('Comments can not be displayed!');
+		
+		$.get(this.getBitTemplate(), function(){
+			$('#resultList', this.el).html("<tr><td>Comments can not be displayed.</td></tr>");
+		}, 'html');
 	}
 });
 
+var commentShowView = new CommentShowView( {el: $("#showComments") });
+
 
 /*
-* View for CommentAddFirstStep
-*/
+ * View for CommentAddFirstStep
+ */
 CommentAddViewStep1 = ModalView.extend({ 
 
 	getPageTemplate: function() {
@@ -106,8 +115,8 @@ CommentAddViewStep1 = ModalView.extend({
 });
 
 /*
-* View for CommentAddSecondStep; will only shown after CommentAddViewStep1
-*/
+ * View for CommentAddSecondStep; will only shown after CommentAddViewStep1
+ */
 CommentAddViewStep2 = ContentView.extend({ 
 
 	metadata: null,

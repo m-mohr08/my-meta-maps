@@ -1,4 +1,6 @@
 <% _.each(list, function(row) { %>
-	<a href="#" class="list-group-item"><%= row.metadata.title %></a>
-	<a href="#" class="list-group-item"><%= row.layer.title %></a>
+	<tr class="hrefRow" data-url="#">
+		<th><%= row.metadata.title %></td>
+		<td><%= row.metadata.author %></td>
+	</tr>
 <% }); %>
