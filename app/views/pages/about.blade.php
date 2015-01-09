@@ -1,3 +1,4 @@
+<h1>Impressum</h1>
 <form role="form">
 	<div class="form-group">
 		<p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>

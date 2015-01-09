@@ -1,7 +1,5 @@
 <!-- Headline of userinfo -->
-<div class="Headline">
-<h1>@lang('misc.headline')<h1>
-</div>
+<h1>@lang('misc.headline')</h1>
 <!-- End of headline -->
 	<!-- Beginning howto registration -->
 	<div class="HowToRegister">

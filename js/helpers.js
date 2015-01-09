@@ -88,7 +88,7 @@ var MessageBox = {
 		var html = '<div class="alert alert-' + className + ' alert-dismissible">';
 		html += '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">' + Lang.t('close') + '</span></button>';
 		if (title) {
-			html += '<strong>' + title + '</strong>&nbsp;&nbsp;';
+			html += '<strong>' + title + '</strong><hr>';
 		}
 		html += message + '</div>';
 		var element = $().add(html);

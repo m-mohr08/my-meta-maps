@@ -20,8 +20,8 @@ return array(
 	'imprint' => 'Impressum',
 	'help' => 'Hilfe',
 	'userinfo' => 'Benutzerhilfe',
-	'clicktop' => 'Klicke oben auf',
-	'furtherInfo' => 'für weitere Informationen.',
+	'clicktop' => 'Neu bei My Meta Maps? Wir erklären Ihnen gerne wie sie erfolgreich die ersten Schritte machen können. Klicken Sie einfach auf ',
+	'furtherInfo' => '.',
 	
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',
