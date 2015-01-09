@@ -54,13 +54,16 @@ ModalView = ContentView.extend({
 });
 
 MapView = ContentView.extend({
+	
+	map: null,
+	
     onLoaded: function () {
         var view = new ol.View({
             center: [0, 0],
             zoom: 2
         });
 
-        var map = new ol.Map({
+        this.map = new ol.Map({
             layers: [new ol.layer.Tile({
                     source: new ol.source.OSM()
                 })],
@@ -87,13 +90,24 @@ MapView = ContentView.extend({
         $('#spatialFilter').barrating('show', {showValues: true, showSelectedRating: false});
         $('#ratingFilter').barrating({showSelectedRating: false});
 
+<<<<<<< HEAD
         commentsShowController(new CommentsShow());
         
+=======
+        commentsShowController(new CommentsShow(), this);
+>>>>>>> 54de5ab2cd1331df368d40e1811cd9191699ede5
 
     },
+	
+	addGeodataToMap: function(data) {
+		// Tu was mit den Daten...
+		// this.map.addPolygon() bspw.
+	},
+	
     getPageTemplate: function () {
         return '/api/internal/doc/map';
     }
+
 });
 
 AboutView = ContentView.extend({
