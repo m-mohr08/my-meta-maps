@@ -1,35 +1,38 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentsShowController(model) {
+function commentsShowController(model, mapview) {
 	
 	var details = {
-			"q" : $("#SearchTerms").val(),
-			"bbox" : getBoundingBox,
-			"radius" : $("#spatialFilter").val(),
-			"startDate": $("#filterStartTime").val(),
-			"endDate": $("#filterEndTime").val(),		
-			"minrating": $("#ratingFilter").val(),
-			"metadata" : $('#includeMetadata').is(':checked')
-		};
-		
-		console.log('Rating: ' + details.minrating);
-	
+		"q" : $("#SearchTerms").val(),
+		"bbox" : mapview.getBoundingBox(),
+		"radius" : $("#spatialFilter").val(),
+		"startDate": $("#filterStartTime").val(),
+		"endDate": $("#filterEndTime").val(),		
+		"minrating": $("#ratingFilter").val(),
+		"metadata" : $('#includeMetadata').is(':checked')
+	};
+
 	model.save(details, {
 		
         success: function (data, response) {
 			var commentShowView = new CommentShowView(response);
+			mapview.addGeodataToMap(response);
         },
         
         error: function() {
-			MessageBox.addError('Die Kommentare konnten nicht angezeigt werden.');
+			MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
 		}
    });
 };
 
-function getBoundingBox () {
-	
-	return null;
+/**
+ * Executes the search if the MapView is active.
+ */
+function executeSearch() {
+	if (ContentView.active instanceof MapView) {
+		ContentView.active.doSearch();
+	}
 }
 
 /*

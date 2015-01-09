@@ -15,11 +15,11 @@
 				<div class="panel-body">
 
 					<div class="form-group clearfix col-md-12 column">
-						<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata"> <label for="includeMetadata" class="label-metadata">Metadaten einbeziehen</label></div>
+						<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">Metadaten einbeziehen</label></div>
 						<label class="label-filter">Suchbegriffe</label>
 						<div class="input-group">
-							<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)">
-							<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+							<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)" onchange="executeSearch()">
+							<span class="input-group-addon" onclick="executeSearch()"><span class="glyphicon glyphicon-search"></span></span>
 						</div>
 					</div>
 
@@ -29,11 +29,11 @@
 						</div>
 						<div class="input-group col-md-6 column">
 							<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-							<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
+							<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start" onchange="executeSearch()">
 						</div>
 						<div class="input-group col-md-6 column">
 							<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-							<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
+							<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end" onchange="executeSearch()">
 						</div>
 					</div>
 

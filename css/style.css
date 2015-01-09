@@ -78,3 +78,7 @@ html, body, .hundred, #map {
 #messages .alert hr {
 	margin: 10px 0 10px 0;
 }
+
+.input-group-addon {
+	cursor: pointer;
+}
