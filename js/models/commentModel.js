@@ -20,13 +20,6 @@ CommentsShow = Backbone.Model.extend({
 });
 
 /*
- * Collection of Comments-models
- */
-CommentsShowList = Backbone.Collection.extend({
-	model: CommentsShow
-});
-
-/*
  * Model for comments of a geodata
  */
 CommentsOfGeodata = Backbone.Model.extend({

@@ -1,23 +1,22 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentsShowController(model, view) {
+function commentsShowController(model) {
 	
 	model.save(null, {
 		
-        success: function (data) {
+        success: function (data, response) {
         	console.log('Successfull getting of comments');
-            
-        	var commentJSON = data.toJSON();
-			var commentList = commentJSON.geodata;
 			
-			view.showComments(commentList);
+			var commentShowView = new CommentShowView(response);
+			
+			console.log('Response: ' + response);
         },
         
         error: function() {
         	console.log('Failed getting of comments');
         	
-			view.addError();
+			MessageBox.addError('Die Kommentare konnten nicht angezeigt werden.');
 		}
    });
 };

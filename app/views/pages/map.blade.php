@@ -4,119 +4,120 @@
 		
 		<div class="col-md-12 column">
 		
-		<div class="col-md-3 column">
-			
-			<div class="col-md-12 column">
-			
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Suche innerhalb der Kommentare
-					</label>
-				</div>
+			<div class="col-md-3 column">
 				
-				<div class="row clearfix">
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Stichwortsuche">
-						<div class="input-group-btn">
-							<button type="submit" class="btn btn-primary"> <span class="glyphicon glyphicon-search"></span> </button>
+				<div class="col-md-12 column">
+				
+					<div class="row clearfix">
+						<label class="label-filter"> 
+							Suche innerhalb der Kommentare
+						</label>
+					</div>
+					
+					<div class="row clearfix">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Stichwortsuche">
+							<div class="input-group-btn">
+								<button type="submit" class="btn btn-primary"> <span class="glyphicon glyphicon-search"></span> </button>
+							</div>
+							&nbsp;&nbsp;<input type="checkbox" name="metadata" id="includeMetadata"></input>
 						</div>
 					</div>
+					
 				</div>
 				
-			</div>
+			</div>	
+	
+			<div class="col-md-4 column">
 			
-		</div>	
-
-		<div class="col-md-4 column">
-		
-			<div class="col-md-6 column">
-				
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Wähle Start- und
-					</label>
-				</div>
-				
-				<div class="row clearfix">
-					<div class="input-group">
-						<input class="form-control" type="text" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
-						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
+				<div class="col-md-6 column">
+					
+					<div class="row clearfix">
+						<label class="label-filter"> 
+							Wähle Start- und
+						</label>
 					</div>
-				</div>
-				 
-			</div>
-			
-			<div class="col-md-6 column">
-				
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Endzeitpunkt
-					</label>
-				</div>
-				
-				<div class="row clearfix">
-					<div class="input-group">
-						<input class="form-control" type="text" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
-						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
+					
+					<div class="row clearfix">
+						<div class="input-group">
+							<input class="form-control" type="text" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
+							<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
+						</div>
 					</div>
+					 
 				</div>
 				
-			</div>
-			
-		</div>
-		
-		<div class="col-md-5 column">
-			
-			<div class="col-md-7 column">
-				
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Lege einen Umkreis fest
-					</label>
-				</div>
-				
-				<div class="row clearfix">
-					<div class="input select rating-underline">
-						<select id="spatialFilter">
-						   <option value="" selected="selected"></option>
-						   <option value="5">5</option>
-						   <option value="10">10</option>
-						   <option value="20">20</option>
-						   <option value="50">50</option>
-						   <option value="100">100</option>
-						   <option value="200">200</option>
-						   <option value="500">500</option>
-						</select>
+				<div class="col-md-6 column">
+					
+					<div class="row clearfix">
+						<label class="label-filter"> 
+							Endzeitpunkt
+						</label>
 					</div>
+					
+					<div class="row clearfix">
+						<div class="input-group">
+							<input class="form-control" type="text" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
+							<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
+						</div>
+					</div>
+					
 				</div>
 				
 			</div>
-		
+			
 			<div class="col-md-5 column">
-		
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Bewertung größer als ... ?
-					</label>
-				</div>
 				
-				
-				<div class="row clearfix">
-					<div class="input select rating-stars">
-						<select id="ratingFilter">
-							<option value="" selected="selected"></option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
+				<div class="col-md-7 column">
+					
+					<div class="row clearfix">
+						<label class="label-filter"> 
+							Lege einen Umkreis fest
+						</label>
 					</div>
+					
+					<div class="row clearfix">
+						<div class="input select rating-underline">
+							<select id="spatialFilter">
+							   <option value="" selected="selected"></option>
+							   <option value="5">5</option>
+							   <option value="10">10</option>
+							   <option value="20">20</option>
+							   <option value="50">50</option>
+							   <option value="100">100</option>
+							   <option value="200">200</option>
+							   <option value="500">500</option>
+							</select>
+						</div>
+					</div>
+					
+				</div>
+			
+				<div class="col-md-5 column">
+			
+					<div class="row clearfix">
+						<label class="label-filter"> 
+							Bewertung größer als ... ?
+						</label>
+					</div>
+					
+					
+					<div class="row clearfix">
+						<div class="input select rating-stars">
+							<select id="ratingFilter">
+								<option value="" selected="selected"></option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</div>
+					</div>
+					
 				</div>
 				
 			</div>
-			
-		</div>
 		
 		</div>
 		

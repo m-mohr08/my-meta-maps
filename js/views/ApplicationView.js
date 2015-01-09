@@ -1,6 +1,18 @@
 ContentView = Backbone.View.extend({
 
 	el: $('#content'),
+	
+	constructor: function (options) {
+		this.configure(options || {});
+	    Backbone.View.prototype.constructor.apply(this, arguments);
+	},
+	
+	configure: function (options) {
+	    if (this.options) {
+	      options = _.extend({}, _.result(this, 'options'), options);
+	    }
+		this.options = options;
+	}, 
 
 	initialize: function(){
 		this.render();
@@ -13,8 +25,8 @@ ContentView = Backbone.View.extend({
 	render: function() {
 		var that = this;
 		$.get(this.getPageTemplate(), function(data){
-			template = _.template(data, {});
-			that.$el.html(template);
+			template = _.template(data);
+			that.$el.html(template({data: that.getPageContent()}));
 			that.onLoaded();
 		}, 'html');
 	},
@@ -33,6 +45,11 @@ ContentView = Backbone.View.extend({
 		this.off();
 //		this.remove(); // Remove view from DOM
 //		Backbone.View.prototype.remove.call(this);
+	}, 
+	
+	getPageContent : function() {
+		
+		return {};
 	}
 
 });
@@ -69,6 +86,8 @@ MapView = ContentView.extend({
            	
     	$('#spatialFilter').barrating('show', { showValues:true, showSelectedRating:false });
         $('#ratingFilter').barrating({ showSelectedRating:false });
+        
+        commentsShowController(new CommentsShow());
 		
 	},
 	

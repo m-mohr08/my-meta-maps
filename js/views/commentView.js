@@ -2,86 +2,21 @@
  * View for CommentsShow; showing comments
  */
 CommentShowView = ContentView.extend({
-
-	initialize: function(){
-		
-		this.createCollection();
-		this.render();
+	
+	el: function() {
+		return $('#showComments');
 	},
 
-	render: function() {
-		
-		//For each model that is created in the collection, append the item to the html file
-		_(this.collection.models).each(function(model){
-			this.appendItem(model);
-		}, this);
-
-		var that = this;
-		
-		$.get(this.getPageTemplate(), function(data) {
-			template = _.template(data, {});
-			that.$el.html(template);
-		}, 'html');
-		
-		this.getComments(that);
-		
-	},
-
-	createCollection: function() {
-		this.collection = new CommentsShowList();
+	getPageContent: function() {
+		console.log('Options.geodata: ' + this.options.geodata);
+		return this.options.geodata; 
 	},
 
 	getPageTemplate: function() {
-		return '/api/internal/doc/showComment';
-	},
-
-	getBitTemplate: function() {
 		return '/api/internal/doc/showCommentBit';
-	},
-	
-	getComments: function(that) {
-		console.log('Try to get comments');
-			
-		that = that || this;
-		
-		var commentsShow = new CommentsShow();
-		
-		that.collection.add(commentsShow);
-		
-		commentsShowController(commentsShow, that);
-	},
-
-	showComments: function(list) {
-		console.log('Try to show comments');
-		
-		//In case of an empty data list print out error message
-		if(typeof list !== 'object' || list.length === 0) {
-			console.log('Comment-list is empty');
-			this.addError();
-		}
-		
-		//If data list contains elements, append them to the list
-		else {
-			console.log('Comment-list is not empty - try to load bitTemplate');
-			
-			$.get(this.getBitTemplate(), function(data) {
-				var template = _.template(data, {list: list});
-				$('#resultList', this.el).html(template);
-				makeClickable(this.el);
-			}, 'html');
-		}
-	},
-
-	addError: function() {
-		console.log('Comments can not be displayed!');
-		
-		$.get(this.getBitTemplate(), function(){
-			$('#resultList', this.el).html("<tr><td>Comments can not be displayed.</td></tr>");
-		}, 'html');
 	}
 });
 
-var commentShowView = new CommentShowView( {el: $("#showComments") });
 
 
 /*

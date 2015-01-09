@@ -1,4 +1,4 @@
-<% _.each(list, function(row) { %>
+<% _.each(data, function(row) { %>
 	<tr class="hrefRow" data-url="#">
 		<th><%= row.metadata.title %></td>
 		<td><%= row.metadata.author %></td>
