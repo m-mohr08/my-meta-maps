@@ -1,6 +1,6 @@
 <h4 class="modal-title" id="meinModalLabel">Kommentar erstellen</h4>
 											
-	<form id="form-comment" onsubmit="return false">
+	<form id="form-comment-secondStep" onsubmit="return false">
 
 		<div class="row form-group form-group-marginSides">
 			<label for="title">Titel</label>
