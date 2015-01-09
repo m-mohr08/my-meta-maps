@@ -7,6 +7,13 @@ body {
 	margin-top: 70px;
 }
 
+#mapComments {
+	border: 0px solid #e7e7e7;
+	border-top-width: 1px;
+	margin-top: 0.5em;
+	padding-top: 2em;
+}
+
 .logo {
   margin: -5px 0 -5px 0;
 }
@@ -47,12 +54,6 @@ body {
 	font-size: 30px;
 }
 
-.dividing-line {
-	margin-top: -5px;
- 	border-color: #428bca;
-    border-style: solid;
-}
-
 .form-group-marginSides {
 	margin-left: 0px;	
 	margin-right: 0px;	
@@ -62,6 +63,9 @@ body {
 	color: grey;
 }
 
-.label-filter:hover	{
-  	color: #428bca;
+.label-metadata {
+	color: grey;
+	font-size: 0.9em;
+	font-weight: normal;
+	vertical-align: middle;
 }
