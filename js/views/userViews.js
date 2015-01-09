@@ -1,7 +1,7 @@
 RegisterView = ModalView.extend({
 
 	getPageTemplate: function() {
-		return '/js/templates/registerTemplate.html';
+		return '/api/internal/doc/register';
 	},
 	
 	events: {
@@ -26,7 +26,7 @@ RegisterView = ModalView.extend({
 LoginView = ModalView.extend({
 
 	getPageTemplate: function() {
-		return '/js/templates/loginTemplate.html';
+		return '/api/internal/doc/login';
 	},
 	
 	events: {
@@ -52,7 +52,7 @@ LoginView = ModalView.extend({
 ProfileView = ModalView.extend({
 	
 	getPageTemplate: function() {
-		return '/js/templates/userAccountTemplate.html';
+		return '/api/internal/doc/userAccount';
 	},
 	
 	events: {
@@ -77,7 +77,7 @@ ProfileView = ModalView.extend({
 PasswordView = ModalView.extend({
 	
 	getPageTemplate: function() {
-		return '/js/templates/passwordTemplate.html';
+		return '/api/internal/doc/password';
 	},
 	
 	events: {

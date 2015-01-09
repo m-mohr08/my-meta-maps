@@ -13,9 +13,9 @@
 
 App::before(function($request)
 {
-	//
+	// Set the locale for all requests
+	App::setLocale(Language::current());
 });
-
 
 App::after(function($request, $response)
 {

@@ -86,7 +86,7 @@ var MessageBox = {
 	
 	add: function (message, className, title) {
 		var html = '<div class="alert alert-' + className + ' alert-dismissible">';
-		html += '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>';
+		html += '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">' + Lang.t('close') + '</span></button>';
 		if (title) {
 			html += '<strong>' + title + '</strong>&nbsp;&nbsp;';
 		}
@@ -95,6 +95,135 @@ var MessageBox = {
 		$('#messages').append(element);
 		element.delay(10000).fadeOut(2000);
 	}
+	
+};
+
+/*
+ * Class to handle the language phrases.
+ * 
+ * This code bases on an implementation from https://github.com/andywer/laravel-js-localization !
+ * The code is released under the MIT license.
+ * 
+ * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+ */
+Lang = {
+	
+	/**
+	 * Translate a message.
+	 *
+	 * @method get
+	 * @static
+	 * @param {String} messageKey       The message key (message identifier).
+	 * @param {Object} [replacements]   Associative array: { variableName: "replacement", ... }
+	 * @return {String} Translated message.
+	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 */
+	t: function(messageKey, replacements) {
+		if (typeof phrases[messageKey] == "undefined") {
+			/* like Lang::get(), if messageKey is the name of a lang file, return it as an array */
+			var result = {};
+			for (var prop in phrases) {
+				if (prop.indexOf(messageKey + '.') > -1) {
+					result[prop] = phrases[prop];
+				}
+			};
+			if (!isEmpty(result)) {
+				return result;
+			}
+			/* if there is nothing to return, return messageKey */
+			return messageKey;
+		}
+
+		var message = phrases[messageKey];
+
+		if (replacements) {
+			message = applyReplacements(message, replacements);
+		}
+
+		return message;
+	},
+
+	/**
+	 * Returns whether the given message is defined or not.
+	 *
+	 * @method has
+	 * @static
+	 * @param {String} messageKey   Message key.
+	 * @return {Boolean} True if the given message exists.
+	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 */
+	has : function(messageKey) {
+		return typeof phrases[messageKey] != "undefined";
+	},
+
+	/**
+	 * Choose one of multiple message versions, based on
+	 * pluralization rules. Only English pluralization
+	 * supported for now. If `count` is one then the first
+	 * version of the message is retuned, otherwise the
+	 * second version.
+	 *
+	 * @method choice
+	 * @static
+	 * @param {String} messageKey       Message key.
+	 * @param {Integer} count           Subject count for pluralization.
+	 * @param {Object} [replacements]   Associative array: { variableName: "replacement", ... }
+	 * @return {String} Translated message.
+	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 */
+	choice : function(messageKey, count, replacements) {
+		if (typeof phrases[messageKey] == "undefined") {
+			return messageKey;
+		}
+
+		var message;
+		var messageSplitted = phrases[messageKey].split('|');
+
+		if (count == 1) {
+			message = messageSplitted[0];
+		} else {
+			message = messageSplitted[1];
+		}
+
+		if (replacements) {
+			message = applyReplacements(message, replacements);
+		}
+
+		return message;
+	},
+	
+    /**
+     * Replace variables used in the message by appropriate values.
+     *
+     * @method applyReplacements
+     * @static
+     * @param {String} message      Input message.
+     * @param {Object} replacements Associative array: { variableName: "replacement", ... }
+     * @return {String} The input message with all replacements applied.
+	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+     */
+    applyReplacements: function (message, replacements) {
+        for (var replacementName in replacements) {
+            var replacement = replacements[replacementName];
+
+            var regex = new RegExp(':'+replacementName, 'g');
+            message = message.replace(regex, replacement);
+        }
+
+        return message;
+    },
+
+    /**
+	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+     */
+    isEmpty: function (obj) {
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return true;
+    }
 	
 };
 

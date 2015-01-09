@@ -14,6 +14,7 @@
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 
+		<script type="text/javascript" src="/api/internal/language/{{ Language::current() }}"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/helpers.js"></script>
 
@@ -50,9 +51,9 @@
 						<!-- Start: Language Chooser -->
 						<ul class="nav navbar-nav navbar-left">
 							<div class="navbar-form btn-group" role="group">
-								<a href="#/en" class="btn btn-default active" role="button"><img src="/img/flags/en.png" alt="English"></a>
-								<a href="#/de" class="btn btn-default" role="button"><img src="/img/flags/de.png" alt="Deutsch"></a>
-								<a href="#/nl" class="btn btn-default" role="button"><img src="/img/flags/nl.png" alt="Nederlands"></a>
+								@foreach (Language::listing() as $code => $name)
+								<a href="/{{ $code }}" class="btn btn-default @if(Language::is($code)) active @endif " role="button"><img src="/img/flags/{{ $code }}.png" alt="{{ $name }}"></a>
+								@endforeach
 							</div>
 						</ul>
 						<!-- End: Language Chooser -->
@@ -77,7 +78,7 @@
 										</ul>
 									</div>
 									<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">@lang('misc.register')&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
-									<a href="javascript:router.loginout();" class="btn btn-primary" id="loginBtn"><span id="logBtnText">@lang('misc.login')&nbsp;</span><span class="glyphicon glyphicon-log-in" id="loginBtnIcon"></span></a>
+									<a href="javascript:router.loginout();" class="btn btn-primary" id="loginBtn"><span id="logBtnText">@lang('misc.login')</span>&nbsp;<span class="glyphicon glyphicon-log-in" id="loginBtnIcon"></span></a>
 								</div>
 							</div>	
 							<!-- End: Account navigation -->
@@ -103,9 +104,9 @@
 			@if (empty($_COOKIE['message-user-help']))
 			<!-- Div for the alert for user-help - beginning -->
 			<div id="message-user-help" class="alert alert-warning alert-dismissible">
-				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('misc.close')</span></button>
+				<button onclick="MessageBox.dismissPermanently('message-user-help');" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('client.close')</span></button>
 				<strong>@lang('misc.userinfo')</strong>&nbsp;&nbsp;
-				@lang('misc.'clicktop) <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalHelp" id="helpBtn">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button> @lang('misc.furtherInfo')
+				@lang('misc.clicktop') <a href="#/help" class="btn btn-danger btn-xs">@lang('misc.help')&nbsp;<span class="glyphicon glyphicon-question-sign"></span></a> @lang('misc.furtherInfo')
 			</div>
 			<!-- Div for the alert for user-help - ending -->
 			@endif

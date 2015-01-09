@@ -73,7 +73,7 @@ MapView = ContentView.extend({
 	},
 	
 	getPageTemplate: function() {
-		return '/js/templates/mapTemplate.html';
+		return '/api/internal/doc/map';
 	}
 });
 

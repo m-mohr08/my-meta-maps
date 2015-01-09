@@ -11,20 +11,25 @@
   |
  */
 
-// Frontpage
-Route::get('/', 'HomeController@showFrontpage');
+// Redirect to the language version currently chosen
+Route::get('/', function() {
+	return Redirect::to('/' . Language::current());
+});
+
+// Frontpage in the language chosen
+Route::get('/{language}', 'HomeController@getFrontpage')->where('language', '[a-z]{2}');
 
 // Permalink for search
-Route::get('/search/{hash}', 'HomeController@showSearch');
+Route::get('/search/{hash}', 'HomeController@getSearch');
 
 // Permalink for geo data set and comments
 Route::group(array('prefix' => '/geodata'), function() {
 
 	// Permalink for all comments of a geo data set
-	Route::get('/{geodata}/', 'HomeController@showGeodata');
+	Route::get('/{geodata}/', 'HomeController@getGeodata');
 
 	// Permalink for specific comment of a geo data set
-	Route::get('/{geodata}/comment/{comment}', 'HomeController@showComment');
+	Route::get('/{geodata}/comment/{comment}', 'HomeController@getComment');
 
 });
 
