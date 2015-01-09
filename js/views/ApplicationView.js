@@ -88,6 +88,7 @@ MapView = ContentView.extend({
         $('#ratingFilter').barrating({showSelectedRating: false});
 
         commentsShowController(new CommentsShow());
+        
 
     },
     getPageTemplate: function () {
