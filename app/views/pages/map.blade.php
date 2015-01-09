@@ -9,8 +9,8 @@
 
 		<div class="row clearfix">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Stichwortsuche">
-				<span type="submit" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+				<input type="text" class="form-control" id="SearchTerms" placeholder="Stichwortsuche">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
 		</div>
 
@@ -24,14 +24,14 @@
 
 		<div class="col-md-6 column row clearfix">
 			<div class="input-group">
-				<input class="form-control" type="text" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
+				<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
 				<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
 			</div>
 		</div>
 
 		<div class="col-md-6 column row clearfix">
 			<div class="input-group">
-				<input class="form-control" type="text" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
+				<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
 				<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 			</div>
 		</div>
