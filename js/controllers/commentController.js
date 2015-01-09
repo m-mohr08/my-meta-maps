@@ -1,22 +1,16 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentController(model, view) {
+function commentsShowController(model) {
 	
-	model.save({
+	model.save(null, {
 		
-        success: function (data) {
-            
-        	var commentJSON = data.toJSON();
-			var commentList = commentJSON.geodata;
-			
-			view.showComments(commentList);
-			
+        success: function (data, response) {
+			var commentShowView = new CommentShowView(response);
         },
         
         error: function() {
-        	
-			view.addError();
+			MessageBox.addError('Die Kommentare konnten nicht angezeigt werden.');
 		}
    });
 };
@@ -24,9 +18,9 @@ function commentController(model, view) {
 /*
 * Send a POST-request to the server
 */
-function commentAddFirstStepController(modelURL, details) {
+function commentAddFirstStepController(model, details) {
 	
-	modelURL.save(details, {
+	model.save(details, {
 		
         success: function (data) {
         	console.log('Try to validate URL');
