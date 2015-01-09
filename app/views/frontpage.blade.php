@@ -128,13 +128,15 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 		
+		<script type="text/javascript" src="/js/models/commentModel.js"></script>
+		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
+		
 		<!-- Basic Views -->
 		<script type="text/javascript" src="/js/views/ApplicationView.js"></script>
 		
 		<!-- Comment-MVC -->
-		<script type="text/javascript" src="/js/models/commentModel.js"></script>
+		
 		<script type="text/javascript" src="/js/views/commentView.js"></script>
-		<script type="text/javascript" src="/js/controllers/commentController.js"></script>
 		
 		<!-- User-MVC -->
 		<script type="text/javascript" src="/js/models/userModel.js"></script>
