@@ -3,19 +3,7 @@
 */
 function commentsShowController(model) {
 	
-	var details = {
-			"q" : $("#SearchTerms").val(),
-			"bbox" : getBoundingBox,
-			"radius" : $("#spatialFilter").val(),
-			"startDate": $("#filterStartTime").val(),
-			"endDate": $("#filterEndTime").val(),		
-			"minrating": $("#ratingFilter").val(),
-			"metadata" : $('#includeMetadata').is(':checked')
-		};
-		
-		console.log('Rating: ' + details.minrating);
-	
-	model.save(details, {
+	model.save(null, {
 		
         success: function (data, response) {
 			var commentShowView = new CommentShowView(response);
@@ -27,11 +15,6 @@ function commentsShowController(model) {
    });
 };
 
-function getBoundingBox () {
-	
-	return null;
-}
-
 /*
 * Send a POST-request to the server
 */
@@ -42,7 +25,7 @@ function commentAddFirstStepController(model, details) {
         success: function (data) {
         	console.log('Try to validate URL');
         	
-        	FormErrorMessages.remove('#form-comment-firstStep');
+        	FormErrorMessages.remove('#form-comment');
         	
         	$('#ModalAddComment').modal('hide');
 
@@ -50,10 +33,10 @@ function commentAddFirstStepController(model, details) {
 			view.setMetadata(data.toJSON());
         },
         
-        error: function(data, response) {
+        error: function() {
         	console.log('Can not validate URL');
 
-        	FormErrorMessages.apply('#form-comment-firstStep', response.responseJSON);
+        	FormErrorMessages.apply('#form-comment');
 		}
    });
 };
@@ -69,17 +52,14 @@ function commentAddSecondStepController(model, details) {
 		success: function () {
 			
 			console.log('Details of added comment are: ' + JSON.stringify(details));
-			console.log("Adding comment was successfull");
 			
-			FormErrorMessages.remove('#form-comment-secondStep');
+			console.log("Adding comment was successfull");
 		},
 	
 		// In case of failed adding of comment
-		error: function (data, response) {
+		error: function () {
 			
 			console.log("Adding comment failed");
-			
-			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
 		}
 	});
 };
