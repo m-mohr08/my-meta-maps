@@ -90,12 +90,7 @@ MapView = ContentView.extend({
         $('#spatialFilter').barrating('show', {showValues: true, showSelectedRating: false});
         $('#ratingFilter').barrating({showSelectedRating: false});
 
-<<<<<<< HEAD
-        commentsShowController(new CommentsShow());
-        
-=======
         commentsShowController(new CommentsShow(), this);
->>>>>>> 54de5ab2cd1331df368d40e1811cd9191699ede5
 
     },
 	

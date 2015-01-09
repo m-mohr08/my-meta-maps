@@ -7,7 +7,7 @@ function commentsShowController(model, mapview) {
 		
         success: function (data, response) {
 			var commentShowView = new CommentShowView(response);
-			mapview.addGeodataToMap(reponse);
+			mapview.addGeodataToMap(response);
         },
         
         error: function() {
