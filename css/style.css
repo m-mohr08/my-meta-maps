@@ -82,3 +82,11 @@ html, body, .hundred, #map {
 .input-group-addon {
 	cursor: pointer;
 }
+
+#filterHeader button {
+	margin: -2px 0 -2px 0;
+}
+
+#mapDataPanel .panel {
+	margin-bottom: 10px;
+}
