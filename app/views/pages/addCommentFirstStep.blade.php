@@ -9,7 +9,7 @@
 						
 			<div class="modal-body">
 											
-				<form id="form-comment" onsubmit="return false">
+				<form id="form-comment-firstStep" onsubmit="return false">
 								
 					<div class="row form-group form-group-marginSides">
 						<label for="url">URL*</label>
@@ -18,8 +18,13 @@
 					</div>
 								
 					<div class="row form-group form-group-marginSides">
-						<label for="datatype">Datentyp*</label>
-						<input class="form-control" name="datatype" id="inputDataType" type="text">
+						<label for="datatype">Datenformat*</label>
+						<select class="form-control" name="datatype" id="inputDataType">
+						<option value="">Bitte Datenformat wählen</option>
+						@foreach (\GeoMetadata\GmRegistry::getServices() as $service)
+							<option value="{{{ $service->getCode() }}}">{{{ $service->getName() }}}</option>
+						@endforeach
+						</select>
 						<div class="error-message"></div>
 					</div>
 							

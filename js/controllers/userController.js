@@ -7,7 +7,7 @@ function userRegisterController(model, inputRegister) {
 		
 		// In case of successfull registration
 		success: function () {
-			console.log('Registration succeded');
+			Debug.log('Registration succeded');
 			FormErrorMessages.remove('#form-register');
         	$('#ModalRegister').modal('hide');
 			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun anmelden.');
@@ -15,7 +15,7 @@ function userRegisterController(model, inputRegister) {
 	
 		// In case of failed registration
 		error: function (data, response) {
-			console.log('Registration failed');
+			Debug.log('Registration failed');
 			FormErrorMessages.apply('#form-register', response.responseJSON);
 		}
 	});
@@ -28,12 +28,12 @@ function userLogoutController() {
 	var model = new UserLogout();
 	model.fetch({
 		success: function(){
-			console.log('Logout succeded');
+			Debug.log('Logout succeded');
 			MessageBox.addSuccess('Sie haben sich erfolgreich abgemeldet.');
 			AuthUser.setUser();
 		},
 		error: function(){
-			console.log('Logout failed');
+			Debug.log('Logout failed');
 			MessageBox.addError('Die Abmeldung ist leider fehlgeschlagen.');
 		}
 	});
@@ -48,7 +48,7 @@ function userLoginController(model, inputLogin) {
 		
 		// In case of successfull login
 		success: function (model, response) {
-			console.log('Login succeded');
+			Debug.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
         	$('#ModalLogin').modal('hide');
 			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet.');
@@ -57,7 +57,7 @@ function userLoginController(model, inputLogin) {
 	
 		// In case of failed login
 		error: function () {
-			console.log('Login failed');
+			Debug.log('Login failed');
 			var msg = 'Die Anmeldedaten sind nicht korrekt.';
 			var errorMessages = {
 				identifier: msg,
@@ -86,7 +86,7 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 		// In case of failed login
 		error: function (data, response) {
 			
-			console.log('Login failed');
+			Debug.log('Login failed');
 			
 			FormErrorMessages.apply('#form-changeGeneral', response.responseJSON);
 			
@@ -112,7 +112,7 @@ function userChangePasswordController(model, inputChangePassword) {
 		// In case of failed login
 		error: function (data, response) {
 			
-			console.log('Login failed');
+			Debug.log('Login failed');
 			
 			FormErrorMessages.apply('#form-changePassword', response.responseJSON);
 			

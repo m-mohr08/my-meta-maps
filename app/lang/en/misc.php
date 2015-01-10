@@ -19,9 +19,9 @@ return array(
 	'login' => 'Login',
 	'imprint' => 'Imprint',
 	'help' => 'Help',
-	'userinfo' => 'Help',
-	'clicktop' => 'Click on',
-	'furtherInfo' => 'for further information.',
+	'userinfo' => 'User Guide',
+	'clicktop' => 'If you are new to My Meta Maps and are wondering how to get started click ',
+	'furtherInfo' => '.',
 
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',

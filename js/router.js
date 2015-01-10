@@ -12,15 +12,15 @@ var Router = Backbone.Router.extend({
 	},
 
 	about: function () {
-		new AboutView();
+		ContentView.register(new AboutView());
 	},
 
 	help: function () {
-		new HelpView();
+		ContentView.register(new HelpView());
 	},
 
 	map: function () {
-		new MapView();
+		ContentView.register(new MapView());
 	},
 
 	loginout: function () {
@@ -49,7 +49,7 @@ var Router = Backbone.Router.extend({
 	},
 
 	addComment2: function () {
-		new CommentAddViewStep2();
+		ContentView.register(new CommentAddViewStep2());
 	}
 
 });
