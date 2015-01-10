@@ -1,35 +1,38 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentsShowController(model) {
+function commentsShowController(model, mapview) {
 	
 	var details = {
-			"q" : $("#SearchTerms").val(),
-			"bbox" : getBoundingBox,
-			"radius" : $("#spatialFilter").val(),
-			"startDate": $("#filterStartTime").val(),
-			"endDate": $("#filterEndTime").val(),		
-			"minrating": $("#ratingFilter").val(),
-			"metadata" : $('#includeMetadata').is(':checked')
-		};
-		
-		console.log('Rating: ' + details.minrating);
-	
+		"q" : $("#SearchTerms").val(),
+		"bbox" : mapview.getBoundingBox(),
+		"radius" : $("#spatialFilter").val(),
+		"startDate": $("#filterStartTime").val(),
+		"endDate": $("#filterEndTime").val(),		
+		"minrating": $("#ratingFilter").val(),
+		"metadata" : $('#includeMetadata').is(':checked')
+	};
+
 	model.save(details, {
 		
         success: function (data, response) {
 			var commentShowView = new CommentShowView(response);
+			mapview.addGeodataToMap(response);
         },
         
         error: function() {
-			MessageBox.addError('Die Kommentare konnten nicht angezeigt werden.');
+			MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
 		}
    });
 };
 
-function getBoundingBox () {
-	
-	return null;
+/**
+ * Executes the search if the MapView is active.
+ */
+function executeSearch() {
+	if (ContentView.active instanceof MapView) {
+		ContentView.active.doSearch();
+	}
 }
 
 /*
@@ -40,7 +43,7 @@ function commentAddFirstStepController(model, details) {
 	model.save(details, {
 		
         success: function (data) {
-        	console.log('Try to validate URL');
+        	Debug.log('Try to validate URL');
         	
         	FormErrorMessages.remove('#form-comment-firstStep');
         	
@@ -51,8 +54,7 @@ function commentAddFirstStepController(model, details) {
         },
         
         error: function(data, response) {
-        	console.log('Can not validate URL');
-
+        	Debug.log('Can not validate URL');
         	FormErrorMessages.apply('#form-comment-firstStep', response.responseJSON);
 		}
    });
@@ -67,18 +69,14 @@ function commentAddSecondStepController(model, details) {
 		
 		// In case of successfull adding of comment
 		success: function () {
-			
-			console.log('Details of added comment are: ' + JSON.stringify(details));
-			console.log("Adding comment was successfull");
-			
+			Debug.log('Details of added comment are: ' + JSON.stringify(details));
+			Debug.log("Adding comment was successfull");
 			FormErrorMessages.remove('#form-comment-secondStep');
 		},
 	
 		// In case of failed adding of comment
 		error: function (data, response) {
-			
-			console.log("Adding comment failed");
-			
+			Debug.log("Adding comment failed");
 			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
 		}
 	});
