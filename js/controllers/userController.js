@@ -135,17 +135,8 @@ function userCheckDataController(model, id, key) {
 		success: function () {
 			Debug.log('User data has not already been taken.');
 			responseJSON = {};
-			if(key === 'name') {
-				responseJSON[key] = 'This name can been taken.';
-				FormErrorMessages.applyPartially('#form-register', responseJSON, true);
-			}
-			else if(key === 'email') {
-				responseJSON[key] = 'This email can been taken.';
-				FormErrorMessages.applyPartially('#form-register', responseJSON, true);
-			} 
-			else {
-				Debug.log('Key is neither name nor email');
-			}
+			responseJSON[key] = 'This name/email can been taken.';
+			FormErrorMessages.applyPartially('#form-register', responseJSON, true);
 		},
 	
 		error: function (data, response) {
