@@ -11,14 +11,18 @@ FormErrorMessages = {
 	errorClass: 'invalid',
 	successClass: 'success',
 	
-	apply: function(form, json, success) {
-		this.remove(form);
+	applyPartially: function(form, json, success) {
 		var that = this;
 		$.each(json, function(field, message) {
 			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
 			elm.addClass(success ? that.successClass : that.errorClass);
 			elm.find('.error-message').text(message);
 		});
+	},
+	
+	apply: function(form, json, success) {
+		this.remove(form);
+		this.applyPartially(form, json, success);
 	},
 	
 	remove: function(form) {
