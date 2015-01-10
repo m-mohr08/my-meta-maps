@@ -62,6 +62,7 @@ MapView = ContentView.extend({
 	map: null,
 	onLoaded: function () {
 		var view = new ol.View({
+                        projection: "EPSG:3857",
 			center: [0, 0],
 			zoom: 2
 		});
@@ -69,7 +70,8 @@ MapView = ContentView.extend({
 		this.map = new ol.Map({
 			layers: [new ol.layer.Tile({
 					source: new ol.source.OSM()
-				})],
+				})
+                            ],
 			target: 'map',
 			controls: ol.control.defaults({
 				attributionOptions: /** @type {olx.control.AttributionOptions} */({
@@ -78,6 +80,7 @@ MapView = ContentView.extend({
 			}),
 			view: view
 		});
+                console.log("show map");
 
 		// gets the geolocation
 		var geolocation = new ol.Geolocation({
@@ -111,9 +114,43 @@ MapView = ContentView.extend({
 		// TODO: Return the current bounding box of the map
 		return null;
 	},
+        
 	addGeodataToMap: function (data) {
-		// Tu was mit den Daten...
-		// this.map.addPolygon() bspw.
+            console.log("addGeodataToMap started");
+            
+                // get all the bboxes from the comments into one array
+                var parser = new ol.format.WKT({
+                    splitCollection: false
+                });
+                var polySource = new ol.source.Vector();
+                var polygeom;
+                for(var index = 0; index < data.geodata.length; index++) {
+                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, "EPSG:3857");
+                    console.log(polygeom.getCoordinates());
+                    polySource.addFeature(new ol.Feature({
+                        geometry: polygeom,
+                        projection: "EPSG:3857"
+                        })
+                    );
+                }
+                
+                var polyStyle = new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: '#000000'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#000000',
+                        width: 2
+                    })
+                });
+                
+                // show the bboxes in the map
+                this.map.addLayer(new ol.layer.Vector({
+                    source: polySource,
+                    style: polyStyle
+                    })
+                );
+                
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
