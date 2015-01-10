@@ -80,7 +80,10 @@ CommentAddViewStep2 = ContentView.extend({
 		// Creates further details of a comment with typed in values
 		var details = {
 			"url" : $("#inputURL").val(),
+			"datatype" : $("#inputDataType").val(),
+			"layer" : null,
 			"text" : $("#inputText").val(),
+			"geometry" : null,
 			"startDate": $("#inputStartDate").val(),
 			"endDate": $("#inputEndDate").val(),		
 			"rating": $("#ratingComment").val(),
