@@ -19,19 +19,21 @@ html, body, .hundred, #map {
 .form-group .error-message {
 	display: none;
 }
-
-.form-group.invalid .error-message {
+.form-group.invalid .error-message, .form-group.success .error-message {
 	display: block;
-	color: #a94442;
 	font-size: 0.9em;
 }
-
 .form-group.invalid input, .form-group.invalid textarea, .form-group.invalid select {
 	border-color: #a94442;
 }
-
-.form-group.invalid label {
+.form-group.invalid label, .form-group.invalid .error-message {
 	color: #a94442;
+}
+.form-group.success input, .form-group.success textarea, .form-group.success select {
+	border-color: #3c763d;
+}
+.form-group.success label, .form-group.success .error-message {
+	color: #3c763d;
 }
 
 #filterArea .panel-body {

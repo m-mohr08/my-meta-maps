@@ -220,8 +220,18 @@ class UserApiController extends BaseApiController {
 	 * @param string $what 'email' or 'name', depending on what you want to check.
 	 * @return Response
 	 */
-	public function postCheck($what) {
+	public function postCheck() {
 		$rules = array();
+		
+		$data = Input::only('email', 'name');
+		
+		$what = null;
+		foreach ($data as $key => $value) {
+			if (!empty($value)) {
+				$what = $key;
+				break;
+			}
+		}
 
 		switch($what) {
 			case 'email':
@@ -229,11 +239,11 @@ class UserApiController extends BaseApiController {
 				$user = new User();
 				$rules[$what] = 'unique:'.$user->getTable();
 				break;
-			default: 
-				return $this->getConflictResponse();
+			default:
+				return $this->getNotFoundResponse();
 		}
 
-		$validator = Validator::make(Input::only($what), $rules);
+		$validator = Validator::make($data, $rules);
 		if ($validator->fails()) {
 			return $this->getConflictResponse();
 		}

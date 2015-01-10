@@ -66,7 +66,7 @@ Route::group(array('prefix' => '/api/internal'), function() {
 		Route::post('/change/{what}', 'UserApiController@postChange');
 
 		// Check user data
-		Route::post('/check/{what}', 'UserApiController@postCheck');
+		Route::post('/check', 'UserApiController@postCheck');
 		
 		Route::group(array('prefix' => '/remind'), function() {
 		
