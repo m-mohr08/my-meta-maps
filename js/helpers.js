@@ -9,19 +9,21 @@ Debug = {
 FormErrorMessages = {
 
 	errorClass: 'invalid',
+	successClass: 'success',
 	
-	apply: function(form, json) {
+	apply: function(form, json, success) {
 		this.remove(form);
 		var that = this;
 		$.each(json, function(field, message) {
 			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
-			elm.addClass(that.errorClass);
+			elm.addClass(success ? that.successClass : that.errorClass);
 			elm.find('.error-message').text(message);
 		});
 	},
 	
 	remove: function(form) {
 		$(form).find("." + this.errorClass).removeClass(this.errorClass);
+		$(form).find("." + this.successClass).removeClass(this.successClass);
 	}
 	
 };
