@@ -11,13 +11,13 @@
 							
 					<div class="row form-group form-group-marginSides">
 						<label for="name">Benutzername</label>
-						<input class="form-control" name="name" id="inputNameForRegister" type="text">
+						<input class="form-control" name="name" id="inputNameForRegister" type="text" onchange="userCheckDataController(new UserCheckData(), 'inputNameForRegister', 'name')">
 						<div class="error-message"></div>
 					</div>
 							
 					<div class="row form-group form-group-marginSides">
 						<label for="email">E-Mail-Adresse</label>
-						<input class="form-control" name="email" id="inputMailForRegister" type="text" placeholder="@">
+						<input class="form-control" name="email" id="inputMailForRegister" type="text" placeholder="@" onchange="userCheckDataController(new UserCheckData(), 'inputMailForRegister', 'email')">
 						<div class="error-message"></div>
 					</div>
 					

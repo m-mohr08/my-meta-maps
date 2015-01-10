@@ -36,6 +36,13 @@ UserChangeGeneral = BaseModel.extend({
 /*
  * Model for change password
  */
-UserChangePassword= BaseModel.extend({     
+UserChangePassword = BaseModel.extend({     
 	urlRoot: '/api/internal/user/change/password'
+});
+
+/*
+ * Model to check user data before registration
+ */
+UserCheckData = BaseModel.extend({
+	urlRoot: '/api/internal/user/check'
 });
