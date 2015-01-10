@@ -87,9 +87,15 @@ PasswordView = ModalView.extend({
 	changePassword: function(event) {
 		Debug.log('Try to change password of user');
 		
+		var oldPw = null;
+		// No old password needed when authenticated with oauth
+		if ($("#inputChangeOldPassword").size() > 0) {
+			oldPw = $("#inputChangeOldPassword").val();
+		}
+		
 		// Creates details of a change of password of a user with typed in values
 		var inputChangePassword = {
-			old_password: $("#inputChangeOldPassword").val(),
+			old_password: oldPw,
 			password: $("#inputChangePassword").val(),
 			password_confirmation: $("#inputChangePasswordRepeat").val()
 		};
