@@ -46,11 +46,19 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
+		$version =  $this->getParser()->xpath("/*[local-name()='WMS_Capabilities'][@version='1.3.0']");
+		
 		$bboxes = $this->getParser()->xpath("//*[local-name()='Capability']/*[local-name()='Layer']/*[local-name()='LatLonBoundingBox']|//*[local-name()='Capability']/*[local-name()='Layer']/*[local-name()='BoundingBox'][@CRS='EPSG:4326' or @CRS='CRS:84']");
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-				// TODO: In version 1.3.0 with WGS84 the lon/lat values order is changed.
-				$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
+				if (empty($version)) {
+					$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
+				}
+				else {
+					// In WMS version 1.3.0 with WGS84 the lon/lat values order is changed.
+					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
+					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx']);
+				}
 				break;
 			}
 		}
