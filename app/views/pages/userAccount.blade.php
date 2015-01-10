@@ -1,4 +1,4 @@
-<div class="modal fade" id="ModalUserAccount" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalUserAccountGeneral" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			

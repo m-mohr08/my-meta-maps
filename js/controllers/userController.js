@@ -5,7 +5,6 @@ function userRegisterController(model, inputRegister) {
 	
 	model.save(inputRegister, {
 		
-		// In case of successfull registration
 		success: function () {
 			Debug.log('Registration succeded');
 			FormErrorMessages.remove('#form-register');
@@ -13,7 +12,6 @@ function userRegisterController(model, inputRegister) {
 			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun anmelden.');
 		},
 	
-		// In case of failed registration
 		error: function (data, response) {
 			Debug.log('Registration failed');
 			FormErrorMessages.apply('#form-register', response.responseJSON);
@@ -46,7 +44,6 @@ function userLoginController(model, inputLogin) {
 	
 	model.save(inputLogin, {
 		
-		// In case of successfull login
 		success: function (model, response) {
 			Debug.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
@@ -55,7 +52,6 @@ function userLoginController(model, inputLogin) {
 			AuthUser.setUser(response.user.name);
 		},
 	
-		// In case of failed login
 		error: function () {
 			Debug.log('Login failed');
 			var msg = 'Die Anmeldedaten sind nicht korrekt.';
@@ -75,21 +71,16 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 	
 	model.save(inputChangeGeneral, {
 		
-		// In case of successfull login
 		success: function () {
-			
+			Debug.log('Change general user data succeded');
 			FormErrorMessages.remove('#form-changeGeneral');
-			
-			// TODO
+			$('#ModalUserAccountGeneral').modal('hide');
+			MessageBox.addSuccess('Sie haben erfolgreich ihre Benutzerdaten geändert.');
 		},
 	
-		// In case of failed login
 		error: function (data, response) {
-			
-			Debug.log('Login failed');
-			
+			Debug.log('Change general user data failed');
 			FormErrorMessages.apply('#form-changeGeneral', response.responseJSON);
-			
 		}
 	});
 };
@@ -101,21 +92,16 @@ function userChangePasswordController(model, inputChangePassword) {
 	
 	model.save(inputChangePassword, {
 		
-		// In case of successfull login
 		success: function () {
-			
+			Debug.log('Change password succeded');
 			FormErrorMessages.remove('#form-changePassword');
-			
-			// TODO
+			$('#ModalUserAccountPassword').modal('hide');
+			MessageBox.addSuccess('Sie haben erfolgreich ihr Passwort geändert.');
 		},
 	
-		// In case of failed login
 		error: function (data, response) {
-			
-			Debug.log('Login failed');
-			
+			Debug.log('Change password failed');
 			FormErrorMessages.apply('#form-changePassword', response.responseJSON);
-			
 		}
 	});
 };

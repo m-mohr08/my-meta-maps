@@ -81,12 +81,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="geodataHeader">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#geodataArea" aria-expanded="true" aria-controls="geodataArea">Geodatensätze</a>
+				<a data-toggle="collapse" href="#showComments" aria-expanded="true" aria-controls="showComments">Geodatensätze</a>
 			</h4>
 		</div>
-		<div id="geodataArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="geodataHeader">
-			<div class="panel-body" id="showComments"></div>
-		</div>
+		<ul id="showComments" class="list-group collapse in" role="tabpanel" aria-labelledby="geodataHeader">
+		</ul>
 	</div>
 </div>
 
