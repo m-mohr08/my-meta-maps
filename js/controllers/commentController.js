@@ -1,7 +1,7 @@
 /*
 * Send a POST-request to the server to get comments
 */
-function commentsShowController(model, mapview) {
+function geodataShowController(model, mapview) {
 	
 	var details = {
 		"q" : $("#SearchTerms").val(),
@@ -16,7 +16,7 @@ function commentsShowController(model, mapview) {
 	model.save(details, {
 		
         success: function (data, response) {
-			var commentShowView = new CommentShowView(response);
+			var geodataShowView = new GeodataShowView(response);
 			mapview.addGeodataToMap(response);
         },
         

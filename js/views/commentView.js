@@ -1,7 +1,7 @@
 /*
- * View for CommentsShow; showing comments
+ * View for GeodataShow; showing geodatas
  */
-CommentShowView = ContentView.extend({
+GeodataShowView = ContentView.extend({
 	
 	el: function() {
 		return $('#showGeodata');

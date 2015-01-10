@@ -13,15 +13,18 @@ CommentAddSecondStep = BaseModel.extend({
 });
 
 /*
- * Model for (showing) comments
+ * Model for (showing) geodata
  */
-CommentsShow = BaseModel.extend({
+GeodataShow = BaseModel.extend({
 	urlRoot: '/api/internal/geodata/list'
 });
 
 /*
- * Model for comments of a geodata
+ * Model for (showing) comments to a geodata
  */
-CommentsOfGeodata = BaseModel.extend({
-	urlRoot: '/api/internal/geodata/id/comments'
+CommentsToGeodata = BaseModel.extend({
+	defaults: {
+    	id: 'undefinded'
+    },
+	urlRoot: '/api/internal/geodata/' + this.id + '/comments'
 });
