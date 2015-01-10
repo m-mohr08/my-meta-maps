@@ -127,8 +127,6 @@ function registeredUserChangedLanguage() {
  */
 function userCheckDataController(model, id, key) {
 	
-	Debug.log('Key: ' + key);
-	
 	var inputCheckData = {};
 	inputCheckData[key] = $("#" + id).val();
 	
@@ -136,11 +134,23 @@ function userCheckDataController(model, id, key) {
 		
 		success: function () {
 			Debug.log('User data has not already been taken.');
+			responseJSON = {};
+			if(key === 'name') {
+				responseJSON[key] = 'This name can been taken.';
+				FormErrorMessages.applyPartially('#form-register', responseJSON, true);
+			}
+			else if(key === 'email') {
+				responseJSON[key] = 'This email can been taken.';
+				FormErrorMessages.applyPartially('#form-register', responseJSON, true);
+			} 
+			else {
+				Debug.log('Key is neither name nor email');
+			}
 		},
 	
 		error: function (data, response) {
 			Debug.log('User data has already been taken.');
-			FormErrorMessages.apply('#form-changePassword', 'Dies wird bereit von einem anderem Benuzter verwendet.');
+			FormErrorMessages.applyPartially('#form-register', response.responseJSON, false);
 		}
 	});
 };
