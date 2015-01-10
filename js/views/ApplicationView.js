@@ -94,11 +94,11 @@ MapView = ContentView.extend({
 			showValues: true,
 			showSelectedRating: false,
 			onSelect: executeSearch,
-			onClear: executeSearch()
+			onClear: executeSearch
 		});
 		$('#ratingFilter').barrating({
 			showSelectedRating: false,
-			onSelect: executeSearch(),
+			onSelect: executeSearch,
 			onClear: executeSearch
 		});
 
