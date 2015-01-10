@@ -221,31 +221,33 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postCheck() {
-		$rules = array();
+		$user = new User();
+		$supported = array(
+			'email' => 'required|email|unique:'.$user->getTable(),
+			'name' => 'required|min:3|max:60|regex:/^[^@]+$/i|unique:'.$user->getTable()
+		);
 		
-		$data = Input::only('email', 'name');
-		
-		$what = null;
-		foreach ($data as $key => $value) {
-			if (!empty($value)) {
+		$data = Input::json();
+		foreach (array_keys($supported) as $key) {
+			if ($data->has($key)) {
 				$what = $key;
 				break;
 			}
 		}
 
+		$rules = array();
 		switch($what) {
 			case 'email':
 			case 'name':
-				$user = new User();
-				$rules[$what] = 'unique:'.$user->getTable();
+				$rules[$what] = $supported[$what];
 				break;
 			default:
 				return $this->getNotFoundResponse();
 		}
 
-		$validator = Validator::make($data, $rules);
+		$validator = Validator::make($data->all(), $rules);
 		if ($validator->fails()) {
-			return $this->getConflictResponse();
+			return $this->getConflictResponse($validator->messages());
 		}
 		else {
 			return $this->getJsonResponse();
