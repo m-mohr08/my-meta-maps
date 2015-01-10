@@ -110,6 +110,9 @@ class Geodata extends Eloquent {
 	}
 
 	public function getKeywords(){
+		if (empty($this->keywords)) {
+			return array();
+		}
 		return explode('|', $this->keywords);
 	}
 	
