@@ -93,7 +93,7 @@ class Geodata extends Eloquent {
 		}
 		
 		if (!empty($filter['minrating'])) {
-			$query->where("{$ct}.rating", '>', $filter['minrating']);
+			$query->where("{$ct}.rating", '>=', $filter['minrating']);
 		}
 		
 		// Group By
