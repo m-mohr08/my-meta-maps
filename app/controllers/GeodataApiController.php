@@ -88,7 +88,12 @@ class GeodataApiController extends BaseApiController {
 	public function postAdd() {
 		$data = Input::only('url', 'datatype', 'layer', 'text', 'geometry', 'start', 'end', 'rating', 'title');
 		
-		$geodata = Geodata::where('url', '=', $data['url'])->first();
+		$geodata = null;
+		$service = GmRegistry::getService($data['datatype']);
+		if ($service !== null) {
+			$serviceUrl = $service->getServiceUrl($data['url']);
+			$geodata = Geodata::where('url', '=', $serviceUrl)->first();
+		}
 		
 		$validator = Validator::make($data,
 			array(
