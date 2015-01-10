@@ -62,7 +62,7 @@ MapView = ContentView.extend({
 	map: null,
 	onLoaded: function () {
 		var view = new ol.View({
-                        projection: "EPSG:3857",
+                        //projection: 'EPSG: 4326',
 			center: [0, 0],
 			zoom: 2
 		});
@@ -125,29 +125,31 @@ MapView = ContentView.extend({
                 var polySource = new ol.source.Vector();
                 var polygeom;
                 for(var index = 0; index < data.geodata.length; index++) {
-                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, "EPSG:3857");
+                    console.log(data.geodata[index].metadata.bbox);
+                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, "EPSG:4326");
                     console.log(polygeom.getCoordinates());
                     polySource.addFeature(new ol.Feature({
                         geometry: polygeom,
-                        projection: "EPSG:3857"
+                        projection: "EPSG:4326"
                         })
                     );
                 }
                 
                 var polyStyle = new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: '#000000'
+                        color: '#F1EDED'
                     }),
                     stroke: new ol.style.Stroke({
                         color: '#000000',
-                        width: 2
+                        width: 10
                     })
                 });
                 
                 // show the bboxes in the map
                 this.map.addLayer(new ol.layer.Vector({
                     source: polySource,
-                    style: polyStyle
+                    style: polyStyle,
+                    visible: true
                     })
                 );
                 
