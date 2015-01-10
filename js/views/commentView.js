@@ -4,7 +4,7 @@
 CommentShowView = ContentView.extend({
 	
 	el: function() {
-		return $('#showComments');
+		return $('#showGeodata');
 	},
 
 	getPageContent: function() {
@@ -12,7 +12,7 @@ CommentShowView = ContentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return '/api/internal/doc/showCommentBit';
+		return '/api/internal/doc/showGeodataBit';
 	}
 });
 
