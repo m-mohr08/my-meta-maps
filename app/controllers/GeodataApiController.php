@@ -170,9 +170,11 @@ class GeodataApiController extends BaseApiController {
 		if ($validator->fails()) {
 			return $this->getConflictResponse($validator->messages());
 		}
+
 		
 		// Try to get existing metadata for the URL
-		$geodata = Geodata::where('url', '=', $data['url'])->first();
+		$serviceUrl = 	GmRegistry::getService($data['datatype'])->getServiceUrl($data['url']);
+		$geodata = Geodata::where('url', '=', $serviceUrl)->first();
 		if ($geodata != null) {
 			$json = $this->buildSingleGeodata($geodata);
 			$json['geodata']['id'] = $geodata->id;

@@ -49,6 +49,7 @@ class OgcWebMapService extends OgcWebServices {
 		$bboxes = $this->getParser()->xpath("//*[local-name()='Capability']/*[local-name()='Layer']/*[local-name()='LatLonBoundingBox']|//*[local-name()='Capability']/*[local-name()='Layer']/*[local-name()='BoundingBox'][@CRS='EPSG:4326' or @CRS='CRS:84']");
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
+				// TODO: In version 1.3.0 with WGS84 the lon/lat values order is changed.
 				$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
 				break;
 			}
@@ -61,7 +62,7 @@ class OgcWebMapService extends OgcWebServices {
 				$north = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'northBoundLongitude'));
 				$south = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'southBoundLongitude'));
 				if (!$west != null && $east != null && $north != null && $south != null) {
-					$model->createBoundingBox($west, $north, $east, $south);
+					$model->createBoundingBox($west, $south, $east, $north);
 				}
 			}
 		}
@@ -111,7 +112,7 @@ class OgcWebMapService extends OgcWebServices {
 						$north = $this->selectOne(array('EX_GeographicBoundingBox', 'northBoundLongitude'), $node);
 						$south = $this->selectOne(array('EX_GeographicBoundingBox', 'southBoundLongitude'), $node);
 						if (!$west != null && $east != null && $north != null && $south != null) {
-							$layer->createBoundingBox($west, $north, $east, $south);
+							$layer->createBoundingBox($west, $south, $east, $north);
 						}
 					}
 				}

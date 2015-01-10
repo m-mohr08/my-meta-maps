@@ -30,9 +30,9 @@ class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer  {
 		$this->extra = array();
 	}
 	
-	public function createBoundingBox($west, $north, $east, $south) {
+	public function createBoundingBox($west, $south, $east, $north) {
 		$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-		$bbox->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
 		$this->bbox = $bbox->toWkt();
 	}
 
@@ -44,7 +44,7 @@ class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer  {
 		if ($geometry != null) {
 			$c = $geometry->getBBox();
 			$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-			$bbox->setWest($c['minx'])->setNorth($c['miny'])->setEast($c['maxx'])->setSouth($c['maxy']);
+			$bbox->setWest($c['minx'])->setSouth($c['miny'])->setEast($c['maxx'])->setNorth($c['maxy']);
 			return $bbox;
 		}
 		return null;

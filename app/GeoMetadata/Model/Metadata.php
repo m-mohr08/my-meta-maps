@@ -37,7 +37,7 @@ interface Metadata {
 
 	public function getBoundingBox();
 	public function setBoundingBox(BoundingBox $bbox = null);
-	public function createBoundingBox($west, $north, $east, $south);
+	public function createBoundingBox($west, $south, $east, $north);
 
 	public function getKeywords();
 	public function setKeywords(array $keywords);

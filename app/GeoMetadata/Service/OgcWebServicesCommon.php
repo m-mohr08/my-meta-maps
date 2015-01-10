@@ -113,7 +113,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 			}
 		}
 		if (count($bbox) == 4) {
-			$model->createBoundingBox($bbox['west'], $bbox['north'], $bbox['east'], $bbox['south']);
+			$model->createBoundingBox($bbox['west'], $bbox['south'], $bbox['east'], $bbox['north']);
 		}
 	}
 
@@ -122,7 +122,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		foreach($contents as $content) {
 			$layer = $model->createLayer($content['id'], $content['title']);
 			if (count($content['bbox']) == 4) {
-				$layer->createBoundingBox($content['bbox']['west'], $content['bbox']['north'], $content['bbox']['east'], $content['bbox']['south']);
+				$layer->createBoundingBox($content['bbox']['west'], $content['bbox']['south'], $content['bbox']['east'], $content['bbox']['north']);
 			}
 		}
 	}
