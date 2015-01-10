@@ -35,6 +35,16 @@ function executeSearch() {
 	}
 }
 
+/**
+ * Executes the search if the MapView is active.
+ * @param object form element, e.g. this.form
+ */
+function resetSearch(form) {
+	if (ContentView.active instanceof MapView) {
+		ContentView.active.resetSearch(form);
+	}
+}
+
 /*
 * Send a POST-request to the server
 */

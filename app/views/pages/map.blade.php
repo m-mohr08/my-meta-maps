@@ -8,7 +8,7 @@
 		<div class="panel-heading" role="tab" id="filterHeader">
 			<h4 class="panel-title clearfix">
 				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">Filter einstellen</a>
-				<button onclick="this.form.reset();executeSearch();" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
+				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
 			</h4>
 		</div>
 		<div id="filterArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="filterHeader">
