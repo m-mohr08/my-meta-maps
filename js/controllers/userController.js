@@ -50,6 +50,9 @@ function userLoginController(model, inputLogin) {
         	$('#ModalLogin').modal('hide');
 			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet.');
 			AuthUser.setUser(response.user.name);
+			if (config.locale !== response.user.language) {
+				registeredUserChangedLanguage();
+			}
 		},
 	
 		error: function () {
@@ -71,14 +74,20 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 	
 	model.save(inputChangeGeneral, {
 		
-		success: function () {
+		success: function (model) {
 			Debug.log('Change general user data succeded');
 			FormErrorMessages.remove('#form-changeGeneral');
 			$('#ModalUserAccountGeneral').modal('hide');
-			MessageBox.addSuccess('Sie haben erfolgreich ihre Benutzerdaten geändert.');
+			MessageBox.addSuccess('Ihr Profiländerungen wurden erfolgreich übernommen.');
+			// Änderung des Benutzernamens weiterleiten
+			AuthUser.setUser(model.get('name'));
+			// Bei Änderung der Sprache die Seite neuladen
+			if (config.locale !== model.get('language')) {
+				registeredUserChangedLanguage();
+			}
 		},
 	
-		error: function (data, response) {
+		error: function (model, response) {
 			Debug.log('Change general user data failed');
 			FormErrorMessages.apply('#form-changeGeneral', response.responseJSON);
 		}
@@ -96,7 +105,7 @@ function userChangePasswordController(model, inputChangePassword) {
 			Debug.log('Change password succeded');
 			FormErrorMessages.remove('#form-changePassword');
 			$('#ModalUserAccountPassword').modal('hide');
-			MessageBox.addSuccess('Sie haben erfolgreich ihr Passwort geändert.');
+			MessageBox.addSuccess('Ihr neues Passwort wurde erfolgreich übernommen.');
 		},
 	
 		error: function (data, response) {
@@ -105,3 +114,10 @@ function userChangePasswordController(model, inputChangePassword) {
 		}
 	});
 };
+
+/**
+ * Called when the language of a registered user should be changed on the page.
+ */
+function registeredUserChangedLanguage() {
+	window.location.href = '/';
+}
