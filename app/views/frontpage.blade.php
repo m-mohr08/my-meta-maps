@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 
-		<script type="text/javascript" src="/api/internal/language/{{ Language::current() }}"></script>
+		<script type="text/javascript" src="/api/internal/config"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/helpers.js"></script>
 

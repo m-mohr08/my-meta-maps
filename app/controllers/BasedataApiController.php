@@ -21,32 +21,28 @@
  */
 class BasedataApiController extends BaseApiController {
 	
-	public function getBasemaps() {
-		$basemaps = Basemap::active()->get(array('url', 'name'));
-		$json = array(
-			'basemaps' => $basemaps
-		);
-		return $this->getJsonResponse($json);
-	}
-	
 	public function getDoc($page) {
 		// $page is checked in routes file for being only alphanumeric with dashes
 		return View::make("pages.{$page}");
 	}
 	
-	public function getLanguage($language) {
-		if (!Language::valid($language)) {
-			return Response::make('', 404);
+	public function getConfig() {
+		// Get config
+		$config = array(
+			'debug' => Config::get('app.debug'),
+			'locale' => Language::current(),
+			'basemaps' => Basemap::active()->get(array('url', 'name')),
+			'datatypes' => array()
+		);
+		foreach (\GeoMetadata\GmRegistry::getServices() as $service) {
+			$config['datatypes'][$service->getCode()] = $service->getName();
 		}
-		$loader = Lang::getLoader();
-		$phrases = $loader->load($language, 'client');
-		if (empty($phrases)) {
-			return Response::make('', 404);
-		}
-		else {
-			$js = 'var phrases = ' . json_encode($phrases);
-			return Response::make($js);
-		}
+		// Load Language phrases
+		$phrases = Lang::getLoader()->load($config['locale'], 'client');
+		// Build JavaScript
+		$js = 'var config = ' . json_encode($config) . ';' . PHP_EOL;
+		$js .= 'var phrases = ' . json_encode($phrases) . ';';
+		return Response::make($js);
 	}
 	
 }

@@ -13,7 +13,7 @@ BaseModel = Backbone.Model.extend({
 			return false;
 		}
 		else {
-			console.log('Anti-flooding for Backbone.Model in effect. Skipping request: ' + request);
+			Debug.log('Anti-flooding for Backbone.Model in effect. Skipping request: ' + request);
 			return true;
 		}
 	},

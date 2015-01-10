@@ -35,7 +35,7 @@ CommentAddViewStep1 = ModalView.extend({
 	 * This function is called when anybody creates a comment
 	 */
 	createComment: function(event) {
-		console.log('Try to add comment');
+		Debug.log('Try to add comment');
 				
 		// Creates primary details of a comment with typed in values
 		var details = {
@@ -75,7 +75,7 @@ CommentAddViewStep2 = ContentView.extend({
 	 * This function is called when anybody creates a comment
 	 */
 	createComment: function(event) {
-		console.log('Try to add comment');
+		Debug.log('Try to add comment');
 				
 		// Creates further details of a comment with typed in values
 		var details = {

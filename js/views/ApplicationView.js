@@ -24,7 +24,7 @@ ContentView = Backbone.View.extend({
 		}, 'html');
 	},
 	getPageTemplate: function () {
-		console.log('Error: Called abstract method!');
+		Debug.log('Error: Called abstract method!');
 		return null;
 	},
 	close: function () {

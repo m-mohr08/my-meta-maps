@@ -1,4 +1,12 @@
-var FormErrorMessages = {
+Debug = {
+	log: function(message) {
+		if (config.debug) {
+			console.log(message);
+		}
+	}
+};
+
+FormErrorMessages = {
 
 	errorClass: 'invalid',
 	
@@ -18,7 +26,7 @@ var FormErrorMessages = {
 	
 };
 
-var AuthUser = {
+AuthUser = {
 	
 	loggedIn: false,
 	
@@ -58,10 +66,10 @@ var AuthUser = {
 	
 };
 
-var MessageBox = {
+MessageBox = {
 
 	dismissPermanently: function(name) {
-		console.log("Dismissing message: " + name);
+		Debug.log("Dismissing message: " + name);
 		// Remove message box
 		$('#' + name).remove();
 		// Cookie with the specified name contains a 1 to signal it should be hidden permanently

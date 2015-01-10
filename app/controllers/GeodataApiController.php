@@ -25,16 +25,6 @@ use \GeoMetadata\GeoMetadata;
  */
 class GeodataApiController extends BaseApiController {
 	
-	public function __construct() {
-		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
-		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
-		GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
-		GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
-
-		GmRegistry::setLogger(array('App', 'debug'));
-		GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
-	}
-	
 	protected function buildSingleGeodata(Geodata $geodata, $addLayer = true) {
 		return array('geodata' => $this->buildGeodataEntry($geodata, $addLayer));
 	}
@@ -93,20 +83,6 @@ class GeodataApiController extends BaseApiController {
 			return $geo->parse();
 		}
 		return null;
-	}
-	
-	public function getMetadataFormats() {
-		$data = array();
-		$services = GmRegistry::getServices();
-		foreach($services as $service) {
-			$data[] = array(
-				'code' => $service->getCode(),
-				'name' => $service->getName()
-			);
-		}
-		return $this->getJsonResponse(array(
-			'formats' => $data
-		));
 	}
 	
 	public function postAdd() {
