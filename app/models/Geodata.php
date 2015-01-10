@@ -67,10 +67,10 @@ class Geodata extends Eloquent {
 		// Where
 		if (!empty($filter['q'])) {
 			if (!empty($filter['metadata'])) {
-				$query->whereRaw("({$ct}.searchtext @@ to_tsquery(?) OR {$gt}.searchtext @@ to_tsquery(?))", array($filter['q'], $filter['q']));
+				$query->whereRaw("({$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?) OR {$gt}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?))", array($filter['q'], $filter['q']));
 			}
 			else {
-				$query->whereRaw("{$ct}.searchtext @@ to_tsquery(?)", array($filter['q']));
+				$query->whereRaw("{$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?)", array($filter['q']));
 			}
 		}
 		
