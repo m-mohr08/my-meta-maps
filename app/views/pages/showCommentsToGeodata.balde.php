@@ -29,10 +29,10 @@
 						<div class="panel panel-default">
 							<div class="panel-heading" role="tab" id="commentHeader">
 								<h4 class="panel-title">
-									<a data-toggle="collapse" href="#commentsToGeodata" aria-expanded="true" aria-controls="commentsToGeodata">Geodatensätze</a>
+									<a data-toggle="collapse" href="#showCommentsToGeodata" aria-expanded="true" aria-controls="showCommentsToGeodata">Geodatensätze</a>
 								</h4>
 							</div>
-							<ul id="commentsToGeodata" class="list-group collapse in" role="tabpanel" aria-labelledby="geodataHeader">
+							<ul id="showCommentsToGeodata" class="list-group collapse in" role="tabpanel" aria-labelledby="commentHeader">
 							</ul>
 						</div>
 						

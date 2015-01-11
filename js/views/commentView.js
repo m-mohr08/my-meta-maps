@@ -1,5 +1,5 @@
 /*
- * View for GeodataShow; showing geodatas
+ * View for GeodataShow; showing geodata
  */
 GeodataShowView = ContentView.extend({
 	
@@ -92,5 +92,41 @@ CommentAddViewStep2 = ContentView.extend({
 
 		// Creates a new CommentAdd-Model
 		commentAddSecondStepController(new CommentAddSecondStep, details);
+	}
+});
+
+/*
+ * View for CommentsToGeodata
+ */
+CommentsShowView = ContentView.extend({
+	
+	el: function() {
+		return $('#showCommentsToGeodata');
+	},
+
+	getPageContent: function() {
+		return this.options.geodata.comments; 
+	},
+
+	getPageTemplate: function() {
+		return '/api/internal/doc/showCommentsToGeodataBit';
+	}
+});
+
+/*
+ * View for MetadataToGeodata
+ */
+MetadataShowView = ContentView.extend({
+	
+	el: function() {
+		return $('#showMetadataToGeodata');
+	},
+
+	getPageContent: function() {
+		return this.options.geodata.metadata; 
+	},
+
+	getPageTemplate: function() {
+		return '/api/internal/doc/showMetadataToGeodataBit';
 	}
 });
