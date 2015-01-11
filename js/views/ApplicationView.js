@@ -62,7 +62,6 @@ MapView = ContentView.extend({
 	map: null,
 	onLoaded: function () {
 		var view = new ol.View({
-                        //projection: 'EPSG: 4326',
 			center: [0, 0],
 			zoom: 2
 		});
@@ -80,7 +79,6 @@ MapView = ContentView.extend({
 			}),
 			view: view
 		});
-                console.log("show map");
 
 		// gets the geolocation
 		var geolocation = new ol.Geolocation({
@@ -90,7 +88,7 @@ MapView = ContentView.extend({
 		// zooms the map to the users location
 		geolocation.once('change:position', function () {
 			view.setCenter(geolocation.getPosition());
-			view.setZoom(10);
+			view.setZoom(5);
 		});
 
 		$('#spatialFilter').barrating({
@@ -122,37 +120,37 @@ MapView = ContentView.extend({
 		return null;
 	},
         
+        /*
+         * add the bboxes from the Geodata to the map
+         */
 	addGeodataToMap: function (data) {
-            console.log("addGeodataToMap started");
             
-                // get all the bboxes from the comments into one array
-                var parser = new ol.format.WKT({
-                    splitCollection: false
-                });
+                var parser = new ol.format.WKT();
                 var polySource = new ol.source.Vector();
                 var polygeom;
+                
+                // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
                 for(var index = 0; index < data.geodata.length; index++) {
-                    console.log(data.geodata[index].metadata.bbox);
-                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, "EPSG:4326");
-                    console.log(polygeom.getCoordinates());
+                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
+                    polygeom.transform('EPSG:4326', 'EPSG:3857');
                     polySource.addFeature(new ol.Feature({
-                        geometry: polygeom,
-                        projection: "EPSG:4326"
+                        geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
+                        projection: 'EPSG: 3857'
                         })
                     );
                 }
-                
+                // set the style of the geometries
                 var polyStyle = new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: '#F1EDED'
+                        color: 'rgba(0,139,0,0.1)'
                     }),
                     stroke: new ol.style.Stroke({
-                        color: '#000000',
-                        width: 10
+                        color: 'rgba(0,139,0,1)',
+                        width: 2
                     })
                 });
                 
-                // show the bboxes in the map
+                // show the geometries in the map
                 this.map.addLayer(new ol.layer.Vector({
                     source: polySource,
                     style: polyStyle,
