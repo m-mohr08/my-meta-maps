@@ -241,39 +241,5 @@ class GeodataApiController extends BaseApiController {
 	}
 	
 	public function postComments($id) {
-		header('Content-Type: application/json');
-			?>{
-	    "geodata": {
-	        "id": 8,
-	        "url": "http://www.wms.de/wms?",
-	        "metadata": {
-	            "datatype": "wms",
-	            "title": "Ein Beispiel-WMS",
-	            "bbox": "POLYGON((5.72499 52.602,5.72499 50.1506,9.53154 50.1506,9.53154 52.602,5.72499 52.602))",
-	            "keywords": [],
-	            "beginTime": null,
-	            "language": "de",
-	            "copyright": null,
-	            "author": null,
-	            "endTime": null,
-	            "abstract": "Abstract",
-	            "license": "Lizenz"
-	        },
-	        "comments": [{
-	            "id": 1,
-	            "text": "Ein Kommentar",
-	            "rating": 4,
-	            "geometry": null,
-	            "time": {
-	                "start": null,
-	                "end":null
-	            },
-	            "user": null
-	        }],
-	        "layer": []
-	    }
-	}<?php
-	exit;
-	}
 	
 }
