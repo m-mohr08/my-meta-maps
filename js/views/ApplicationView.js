@@ -1,30 +1,37 @@
 ContentView = Backbone.View.extend({
-
 	el: $('#content'),
-
-	initialize: function(){
+	constructor: function (options) {
+		this.configure(options || {});
+		Backbone.View.prototype.constructor.apply(this, arguments);
+	},
+	configure: function (options) {
+		if (this.options) {
+			options = _.extend({}, _.result(this, 'options'), options);
+		}
+		this.options = options;
+	},
+	initialize: function () {
 		this.render();
 	},
-	
-	onLoaded: function() {
-		
+	onLoaded: function () {
 	},
-
-	render: function() {
+	render: function () {
 		var that = this;
-		$.get(this.getPageTemplate(), function(data){
-			template = _.template(data, {});
-			that.$el.html(template);
+		$.get(this.getPageTemplate(), function (data) {
+			template = _.template(data);
+			var vars = {
+				data: that.getPageContent(),
+				config: config
+			};
+			that.$el.html(template(vars));
 			that.onLoaded();
 		}, 'html');
 	},
-
-	getPageTemplate: function() {
-		console.log('Error: Called abstract method!');
+	getPageTemplate: function () {
+		Debug.log('Error: Called abstract method!');
 		return null;
 	},
-
-	close: function() {
+	close: function () {
 		this.$el.html(''); // Remove content from page
 		// Remove callbacks, events, listeners etc.
 		this.stopListening();
@@ -33,58 +40,150 @@ ContentView = Backbone.View.extend({
 		this.off();
 //		this.remove(); // Remove view from DOM
 //		Backbone.View.prototype.remove.call(this);
+	},
+	getPageContent: function () {
+		return {};
 	}
-
 });
+// Statics
+ContentView.active = null;
+ContentView.register = function (view) {
+	if (ContentView.active !== null) {
+		ContentView.active.close();
+		ContentView.active = null;
+	}
+	ContentView.active = view;
+};
 
 ModalView = ContentView.extend({
-
 	el: $('#modal'),
-
-	onLoaded: function() {
+	onLoaded: function () {
+		this.modal();
+		this.showProgress();
+	},
+	modal: function() {
 		$('#modal').find('.modal').modal('show');
+	},
+	showProgress: function() {
+		Progress.show('.modal-progress');
 	}
-	
 });
 
 MapView = ContentView.extend({
-	onLoaded: function() {
+	map: null,
+	onLoaded: function () {
 		var view = new ol.View({
-			center : [0, 0],
-			zoom : 2
+			center: [0, 0],
+			zoom: 2
 		});
 
-		var map = new ol.Map({
-			layers : [new ol.layer.Tile({
-				source : new ol.source.OSM()
-			})],
-			target : 'map',
-			controls : ol.control.defaults({
-				attributionOptions : /** @type {olx.control.AttributionOptions} */( {
-					collapsible : false
+		this.map = new ol.Map({
+			layers: [new ol.layer.Tile({
+					source: new ol.source.OSM()
+				})
+                            ],
+			target: 'map',
+			controls: ol.control.defaults({
+				attributionOptions: /** @type {olx.control.AttributionOptions} */({
+					collapsible: false
 				})
 			}),
-			view : view
+			view: view
 		});
-           	
-    	$('#spatialFilter').barrating('show', { showValues:true, showSelectedRating:false });
-        $('#ratingFilter').barrating({ showSelectedRating:false });
-		
+
+		// gets the geolocation
+		var geolocation = new ol.Geolocation({
+			projection: view.getProjection(),
+			tracking: true
+		});
+		// zooms the map to the users location
+		geolocation.once('change:position', function () {
+			view.setCenter(geolocation.getPosition());
+			view.setZoom(5);
+		});
+
+		$('#spatialFilter').barrating({
+			showValues: true,
+			showSelectedRating: false,
+			onSelect: executeSearch,
+			onClear: executeSearch
+		});
+		$('#ratingFilter').barrating({
+			showSelectedRating: false,
+			onSelect: executeSearch,
+			onClear: executeSearch
+		});
+
+		this.doSearch();
 	},
-	
-	getPageTemplate: function() {
+	doSearch: function() {
+		geodataShowController(new GeodataShow(), this);
+	},
+	resetSearch: function(form) {
+		form.reset();
+		// Remove visible feedback of barrating.
+		$('#spatialFilter').barrating('clear');
+		$('#ratingFilter').barrating('clear');
+		this.doSearch();
+	},
+	getBoundingBox: function() {
+		// TODO: Return the current bounding box of the map
+		return null;
+	},
+        
+        /*
+         * add the bboxes from the Geodata to the map
+         */
+	addGeodataToMap: function (data) {
+            
+                var parser = new ol.format.WKT();
+                var polySource = new ol.source.Vector();
+                var polygeom;
+                
+                // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
+                for(var index = 0; index < data.geodata.length; index++) {
+                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
+                    polygeom.transform('EPSG:4326', 'EPSG:3857');
+                    polySource.addFeature(new ol.Feature({
+                        geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
+                        projection: 'EPSG: 3857'
+                        })
+                    );
+                }
+                // set the style of the geometries
+                var polyStyle = new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(0,139,0,0.1)'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(0,139,0,1)',
+                        width: 2
+                    })
+                });
+                
+                // show the geometries in the map
+                this.map.addLayer(new ol.layer.Vector({
+                    source: polySource,
+                    style: polyStyle,
+                    visible: true
+                    })
+                );
+                
+	},
+	getPageTemplate: function () {
 		return '/api/internal/doc/map';
 	}
+
 });
 
 AboutView = ContentView.extend({
-	getPageTemplate: function() {
+	getPageTemplate: function () {
 		return 'api/internal/doc/about';
 	}
 });
 
 HelpView = ContentView.extend({
-	getPageTemplate: function() {
+	getPageTemplate: function () {
 		return 'api/internal/doc/help';
 	}
 });

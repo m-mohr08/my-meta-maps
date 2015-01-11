@@ -1,41 +1,48 @@
 /*
  * Model for register as user
  */
-UserRegister = Backbone.Model.extend({     
+UserRegister = BaseModel.extend({     
 	urlRoot: '/api/internal/user/register'
 });
 
 /*
  * Model for login as user with mmm method 
  */
-UserLogin = Backbone.Model.extend({     
+UserLogin = BaseModel.extend({     
 	urlRoot: '/api/internal/user/login/mmm'
 });
 
 /*
  * Model for login as user with mmm method 
  */
-UserLogout = Backbone.Model.extend({     
+UserLogout = BaseModel.extend({     
 	urlRoot: '/api/internal/user/logout'
 });
 
 /*
  * Model for login as user with mmm method 
  */
-UserLoginOAuth = Backbone.Model.extend({     
+UserLoginOAuth = BaseModel.extend({     
 	urlRoot: '/api/internal/user/login/oauth'
 });
 
 /*
  * Model for change general user data
  */
-UserChangeGeneral = Backbone.Model.extend({     
+UserChangeGeneral = BaseModel.extend({     
 	urlRoot: '/api/internal/user/change/general'
 });
 
 /*
  * Model for change password
  */
-UserChangePassword= Backbone.Model.extend({     
+UserChangePassword = BaseModel.extend({     
 	urlRoot: '/api/internal/user/change/password'
+});
+
+/*
+ * Model to check user data before registration
+ */
+UserCheckData = BaseModel.extend({
+	urlRoot: '/api/internal/user/check'
 });

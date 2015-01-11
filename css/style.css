@@ -1,41 +1,59 @@
-html, body, #map {
-	width: 100%;
+html, body, .hundred, #map {
 	height: 100%;
 }
 
-body {
-	margin-top: 70px;
+#container {
+	height: 100vh;
+	padding-top: 70px;
+	padding-bottom: 30px;
+}
+
+#mapDataPanel {
+	overflow: auto;
+}
+
+h1 {
+	margin-top: 0px;
+	font-size: 1.5em;
+	color: #000000;
+}
+
+h2 {
+	font-size: 1.35em;
+	color: #555555;
+}
+
+h3 {
+	font-size: 1.2em;
+	color: #888888;
 }
 
 .logo {
   margin: -5px 0 -5px 0;
 }
 
-.commentScrollBox {
-	overflow-y: auto;
-	max-height: 500px;
-}
-
-.commentScrollBox .list-group {
-    margin-bottom: 0px;
-}
-
 .form-group .error-message {
 	display: none;
 }
-
-.form-group.invalid .error-message {
+.form-group.invalid .error-message, .form-group.success .error-message {
 	display: block;
-	color: #a94442;
 	font-size: 0.9em;
 }
-
 .form-group.invalid input, .form-group.invalid textarea, .form-group.invalid select {
 	border-color: #a94442;
 }
-
-.form-group.invalid label {
+.form-group.invalid label, .form-group.invalid .error-message {
 	color: #a94442;
+}
+.form-group.success input, .form-group.success textarea, .form-group.success select {
+	border-color: #3c763d;
+}
+.form-group.success label, .form-group.success .error-message {
+	color: #3c763d;
+}
+
+#filterArea .panel-body {
+	margin: 0px -15px 0px -15px;
 }
 
 .box-spacing {
@@ -47,12 +65,6 @@ body {
 	font-size: 30px;
 }
 
-.dividing-line {
-	margin-top: -5px;
- 	border-color: #428bca;
-    border-style: solid;
-}
-
 .form-group-marginSides {
 	margin-left: 0px;	
 	margin-right: 0px;	
@@ -62,6 +74,56 @@ body {
 	color: grey;
 }
 
-.label-filter:hover	{
-  	color: #428bca;
+.label-metadata {
+	color: grey;
+	font-size: 0.9em;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+#messages {
+	position: fixed;
+	bottom: 0px;
+	right: 45px;
+	z-index: 1000;
+}
+
+#messages .alert {
+	width: 250px;
+	min-height: 100px;
+}
+
+#messages .alert hr {
+	margin: 10px 0 10px 0;
+}
+
+.input-group-addon {
+	cursor: pointer;
+}
+
+#filterHeader button {
+	margin: -2px 0 -2px 0;
+}
+
+#mapDataPanel .panel {
+	margin-bottom: 10px;
+}
+
+.metadata-list dd {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e7e7e7;
+}
+.metadata-list dd pre {
+	white-space: pre-wrap;
+	margin: 0;
+	padding: 0;
+	background-color: #ffffff;
+	border: 0;
+}
+
+.modal-progress {
+	float: left;
+	width: 25%;
+	text-align: left;
 }

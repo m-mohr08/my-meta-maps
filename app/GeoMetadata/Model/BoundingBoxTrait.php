@@ -17,15 +17,10 @@
 
 namespace GeoMetadata\Model;
 
-interface Layer extends BoundingBoxTrait {
-	
-	public function getId();
-	public function setId($id);
+interface BoundingBoxTrait {
 
-	public function getTitle();
-	public function setTitle($title);
+	public function getBoundingBox();
+	public function setBoundingBox(BoundingBox $bbox = null);
+	public function createBoundingBox($west, $south, $east, $north);
 
-	public function setData($key, $value);
-	public function getData($key);
-	
 }

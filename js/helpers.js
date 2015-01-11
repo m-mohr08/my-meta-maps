@@ -1,24 +1,59 @@
-var FormErrorMessages = {
+Debug = {
+	log: function(message) {
+		if (config.debug) {
+			console.log(message);
+		}
+	}
+};
 
-	errorClass: 'invalid',
+Progress = {
 	
-	apply: function(form, json) {
-		this.remove(form);
-		var that = this;
-		$.each(json, function(field, message) {
-			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
-			elm.addClass(that.errorClass);
-			elm.find('.error-message').text(message);
-		});
+	show: function(id) {
+		// This progress bar style doesn't need a show
 	},
 	
-	remove: function(form) {
-		$(form).find("." + this.errorClass).removeClass(this.errorClass);
+	hide: function(id) {
+		$(id).html('');
+	},
+	
+	start: function(id) {
+		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />';
+		$(id).html(html);
+	},
+	
+	stop: function(id) {
+		Progress.hide(id);
 	}
 	
 };
 
-var AuthUser = {
+FormErrorMessages = {
+
+	errorClass: 'invalid',
+	successClass: 'success',
+	
+	applyPartially: function(form, json, success) {
+		var that = this;
+		$.each(json, function(field, message) {
+			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
+			elm.addClass(success ? that.successClass : that.errorClass);
+			elm.find('.error-message').text(message);
+		});
+	},
+	
+	apply: function(form, json, success) {
+		this.remove(form);
+		this.applyPartially(form, json, success);
+	},
+	
+	remove: function(form) {
+		$(form).find("." + this.errorClass).removeClass(this.errorClass);
+		$(form).find("." + this.successClass).removeClass(this.successClass);
+	}
+	
+};
+
+AuthUser = {
 	
 	loggedIn: false,
 	
@@ -58,10 +93,10 @@ var AuthUser = {
 	
 };
 
-var MessageBox = {
+MessageBox = {
 
 	dismissPermanently: function(name) {
-		console.log("Dismissing message: " + name);
+		Debug.log("Dismissing message: " + name);
 		// Remove message box
 		$('#' + name).remove();
 		// Cookie with the specified name contains a 1 to signal it should be hidden permanently
@@ -88,7 +123,7 @@ var MessageBox = {
 		var html = '<div class="alert alert-' + className + ' alert-dismissible">';
 		html += '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">' + Lang.t('close') + '</span></button>';
 		if (title) {
-			html += '<strong>' + title + '</strong>&nbsp;&nbsp;';
+			html += '<strong>' + title + '</strong><hr>';
 		}
 		html += message + '</div>';
 		var element = $().add(html);

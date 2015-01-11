@@ -9,7 +9,7 @@ RegisterView = ModalView.extend({
     },
 
 	register: function(event) {
-		console.log('Trying to register');
+		Debug.log('Trying to register');
 
 		// Creates details of a registration with typed in values
 		var inputRegister = {
@@ -34,7 +34,7 @@ LoginView = ModalView.extend({
     },
 
 	login: function(event) {
-		console.log('Try to login');
+		Debug.log('Try to login');
 		
 		// Creates details of a login with typed in values
 		var inputLogin = {
@@ -60,7 +60,7 @@ ProfileView = ModalView.extend({
 	},
 	
 	changeGeneral: function(event) {
-		console.log('Try to change general user data');
+		Debug.log('Try to change general user data');
 		
 		// Creates details of a change of general user data with typed in values
 		var inputChangeGeneral = {
@@ -85,11 +85,17 @@ PasswordView = ModalView.extend({
 	},
 	
 	changePassword: function(event) {
-		console.log('Try to change password of user');
+		Debug.log('Try to change password of user');
+		
+		var oldPw = null;
+		// No old password needed when authenticated with oauth
+		if ($("#inputChangeOldPassword").size() > 0) {
+			oldPw = $("#inputChangeOldPassword").val();
+		}
 		
 		// Creates details of a change of password of a user with typed in values
 		var inputChangePassword = {
-			old_password: $("#inputChangeOldPassword").val(),
+			old_password: oldPw,
 			password: $("#inputChangePassword").val(),
 			password_confirmation: $("#inputChangePasswordRepeat").val()
 		};

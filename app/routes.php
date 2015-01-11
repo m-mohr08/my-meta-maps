@@ -41,14 +41,11 @@ Route::get('/api/v1/search', function() {
 // Internal API for backbone communication
 Route::group(array('prefix' => '/api/internal'), function() {
 
-	// Get basemaps
-	Route::get('/basemaps', 'BasedataApiController@getBasemaps');
-
 	// Geodata related stuff
 	Route::get('/doc/{page}', 'BasedataApiController@getDoc')->where('page', '[\w\d-]+');
 
 	// Get language files
-	Route::get('/language/{language}', 'BasedataApiController@getLanguage')->where('language', '[a-z]{2}');
+	Route::get('/config', 'BasedataApiController@getConfig');
 
 	// All user based things, like authentification, registering, changing data, ...
 	Route::group(array('prefix' => '/user'), function() {
@@ -69,7 +66,7 @@ Route::group(array('prefix' => '/api/internal'), function() {
 		Route::post('/change/{what}', 'UserApiController@postChange');
 
 		// Check user data
-		Route::post('/check/{what}', 'UserApiController@postCheck');
+		Route::post('/check', 'UserApiController@postCheck');
 		
 		Route::group(array('prefix' => '/remind'), function() {
 		
@@ -94,9 +91,6 @@ Route::group(array('prefix' => '/api/internal'), function() {
 
 		// Parse metadata
 		Route::post('/metadata', 'GeodataApiController@postMetadata');
-
-		// Get metadata formats
-		Route::get('/formats', 'GeodataApiController@getMetadataFormats');
 
 		// Get list of geodata
 		Route::post('/list', 'GeodataApiController@postList');

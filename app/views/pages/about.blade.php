@@ -1,3 +1,4 @@
+<h1>Impressum</h1>
 <form role="form">
 	<div class="form-group">
 		<p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>
@@ -21,7 +22,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label>Lizenz</label>
+		<h2>Lizenz</h2>
 		<p>Copyright 2014 C. Rendel, C. Rohtermundt, M. Mohr, M. Rieping, M. Köster</p>
 		<p>Licensed under the Apache License, Version 2.0 (the "License");
 		you may not use this file except in compliance with the License.
@@ -33,11 +34,11 @@
 		limitations under the License.</p>
 	</div>
 	<div class="form-group">
-		<label>Adresse der öffentlichen Datenschnittstelle</label>
+		<h2>Adresse der öffentlichen Datenschnittstelle</h2>
 		<p>http://giv-geosoft2b.uni-muenster.de/api/v1/</p>
 	</div>
 	<div class="form-group">
-		<label>Genutzte Bibliotheken</label>
+		<h2>Genutzte Bibliotheken</h2>
 		<div class="list-group">
 			<!-- Server -->
 			<a href="http://laravel.com" class="list-group-item" target="_blank">Laravel</a>

@@ -1,105 +1,60 @@
-<div class="row clearfix" id="filterContainer">
-	
-	<div class="row clearfix">
-		
-		<div class="col-md-3 column">
-			
-			<div class="col-md-12 column">
-			
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Suche innerhalb der Kommentare
-					</label>
-				</div>
-				
-				<div class="row clearfix">
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Stichwortsuche">
-						<div class="input-group-btn">
-							<button type="submit" class="btn btn-primary"> <span class="glyphicon glyphicon-search"></span> </button>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-			
-		</div>	
+<div class="col-md-8 column hundred">
+	<div id="map"></div>
+</div>
 
-		<div class="col-md-4 column">
-		
-			<div class="col-md-6 column">
-				
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Wähle Start- und
-					</label>
-				</div>
-				
-				<div class="row clearfix">
-					<div class="input-group">
-						<input class="form-control" type="text" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start">
-						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
-					</div>
-				</div>
-				 
-			</div>
-			
-			<div class="col-md-6 column">
-				
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Endzeitpunkt
-					</label>
-				</div>
-				
-				<div class="row clearfix">
-					<div class="input-group">
-						<input class="form-control" type="text" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end">
-						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>&nbsp;&nbsp;
-					</div>
-				</div>
-				
-			</div>
-			
+<div class="col-md-4 column hundred" id="mapDataPanel">
+
+	<form class="panel panel-default">
+		<div class="panel-heading" role="tab" id="filterHeader">
+			<h4 class="panel-title clearfix">
+				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">Filter einstellen</a>
+				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
+			</h4>
 		</div>
-		
-		<div class="col-md-5 column">
-			
-			<div class="col-md-7 column">
-				
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Lege einen Umkreis fest
-					</label>
+		<div id="filterArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="filterHeader">
+			<div class="panel-body">
+
+				<div class="form-group clearfix col-md-12 column">
+					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">Metadaten einbeziehen</label></div>
+					<label class="label-filter">Suchbegriffe</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)" onchange="executeSearch()">
+						<span class="input-group-addon" onclick="executeSearch()"><span class="glyphicon glyphicon-search"></span></span>
+					</div>
 				</div>
-				
-				<div class="row clearfix">
+
+				<div class="form-group clearfix">
+					<div class="input-group col-md-12 column">
+						<label class="label-filter">Wähle Start- und Endzeitpunkt</label>
+					</div>
+					<div class="input-group col-md-6 column">
+						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start" onchange="executeSearch()">
+					</div>
+					<div class="input-group col-md-6 column">
+						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end" onchange="executeSearch()">
+					</div>
+				</div>
+
+				<div class="clearfix col-md-12 column">
+					<label class="label-filter">Lege einen Umkreis fest</label>
 					<div class="input select rating-underline">
 						<select id="spatialFilter">
-						   <option value="" selected="selected"></option>
-						   <option value="5">5</option>
-						   <option value="10">10</option>
-						   <option value="20">20</option>
-						   <option value="50">50</option>
-						   <option value="100">100</option>
-						   <option value="200">200</option>
-						   <option value="500">500</option>
+							<option value="" selected="selected"></option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<option value="200">200</option>
+							<option value="500">500</option>
 						</select>
 					</div>
 				</div>
-				
-			</div>
-		
-			<div class="col-md-5 column">
-		
-				<div class="row clearfix">
-					<label class="label-filter"> 
-						Bewertung größer als ... ?
-					</label>
-				</div>
-				
-				
-				<div class="row clearfix">
+
+				<div class="form-group clearfix col-md-12 column">
+					<label class="label-filter">Bewertung größer oder gleich ... ?</label>
 					<div class="input select rating-stars">
 						<select id="ratingFilter">
 							<option value="" selected="selected"></option>
@@ -111,41 +66,28 @@
 						</select>
 					</div>
 				</div>
-				
+
 			</div>
-			
+
+			<!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
+			<script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.min.js"></script>
+
+			<!-- For the datePicker-plugin -->
+			<script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
+			<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
+
 		</div>
-		
-	</div>
-	
-</div>
-
-<hr>		
-<!-- Div for map/comments - beginning -->
-<div class="row clearfix" id="mapComments">
-	<!-- Div for map - beginning -->
-	<div class="col-md-8 column">
-		<div id="map"></div>
-	</div>
-	<!-- Div for map - ending -->
-
-	<!-- Div for comments - beginning -->
-	<div class="col-md-4 column">
-		
-		<label class="text-primary labelComments"> 
-			Geodaten
-		</label>
-		
-		<hr class="dividing-line">
-
-		<div id="commentsShow">
-			
+	</form>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="geodataHeader">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">Geodatensätze</a>
+			</h4>
 		</div>
-		
+		<ul id="showGeodata" class="list-group collapse in" role="tabpanel" aria-labelledby="geodataHeader">
+		</ul>
 	</div>
-	<!-- Div for comments - ending -->
 </div>
-<!-- Div for map/comments - ending -->
 
 <!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
 <script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.min.js"></script>

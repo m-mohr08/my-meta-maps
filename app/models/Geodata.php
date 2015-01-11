@@ -48,25 +48,76 @@ class Geodata extends Eloquent {
 	public function layers() {
 		return $this->hasMany('Layer', 'geodata_id');
 	}
-	
+
 	public function scopeFilter($query, array $filter) {
-		//TODO: Filter
+		// Table Names
+		$gt = (new Geodata())->getTable();
+		$ct = (new Comment())->getTable();
+		
+		// Select
+		$query->select(array(
+			"{$gt}.*",
+			DB::raw("ST_AsText({$gt}.bbox) AS bbox"),
+			DB::raw("COUNT(*) AS comments")
+		));
+		
+		// Join Comments
+		$query->join($ct, "{$ct}.geodata_id", '=', "{$gt}.id");
+		
+		// Where
+		if (!empty($filter['q'])) {
+			if (!empty($filter['metadata'])) {
+				$query->whereRaw("({$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?) OR {$gt}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?))", array($filter['q'], $filter['q']));
+			}
+			else {
+				$query->whereRaw("{$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?)", array($filter['q']));
+			}
+		}
+		
+		if (!empty($filter['bbox'])) {
+			if (empty($filter['radius'])) {
+				// Get all bboxes contained by the bbox of the map
+				$query->whereRaw("{$gt}.bbox::geometry @ ST_Envelope(?::geometry)", array($filter['bbox']));
+			}
+			else {
+				// Get all bboxes that are within the chosen radius around the middle of the bbox of the map
+				$query->whereRaw("ST_DWithin({$gt}.bbox, ST_Centroid(?::geometry), ?)", array($filter['bbox'], $filter['radius']));
+			}
+		}
+		
+		if (!empty($filter['start'])) {
+			$query->where("{$ct}.start", '<', $filter['start']);
+		}
+		if (!empty($filter['end'])) {
+			$query->where("{$ct}.end", '>', $filter['end']);
+		}
+		
+		if (!empty($filter['minrating'])) {
+			$query->where("{$ct}.rating", '>=', $filter['minrating']);
+		}
+		
+		// Group By
+		$query->groupBy("{$gt}.id");
+		
+		// Order By
+		$query->orderBy("{$gt}.title");
+
 		return $query;
+	}
+	
+	public function scopeSelectBbox($query) {
+		return $query->addSelect(DB::raw('ST_AsText(bbox) AS bbox'));
 	}
 
 	public function getKeywords(){
+		if (empty($this->keywords)) {
+			return array();
+		}
 		return explode('|', $this->keywords);
 	}
 	
 	public function getBboxAttribute($value) {
-		if (!empty($value)) {
-			// TODO: THIS SHOULD BE AVOIDED IN ANY CASE! Need to change this...
-			$result = DB::selectOne("SELECT ST_AsText('{$value}') AS bbox");
-			return $result->bbox;
-		}
-		else {
-			return null;
-		}
+		return self::convertPostGis($value);
 	}
 
 	public function setKeywords(array $keywords){
@@ -77,6 +128,23 @@ class Geodata extends Eloquent {
 		$keywords = $this->getKeywords();
 		$keywords[] = $keyword;
 		$this->setKeywords($keywords);
+	}
+	
+	public static function convertPostGis($value) {
+		if (!empty($value)) {
+			$geom = geoPHP::load($value, 'wkt'); // Detect whether it's already in WKT
+			if (empty($geom)) {
+				// Due to a bad designed ORM we need to do some extra querys...
+				$result = DB::selectOne("SELECT ST_AsText('{$value}') AS bbox");
+				return $result->bbox;
+			}
+			else {
+				return $value;
+			}
+		}
+		else {
+			return null;
+		}
 	}
 	
 }

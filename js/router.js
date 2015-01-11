@@ -7,20 +7,19 @@ var Router = Backbone.Router.extend({
 		'register': 'register',
 		'profile': 'profile',
 		'password': 'password',
-		'comments/add': 'addComment',
-		'comments/add2': 'addComment2',
+		'comments/add': 'addComment'
 	},
 
 	about: function () {
-		new AboutView();
+		ContentView.register(new AboutView());
 	},
 
 	help: function () {
-		new HelpView();
+		ContentView.register(new HelpView());
 	},
 
 	map: function () {
-		new MapView();
+		ContentView.register(new MapView());
 	},
 
 	loginout: function () {
@@ -45,11 +44,8 @@ var Router = Backbone.Router.extend({
 	},
 
 	addComment: function () {
+		this.navigate('comments/add'); // Set correct url if not already set.
 		new CommentAddViewStep1();
-	},
-
-	addComment2: function () {
-		new CommentAddViewStep2();
 	}
 
 });
