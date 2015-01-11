@@ -13,16 +13,18 @@ return array(
 	*/
 
 	//variables for frontpage.blade.php
-	'register' => 'Registrieren',
-	'addComment' => 'Kommentar hinzufügen',
+	'register' => 'Registreer',
+	'addComment' => 'Commentaar toevoegen',
+	'profilChange' => 'Profiel wijzigen',
+	'pwchange' => 'Wachtwoord wijzigen',
 	'guest' => 'Gast',
-	'login' => 'Anmelden',
-	'imprint' => 'Impressum',
-	'help' => 'Hilfe',
-	'userinfo' => 'Benutzerhilfe',
-	'clicktop' => 'If you are new to My Meta Maps and are wondering how to get started click ',
+	'login' => 'Aanmelden',
+	'imprint' => 'Over MyMetaMaps',
+	'help' => 'Hulp',
+	'userinfo' => 'User-hulp',
+	'clicktop' => 'Nieuw op MyMetaMaps? Wij verklaren jou graag hoe je de eerste stappen kan maken. Tik alleen maar op ',
 	'furtherInfo' => '.',
-
+	
 	//variables for \app\views\pages\help.blade.php
-	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',
+	'headline' => 'De user-hulp geeft je de antwoorden op veelgestelde vragen en de bediening van MyMetaMaps.',
 );
