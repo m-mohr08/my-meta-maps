@@ -119,3 +119,9 @@ h3 {
 	max-height: 150px;
 	overflow-y: auto;
 }
+
+.modal-progress {
+	float: left;
+	width: 25%;
+	text-align: left;
+}

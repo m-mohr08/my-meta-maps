@@ -30,19 +30,45 @@ BaseModel = Backbone.Model.extend({
 	fetch: function(options) {
 		var data = this.serializeRequest('fetch', options);
 		if (!this.isSameRequest(data)) {
+			this.before(options);
 			return Backbone.Model.prototype.fetch.call(this, options);
 		}
 		else {
+			this.skipped(options);
 			return null;
 		}
 	},
 	save: function(key, val, options) {
 		var data = this.serializeRequest('save', {key: key, val: val, options: options});
 		if (!this.isSameRequest(data)) {
+			this.before(key, val, options);
 			return Backbone.Model.prototype.save.call(this, key, val, options);
 		}
 		else {
+			this.skipped(key, val, options);
 			return null;
+		}
+	},
+	before: function(key, val, options) {
+		if (key == null || typeof key === 'object') {
+			attrs = key;
+			options = val;
+		} else {
+			(attrs = {})[key] = val;
+		}
+		if (typeof (options.before) === "function") {
+			options.before();
+		}
+	},
+	skipped: function(key, val, options) {
+		if (key == null || typeof key === 'object') {
+			attrs = key;
+			options = val;
+		} else {
+			(attrs = {})[key] = val;
+		}
+		if (typeof (options.skipped) === "function") {
+			options.skipped();
 		}
 	}
 });

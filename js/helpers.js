@@ -6,6 +6,27 @@ Debug = {
 	}
 };
 
+Progress = {
+	
+	show: function(id) {
+		// This progress bar style doesn't need a show
+	},
+	
+	hide: function(id) {
+		$(id).html('');
+	},
+	
+	start: function(id) {
+		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />';
+		$(id).html(html);
+	},
+	
+	stop: function(id) {
+		Progress.hide(id);
+	}
+	
+};
+
 FormErrorMessages = {
 
 	errorClass: 'invalid',

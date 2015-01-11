@@ -54,7 +54,14 @@ ContentView.register = function (view) {
 ModalView = ContentView.extend({
 	el: $('#modal'),
 	onLoaded: function () {
+		this.modal();
+		this.showProgress();
+	},
+	modal: function() {
 		$('#modal').find('.modal').modal('show');
+	},
+	showProgress: function() {
+		Progress.show('.modal-progress');
 	}
 });
 

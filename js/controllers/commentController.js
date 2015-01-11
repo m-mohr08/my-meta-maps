@@ -49,21 +49,23 @@ function resetSearch(form) {
 * Send a POST-request to the server
 */
 function commentAddFirstStepController(model, details) {
-	
+
 	model.save(details, {
+		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
 		
         success: function (model, response) {
         	Debug.log('Try to validate URL');
-        	
         	FormErrorMessages.remove('#form-comment-firstStep');
-        	
         	$('#ModalAddComment').modal('hide');
-
 			ContentView.register(new CommentAddViewStep2({metadata: response.geodata}));
         },
         
         error: function(model, response) {
         	Debug.log('Can not validate URL');
+			Progress.stop('.modal-progress');
         	FormErrorMessages.apply('#form-comment-firstStep', response.responseJSON);
 		}
    });
