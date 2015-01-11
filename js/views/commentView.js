@@ -72,11 +72,17 @@ CommentAddViewStep2 = ContentView.extend({
 	
 	onLoaded: function() {
         $('#ratingComment').barrating({ showSelectedRating:false });
+		$("#inputDataType option[value='"+this.options.metadata.datatype+"']").attr('selected',true);
 	},
     
     events: {
     	"click #addCommentSecondBtn": "createComment"
     },
+	
+	getGeometryFromMap: function() {
+		// TODO: Get the geometry the user created from the map
+		return null;
+	},
 
 	/*
 	 * This function is called when anybody creates a comment
@@ -88,9 +94,9 @@ CommentAddViewStep2 = ContentView.extend({
 		var details = {
 			"url" : $("#inputURL").val(),
 			"datatype" : $("#inputDataType").val(),
-			"layer" : null,
+			"layer" : $("#inputLayer").val(),
 			"text" : $("#inputText").val(),
-			"geometry" : null,
+			"geometry" : this.getGeometryFromMap(),
 			"startDate": $("#inputStartDate").val(),
 			"endDate": $("#inputEndDate").val(),		
 			"rating": $("#ratingComment").val(),
@@ -98,7 +104,7 @@ CommentAddViewStep2 = ContentView.extend({
 		};
 
 		// Creates a new CommentAdd-Model
-		commentAddSecondStepController(new CommentAddSecondStep, details);
+		commentAddSecondStepController(new CommentAddSecondStep(), details);
 	}
 });
 

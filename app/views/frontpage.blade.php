@@ -60,7 +60,7 @@
 							<ul class="nav navbar-nav navbar-right">
 								<!-- Start: Add geodata/comment -->
 								<div class="navbar-form navbar-left">
-									<a href="#/comments/add" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
+									<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
 								</div>
 								<!-- End: Add geodata/comment -->
 								<!-- Start: Account navigation -->

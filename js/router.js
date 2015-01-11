@@ -44,6 +44,7 @@ var Router = Backbone.Router.extend({
 	},
 
 	addComment: function () {
+		this.navigate('comments/add'); // Set correct url if not already set.
 		new CommentAddViewStep1();
 	}
 

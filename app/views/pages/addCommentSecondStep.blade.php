@@ -11,7 +11,8 @@
 
 	<div class="row form-group">
 		<label for="datatype">Datenformat*</label>
-		<input class="form-control" name="datatype" id="inputDataType" type="text" readonly="readonly" value="<%= _.escape(data.metadata.datatype) %>"> <!-- //TODO: Output proper service name -->
+		<input class="form-control" name="datatype" type="text" readonly="readonly" value="<%= _.escape(config.datatypes[data.metadata.datatype]) %>">
+		<input type="hidden" id="inputDataType" value="<%= _.escape(data.metadata.datatype) %>">
 		<div class="error-message"></div>
 	</div>
 
@@ -38,7 +39,7 @@
 
 	<div class="row form-group">
 		<label for="text">Freitext*</label>
-		<textarea class="form-control" rows="3" name="text" id="inputText"></textarea>
+		<textarea class="form-control" rows="6" name="text" id="inputText"></textarea>
 		<div class="error-message"></div>
 	</div>
 
