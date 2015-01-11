@@ -69,7 +69,8 @@ MapView = ContentView.extend({
 		this.map = new ol.Map({
 			layers: [new ol.layer.Tile({
 					source: new ol.source.OSM()
-				})],
+				})
+                            ],
 			target: 'map',
 			controls: ol.control.defaults({
 				attributionOptions: /** @type {olx.control.AttributionOptions} */({
@@ -87,7 +88,7 @@ MapView = ContentView.extend({
 		// zooms the map to the users location
 		geolocation.once('change:position', function () {
 			view.setCenter(geolocation.getPosition());
-			view.setZoom(10);
+			view.setZoom(5);
 		});
 
 		$('#spatialFilter').barrating({
@@ -118,9 +119,45 @@ MapView = ContentView.extend({
 		// TODO: Return the current bounding box of the map
 		return null;
 	},
+        
+        /*
+         * add the bboxes from the Geodata to the map
+         */
 	addGeodataToMap: function (data) {
-		// Tu was mit den Daten...
-		// this.map.addPolygon() bspw.
+            
+                var parser = new ol.format.WKT();
+                var polySource = new ol.source.Vector();
+                var polygeom;
+                
+                // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
+                for(var index = 0; index < data.geodata.length; index++) {
+                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
+                    polygeom.transform('EPSG:4326', 'EPSG:3857');
+                    polySource.addFeature(new ol.Feature({
+                        geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
+                        projection: 'EPSG: 3857'
+                        })
+                    );
+                }
+                // set the style of the geometries
+                var polyStyle = new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(0,139,0,0.1)'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(0,139,0,1)',
+                        width: 2
+                    })
+                });
+                
+                // show the geometries in the map
+                this.map.addLayer(new ol.layer.Vector({
+                    source: polySource,
+                    style: polyStyle,
+                    visible: true
+                    })
+                );
+                
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
