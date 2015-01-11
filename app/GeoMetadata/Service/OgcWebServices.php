@@ -19,6 +19,10 @@ namespace GeoMetadata\Service;
 
 abstract class OgcWebServices extends ParserParser {
 	
+	private $nsUri = null;
+	private $nsPrefix = null;
+	const PREFIX = 'ns';
+	
 	/**
 	 * Takes the user specified URL and builds the service (or base) url from it.
 	 * 
@@ -46,16 +50,27 @@ abstract class OgcWebServices extends ParserParser {
 	public function getMetadataUrl($url) {
 		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . strtoupper($this->getCode());
 	}
+	
+	protected function isWgs84($crs) {
+		if (!is_array($crs)) {
+			$crs = array($crs);
+		}
+		foreach($crs as $i) {
+			$i = strtolower($i);
+			if (($i == 'http://www.opengis.net/def/crs/epsg/0/4326' || $i == 'epsg:4326' || $i == 'crs:84')) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	protected function createParser($source) {
 		return simplexml_load_string($source);
 	}
 
 	public function verify($source) {
-		return (parent::verify($source) && $this->findNamespace($this->getNamespaceUri()) !== null);
+		return (parent::verify($source) && $this->getUsedNamespaceUri());
 	}
-
-	public abstract function getNamespaceUri();
 	
 	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
 		$model->setAuthor($this->parseAuthor());
@@ -85,104 +100,136 @@ abstract class OgcWebServices extends ParserParser {
 	protected abstract function parseTitle();
 	protected abstract function parseBoundingBox(\GeoMetadata\Model\Metadata &$model);
 	protected abstract function parseLayer(\GeoMetadata\Model\Metadata &$model);
+	
+	// XML related code
 
-	protected function findNamespace($nsUri, $parent = null) {
-		if ($parent == null) {
-			$parent = $this->getParser();
-		}
-		if (!is_array($nsUri)) {
-			$nsUri = array($nsUri);
-		}
-		if ($parent !== null) {
-			$namespaces = $parent->getNamespaces();
-			foreach ($namespaces as $prefix => $docUri) {
-				foreach ($nsUri as $supportedUri) {
-					if (stripos($docUri, $supportedUri) !== false) {
-						return $prefix;
-					}
-				}
+	public abstract function getSupportedNamespaceUri();
+	
+	public function getUsedNamespaceUri($supportedUri = null) {
+		$nsUri = null;
+		if ($this->nsUri === null || $supportedUri !== null) {
+			if ($supportedUri === null) {
+				$supportedUri = $this->getSupportedNamespaceUri();
+			}
+			$intersect = array_intersect($this->getParser()->getNamespaces(), !is_array($supportedUri) ? array($supportedUri) : $supportedUri);
+			$nsUri = reset($intersect);
+			// Cache nsUrl only if it is for the default namespace uri
+			if ($supportedUri !== null) {
+				$this->nsUri = $nsUri;
 			}
 		}
-		return null;
+		return $supportedUri !== null ? $nsUri : $this->nsUri;
+	}
+
+	public function getUsedNamespacePrefix($uri = null, $default = '') {
+		$nsPrefix = null;
+		if ($this->nsPrefix === null || $uri !== null) {
+			if ($uri === null) {
+				$uri = $this->getUsedNamespaceUri();
+			}
+			$prefixes = array_keys(array_intersect($this->getParser()->getNamespaces(), !is_array($uri) ? array($uri) : $uri));
+			$nsPrefix = reset($prefixes);
+			if ($nsPrefix === false) {
+				$nsPrefix = $default;
+			}
+			// Cache $nsPrefix only if it is for the default namespace prefix
+			if ($uri !== null) {
+				$this->nsPrefix = $nsPrefix;
+			}
+		}
+		return $uri !== null ? $nsPrefix : $this->nsPrefix;
 	}
 	
-	protected function buildQueryWithoutNs($path) {
+	private function buildQuery(array $path, $ns = '') {
 		foreach ($path as $key => $value) {
-			if ($value != '*') {
-				$path[$key] = "*[local-name()='{$value}']";
+			if ($value != '*' && !empty($ns)) {
+				$path[$key] = "{$ns}:{$value}";
 			}
 		}
 		return '//' . implode('/', $path);
 	}
 	
-	protected function selectOne($path, $parent = null, $string = true) {
+	protected function xpath($path, \SimpleXMLElement $parent = null, $ns = '', $isNsPrefix = false) {
 		if ($parent == null) {
 			$parent = $this->getParser();
 		}
-		$nodes = $parent->xpath($this->buildQueryWithoutNs($path));
-		if (count($nodes) > 0) {
-			$node = current($nodes);
-			if ($string) {
-				$node = trim((string) $node);
-			}
-			return $node;
-		}
-		return null;
-	}
-	
-	protected function selectMany($path, $parent = null, $string = true) {
-		if ($parent == null) {
-			$parent = $this->getParser();
-		}
-		$nodes = $parent->xpath($this->buildQueryWithoutNs($path));
-		$data = array();
-		foreach ($nodes as $node) {
-			if ($string) {
-				$node = trim((string) $node);
-			}
-			$data[] = $node;
-		}
-		return $data;
-	}
-
-	private function normalizeNsPrefix($ns, $node = null) {
-		// Convert namespace uri to namespace prefix ('://' seems to be a good indicator for a uri)
-		// If it's an array we assume that it is an array of namespace uris as multiple ns prefixes are senseless.
-		if (is_array($ns) || strpos($ns, '://') !== false) {
-			$ns = $this->findNamespace($ns, $node);
-		}
-		if ($ns === null) {
+		// Skip this if a ns prefix has been specified
+		if (empty($ns) || !$isNsPrefix) {
+			// Take the specified ns URI or the default namespace URI
+			$nsUri = empty($ns) ? $this->getUsedNamespaceUri() : $ns;
 			$ns = '';
-		}
-		return $ns;
-	}
-	
-	protected function getAttrsAsArray(&$node, $ns = '') {
-		$data = array();
-		if (is_object($node)) {
-			$ns = $this->normalizeNsPrefix($ns, $node);
-			// To avoid the "Node no longer exists" error we need to copy the elements to an separate array.
-			foreach ($node->attributes($ns, true) as $key => $value) {
-				$data[$key] = strval($value);
+			if (!empty($nsUri)) {
+				if ($parent->registerXPathNamespace(self::PREFIX, $nsUri)) {
+					$ns = self::PREFIX;
+				}
 			}
 		}
-		return $data;
+		if (is_array($path)) {
+			$path = $this->buildQuery($path, $ns);
+		}
+		return $parent->xpath($path);
 	}
 	
-	protected function selectHierarchyAsOne($path, $ns = '', $parent = null) {
-		$node = $this->selectOne($path, $parent,  false);
-		$ns = $this->normalizeNsPrefix($ns, $node);
-		if ($node != null) {
-			return $this->nodeToText($node, $ns);
+	protected function n2s($node) {
+		if (is_object($node)) {
+			return trim((string) $node);
 		}
 		else {
 			return null;
 		}
 	}
 	
-	private function nodeToText($node, $ns, $output = "", $level = 0) {
+	protected function selectOne($path, \SimpleXMLElement $parent = null, $string = true, $ns = '', $isNsPrefix = false) {
+		$nodes = $this->xpath($path, $parent, $ns, $isNsPrefix);
+		$node = reset($nodes);
+		if ($node !== false) {
+			if ($string) {
+				$node = $this->n2s($node);
+			}
+			return $node;
+		}
+		return null;
+	}
+	
+	protected function selectMany($path, \SimpleXMLElement $parent = null, $string = true, $ns = '', $isNsPrefix = false) {
+		$nodes = $this->xpath($path, $parent, $ns, $isNsPrefix);
+		$data = array();
+		foreach ($nodes as $node) {
+			if ($string) {
+				$node = $this->n2s($node);
+			}
+			// Add nodes or non-empty strings
+			if (!$string || !empty($node)) {
+				$data[] = $node;
+			}
+		}
+		return $data;
+	}
+	
+	protected function getAttrsAsArray(\SimpleXMLElement &$node, $ns = '', $isNsPrefix = false) {
+		$data = array();
+		if (is_object($node)) {
+			// To avoid the "Node no longer exists" error we need to copy the elements to an separate array.
+			foreach ($node->attributes($ns, $isNsPrefix) as $key => $value) {
+				$data[$key] = strval($value);
+			}
+		}
+		return $data;
+	}
+	
+	protected function selectHierarchyAsOne($path, \SimpleXMLElement $parent = null, $ns = '', $isNsPrefix = false) {
+		$node = $this->selectOne($path, $parent,  false, $ns, $isNsPrefix);
+		if ($node != null) {
+			return $this->nodeToStructuredText($node, $ns, $isNsPrefix);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	private function nodeToStructuredText(\SimpleXMLElement $node, $ns, $isNsPrefix = false, $output = "", $level = 0) {
 		foreach ($node->children($ns, true) as $key => $value) {
-			$children = $value->children($ns, true);
+			$children = $value->children($ns, $isNsPrefix);
 			$output .= str_repeat("\t", $level);
 			if (count($children) == 0) {
 				$value = trim((string) $value);
@@ -192,7 +239,7 @@ abstract class OgcWebServices extends ParserParser {
 			}
 			else {
 				$output .= $value->getName() . "\r\n";
-				$output = $this->nodeToText($value, $ns, $output, $level + 1);
+				$output = $this->nodeToStructuredText($value, $ns, $isNsPrefix, $output, $level + 1);
 			}
 		}
 
@@ -202,11 +249,6 @@ abstract class OgcWebServices extends ParserParser {
 		}
 
 		return $output;
-	}
-	
-	protected function isWgs84($crs) {
-		$crs = strtolower($crs);
-		return ($crs == 'http://www.opengis.net/def/crs/epsg/0/4326' || $crs == 'epsg:4326' || $crs == 'crs:84');
 	}
 
 }

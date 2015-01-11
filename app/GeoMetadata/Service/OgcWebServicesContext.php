@@ -27,7 +27,7 @@ class OgcWebServicesContext extends OgcWebServices {
 		return 'owc';
 	}
 
-	public function getNamespaceUri() {
+	public function getSupportedNamespaceUri() {
 		return 'http://www.opengis.net/owc/1.0';
 	}
 
