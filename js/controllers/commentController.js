@@ -97,25 +97,26 @@ function commentAddSecondStepController(model, details) {
 /*
 * Send a POST-request to the server to get comments to a geodata
 */
-function commentsToGeodataController(model) {
+function commentsToGeodataController(id) {
+	
+	var model = new CommentsToGeodata();
+	model.id = id;
 	
 	var details = {
-		"q" : 'Wald',
+		"q" : $("#SearchTerms").val(),
 		"bbox" : null,
-		"radius" : null,
-		"startDate": null,
-		"endDate": null,		
-		"minrating": null,
-		"metadata" : null
+		"radius" : $("#spatialFilter").val(),
+		"startDate": $("#filterStartTime").val(),
+		"endDate": $("#filterEndTime").val(),		
+		"minrating": $("#ratingFilter").val(),
+		"metadata" : $('#includeMetadata').is(':checked')
 	};
 
 	model.save(details, {
 		
         success: function (data, response) {
         	Debug.log('Showing comments to geodata succeded');
-        	$('#ModalCommentsToGeodata').modal('show');
 			var commentsToGeodataShowView = new CommentsShowView(response);
-			var metadataToGeodataShowView = new MetadataShowView(response);
         },
         
         error: function() {
