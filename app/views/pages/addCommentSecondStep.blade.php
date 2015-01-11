@@ -103,11 +103,11 @@
 			<span class="label label-default"><%= _.escape(word) %></span>
 			<% }); %>
 		</dd>
-	<% } if (!_.isEmpty(data.metadata.beginTime) || !_.isEmpty(data.metadata.endTime)) { %>
+	<% } if (!_.isEmpty(data.metadata.time.start) || !_.isEmpty(data.metadata.time.end)) { %>
 		<dt>Zeitraum</dt>
 		<dd>
-			Anfangsdatum: <%= data.metadata.beginTime ? _.escape(data.metadata.beginTime) : 'Unbekannt' %><br />
-			Enddatum: <%= data.metadata.endTime ? _.escape(data.metadata.endTime) : 'Unbekannt' %>
+			Anfangsdatum: <%= data.metadata.time.start ? _.escape(data.metadata.time.start) : 'Unbekannt' %><br />
+			Enddatum: <%= data.metadata.time.end ? _.escape(data.metadata.time.end) : 'Unbekannt' %>
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.author)) { %>
 		<dt>Autor</dt>

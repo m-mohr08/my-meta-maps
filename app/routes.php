@@ -105,7 +105,7 @@ Route::group(array('prefix' => '/api/internal'), function() {
 			Route::post('/save', 'GeodataApiController@postSearchSave');
 
 			// Load search
-			Route::post('/load/{id}', 'GeodataApiController@getSearchLoad');
+			Route::get('/load/{id}', 'GeodataApiController@getSearchLoad');
 			
 		});
 

@@ -61,7 +61,7 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 	}
 
 	public function removeLayer(\GeoMetadata\Model\Layer $layer){
-		App::debug("Removing layers not supported by Geodata model.");
+		Log::warning("Removing layers not supported by Geodata model.");
 		return false;
 	}
 
@@ -138,11 +138,11 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 	}
 
 	public function getBeginTime(){
-		return $this->begin;
+		return $this->start;
 	}
 
 	public function setBeginTime(\DateTime $begin = null){
-		$this->begin = $begin !== null ? Carbon::instance($begin) : null;
+		$this->start = $begin !== null ? Carbon::instance($begin) : null;
 	}
 
 	public function getEndTime(){
