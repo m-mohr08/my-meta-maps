@@ -41,7 +41,6 @@ class CreateSearchTable extends Migration {
 			$table->integer('radius')->nullable();
 		});
 		// PostGIS
-		DB::statement("ALTER TABLE ".$search->getTable()." ADD COLUMN location GEOGRAPHY(POINT,4326)");
 		DB::statement("ALTER TABLE ".$search->getTable()." ADD COLUMN bbox GEOGRAPHY(POLYGON,4326)");
 	}
 
