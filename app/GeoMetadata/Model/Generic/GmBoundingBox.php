@@ -70,7 +70,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function getArray() {
-		return array(array($this->west, $this->north), array($this->east, $this->south));
+		return array(array($this->west, $this->south), array($this->east, $this->north));
 	}
 	
 	public function toWkt() {

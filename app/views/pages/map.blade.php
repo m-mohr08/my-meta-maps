@@ -8,7 +8,7 @@
 		<div class="panel-heading" role="tab" id="filterHeader">
 			<h4 class="panel-title clearfix">
 				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">Filter einstellen</a>
-				<button onclick="this.form.reset();executeSearch();" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
+				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
 			</h4>
 		</div>
 		<div id="filterArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="filterHeader">
@@ -54,7 +54,7 @@
 				</div>
 
 				<div class="form-group clearfix col-md-12 column">
-					<label class="label-filter">Bewertung größer als ... ?</label>
+					<label class="label-filter">Bewertung größer oder gleich ... ?</label>
 					<div class="input select rating-stars">
 						<select id="ratingFilter">
 							<option value="" selected="selected"></option>
@@ -81,12 +81,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="geodataHeader">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#geodataArea" aria-expanded="true" aria-controls="geodataArea">Geodatensätze</a>
+				<a data-toggle="collapse" href="#showComments" aria-expanded="true" aria-controls="showComments">Geodatensätze</a>
 			</h4>
 		</div>
-		<div id="geodataArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="geodataHeader">
-			<div class="panel-body" id="showComments"></div>
-		</div>
+		<ul id="showComments" class="list-group collapse in" role="tabpanel" aria-labelledby="geodataHeader">
+		</ul>
 	</div>
 </div>
 

@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Model;
 
-interface Metadata {
+interface Metadata extends BoundingBoxTrait {
 	
 	public function createObject();
 
@@ -34,10 +34,6 @@ interface Metadata {
 
 	public function getTitle();
 	public function setTitle($title);
-
-	public function getBoundingBox();
-	public function setBoundingBox(BoundingBox $bbox = null);
-	public function createBoundingBox($west, $north, $east, $south);
 
 	public function getKeywords();
 	public function setKeywords(array $keywords);

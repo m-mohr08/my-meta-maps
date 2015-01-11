@@ -93,7 +93,7 @@ MapView = ContentView.extend({
 			view.setZoom(10);
 		});
 
-		$('#spatialFilter').barrating('show', {
+		$('#spatialFilter').barrating({
 			showValues: true,
 			showSelectedRating: false,
 			onSelect: executeSearch,
@@ -109,6 +109,13 @@ MapView = ContentView.extend({
 	},
 	doSearch: function() {
 		commentsShowController(new CommentsShow(), this);
+	},
+	resetSearch: function(form) {
+		form.reset();
+		// Remove visible feedback of barrating.
+		$('#spatialFilter').barrating('clear');
+		$('#ratingFilter').barrating('clear');
+		this.doSearch();
 	},
 	getBoundingBox: function() {
 		// TODO: Return the current bounding box of the map

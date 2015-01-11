@@ -1,4 +1,4 @@
-<div class="modal fade" id="ModalUserAccount" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalUserAccountPassword" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			
@@ -8,14 +8,17 @@
 			</div>
 			
 			<div class="modal-body">
-				
+
+				@if(Auth::user())
 				<form id="form-changePassword" onsubmit="return false">
 					
+					@if(Auth::user()->password !== null)
 					<div class="row form-group form-group-marginSides">
 						<label for="old_password">Altes Passwort</label>
 						<input class="form-control" name="old_password" id="inputChangeOldPassword" type="password">
 						<div class="error-message"></div>
 					</div>
+					@endif
 							
 					<div class="row form-group form-group-marginSides">
 						<label for="password">Neues Passwort</label>
@@ -31,7 +34,12 @@
 						
 					<button type="submit" class="btn btn-primary" id="changePasswordBtn">Passwort ändern</button>
 							
-				</form>	
+				</form>
+				@else
+				<div class="row form-group form-group-marginSides">
+					Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihr Passwort zu ändern.
+				</div>
+				@endif
 				
 			</div>
 			
