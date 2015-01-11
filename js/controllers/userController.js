@@ -121,3 +121,27 @@ function userChangePasswordController(model, inputChangePassword) {
 function registeredUserChangedLanguage() {
 	window.location.href = '/';
 }
+
+/*
+ * Send POST-request to the server to check user data
+ */
+function userCheckDataController(model, id, key) {
+	
+	var inputCheckData = {};
+	inputCheckData[key] = $("#" + id).val();
+	
+	model.save(inputCheckData, {
+		
+		success: function () {
+			Debug.log('User data has not already been taken.');
+			responseJSON = {};
+			responseJSON[key] = 'This name/email can been taken.';
+			FormErrorMessages.applyPartially('#form-register', responseJSON, true);
+		},
+	
+		error: function (data, response) {
+			Debug.log('User data has already been taken.');
+			FormErrorMessages.applyPartially('#form-register', response.responseJSON, false);
+		}
+	});
+};

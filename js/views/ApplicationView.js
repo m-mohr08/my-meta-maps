@@ -106,7 +106,7 @@ MapView = ContentView.extend({
 		this.doSearch();
 	},
 	doSearch: function() {
-		commentsShowController(new CommentsShow(), this);
+		geodataShowController(new GeodataShow(), this);
 	},
 	resetSearch: function(form) {
 		form.reset();

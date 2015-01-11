@@ -1,7 +1,7 @@
 /*
-* Send a POST-request to the server to get comments
+* Send a POST-request to the server to get geodata
 */
-function commentsShowController(model, mapview) {
+function geodataShowController(model, mapview) {
 	
 	var details = {
 		"q" : $("#SearchTerms").val(),
@@ -16,7 +16,7 @@ function commentsShowController(model, mapview) {
 	model.save(details, {
 		
         success: function (data, response) {
-			var commentShowView = new CommentShowView(response);
+			var geodataShowView = new GeodataShowView(response);
 			mapview.addGeodataToMap(response);
         },
         
@@ -90,4 +90,35 @@ function commentAddSecondStepController(model, details) {
 			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
 		}
 	});
+};
+
+/*
+* Send a POST-request to the server to get comments to a geodata
+*/
+function commentsToGeodataController(model) {
+	
+	var details = {
+		"q" : 'Wald',
+		"bbox" : null,
+		"radius" : null,
+		"startDate": null,
+		"endDate": null,		
+		"minrating": null,
+		"metadata" : null
+	};
+
+	model.save(details, {
+		
+        success: function (data, response) {
+        	Debug.log('Showing comments to geodata succeded');
+        	$('#ModalCommentsToGeodata').modal('show');
+			var commentsToGeodataShowView = new CommentsShowView(response);
+			var metadataToGeodataShowView = new MetadataShowView(response);
+        },
+        
+        error: function() {
+        	Debug.log('Showing comments to geodata failed');
+			MessageBox.addError('Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.');
+		}
+   });
 };

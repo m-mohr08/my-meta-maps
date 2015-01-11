@@ -1,10 +1,10 @@
 /*
- * View for CommentsShow; showing comments
+ * View for GeodataShow; showing geodata
  */
-CommentShowView = ContentView.extend({
+GeodataShowView = ContentView.extend({
 	
 	el: function() {
-		return $('#showComments');
+		return $('#showGeodata');
 	},
 
 	getPageContent: function() {
@@ -12,7 +12,7 @@ CommentShowView = ContentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return '/api/internal/doc/showCommentBit';
+		return '/api/internal/doc/showGeodataBit';
 	}
 });
 
@@ -87,7 +87,10 @@ CommentAddViewStep2 = ContentView.extend({
 		// Creates further details of a comment with typed in values
 		var details = {
 			"url" : $("#inputURL").val(),
+			"datatype" : $("#inputDataType").val(),
+			"layer" : null,
 			"text" : $("#inputText").val(),
+			"geometry" : null,
 			"startDate": $("#inputStartDate").val(),
 			"endDate": $("#inputEndDate").val(),		
 			"rating": $("#ratingComment").val(),
@@ -96,5 +99,41 @@ CommentAddViewStep2 = ContentView.extend({
 
 		// Creates a new CommentAdd-Model
 		commentAddSecondStepController(new CommentAddSecondStep, details);
+	}
+});
+
+/*
+ * View for CommentsToGeodata
+ */
+CommentsShowView = ContentView.extend({
+	
+	el: function() {
+		return $('#showCommentsToGeodata');
+	},
+
+	getPageContent: function() {
+		return this.options.geodata.comments; 
+	},
+
+	getPageTemplate: function() {
+		return '/api/internal/doc/showCommentsToGeodataBit';
+	}
+});
+
+/*
+ * View for MetadataToGeodata
+ */
+MetadataShowView = ContentView.extend({
+	
+	el: function() {
+		return $('#showMetadataToGeodata');
+	},
+
+	getPageContent: function() {
+		return this.options.geodata.metadata; 
+	},
+
+	getPageTemplate: function() {
+		return '/api/internal/doc/showMetadataToGeodataBit';
 	}
 });
