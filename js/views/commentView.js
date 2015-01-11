@@ -35,7 +35,7 @@ CommentAddViewStep1 = ModalView.extend({
 	 * This function is called when anybody creates a comment
 	 */
 	createComment: function(event) {
-		Debug.log('Try to add comment');
+		Debug.log('Try to get metadata');
 				
 		// Creates primary details of a comment with typed in values
 		var details = {
@@ -53,18 +53,25 @@ CommentAddViewStep1 = ModalView.extend({
  */
 CommentAddViewStep2 = ContentView.extend({ 
 
-	metadata: null,
-
 	getPageTemplate: function() {
 		return '/api/internal/doc/addCommentSecondStep';
+	},
+
+	getPageContent: function () {
+		return this.options.metadata;
+	},
+
+	initialize: function () {
+		if (typeof this.options.metadata.url === undefined) {
+			MessageBox.addError('Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuchen Sie erneut.');
+		}
+		else {
+			this.render();
+		}
 	},
 	
 	onLoaded: function() {
         $('#ratingComment').barrating({ showSelectedRating:false });
-	},
-	
-	setMetadata: function(json) {
-		this.metadata = json;
 	},
     
     events: {

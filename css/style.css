@@ -108,3 +108,14 @@ h3 {
 #mapDataPanel .panel {
 	margin-bottom: 10px;
 }
+
+.metadata-list dd {
+	margin-bottom: 10px;
+}
+.metadata-list dd pre {
+	white-space: pre-wrap;
+	margin: 0;
+	padding: 0;
+	max-height: 150px;
+	overflow-y: auto;
+}

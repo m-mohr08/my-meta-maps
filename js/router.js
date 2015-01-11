@@ -7,8 +7,7 @@ var Router = Backbone.Router.extend({
 		'register': 'register',
 		'profile': 'profile',
 		'password': 'password',
-		'comments/add': 'addComment',
-		'comments/add2': 'addComment2',
+		'comments/add': 'addComment'
 	},
 
 	about: function () {
@@ -46,10 +45,6 @@ var Router = Backbone.Router.extend({
 
 	addComment: function () {
 		new CommentAddViewStep1();
-	},
-
-	addComment2: function () {
-		ContentView.register(new CommentAddViewStep2());
 	}
 
 });
