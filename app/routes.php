@@ -26,7 +26,9 @@ Route::get('/search/{hash}', 'HomeController@getSearch');
 Route::group(array('prefix' => '/geodata'), function() {
 
 	// Permalink for all comments of a geo data set
-	Route::get('/{geodata}/', 'HomeController@getGeodata');
+	Route::get('/{geodata}', function($geodata) {
+		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata);
+	});
 
 	// Permalink for specific comment of a geo data set
 	Route::get('/{geodata}/comment/{comment}', 'HomeController@getComment');

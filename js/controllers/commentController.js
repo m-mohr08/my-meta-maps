@@ -116,6 +116,31 @@ function commentsToGeodataController(id) {
 		
         success: function (data, response) {
         	Debug.log('Showing comments to geodata succeded');
+
+			// Count of comments
+			response.geodata.commentCount = response.geodata.comments.length;
+			var ratingSum = 0;
+			var ratingCount = 0;
+			_.each(response.layer, function(layer) {
+				response.geodata.commentCount += layer.comments.length;
+				_.each(layer.comments, function(comment) {
+					if (comment.rating > 0) {
+						ratingSum += comment.rating;
+						ratingCount++;
+					}
+				});
+			});
+
+			// Average rating
+			if (ratingCount > 0 && ratingSum > 0) {
+				response.geodata.ratingAvg = ratingSum / ratingCount;
+			}
+			else {
+				response.geodata.ratingAvg = 'N/A';	
+			}
+			// TODO: This calculation is not good - move it to the server
+			
+			// Show info
 			var commentsToGeodataShowView = new CommentsShowView(response);
         },
         

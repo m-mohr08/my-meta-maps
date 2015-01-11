@@ -2,6 +2,8 @@
  * This is a basic Backbone.Model which tries to avoid multiple server requests with the same data (flooding)
  */
 BaseModel = Backbone.Model.extend({
+	enableAntiFlood: true,
+
 	time: function() {
 		return Math.floor(Date.now() / 1000);
 	},
@@ -29,7 +31,7 @@ BaseModel = Backbone.Model.extend({
 	},
 	fetch: function(options) {
 		var data = this.serializeRequest('fetch', options);
-		if (!this.isSameRequest(data)) {
+		if (!this.enableAntiFlood || !this.isSameRequest(data)) {
 			this.before(options);
 			return Backbone.Model.prototype.fetch.call(this, options);
 		}
@@ -40,7 +42,7 @@ BaseModel = Backbone.Model.extend({
 	},
 	save: function(key, val, options) {
 		var data = this.serializeRequest('save', {key: key, val: val, options: options});
-		if (!this.isSameRequest(data)) {
+		if (!this.enableAntiFlood || !this.isSameRequest(data)) {
 			this.before(key, val, options);
 			return Backbone.Model.prototype.save.call(this, key, val, options);
 		}
@@ -56,7 +58,7 @@ BaseModel = Backbone.Model.extend({
 		} else {
 			(attrs = {})[key] = val;
 		}
-		if (typeof (options.before) === "function") {
+		if (typeof (options) === "object" && typeof (options.before) === "function") {
 			options.before();
 		}
 	},
@@ -67,7 +69,7 @@ BaseModel = Backbone.Model.extend({
 		} else {
 			(attrs = {})[key] = val;
 		}
-		if (typeof (options.skipped) === "function") {
+		if (typeof (options) === "object" && typeof (options.skipped) === "function") {
 			options.skipped();
 		}
 	}
