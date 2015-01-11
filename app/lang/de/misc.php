@@ -15,6 +15,8 @@ return array(
 	//variables for frontpage.blade.php
 	'register' => 'Registrieren',
 	'addComment' => 'Kommentar hinzufügen',
+	'profilChange' => 'Profil ändern',
+	'pwchange' => 'Passwort ändern',
 	'guest' => 'Gast',
 	'login' => 'Anmelden',
 	'imprint' => 'Impressum',
@@ -24,6 +26,6 @@ return array(
 	'furtherInfo' => '.',
 	
 	//variables for \app\views\pages\help.blade.php
-	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',
+	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung von MyMetaMaps',
 
 );

@@ -16,6 +16,8 @@ return array(
 	'register' => 'Register',
 	'addComment' => 'Add comment',
 	'guest' => 'Guest',
+	'profilChange' => 'Edit profil',
+	'pwchange' => 'Change password',
 	'login' => 'Login',
 	'imprint' => 'Imprint',
 	'help' => 'Help',
@@ -24,6 +26,6 @@ return array(
 	'furtherInfo' => '.',
 
 	//variables for \app\views\pages\help.blade.php
-	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung MyMetaMaps',
+	'headline' => 'The help contains the FAQ and how to use MyMetaMaps',
 
 );

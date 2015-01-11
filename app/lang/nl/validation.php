@@ -74,8 +74,8 @@ return array(
 	"timezone"             => ":attribute moet een valide tijdzone zijn.",
 	"check_hash"            => ":attribute is niet geldig.",
 	"check_language"        => "De gekozen taal wordt niet ondersteunt.",
-	"geometry"				=> "The given geometric object is invalid.",
-	"date8601"				=> "The given date does not conform to ISO 8601.",
+	"geometry"				=> "Het gegeven geometrisch object is niet geldig.",
+	"date8601"				=> "De gegeven datum is niet hetzelfde als ISO 8601.",
 
 	/*
 	|--------------------------------------------------------------------------
