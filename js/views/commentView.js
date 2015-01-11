@@ -111,35 +111,13 @@ CommentAddViewStep2 = ContentView.extend({
 /*
  * View for CommentsToGeodata
  */
-CommentsShowView = ContentView.extend({
-	
-	el: function() {
-		return $('#showCommentsToGeodata');
-	},
+CommentsShowView = ModalView.extend({
 
 	getPageContent: function() {
-		return this.options.geodata.comments; 
+		return this.options.geodata; 
 	},
 
 	getPageTemplate: function() {
-		return '/api/internal/doc/showCommentsToGeodataBit';
-	}
-});
-
-/*
- * View for MetadataToGeodata
- */
-MetadataShowView = ContentView.extend({
-	
-	el: function() {
-		return $('#showMetadataToGeodata');
-	},
-
-	getPageContent: function() {
-		return this.options.geodata.metadata; 
-	},
-
-	getPageTemplate: function() {
-		return '/api/internal/doc/showMetadataToGeodataBit';
+		return '/api/internal/doc/showCommentsToGeodata';
 	}
 });
