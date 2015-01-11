@@ -67,10 +67,10 @@ class Geodata extends Eloquent {
 		// Where
 		if (!empty($filter['q'])) {
 			if (!empty($filter['metadata'])) {
-				$query->whereRaw("({$ct}.searchtext @@ to_tsquery(?) OR {$gt}.searchtext @@ to_tsquery(?))", array($filter['q'], $filter['q']));
+				$query->whereRaw("({$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?) OR {$gt}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?))", array($filter['q'], $filter['q']));
 			}
 			else {
-				$query->whereRaw("{$ct}.searchtext @@ to_tsquery(?)", array($filter['q']));
+				$query->whereRaw("{$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?)", array($filter['q']));
 			}
 		}
 		
@@ -93,7 +93,7 @@ class Geodata extends Eloquent {
 		}
 		
 		if (!empty($filter['minrating'])) {
-			$query->where("{$ct}.rating", '>', $filter['minrating']);
+			$query->where("{$ct}.rating", '>=', $filter['minrating']);
 		}
 		
 		// Group By
@@ -110,6 +110,9 @@ class Geodata extends Eloquent {
 	}
 
 	public function getKeywords(){
+		if (empty($this->keywords)) {
+			return array();
+		}
 		return explode('|', $this->keywords);
 	}
 	

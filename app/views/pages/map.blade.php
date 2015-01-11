@@ -54,7 +54,7 @@
 				</div>
 
 				<div class="form-group clearfix col-md-12 column">
-					<label class="label-filter">Bewertung größer als ... ?</label>
+					<label class="label-filter">Bewertung größer oder gleich ... ?</label>
 					<div class="input select rating-stars">
 						<select id="ratingFilter">
 							<option value="" selected="selected"></option>

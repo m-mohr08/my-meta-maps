@@ -18,8 +18,10 @@
 namespace GeoMetadata\Service;
 
 class OgcWebMapService extends OgcWebServices {
+	
+	private $cache = array();
 
-	public function getNamespaceUri() {
+	public function getSupportedNamespaceUri() {
 		return 'http://www.opengis.net/wms';
 	}
 
@@ -44,27 +46,49 @@ class OgcWebMapService extends OgcWebServices {
 	protected function parseAuthor() {
 		return $this->selectHierarchyAsOne(array('Service', 'ContactInformation'));
 	}
-
+	
+	private function isWmsVersion($version) {
+		if (!isset($this->cache['version'][$version])) {
+			$wmsNode = $this->xpath(array("WMS_Capabilities[@version='{$version}']"));
+			$this->cache['version'][$version] = !empty($wmsNode);
+		}
+		return $this->cache['version'][$version];
+	}
+	
 	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
-		$bboxes = $this->getParser()->xpath("//*[local-name()='Capability']/*[local-name()='Layer']/*[local-name()='LatLonBoundingBox']|//*[local-name()='Capability']/*[local-name()='Layer']/*[local-name()='BoundingBox'][@CRS='EPSG:4326' or @CRS='CRS:84']");
+		$parent = $this->selectOne(array('Capability', 'Layer'), null, false);
+		$this->parseBoundingBoxFromNode($parent, $model);
+	}
+	
+	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxTrait $model) {
+		$bboxes = array_merge(
+			$this->selectMany(array('LatLonBoundingBox'), $parent, false),
+			$this->selectMany(array("BoundingBox[@CRS='EPSG:4326' or @CRS='CRS:84']"), $parent, false)
+		);
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-				$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
-				break;
-			}
-		}
-		if ($model->getBoundingBox() == null) {
-			$crs = $this->selectOne(array('Capability', 'Layer', 'CRS'));
-			if ($this->isWgs84($crs)) {
-				$west = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'westBoundLongitude'));
-				$east = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'eastBoundLongitude'));
-				$north = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'northBoundLongitude'));
-				$south = $this->selectOne(array('Capability', 'Layer', 'EX_GeographicBoundingBox', 'southBoundLongitude'));
-				if (!$west != null && $east != null && $north != null && $south != null) {
-					$model->createBoundingBox($west, $north, $east, $south);
+				if ($this->isWmsVersion('1.3.0')) {
+					// In WMS version 1.3.0 with WGS84 the lon/lat values order is changed.
+					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
+					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx']);
 				}
+				else {
+					$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
+				}
+				// We found a bbox, skip other methods and return
+				return true;
 			}
 		}
+
+		$crs = $this->selectMany(array('CRS'), $parent);
+		if ($this->isWgs84($crs) && is_object($parent->EX_GeographicBoundingBox)) {
+			$bbox = $parent->EX_GeographicBoundingBox->children($this->getUsedNamespaceUri());
+			if (is_object($bbox) && $bbox->count() >= 4) {
+				$model->createBoundingBox($this->n2s($bbox->westBoundLongitude), $this->n2s($bbox->southBoundLatitude), $this->n2s($bbox->eastBoundLongitude), $this->n2s($bbox->northBoundLatitude));
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected function parseCopyright() {
@@ -94,29 +118,8 @@ class OgcWebMapService extends OgcWebServices {
 			if (!empty($name)) {
 				$title = (string) $node->Title;
 				$layer = $model->createLayer($name, $title);
-				
-				if (is_object($node->LatLonBoundingBox)) {
-					$bbox = $this->getAttrsAsArray($node->LatLonBoundingBox);
-					if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-						$layer->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
-					}
-				}
-				else {
-					$parentCrs = $this->selectOne(array('Capability', 'Layer', 'CRS'));
-					// TODO: Check whether this works with $node specified as parent...
-					$layerCrs = $this->selectOne(array('CRS'), $node);
-					if ($this->isWgs84($parentCrs) || $this->isWgs84($layerCrs)) {
-						$west = $this->selectOne(array('EX_GeographicBoundingBox', 'westBoundLongitude'), $node);
-						$east = $this->selectOne(array('EX_GeographicBoundingBox', 'eastBoundLongitude'), $node);
-						$north = $this->selectOne(array('EX_GeographicBoundingBox', 'northBoundLongitude'), $node);
-						$south = $this->selectOne(array('EX_GeographicBoundingBox', 'southBoundLongitude'), $node);
-						if (!$west != null && $east != null && $north != null && $south != null) {
-							$layer->createBoundingBox($west, $north, $east, $south);
-						}
-					}
-				}
-				// Inheritance of bbox from global WMS bbox
-				if ($layer->getBoundingBox() == null) {
+				if (!$this->parseBoundingBoxFromNode($node, $layer)) {
+					// Inheritance of bbox from global WMS bbox if not an own bbox is provided by the layer
 					$layer->setBoundingBox($model->getBoundingBox());
 				}
 			}

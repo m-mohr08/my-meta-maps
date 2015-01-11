@@ -52,18 +52,17 @@ function commentAddFirstStepController(model, details) {
 	
 	model.save(details, {
 		
-        success: function (data) {
+        success: function (model, response) {
         	Debug.log('Try to validate URL');
         	
         	FormErrorMessages.remove('#form-comment-firstStep');
         	
         	$('#ModalAddComment').modal('hide');
 
-        	var view = new CommentAddViewStep2();
-			view.setMetadata(data.toJSON());
+			ContentView.register(new CommentAddViewStep2({metadata: response.geodata}));
         },
         
-        error: function(data, response) {
+        error: function(model, response) {
         	Debug.log('Can not validate URL');
         	FormErrorMessages.apply('#form-comment-firstStep', response.responseJSON);
 		}
@@ -78,14 +77,15 @@ function commentAddSecondStepController(model, details) {
 	model.save(details, {
 		
 		// In case of successfull adding of comment
-		success: function () {
-			Debug.log('Details of added comment are: ' + JSON.stringify(details));
-			Debug.log("Adding comment was successfull");
+		success: function (model, response) {
+			Debug.log("Adding comment was successful: " + JSON.stringify(response.responseJSON));
 			FormErrorMessages.remove('#form-comment-secondStep');
+			router.navigate('', {trigger: true}); // Redirect to frontpage
+			MessageBox.addSuccess('Ihr Kommentar wurde erfolgreich hinzugefügt.');
 		},
 	
 		// In case of failed adding of comment
-		error: function (data, response) {
+		error: function (model, response) {
 			Debug.log("Adding comment failed");
 			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
 		}

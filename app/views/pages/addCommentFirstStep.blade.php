@@ -12,13 +12,13 @@
 				<form id="form-comment-firstStep" onsubmit="return false">
 								
 					<div class="row form-group form-group-marginSides">
-						<label for="url">URL*</label>
+						<label for="url">URL</label>
 						<input class="form-control" name="url" id="inputURL" type="text">
 						<div class="error-message"></div>
 					</div>
 								
 					<div class="row form-group form-group-marginSides">
-						<label for="datatype">Datenformat*</label>
+						<label for="datatype">Datenformat</label>
 						<select class="form-control" name="datatype" id="inputDataType">
 						<option value="">Bitte Datenformat wählen</option>
 						@foreach (\GeoMetadata\GmRegistry::getServices() as $service)
@@ -32,14 +32,6 @@
 					
 				</form>
 							
-			</div>
-						
-			<div class="modal-footer">
-				<div class="row clearfix">
-					<div class="col-md-2 column">
-						<label>*Verpflichtend</label>
-					</div>
-				</div>
 			</div>
 				
 		</div>
