@@ -97,8 +97,8 @@ CommentAddViewStep2 = ContentView.extend({
 			"layer" : $("#inputLayer").val(),
 			"text" : $("#inputText").val(),
 			"geometry" : this.getGeometryFromMap(),
-			"startDate": $("#inputStartDate").val(),
-			"endDate": $("#inputEndDate").val(),		
+			"start": $("#inputStartDate").val(),
+			"end": $("#inputEndDate").val(),		
 			"rating": $("#ratingComment").val(),
 			"title" : $("#inputTitle").val()
 		};

@@ -7,8 +7,8 @@ function geodataShowController(model, mapview) {
 		"q" : $("#SearchTerms").val(),
 		"bbox" : mapview.getBoundingBox(),
 		"radius" : $("#spatialFilter").val(),
-		"startDate": $("#filterStartTime").val(),
-		"endDate": $("#filterEndTime").val(),		
+		"start": $("#filterStartTime").val(),
+		"end": $("#filterEndTime").val(),		
 		"minrating": $("#ratingFilter").val(),
 		"metadata" : $('#includeMetadata').is(':checked')
 	};
