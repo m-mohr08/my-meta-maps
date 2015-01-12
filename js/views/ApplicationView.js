@@ -136,9 +136,9 @@ MapView = ContentView.extend({
                     polySource.addFeature(new ol.Feature({
                         geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
                         projection: 'EPSG: 3857'
-                        })
-                    );
+                    }));
                 }
+                
                 // set the style of the geometries
                 var polyStyle = new ol.style.Style({
                     fill: new ol.style.Fill({
@@ -159,6 +159,17 @@ MapView = ContentView.extend({
                 );
                 
 	},
+        
+        getrandomColor: function(){
+
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+        },
+        
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
 	}
