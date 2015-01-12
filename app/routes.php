@@ -36,9 +36,7 @@ Route::group(array('prefix' => '/geodata'), function() {
 });
 
 // External API
-Route::get('/api/v1/search', function() {
-	// TODO: Implement external API
-});
+Route::get('/api/v1/search', 'ExternalApiController@getSearchApi');
 
 // Internal API for backbone communication
 Route::group(array('prefix' => '/api/internal'), function() {
