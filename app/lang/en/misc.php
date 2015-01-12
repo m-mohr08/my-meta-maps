@@ -26,6 +26,15 @@ return array(
 	'furtherInfo' => '.',
 
 	//variables for \app\views\pages\help.blade.php
-	'headline' => 'The help contains the FAQ and how to use MyMetaMaps',
+	'headline' => 'The help contains the FAQ and how to use My Meta Maps',
+
+
+
+	//variables for \app\views\pages\about.blade.php
+
+	'intro' => 'My Meta Maps has been developed by students of the institute for geoinformatics of the WWU Münster.',
+	'team' => 'The team consists of',
+	'pubAdress' => 'Link of the public data interface',
+	'libs' => 'Used libraries',
 
 );
