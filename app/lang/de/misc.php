@@ -26,6 +26,13 @@ return array(
 	'furtherInfo' => '.',
 	
 	//variables for \app\views\pages\help.blade.php
-	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung von MyMetaMaps',
+	'headline' => 'Die Benutzerhilfe beantwortet Ihnen die wichtigsten Fragen zur Bedienung von My Meta Maps',
 
+
+	//variables for \app\views\pages\about.blade.php
+
+	'intro' => 'My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.',
+	'team' => 'Das Team besteht aus:',
+	'pubAdress' => 'Adresse der öffentlichen Datenschnittstelle',
+	'libs' => 'Genutzte Bibliotheken',
 );
