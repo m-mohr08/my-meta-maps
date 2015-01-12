@@ -61,7 +61,7 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 	}
 
 	public function removeLayer(\GeoMetadata\Model\Layer $layer){
-		App::debug("Removing layers not supported by Geodata model.");
+		Log::warning("Removing layers not supported by Geodata model.");
 		return false;
 	}
 
@@ -81,7 +81,7 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		if ($geometry != null) {
 			$c = $geometry->getBBox();
 			$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-			$bbox->setWest($c['minx'])->setNorth($c['miny'])->setEast($c['maxx'])->setSouth($c['maxy']);
+			$bbox->setWest($c['minx'])->setSouth($c['miny'])->setEast($c['maxx'])->setNorth($c['maxy']);
 			return $bbox;
 		}
 		return null;
@@ -91,9 +91,9 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		$this->bbox = $bbox !== null ? $bbox->toWkt() : null;
 	}
 	
-	public function createBoundingBox($west, $north, $east, $south) {
+	public function createBoundingBox($west, $south, $east, $north) {
 		$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-		$bbox->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
 		$this->bbox = $bbox->toWkt();
 	}
 
@@ -138,11 +138,11 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 	}
 
 	public function getBeginTime(){
-		return $this->begin;
+		return $this->start;
 	}
 
 	public function setBeginTime(\DateTime $begin = null){
-		$this->begin = $begin !== null ? Carbon::instance($begin) : null;
+		$this->start = $begin !== null ? Carbon::instance($begin) : null;
 	}
 
 	public function getEndTime(){

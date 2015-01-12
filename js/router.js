@@ -1,35 +1,36 @@
 var Router = Backbone.Router.extend({
 	routes: {
 		'': 'map',
-		'language/:code': 'language',
 		'about': 'about',
 		'help': 'help',
-		'map': 'map',
-		'login': 'login',
+		'auth': 'loginout',
 		'register': 'register',
 		'profile': 'profile',
+		'password': 'password',
 		'comments/add': 'addComment',
-		'comments/add2': 'addComment2',
-	},
-
-	language: function (code) {
-		// TODO
+		'geodata/:id': 'geodata'
+		
 	},
 
 	about: function () {
-		new AboutView();
+		ContentView.register(new AboutView());
 	},
 
 	help: function () {
-		new HelpView();
+		ContentView.register(new HelpView());
 	},
 
 	map: function () {
-		new MapView();
+		ContentView.register(new MapView());
 	},
 
-	login: function () {
-		new LoginView();
+	loginout: function () {
+		if (AuthUser.loggedIn) {
+			userLogoutController();
+		}
+		else {
+			new LoginView();
+		}
 	},
 
 	register: function () {
@@ -40,12 +41,18 @@ var Router = Backbone.Router.extend({
 		new ProfileView();
 	},
 
+	password: function () {
+		new PasswordView();
+	},
+
 	addComment: function () {
+		this.navigate('comments/add'); // Set correct url if not already set.
 		new CommentAddViewStep1();
 	},
 
-	addComment2: function () {
-		new CommentAddViewStep2();
+	geodata: function (id) {
+		this.navigate('geodata/' + id); // Set correct url if not already set.
+		commentsToGeodataController(id);
 	}
 
 });

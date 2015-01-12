@@ -11,11 +11,22 @@
 |
 */
 
+use \GeoMetadata\GmRegistry;
+
 App::before(function($request)
 {
-	//
-});
+	// Set the locale for all requests
+	App::setLocale(Language::current());
+	
+	// Set up GeoMetadata
+	GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
+	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
+	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
+	GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 
+	GmRegistry::setLogger(array('Log', 'debug'));
+	GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
+});
 
 App::after(function($request, $response)
 {
@@ -35,17 +46,6 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('login');
-		}
-	}
 });
 
 
@@ -67,7 +67,6 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
 });
 
 /*

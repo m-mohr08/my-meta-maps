@@ -103,8 +103,8 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->boundingBox = $bbox;
 	}
 	
-	public function createBoundingBox($west, $north, $east, $south) {
-		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setNorth($north)->setEast($east)->setSouth($south);
+	public function createBoundingBox($west, $south, $east, $north) {
+		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
 		return $this->boundingBox;
 	}
 

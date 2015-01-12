@@ -1,34 +1,31 @@
 /*
  * Model for validate URL of a new comment which will be added
  */
-CommentAddFirstStep = Backbone.Model.extend({
+CommentAddFirstStep = BaseModel.extend({
 	urlRoot: '/api/internal/geodata/metadata'	
 });
 
 /*
  * Model for adding comments
  */
-CommentAddSecondStep = Backbone.Model.extend({     
+CommentAddSecondStep = BaseModel.extend({     
 	urlRoot: '/api/internal/geodata/add'
 });
 
 /*
- * Model for comments
+ * Model for (showing) geodata
  */
-Comments = Backbone.Model.extend({
+GeodataShow = BaseModel.extend({
 	urlRoot: '/api/internal/geodata/list'
 });
 
 /*
- * Collection of Comments-models
+ * Model for (showing) comments to a geodata
  */
-CommentsList = Backbone.Collection.extend({
-	model: Comments
-});
-
-/*
- * Model for comments of a geodata
- */
-CommentsOfGeodata = Backbone.Model.extend({
-	urlRoot: '/api/internal/geodata/id/comments'
+CommentsToGeodata = BaseModel.extend({
+	id: null,
+	enableAntiFlood: false,
+	urlRoot: function() {
+		return '/api/internal/geodata/'+this.id+'/comments';
+	}
 });

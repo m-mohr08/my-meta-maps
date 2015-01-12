@@ -40,6 +40,13 @@ class SavedSearch extends Eloquent {
 	 * @var array
 	 */
 	protected $hidden = array();
+	
+	public static function generateId() {
+		return str_replace('.', '', uniqid("", true));
+	}
+	
+	public function scopeSelectBbox($query) {
+		return $query->addSelect('*')->addSelect(DB::raw('ST_AsText(bbox) AS bbox'));
+	}
 
 }
-?>
