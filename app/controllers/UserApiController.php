@@ -30,7 +30,7 @@ class UserApiController extends BaseApiController {
 		return array(
 			'session' => array(
 				'session' => Session::getId(),
-				'lastActivity' => self::toDate(User::getLastActivityFromSession())
+				'lastActivity' => $this->toDate(User::getLastActivityFromSession())
 			)
 		);
 	}

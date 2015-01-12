@@ -60,7 +60,7 @@
 							<ul class="nav navbar-nav navbar-right">
 								<!-- Start: Add geodata/comment -->
 								<div class="navbar-form navbar-left">
-									<a href="#/comments/add" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
+									<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
 								</div>
 								<!-- End: Add geodata/comment -->
 								<!-- Start: Account navigation -->
@@ -73,8 +73,8 @@
 												</span>&nbsp;<span class="caret"></span>
 											</a>
 											<ul class="dropdown-menu" role="menu" aria-labelledby="userAccountBtn">
-												<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.profile();">Profil ändern</a></li>
-												<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.password();">Passwort ändern</a></li>
+												<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.profile();">@lang('misc.profilChange')</a></li>
+												<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:router.password();">@lang('misc.pwchange')</a></li>
 											</ul>
 										</div>
 										<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">@lang('misc.register')&nbsp;<span class="glyphicon glyphicon-edit"></span></a>

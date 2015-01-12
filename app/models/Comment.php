@@ -54,15 +54,74 @@ class Comment extends Eloquent {
     }
 	
 	public function getGeomAttribute($value) {
-		if (!empty($value)) {
-			// TODO: THIS SHOULD BE AVOIDED IN ANY CASE! Need to change this...
-			$result = DB::selectOne("SELECT ST_AsText('{$value}') AS geom");
-			return $result->geom;
+		return Geodata::convertPostGis($value);
+	}
+
+	public function scopeFilter($query, array $filter, $id) {
+		// Table Names
+		$gt = (new Geodata())->getTable();
+		$ct = (new Comment())->getTable();
+		$ut = (new User())->getTable();
+		
+		// Select
+		$query->select(array(
+			"{$ct}.*",
+			"{$ut}.name AS user_name",
+			DB::raw("ST_AsText({$ct}.geom) AS geom")
+		));
+		
+		// Join Geodata
+		$query->join($gt, "{$ct}.geodata_id", '=', "{$gt}.id");
+		// Join User
+		$query->leftJoin($ut, "{$ct}.user_id", '=', "{$ut}.id");
+
+		// Where
+		self::applyFilter($query, $filter);
+		// Where: Restrict to the requested geodata id
+		$query->where("{$gt}.id", '=', $id);
+		
+		// Order By
+		$query->orderBy("{$gt}.title");
+
+		return $query;
+	}
+	
+	public static function applyFilter($query, array $filter) {
+		// Table Names
+		$gt = (new Geodata())->getTable();
+		$ct = (new Comment())->getTable();
+
+		// Where
+		if (!empty($filter['q'])) {
+			if (!empty($filter['metadata'])) {
+				$query->whereRaw("({$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?) OR {$gt}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?))", array($filter['q'], $filter['q']));
+			}
+			else {
+				$query->whereRaw("{$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?)", array($filter['q']));
+			}
 		}
-		else {
-			return null;
+		
+		if (!empty($filter['bbox'])) {
+			if (empty($filter['radius'])) {
+				// Get all bboxes contained by the bbox of the map
+				$query->whereRaw("{$gt}.bbox::geometry @ ST_Envelope(?::geometry)", array($filter['bbox']));
+			}
+			else {
+				// Get all bboxes that are within the chosen radius around the middle of the bbox of the map
+				$query->whereRaw("ST_DWithin({$gt}.bbox, ST_Centroid(?::geometry), ?)", array($filter['bbox'], $filter['radius']));
+			}
+		}
+		
+		if (!empty($filter['start'])) {
+			$query->where("{$ct}.start", '<', $filter['start']);
+		}
+		if (!empty($filter['end'])) {
+			$query->where("{$ct}.end", '>', $filter['end']);
+		}
+		
+		if (!empty($filter['minrating'])) {
+			$query->where("{$ct}.rating", '>=', $filter['minrating']);
 		}
 	}
 
 }
-?>

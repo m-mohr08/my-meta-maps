@@ -7,7 +7,9 @@ var Router = Backbone.Router.extend({
 		'register': 'register',
 		'profile': 'profile',
 		'password': 'password',
-		'comments/add': 'addComment'
+		'comments/add': 'addComment',
+		'geodata/:id': 'geodata'
+		
 	},
 
 	about: function () {
@@ -44,7 +46,13 @@ var Router = Backbone.Router.extend({
 	},
 
 	addComment: function () {
+		this.navigate('comments/add'); // Set correct url if not already set.
 		new CommentAddViewStep1();
+	},
+
+	geodata: function (id) {
+		this.navigate('geodata/' + id); // Set correct url if not already set.
+		commentsToGeodataController(id);
 	}
 
 });

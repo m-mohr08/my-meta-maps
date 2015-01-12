@@ -1,10 +1,10 @@
 /*
- * View for CommentsShow; showing comments
+ * View for GeodataShow; showing geodata
  */
-CommentShowView = ContentView.extend({
+GeodataShowView = ContentView.extend({
 	
 	el: function() {
-		return $('#showComments');
+		return $('#showGeodata');
 	},
 
 	getPageContent: function() {
@@ -12,7 +12,7 @@ CommentShowView = ContentView.extend({
 	},
 
 	getPageTemplate: function() {
-		return '/api/internal/doc/showCommentBit';
+		return '/api/internal/doc/showGeodataBit';
 	}
 });
 
@@ -72,11 +72,17 @@ CommentAddViewStep2 = ContentView.extend({
 	
 	onLoaded: function() {
         $('#ratingComment').barrating({ showSelectedRating:false });
+		$("#inputDataType option[value='"+this.options.metadata.datatype+"']").attr('selected',true);
 	},
     
     events: {
     	"click #addCommentSecondBtn": "createComment"
     },
+	
+	getGeometryFromMap: function() {
+		// TODO: Get the geometry the user created from the map
+		return null;
+	},
 
 	/*
 	 * This function is called when anybody creates a comment
@@ -87,14 +93,31 @@ CommentAddViewStep2 = ContentView.extend({
 		// Creates further details of a comment with typed in values
 		var details = {
 			"url" : $("#inputURL").val(),
+			"datatype" : $("#inputDataType").val(),
+			"layer" : $("#inputLayer").val(),
 			"text" : $("#inputText").val(),
-			"startDate": $("#inputStartDate").val(),
-			"endDate": $("#inputEndDate").val(),		
+			"geometry" : this.getGeometryFromMap(),
+			"start": $("#inputStartDate").val(),
+			"end": $("#inputEndDate").val(),		
 			"rating": $("#ratingComment").val(),
 			"title" : $("#inputTitle").val()
 		};
 
 		// Creates a new CommentAdd-Model
-		commentAddSecondStepController(new CommentAddSecondStep, details);
+		commentAddSecondStepController(new CommentAddSecondStep(), details);
+	}
+});
+
+/*
+ * View for CommentsToGeodata
+ */
+CommentsShowView = ModalView.extend({
+
+	getPageContent: function() {
+		return this.options.geodata; 
+	},
+
+	getPageTemplate: function() {
+		return '/api/internal/doc/showCommentsToGeodata';
 	}
 });

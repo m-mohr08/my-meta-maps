@@ -1,14 +1,14 @@
 /*
-* Send a POST-request to the server to get comments
+* Send a POST-request to the server to get geodata
 */
-function commentsShowController(model, mapview) {
+function geodataShowController(model, mapview) {
 	
 	var details = {
 		"q" : $("#SearchTerms").val(),
 		"bbox" : mapview.getBoundingBox(),
 		"radius" : $("#spatialFilter").val(),
-		"startDate": $("#filterStartTime").val(),
-		"endDate": $("#filterEndTime").val(),		
+		"start": $("#filterStartTime").val(),
+		"end": $("#filterEndTime").val(),		
 		"minrating": $("#ratingFilter").val(),
 		"metadata" : $('#includeMetadata').is(':checked')
 	};
@@ -16,7 +16,7 @@ function commentsShowController(model, mapview) {
 	model.save(details, {
 		
         success: function (data, response) {
-			var commentShowView = new CommentShowView(response);
+			var geodataShowView = new GeodataShowView(response);
 			mapview.addGeodataToMap(response);
         },
         
@@ -49,21 +49,23 @@ function resetSearch(form) {
 * Send a POST-request to the server
 */
 function commentAddFirstStepController(model, details) {
-	
+
 	model.save(details, {
+		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
 		
         success: function (model, response) {
         	Debug.log('Try to validate URL');
-        	
         	FormErrorMessages.remove('#form-comment-firstStep');
-        	
         	$('#ModalAddComment').modal('hide');
-
 			ContentView.register(new CommentAddViewStep2({metadata: response.geodata}));
         },
         
         error: function(model, response) {
         	Debug.log('Can not validate URL');
+			Progress.stop('.modal-progress');
         	FormErrorMessages.apply('#form-comment-firstStep', response.responseJSON);
 		}
    });
@@ -90,4 +92,61 @@ function commentAddSecondStepController(model, details) {
 			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
 		}
 	});
+};
+
+/*
+* Send a POST-request to the server to get comments to a geodata
+*/
+function commentsToGeodataController(id) {
+	
+	var model = new CommentsToGeodata();
+	model.id = id;
+	
+	var details = {
+		"q" : $("#SearchTerms").val(),
+		"bbox" : null,
+		"radius" : $("#spatialFilter").val(),
+		"startDate": $("#filterStartTime").val(),
+		"endDate": $("#filterEndTime").val(),		
+		"minrating": $("#ratingFilter").val(),
+		"metadata" : $('#includeMetadata').is(':checked')
+	};
+
+	model.save(details, {
+		
+        success: function (data, response) {
+        	Debug.log('Showing comments to geodata succeded');
+
+			// Count of comments
+			response.geodata.commentCount = response.geodata.comments.length;
+			var ratingSum = 0;
+			var ratingCount = 0;
+			_.each(response.layer, function(layer) {
+				response.geodata.commentCount += layer.comments.length;
+				_.each(layer.comments, function(comment) {
+					if (comment.rating > 0) {
+						ratingSum += comment.rating;
+						ratingCount++;
+					}
+				});
+			});
+
+			// Average rating
+			if (ratingCount > 0 && ratingSum > 0) {
+				response.geodata.ratingAvg = ratingSum / ratingCount;
+			}
+			else {
+				response.geodata.ratingAvg = 'N/A';	
+			}
+			// TODO: This calculation is not good - move it to the server
+			
+			// Show info
+			var commentsToGeodataShowView = new CommentsShowView(response);
+        },
+        
+        error: function() {
+        	Debug.log('Showing comments to geodata failed');
+			MessageBox.addError('Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.');
+		}
+   });
 };

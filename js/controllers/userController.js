@@ -2,8 +2,12 @@
 * Send a POST-request to the server to save a registration
 */
 function userRegisterController(model, inputRegister) {
-	
+
 	model.save(inputRegister, {
+		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
 		
 		success: function () {
 			Debug.log('Registration succeded');
@@ -14,6 +18,7 @@ function userRegisterController(model, inputRegister) {
 	
 		error: function (data, response) {
 			Debug.log('Registration failed');
+			Progress.stop('.modal-progress');
 			FormErrorMessages.apply('#form-register', response.responseJSON);
 		}
 	});
@@ -44,6 +49,10 @@ function userLoginController(model, inputLogin) {
 	
 	model.save(inputLogin, {
 		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
+		
 		success: function (model, response) {
 			Debug.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
@@ -57,6 +66,7 @@ function userLoginController(model, inputLogin) {
 	
 		error: function () {
 			Debug.log('Login failed');
+			Progress.stop('.modal-progress');
 			var msg = 'Die Anmeldedaten sind nicht korrekt.';
 			var errorMessages = {
 				identifier: msg,
@@ -74,6 +84,10 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 	
 	model.save(inputChangeGeneral, {
 		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
+		
 		success: function (model) {
 			Debug.log('Change general user data succeded');
 			FormErrorMessages.remove('#form-changeGeneral');
@@ -89,6 +103,7 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 	
 		error: function (model, response) {
 			Debug.log('Change general user data failed');
+			Progress.stop('.modal-progress');
 			FormErrorMessages.apply('#form-changeGeneral', response.responseJSON);
 		}
 	});
@@ -101,6 +116,10 @@ function userChangePasswordController(model, inputChangePassword) {
 	
 	model.save(inputChangePassword, {
 		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
+		
 		success: function () {
 			Debug.log('Change password succeded');
 			FormErrorMessages.remove('#form-changePassword');
@@ -110,6 +129,7 @@ function userChangePasswordController(model, inputChangePassword) {
 	
 		error: function (data, response) {
 			Debug.log('Change password failed');
+			Progress.stop('.modal-progress');
 			FormErrorMessages.apply('#form-changePassword', response.responseJSON);
 		}
 	});
@@ -121,3 +141,31 @@ function userChangePasswordController(model, inputChangePassword) {
 function registeredUserChangedLanguage() {
 	window.location.href = '/';
 }
+
+/*
+ * Send POST-request to the server to check user data
+ */
+function userCheckDataController(model, id, key) {
+	
+	var inputCheckData = {};
+	inputCheckData[key] = $("#" + id).val();
+	
+	model.save(inputCheckData, {
+		
+		before: function() {
+			Progress.start('.modal-progress');
+		},
+		
+		success: function () {
+			Debug.log('User data has not already been taken.');
+			responseJSON = {};
+			responseJSON[key] = 'This name/email can been taken.';
+			FormErrorMessages.applyPartially('#form-register', responseJSON, true);
+		},
+	
+		error: function (data, response) {
+			Debug.log('User data has already been taken.');
+			FormErrorMessages.applyPartially('#form-register', response.responseJSON, false);
+		}
+	});
+};
