@@ -57,7 +57,7 @@ class Comment extends Eloquent {
 		return Geodata::convertPostGis($value);
 	}
 
-	public function scopeFilter($query, array $filter, $id) {
+	public function scopeFilter($query, array $filter, $id=0) {
 		// Table Names
 		$gt = (new Geodata())->getTable();
 		$ct = (new Comment())->getTable();
@@ -78,8 +78,9 @@ class Comment extends Eloquent {
 		// Where
 		self::applyFilter($query, $filter);
 		// Where: Restrict to the requested geodata id
-		$query->where("{$gt}.id", '=', $id);
-		
+		if ($id > 0){
+			$query->where("{$gt}.id", '=', $id);
+		}
 		// Order By
 		$query->orderBy("{$gt}.title");
 
