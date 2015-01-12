@@ -17,7 +17,7 @@
 							</h4>
 						</div>
 
-						<div id="showCommentsToGeodata" class="panel-body collapse in" role="tabpanel" aria-labelledby="commentHeader">
+						<div id="showCommentsToGeodata" class="panel-body comments collapse in" role="tabpanel" aria-labelledby="commentHeader">
 
 							<div class="panel panel-default">
 								<div class="panel-heading" role="tab" id="General_Header">
@@ -32,7 +32,7 @@
 									<% _.each(data.comments, function(comment) { %>
 									<div class="list-group-item">
 										<div class="row clearfix">
-											<%= _.escape(comment.text) %>
+											<dd><pre><%= _.escape(comment.text) %></pre></dd>
 										</div>
 										<div class="row clearfix" align="right">
 											<% if (comment.user === null) { %>

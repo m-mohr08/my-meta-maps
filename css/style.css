@@ -150,3 +150,12 @@ h3 {
 	overflow-x: hidden;
 	margin: 2%;
 }
+
+.comments dd pre {
+	white-space: pre-wrap;
+	margin: 0;
+	padding: 0;
+	background-color: #ffffff;
+	border: 0;
+	font-family: @font-family-base;
+}
