@@ -97,7 +97,7 @@ class GeodataApiController extends BaseApiController {
 				'user' => null
 			);
 			if ($comment->user_id > 0) {
-				$comment['user'] = array(
+				$entry['user'] = array(
 					'id' => $comment->user_id,
 					'name' => $comment->user_name
 				);
