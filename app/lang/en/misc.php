@@ -55,4 +55,13 @@ return array(
 	'timerange' => 'Timerange',
 	'rating' => 'rating',
 	'addMeta' => 'Additional metadata',
+
+
+	//variables for \app\views\pages\login.blade.php
+
+	'mailname' => 'Mail-adress / Username',
+	'pw' => 'Password',
+	'stay' => 'stay logged in?',
+
+
 );

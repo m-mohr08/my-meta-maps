@@ -55,4 +55,14 @@ return array(
 	'timerange' => 'Tijdsbestek',
 	'rating' => 'Evaluatie',
 	'addMeta' => 'Aanvullend meta gegevens',
+
+
+	//variables for \app\views\pages\login.blade.php
+
+	'mailname' => 'E-mailadres / Usernaam',
+	'pw' => 'Wachtwoord',
+	'stay' => 'Aangemeld blijven?',
+
+
+
 );

@@ -56,4 +56,15 @@ return array(
 	'timerange' => 'Zeitraum',
 	'rating' => 'Bewertung',
 	'addMeta' => 'Zusätzliche Metadaten',
+
+
+	//variables for \app\views\pages\login.blade.php
+
+	'mailname' => 'E-Mail-Adresse / Benuzername',
+	'pw' => 'Passwort',
+	'stay' => 'Angemeldet bleiben?',
+	
+
+	//variables for \app\views\pages\
+	
 );
