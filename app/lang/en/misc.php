@@ -37,4 +37,12 @@ return array(
 	'pubAdress' => 'Link of the public data interface',
 	'libs' => 'Used libraries',
 
+
+	//variables for \app\views\pages\addCommentFirstStep.blade.php
+
+	'createComm' => 'Create comment',
+	'dataFormat' => 'Data format',
+	'chooseFormat' => 'Please choose data format',
+	'create' => 'Create',
+
 );

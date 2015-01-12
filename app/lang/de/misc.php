@@ -35,4 +35,13 @@ return array(
 	'team' => 'Das Team besteht aus:',
 	'pubAdress' => 'Adresse der öffentlichen Datenschnittstelle',
 	'libs' => 'Genutzte Bibliotheken',
+
+
+	//variables for \app\views\pages\addCommentFirstStep.blade.php
+
+	'createComm' => 'Kommentar erstellen',
+	'dataFormat' => 'Datenformat',
+	'chooseFormat' => 'Bitte Datenformat wählen',
+	'create' => 'Erstellen',
+	'' => '',
 );

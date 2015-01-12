@@ -35,4 +35,12 @@ return array(
 	'team' => 'Het team bestaat uit:',
 	'pubAdress' => 'Adres van de openbaare gegevens-interface',
 	'libs' => 'Gebruikte bibliotheken',
+
+
+	//variables for \app\views\pages\addCommentFirstStep.blade.php
+
+	'createComm' => 'Commentaar cre&eumlren',
+	'dataFormat' => 'Gegevens formaat',
+	'chooseFormat' => 'Kies een gegevens formaat',
+	'create' => 'Cre&eumlren',
 );
