@@ -25,9 +25,9 @@ return array(
 	'clicktop' => 'If you are new to My Meta Maps and are wondering how to get started click ',
 	'furtherInfo' => '.',
 
+
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'The help contains the FAQ and how to use My Meta Maps',
-
 
 
 	//variables for \app\views\pages\about.blade.php
@@ -45,4 +45,14 @@ return array(
 	'chooseFormat' => 'Please choose data format',
 	'create' => 'Create',
 
+
+	//variables for \app\views\pages\addCommentSecondStep.blade.php
+	
+	'enterData' => 'Enter data',
+	'commNoLay' => 'Don´t allocate comment to a Layer',
+	'title' => 'Title*',
+	'freetext' => 'freetext*',
+	'timerange' => 'Timerange',
+	'rating' => 'rating',
+	'addMeta' => 'Additional metadata',
 );

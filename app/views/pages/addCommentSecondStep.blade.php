@@ -1,7 +1,7 @@
-<h1>Kommentar erstellen</h1>
+<h1>@lang('misc.createComm')</h1>
 											
 <form id="form-comment-secondStep" class="column col-md-5" onsubmit="return false">
-	<h2 class="row">Daten eingeben</h2>
+	<h2 class="row">@lang('misc.enterData')</h2>
 
 	<div class="row form-group">
 		<label for="url">URL*</label>
@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="row form-group">
-		<label for="datatype">Datenformat*</label>
+		<label for="datatype">@lang('misc.dataFormat')</label>
 		<input class="form-control" name="datatype" type="text" readonly="readonly" value="<%= _.escape(config.datatypes[data.metadata.datatype]) %>">
 		<input type="hidden" id="inputDataType" value="<%= _.escape(data.metadata.datatype) %>">
 		<div class="error-message"></div>
@@ -20,7 +20,7 @@
 	<div class="row form-group">
 		<label for="title">Layer</label>
 		<select class="form-control" name="layer" id="inputLayer">
-			<option value="">Kommentar keinem Layer zuordnen</option>
+			<option value="">@lang('misc.commNoLay')</option>
 			<% _.each(data.layer, function(l) { %>
 			<option value="<%= _.escape(l.id) %>"><%= _.escape(l.id) %>: <%= _.escape(l.title) %></option>
 			<% }); %>
@@ -31,20 +31,20 @@
 
 	<% if (data.isNew) { %>
 	<div class="row form-group">
-		<label for="title">Titel*</label>
+		<label for="title">@lang('misc.title')</label>
 		<input class="form-control" name="title" id="inputTitle" type="text" value="<%= _.escape(data.metadata.title) %>">
 		<div class="error-message"></div>
 	</div>
 	<% } %>
 
 	<div class="row form-group">
-		<label for="text">Freitext*</label>
+		<label for="text">@lang('misc.freetext')</label>
 		<textarea class="form-control" rows="6" name="text" id="inputText"></textarea>
 		<div class="error-message"></div>
 	</div>
 
 	<div class="row form-group">
-		<label for="startDate">Zeitraum</label>
+		<label for="startDate">@lang('misc.timerange')</label>
 			<div class="input-group">
 				<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 				<input class="form-control" name="start" id="inputStartDate" type="text"placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-startComment">
@@ -62,7 +62,7 @@
 
 	<div class="row form-group">
 		<div class="input select rating-stars">
-			<label for="ratingComment">Bewertung</label>
+			<label for="ratingComment">@lang('misc.rating')</label>
 			<select id="ratingComment" name="rating">
 				<option value="" selected="selected"></option>
 				<option value="1">1</option>
@@ -76,12 +76,12 @@
 	</div>
 
 	<div class="row form-group text-right">
-		<button type="submit" class="btn btn-primary" id="addCommentSecondBtn">Erstellen</button>
+		<button type="submit" class="btn btn-primary" id="addCommentSecondBtn">@lang('misc.create')</button>
 	</div>
 
 </form>
 <div id="form-comment-metadata" class="column col-md-7">
-	<h2 class="row">Zusätzliche Metadaten</h2>
+	<h2 class="row">@lang('misc.addMeta')</h2>
 
 	<dl class="dl-horizontal metadata-list">
 	<% if (!data.isNew) { %>

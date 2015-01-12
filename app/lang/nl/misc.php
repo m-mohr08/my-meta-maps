@@ -25,6 +25,7 @@ return array(
 	'clicktop' => 'Nieuw op My Meta Maps? Wij verklaren jou graag hoe je de eerste stappen kan maken. Tik alleen maar op ',
 	'furtherInfo' => '.',
 	
+
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'De user-hulp geeft je de antwoorden van veelgestelde vragen en de bediening van My Meta Maps.',
 
@@ -43,4 +44,15 @@ return array(
 	'dataFormat' => 'Gegevens formaat',
 	'chooseFormat' => 'Kies een gegevens formaat',
 	'create' => 'Cre&eumlren',
+
+
+	//variables for \app\views\pages\addCommentSecondStep.blade.php
+	
+	'enterData' => 'Gegevens ingeven',
+	'commNoLay' => 'Commentaar niet aan een Layer toewijzen',
+	'title' => 'Titel*',
+	'freetext' => 'Vrijtekst*',
+	'timerange' => 'Tijdsbestek',
+	'rating' => 'Evaluatie',
+	'addMeta' => 'Aanvullend meta gegevens',
 );
