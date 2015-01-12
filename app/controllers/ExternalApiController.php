@@ -29,13 +29,13 @@ class ExternalApiController extends BaseApiController {
 		$comments = Comment::filter(compact('q'))->take($count)->get();
 		$data = array(
 			'resource' => Config::get('app.url') . $_SERVER['REQUEST_URI'],
-			'itemUnderReview' => '',
 			'comments' => array()
 		);
 		foreach ($comments as $comment) {
 			$dataComment = array(
 				'id' => Config::get('app.url') . '/geodata/' . $comment->geodata_id . '/comment/' . $comment->id,
-				'text' => $comment->text
+				'text' => $comment->text,
+				'itemUnderReview' => $comment->url
 			);
 			if (!empty($comment->rating)) {
 				$dataComment['rating'] = $comment->rating;

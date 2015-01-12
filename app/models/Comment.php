@@ -65,6 +65,7 @@ class Comment extends Eloquent {
 		
 		// Select
 		$query->select(array(
+			"{$gt}.url",
 			"{$ct}.*",
 			"{$ut}.name AS user_name",
 			DB::raw("ST_AsText({$ct}.geom) AS geom")
