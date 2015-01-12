@@ -63,38 +63,9 @@ class Geodata extends Eloquent {
 		
 		// Join Comments
 		$query->join($ct, "{$ct}.geodata_id", '=', "{$gt}.id");
-		
+
 		// Where
-		if (!empty($filter['q'])) {
-			if (!empty($filter['metadata'])) {
-				$query->whereRaw("({$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?) OR {$gt}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?))", array($filter['q'], $filter['q']));
-			}
-			else {
-				$query->whereRaw("{$ct}.searchtext @@ plainto_tsquery('pg_catalog.simple', ?)", array($filter['q']));
-			}
-		}
-		
-		if (!empty($filter['bbox'])) {
-			if (empty($filter['radius'])) {
-				// Get all bboxes contained by the bbox of the map
-				$query->whereRaw("{$gt}.bbox::geometry @ ST_Envelope(?::geometry)", array($filter['bbox']));
-			}
-			else {
-				// Get all bboxes that are within the chosen radius around the middle of the bbox of the map
-				$query->whereRaw("ST_DWithin({$gt}.bbox, ST_Centroid(?::geometry), ?)", array($filter['bbox'], $filter['radius']));
-			}
-		}
-		
-		if (!empty($filter['start'])) {
-			$query->where("{$ct}.start", '<', $filter['start']);
-		}
-		if (!empty($filter['end'])) {
-			$query->where("{$ct}.end", '>', $filter['end']);
-		}
-		
-		if (!empty($filter['minrating'])) {
-			$query->where("{$ct}.rating", '>=', $filter['minrating']);
-		}
+		Comment::applyFilter($query, $filter);
 		
 		// Group By
 		$query->groupBy("{$gt}.id");

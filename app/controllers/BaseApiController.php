@@ -23,6 +23,10 @@ abstract class BaseApiController extends BaseController {
 
 	protected function toDate($value = null) {
 		$format = 'c';
+		// In ISO Format, we can parse it.
+		if (isIso8601Date($value)) {
+			$value = new \DateTime($value);
+		}
 		// Current date/time
 		if ($value === null) {
 			return date($format);
@@ -37,7 +41,7 @@ abstract class BaseApiController extends BaseController {
 			return date($format, $value);
 		}
 		else {
-			App::debug('Incorrect date/time value given for BaseApiController::toDate()');
+			Log::info('Incorrect date/time value given for BaseApiController::toDate()');
 			return null;
 		}
 	}

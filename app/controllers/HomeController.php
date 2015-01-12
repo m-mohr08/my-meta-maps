@@ -33,11 +33,6 @@ class HomeController extends BaseController {
 		return Response::make($content, 404);
 	}
 	
-	public function getGeodata($geodata)
-	{
-		return Response::make($content, 404);
-	}
-	
 	public function getComment($geodata, $comment)
 	{
 		return Response::make($content, 404);

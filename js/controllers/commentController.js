@@ -7,8 +7,8 @@ function geodataShowController(model, mapview) {
 		"q" : $("#SearchTerms").val(),
 		"bbox" : mapview.getBoundingBox(),
 		"radius" : $("#spatialFilter").val(),
-		"startDate": $("#filterStartTime").val(),
-		"endDate": $("#filterEndTime").val(),		
+		"start": $("#filterStartTime").val(),
+		"end": $("#filterEndTime").val(),		
 		"minrating": $("#ratingFilter").val(),
 		"metadata" : $('#includeMetadata').is(':checked')
 	};
@@ -97,25 +97,51 @@ function commentAddSecondStepController(model, details) {
 /*
 * Send a POST-request to the server to get comments to a geodata
 */
-function commentsToGeodataController(model) {
+function commentsToGeodataController(id) {
+	
+	var model = new CommentsToGeodata();
+	model.id = id;
 	
 	var details = {
-		"q" : 'Wald',
+		"q" : $("#SearchTerms").val(),
 		"bbox" : null,
-		"radius" : null,
-		"startDate": null,
-		"endDate": null,		
-		"minrating": null,
-		"metadata" : null
+		"radius" : $("#spatialFilter").val(),
+		"startDate": $("#filterStartTime").val(),
+		"endDate": $("#filterEndTime").val(),		
+		"minrating": $("#ratingFilter").val(),
+		"metadata" : $('#includeMetadata').is(':checked')
 	};
 
 	model.save(details, {
 		
         success: function (data, response) {
         	Debug.log('Showing comments to geodata succeded');
-        	$('#ModalCommentsToGeodata').modal('show');
+
+			// Count of comments
+			response.geodata.commentCount = response.geodata.comments.length;
+			var ratingSum = 0;
+			var ratingCount = 0;
+			_.each(response.layer, function(layer) {
+				response.geodata.commentCount += layer.comments.length;
+				_.each(layer.comments, function(comment) {
+					if (comment.rating > 0) {
+						ratingSum += comment.rating;
+						ratingCount++;
+					}
+				});
+			});
+
+			// Average rating
+			if (ratingCount > 0 && ratingSum > 0) {
+				response.geodata.ratingAvg = ratingSum / ratingCount;
+			}
+			else {
+				response.geodata.ratingAvg = 'N/A';	
+			}
+			// TODO: This calculation is not good - move it to the server
+			
+			// Show info
 			var commentsToGeodataShowView = new CommentsShowView(response);
-			var metadataToGeodataShowView = new MetadataShowView(response);
         },
         
         error: function() {
