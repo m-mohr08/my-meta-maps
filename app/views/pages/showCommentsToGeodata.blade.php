@@ -17,7 +17,7 @@
 							</h4>
 						</div>
 
-						<div id="showCommentsToGeodata" class="panel-body collapse in" role="tabpanel" aria-labelledby="commentHeader">
+						<div id="showCommentsToGeodata" class="panel-body comments collapse in" role="tabpanel" aria-labelledby="commentHeader">
 
 							<div class="panel panel-default">
 								<div class="panel-heading" role="tab" id="General_Header">
@@ -30,7 +30,39 @@
 								</div>
 								<div class="panel-body list-group collapse in" id="General_Body" role="tabpanel" aria-labelledby="General_Header">
 									<% _.each(data.comments, function(comment) { %>
-									<div class="list-group-item"><%= _.escape(comment.text) %></div>
+									<div class="list-group-item">
+										<div class="row clearfix">
+											<dd><pre><%= _.escape(comment.text) %></pre></dd>
+										</div>
+										<div class="row clearfix" align="right">
+											<% if (comment.user === null) { %>
+												<span>
+													<% if (comment.rating !== null) { %>
+														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
+													<% } %>
+													<% if (comment.rating === null) { %>
+														<img src="/img/stars/0.png">
+													<% } %>
+												</span>&nbsp;
+												<span class="badge alert-default">
+													<span class="glyphicon glyphicon-user"></span>&nbsp;<span>Anonym</span>
+												</span>
+											<% } %>
+											<% if (comment.user !== null) { %>
+												<span>
+													<% if (comment.rating !== null) { %>
+														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
+													<% } %>
+													<% if (comment.rating === null) { %>
+														<img src="/img/stars/0.png">
+													<% } %>
+												</span>&nbsp;
+												<span class="badge alert-info">
+													<span class="glyphicon glyphicon-user"></span>&nbsp;<span> <%= _.escape(comment.user.name) %> </span>
+												</span>
+											<% } %>
+										</div>
+									</div>
 									<% }); if (_.isEmpty(data.comments)) { %>
 									<span class="list-group-item">Es liegen leider keine allgemeinen Kommentare vor.</span>
 									<% } %>
@@ -49,7 +81,39 @@
 								</div>
 								<div class="panel-body list-group collapse" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
 									<% _.each(layer.comments, function(comment) { %>
-									<div class="list-group-item"><%= _.escape(comment.text) %></div>
+									<div class="list-group-item">
+										<div class="row clearfix">
+											<dd><pre><%= _.escape(comment.text) %></pre></dd>
+										</div>
+										<div class="row clearfix" align="right">
+											<% if (comment.user === null) { %>
+												<span>
+													<% if (comment.rating !== null) { %>
+														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
+													<% } %>
+													<% if (comment.rating === null) { %>
+														<img src="/img/stars/0.png">
+													<% } %>
+												</span>&nbsp;
+												<span class="badge alert-default">
+													<span class="glyphicon glyphicon-user"></span>&nbsp;<span>Anonym</span>
+												</span>
+											<% } %>
+											<% if (comment.user !== null) { %>
+												<span>
+													<% if (comment.rating !== null) { %>
+														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
+													<% } %>
+													<% if (comment.rating === null) { %>
+														<img src="/img/stars/0.png">
+													<% } %>
+												</span>&nbsp;
+												<span class="badge alert-info">
+													<span class="glyphicon glyphicon-user"></span>&nbsp;<span> <%= _.escape(comment.user.name) %> </span>
+												</span>
+											<% } %>
+										</div>
+									</div>
 									<% }); if (_.isEmpty(layer.comments)) { %>
 									<span class="list-group-item">Zu diesem Layer liegen noch keine Kommentare vor.</span>
 									<% } %>
