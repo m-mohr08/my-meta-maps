@@ -27,5 +27,15 @@ return array(
 	*/
 
 	'pagination' => 'pagination::slider-3',
+	
+	/*
+	|--------------------------------------------------------------------------
+	| Datepicker related settings, like the date/time format (ISO 8601). 
+	|--------------------------------------------------------------------------
+	*/	
+	'datepicker' => array(
+		'format' => 'yyyy-mm-dd',
+		'placeholder' => 'YYYY-MM-DD'
+	)
 
 );

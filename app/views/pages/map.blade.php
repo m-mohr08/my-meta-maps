@@ -29,16 +29,16 @@
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-start" onchange="executeSearch()">
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
 					</div>
 				</div>
 
 				<div class="clearfix col-md-12 column">
-					<label class="label-filter">Lege einen Umkreis fest</label>
+					<label class="label-filter">Lege einen Umkreis in km fest</label>
 					<div class="input select rating-underline">
 						<select id="spatialFilter">
 							<option value="" selected="selected"></option>
@@ -74,7 +74,6 @@
 
 			<!-- For the datePicker-plugin -->
 			<script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-			<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
 
 		</div>
 	</form>
@@ -94,4 +93,3 @@
 
 <!-- For the datePicker-plugin -->
 <script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
