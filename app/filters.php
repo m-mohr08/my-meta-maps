@@ -24,7 +24,7 @@ App::before(function($request)
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 
-	GmRegistry::setLogger(array('App', 'debug'));
+	GmRegistry::setLogger(array('Log', 'debug'));
 	GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
 });
 

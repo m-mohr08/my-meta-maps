@@ -19,7 +19,11 @@ ContentView = Backbone.View.extend({
 		var that = this;
 		$.get(this.getPageTemplate(), function (data) {
 			template = _.template(data);
-			that.$el.html(template({data: that.getPageContent()}));
+			var vars = {
+				data: that.getPageContent(),
+				config: config
+			};
+			that.$el.html(template(vars));
 			that.onLoaded();
 		}, 'html');
 	},
@@ -54,7 +58,14 @@ ContentView.register = function (view) {
 ModalView = ContentView.extend({
 	el: $('#modal'),
 	onLoaded: function () {
+		this.modal();
+		this.showProgress();
+	},
+	modal: function() {
 		$('#modal').find('.modal').modal('show');
+	},
+	showProgress: function() {
+		Progress.show('.modal-progress');
 	}
 });
 

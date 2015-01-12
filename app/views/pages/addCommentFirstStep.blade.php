@@ -1,6 +1,7 @@
 <div class="modal fade" id="ModalAddComment" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
+
+		<form class="modal-content" id="form-comment-firstStep" onsubmit="return false">
 				
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
@@ -9,7 +10,6 @@
 						
 			<div class="modal-body">
 											
-				<form id="form-comment-firstStep" onsubmit="return false">
 								
 					<div class="row form-group form-group-marginSides">
 						<label for="url">URL</label>
@@ -28,12 +28,13 @@
 						<div class="error-message"></div>
 					</div>
 							
-					<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>
-					
-				</form>
-							
+			</div>
+
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>
+				<div class="modal-progress"></div>
 			</div>
 				
-		</div>
+		</form>
 	</div>
 </div>

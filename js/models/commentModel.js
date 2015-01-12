@@ -24,6 +24,7 @@ GeodataShow = BaseModel.extend({
  */
 CommentsToGeodata = BaseModel.extend({
 	id: null,
+	enableAntiFlood: false,
 	urlRoot: function() {
 		return '/api/internal/geodata/'+this.id+'/comments';
 	}

@@ -109,13 +109,44 @@ h3 {
 	margin-bottom: 10px;
 }
 
+.metadata-list {
+	margin-bottom: 0;
+}
+
 .metadata-list dd {
 	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e7e7e7;
 }
+.metadata-list dd:last-of-type {
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	border-bottom: 0px solid #e7e7e7;
+}
+
 .metadata-list dd pre {
 	white-space: pre-wrap;
 	margin: 0;
 	padding: 0;
-	max-height: 150px;
+	background-color: #ffffff;
+	border: 0;
+}
+
+.modal-progress {
+	float: left;
+	width: 25%;
+	text-align: left;
+}
+
+#ModalShowCommentsToGeodata .modal-dialog {
+	width: 100%;
+	height: 100%;
+}
+
+#ModalShowCommentsToGeodata .modal-content {
+	width: 96%;
+	height: 96%;
 	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 2%;
 }

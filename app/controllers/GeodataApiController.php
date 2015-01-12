@@ -25,20 +25,20 @@ use \GeoMetadata\GeoMetadata;
  */
 class GeodataApiController extends BaseApiController {
 	
-	protected function buildSingleGeodata(Geodata $geodata, $addLayer = true) {
-		return array('geodata' => $this->buildGeodataEntry($geodata, $addLayer));
+	protected function buildSingleGeodata(Geodata $geodata, $layers = array()) {
+		return array('geodata' => $this->buildGeodataEntry($geodata, $layers));
 	}
 	
 	protected function buildMultipleGeodata(array $list) {
-		$json = array('geodata' => array());
+		$data = array('geodata' => array());
 		foreach ($list as $geodata) {
-			$json['geodata'][] = $this->buildGeodataEntry($geodata, false);
+			$data['geodata'][] = $this->buildGeodataEntry($geodata, null);
 		}
-		return $json;
+		return $data;
 	}
 	
-	protected function buildGeodataEntry(Geodata $geodata, $addLayer = true) {
-		$json =  array(
+	protected function buildGeodataEntry(Geodata $geodata, $layers = null) {
+		$data =  array(
 			'id' => $geodata->id,
 			'url' => $geodata->url,
 			'metadata' => array(
@@ -49,31 +49,69 @@ class GeodataApiController extends BaseApiController {
 				'language' => $geodata->language,
 				'copyright' => $geodata->copyright,
 				'author' => $geodata->author,
-				'beginTime' => ($geodata->begin !== null) ? self::toDate($geodata->begin) : null,
-				'endTime' => ($geodata->end !== null) ? self::toDate($geodata->end) : null,
+				'time' => $this->buildTime($geodata),
 				'abstract' => $geodata->abstract,
 				'license' => $geodata->license
 			)
 		);
-		if (!empty($geodata->comments)) {
-			$json['comments'] = $geodata->comments;
-		}
-		if ($addLayer) {
-			$json['layer'] = array();
-			$layers = is_object($geodata->layers) ? $geodata->layers->all() : array();
-			if ($geodata instanceof GmGeodata) {
-				$layers = array_merge($layers, $geodata->getLayers());
+		if (isset($geodata->comments)) {
+			if (is_array($geodata->comments)) { // Add comment entries
+				$data['comments'] = $this->buildCommentList($geodata->comments);
 			}
+			else if (is_numeric($geodata->comments)) { // Add comment count
+				$data['comments'] = $geodata->comments;
+			}
+		}
+		if ($layers !== null) {
+			$data['layer'] = array();
 			foreach($layers as $layer) {
-				$json['layer'][] = array(
+				$layerJson = array(
 					'id' => $layer->name,
 					'title' => $layer->title,
 					'bbox' => $layer->bbox
 				);
+				if (isset($layer->comments)) {
+					if (is_array($layer->comments)) { // Add comment entries
+						$layerJson['comments'] = $this->buildCommentList($layer->comments);
+					}
+					else if (is_numeric($layer->comments)) { // Add comment count
+						$layerJson['comments'] = $layer->comments;
+					}
+				}
+				$data['layer'][] = $layerJson;
 			}
 		}
 		
-		return $json;
+		return $data;
+	}
+
+	protected function buildCommentList(array $comments) {
+		$data = array();
+		foreach($comments as $comment) {
+			$entry = array(
+				'id' => $comment->id,
+				'text' => $comment->text,
+				'rating' => $comment->rating,
+				'geometry' => $comment->geom,
+				'time' => $this->buildTime($comment),
+				'user' => null
+			);
+			if ($comment->user_id > 0) {
+				$comment['user'] = array(
+					'id' => $comment->user_id,
+					'name' => $comment->user_name
+				);
+			}
+			$data[] = $entry;
+		}
+		return $data;
+	}
+	
+	protected function buildTime(Eloquent $model) {
+		return array(
+			'start' => ($model->start !== null) ? $this->toDate($model->start) : null,
+			'end' => ($model->end !== null) ? $this->toDate($model->end) : null
+		);
 	}
 	
 	protected function parseMetadata($url, $code, $model = null) {
@@ -160,7 +198,7 @@ class GeodataApiController extends BaseApiController {
 			return $this->getConflictResponse();
 		}
 		
-		return $this->getJsonResponse($this->buildSingleGeodata($geodata, false));
+		return $this->getJsonResponse($this->buildSingleGeodata($geodata, null));
 	}
 	
 	public function postMetadata() {
@@ -181,16 +219,16 @@ class GeodataApiController extends BaseApiController {
 		$serviceUrl = 	GmRegistry::getService($data['datatype'])->getServiceUrl($data['url']);
 		$geodata = Geodata::where('url', '=', $serviceUrl)->first();
 		if ($geodata != null) {
-			$json = $this->buildSingleGeodata($geodata);
+			$json = $this->buildSingleGeodata($geodata, $geodata->layers->all()); // Get layers from DB
 			$json['geodata']['id'] = $geodata->id;
 			$json['geodata']['isNew'] = false;
 			return $this->getJsonResponse($json);
 		}
 		else {
 			// No metadata found in DB, parse them from the URL
-			$metadata = $this->parseMetadata($data['url'], $data['datatype'], new GmGeodata());
-			if ($metadata != null) {
-				$json = $this->buildSingleGeodata($metadata);
+			$geodata = $this->parseMetadata($data['url'], $data['datatype'], new GmGeodata());
+			if ($geodata != null) {
+				$json = $this->buildSingleGeodata($geodata, $geodata->getLayers()); // Get layers from GeoMetadata
 				$json['geodata']['id'] = 0;
 				$json['geodata']['isNew'] = true;
 				return $this->getJsonResponse($json);
@@ -201,45 +239,115 @@ class GeodataApiController extends BaseApiController {
 		return $this->getConflictResponse(array('url' => $error));
 	}
 	
-	public function postList() {
-		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata');
-		$validator = Validator::make($input,
-			array(
-				'q' => '',
-				'bbox' => 'geometry:wkt,Polygon',
-				'radius' => 'integer|between:1,500',
-				'start' => 'date8601',
-				'end' => 'date8601',
-				'rating' => 'integer|between:1,5',
-				'metadata' => 'boolean'
-			)
-		);
-		$data = $validator->valid(); // TODO: Not all elements might be here, so we have to check that.
-		$data['start'] = !empty($data['start']) ? new Carbon($data['start']) : null;
-		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;
-		$data['metadata'] = ($data['metadata'] !== null) ? $data['metadata'] : false;
-
-		$geodata = Geodata::filter($data)->get();
-		
-		return $this->getJsonResponse($this->buildMultipleGeodata($geodata->all()));
-	}
-	
 	public function postKeywords() {
 		$q = Input::get('q');
 		$metadata = Input::get('metadata');
 		if (strlen($q) >= 3) {
-			// TODO
+			// TODO: Implement auto suggestion for keywords.
 		}
+		return $this->getNotFoundResponse();
 	}
 	
 	public function postSearchSave() {
-		
+		$data = $this->getFilterInput(array('bbox'));
+		$search = new SavedSearch();
+		$search->id = SavedSearch::generateId();
+		$search->keywords = $data['q'];
+		$search->metadata = $data['metadata'];
+		$search->rating = $data['minrating'];
+		$search->start = $data['start'];
+		$search->end = $data['end'];
+		$search->bbox = $data['bbox'];
+		$search->radius = $data['radius'];
+		if ($search->save()) {
+			return $this->getJsonResponse(array(
+				'permalink' => Config::get('app.url') . '/search/' . $search->id
+			));
+		}
+		else {
+			return $this->getConflictResponse();
+		}
 	}
 	
 	public function getSearchLoad($id) {
-		
+		$search = SavedSearch::selectBbox()->find($id);
+		if ($search !== null) {
+			$json = array(
+				'permalink' => array(
+					'q' => $search->keywords,
+					'metadata' => $search->metadata,
+					'bbox' => $search->bbox,
+					'radius' => $search->radius,
+					'time' => $this->buildTime($search),
+					'minrating' => $search->rating
+				)
+			);
+			return $this->getJsonResponse($json);
+		}
+		else {
+			return $this->getNotFoundResponse();
+		}
+	}
+	
+	public function postList() {
+		$filter = $this->getFilterInput();
+		$geodata = Geodata::filter($filter)->get();
+		return $this->getJsonResponse($this->buildMultipleGeodata($geodata->all()));
 	}
 	
 	public function postComments($id) {
+		$filter = $this->getFilterInput();
+		// Get geodata for the specified id
+		$geodata = Geodata::find($id);
+		// Get all suitable comments for the filter and group them by layer (no layer = 0)
+		$comments = Comment::filter($filter, $id)->get();
+		$groupedComments = array(0 => array()); // Make sure the geodata entry is always a valid array
+		foreach($comments as $comment) {
+			if (empty($comment->layer_id)) {
+				$groupedComments[0][] = $comment;
+			}
+			else {
+				$groupedComments[$comment->layer_id][] = $comment;
+			}
+		}
+		// Get all layers
+		$layers = $geodata->layers->all();
+		// Append the comment data to the layers and the geodata
+		$geodata->comments = $groupedComments[0];
+		foreach($layers as $layer) {
+			if (isset($groupedComments[$layer->id])) {
+				$layer->comments = $groupedComments[$layer->id];
+			}
+			else {
+				$layer->comments = array();
+			}
+		}
+		// Build the response array from the collected data
+		$json = $this->buildSingleGeodata($geodata, $layers);
+		return $this->getJsonResponse($json);
+	}
+	
+	protected function getFilterInput(array $required = array()) {
+		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata');
+		$rules = array(
+			'q' => '',
+			'bbox' => 'geometry:wkt,Polygon',
+			'radius' => 'integer|between:1,500',
+			'start' => 'date8601',
+			'end' => 'date8601',
+			'minrating' => 'integer|between:1,5',
+			'metadata' => 'boolean'
+		);
+		foreach ($required as $field) {
+			$rules[$field] = empty($rules[$field]) ? 'required' : 'required|' . $rules[$field];
+		}
+		$validator = Validator::make($input, $rules);
+		$data = $validator->valid(); // TODO: Not all elements might be here, so we have to check that.
+		$data['minrating'] = !empty($data['minrating']) ? $data['minrating'] : null;
+		$data['start'] = !empty($data['start']) ? new Carbon($data['start']) : null;
+		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;
+		$data['metadata'] = ($data['metadata'] !== null) ? $data['metadata'] : false;
+		return $data;
+	}
 	
 }

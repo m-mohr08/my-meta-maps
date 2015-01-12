@@ -11,7 +11,8 @@
 
 	<div class="row form-group">
 		<label for="datatype">Datenformat*</label>
-		<input class="form-control" name="datatype" id="inputDataType" type="text" readonly="readonly" value="<%= _.escape(data.metadata.datatype) %>"> <!-- //TODO: Output proper service name -->
+		<input class="form-control" name="datatype" type="text" readonly="readonly" value="<%= _.escape(config.datatypes[data.metadata.datatype]) %>">
+		<input type="hidden" id="inputDataType" value="<%= _.escape(data.metadata.datatype) %>">
 		<div class="error-message"></div>
 	</div>
 
@@ -38,7 +39,7 @@
 
 	<div class="row form-group">
 		<label for="text">Freitext*</label>
-		<textarea class="form-control" rows="3" name="text" id="inputText"></textarea>
+		<textarea class="form-control" rows="6" name="text" id="inputText"></textarea>
 		<div class="error-message"></div>
 	</div>
 
@@ -46,7 +47,7 @@
 		<label for="startDate">Zeitraum</label>
 			<div class="input-group">
 				<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-				<input class="form-control" name="startDate" id="inputStartDate" type="text"placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-startComment">
+				<input class="form-control" name="start" id="inputStartDate" type="text"placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-startComment">
 			</div>
 			<span class="error-message"></span>
 	</div>
@@ -54,7 +55,7 @@
 	<div class="row form-group">
 		<div class="input-group">
 			<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			<input class="form-control" name="endDate" id="inputEndDate" type="text"placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-endComment">
+			<input class="form-control" name="end" id="inputEndDate" type="text"placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-endComment">
 		</div>
 		<div class="error-message"></div>
 	</div>
@@ -102,11 +103,11 @@
 			<span class="label label-default"><%= _.escape(word) %></span>
 			<% }); %>
 		</dd>
-	<% } if (!_.isEmpty(data.metadata.beginTime) || !_.isEmpty(data.metadata.endTime)) { %>
+	<% } if (!_.isEmpty(data.metadata.time.start) || !_.isEmpty(data.metadata.time.end)) { %>
 		<dt>Zeitraum</dt>
 		<dd>
-			Anfangsdatum: <%= data.metadata.beginTime ? _.escape(data.metadata.beginTime) : 'Unbekannt' %><br />
-			Enddatum: <%= data.metadata.endTime ? _.escape(data.metadata.endTime) : 'Unbekannt' %>
+			Anfangsdatum: <%= data.metadata.time.start ? _.escape(data.metadata.time.start) : 'Unbekannt' %><br />
+			Enddatum: <%= data.metadata.time.end ? _.escape(data.metadata.time.end) : 'Unbekannt' %>
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.author)) { %>
 		<dt>Autor</dt>
