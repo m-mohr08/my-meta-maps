@@ -262,6 +262,56 @@ Lang = {
 	
 };
 
+ViewUtils = {
+
+	parseComment: function(text) {
+		// Replacements that should be ignored by _.escape method 
+		var replacements = [];
+		
+		// Code bases on PHP implementation from Viscacha (viscacha.org) - Author: M. Mohr
+		// See: http://en.wikipedia.org/wiki/URI_scheme
+		var url_protocol = "([a-z]{3,9}:\\/\\/|www\\.)";
+		var url_auth = "(?:(?:[\\w\\d\\-\\.]{1,}\\:)?[\\w\\d\\-\\._]{1,}@)?"; // Authorisation information
+		var url_host = "(?:\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|[a-z\\d\\.\\-]{2,}\\.[a-z]{2,7})(?:\\:\\d+)?"; // Host (domain, tld, ip, port)
+		var url_path = "(?:\\/[\\w\\d\\/;\\-%@\\~,\\.\\+\\!&=_]*)?"; // Path
+		var url_query = "(?:\\?[\\w\\d=\\&;\\.:,\\_\\-\\/%@\\+\\~\\[\\]]*)?"; // Query String
+		var url_fragment = "(?:#[\\w\\d\\-\\/.]*)?"; // Fragment
+		var non_url_begin = "(?:[^a-z]|^)"; // Chars that seperate the beginning of an URI from the rest of the text
+		var non_url_end = "(?:[\\s\\(\\)<>\"']|$)"; // Chars that seperate the end of an URI from the rest of the text
+
+		// URL RegExp - Four matches: 
+		// - First is the separating char from beginning
+		// - Second is the whole url
+		// - Third is the URI scheme (protocoll or www. for convenience)
+		// - Fourth is the separating char from the end
+		var url_regex = "(" + non_url_begin + ")(" + url_protocol + url_auth + url_host + url_path + url_query + url_fragment + ")(" + non_url_end + ")";
+
+		// Replace the URLs finally
+		text = text.replace(new RegExp(url_regex, "ig"), function($0, $1, $2, $3, $4){
+			var prefix = '';
+			// Append http:// if URL begins with www.
+			if ($3.toLowerCase() === 'www.') {
+				prefix = 'http://';
+			}
+			// Make link and add it to the replacements
+			var num = replacements.length;
+			replacements[num] = $1 + '<a href="' + prefix + $2 + '" target="_blank">' + $2 + '</a>' + $4;
+			return '{{PARSER_REPLACEMENT:' + num + '}}';
+		});
+		
+		// Escape text (avoid HTML and XSS)
+		text = _.escape(text);
+
+		// Replace the Replacements 
+		text = text.replace(/{{PARSER_REPLACEMENT:(\d+)}}/g, function($0, $1){
+			return replacements[$1];
+		});
+
+		return text;
+	}
+	
+};
+
 // Onload initialisation
 $(document).ready(function() {
 	AuthUser.init();

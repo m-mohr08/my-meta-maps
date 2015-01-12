@@ -21,7 +21,8 @@ ContentView = Backbone.View.extend({
 			template = _.template(data);
 			var vars = {
 				data: that.getPageContent(),
-				config: config
+				config: config,
+				ViewUtils: ViewUtils
 			};
 			that.$el.html(template(vars));
 			that.onLoaded();
