@@ -1,8 +1,8 @@
 <h1>Impressum</h1>
 <form role="form">
 	<div class="form-group">
-		<p>My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.<p>
-		<p>Das Team besteht aus:</p>
+		<p>@lang('misc.intro')<p>
+		<p>@lang('misc.team')</p>
 		<div class="list-group">
 			<a href="mailto:c_rend02@uni-muenster.de" class="list-group-item">
 				Clara Rendel <span class="glyphicon glyphicon-envelope"></span>
@@ -34,11 +34,11 @@
 		limitations under the License.</p>
 	</div>
 	<div class="form-group">
-		<h2>Adresse der öffentlichen Datenschnittstelle</h2>
+		<h2>@lang('misc.pubAdress')</h2>
 		<p>http://giv-geosoft2b.uni-muenster.de/api/v1/</p>
 	</div>
 	<div class="form-group">
-		<h2>Genutzte Bibliotheken</h2>
+		<h2>@lang('misc.libs')</h2>
 		<div class="list-group">
 			<!-- Server -->
 			<a href="http://laravel.com" class="list-group-item" target="_blank">Laravel</a>
