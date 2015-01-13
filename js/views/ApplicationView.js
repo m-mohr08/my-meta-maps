@@ -21,7 +21,8 @@ ContentView = Backbone.View.extend({
 			template = _.template(data);
 			var vars = {
 				data: that.getPageContent(),
-				config: config
+				config: config,
+				ViewUtils: ViewUtils
 			};
 			that.$el.html(template(vars));
 			that.onLoaded();
@@ -57,31 +58,54 @@ ContentView.register = function (view) {
 
 ModalView = ContentView.extend({
 	el: $('#modal'),
+	// Called after modal is loaded (and not opened yet)
 	onLoaded: function () {
 		this.modal();
 		this.showProgress();
+		this.onOpened();
 	},
-	modal: function() {
+	// Called after modal is opened
+	onOpened: function () {
+
+	},
+	modal: function () {
 		$('#modal').find('.modal').modal('show');
 	},
-	showProgress: function() {
+	showProgress: function () {
 		Progress.show('.modal-progress');
 	}
 });
 
 MapView = ContentView.extend({
 	map: null,
+	polySource: new ol.source.Vector(),
+	vectorlayer: null,
 	onLoaded: function () {
 		var view = new ol.View({
 			center: [0, 0],
 			zoom: 2
 		});
 
+		// set the style of the vector geometries
+		var polyStyle = new ol.style.Style({
+			fill: new ol.style.Fill({
+				color: 'rgba(0,139,0,0.1)'
+			}),
+			stroke: new ol.style.Stroke({
+				color: 'rgba(0,139,0,1)',
+				width: 2
+			})
+		});
+
 		this.map = new ol.Map({
 			layers: [new ol.layer.Tile({
 					source: new ol.source.OSM()
+				}),
+				new ol.layer.Vector({
+					source: this.polySource,
+					style: polyStyle
 				})
-                            ],
+			],
 			target: 'map',
 			controls: ol.control.defaults({
 				attributionOptions: /** @type {olx.control.AttributionOptions} */({
@@ -116,59 +140,41 @@ MapView = ContentView.extend({
 
 		this.doSearch();
 	},
-	doSearch: function() {
-		geodataShowController(new GeodataShow(), this);
+	doSearch: function () {
+		this.polySource.clear();
+		geodataShowController();
 	},
-	resetSearch: function(form) {
+	resetSearch: function (form) {
 		form.reset();
 		// Remove visible feedback of barrating.
 		$('#spatialFilter').barrating('clear');
 		$('#ratingFilter').barrating('clear');
 		this.doSearch();
 	},
-	getBoundingBox: function() {
+	getBoundingBox: function () {
 		// TODO: Return the current bounding box of the map
+		var ViewPort = this.map.getViewport();
+
 		return null;
 	},
-        
-        /*
-         * add the bboxes from the Geodata to the map
-         */
+	/*
+	 * add the bboxes from the Geodata to the map
+	 */
 	addGeodataToMap: function (data) {
-            
-                var parser = new ol.format.WKT();
-                var polySource = new ol.source.Vector();
-                var polygeom;
-                
-                // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
-                for(var index = 0; index < data.geodata.length; index++) {
-                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
-                    polygeom.transform('EPSG:4326', 'EPSG:3857');
-                    polySource.addFeature(new ol.Feature({
-                        geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
-                        projection: 'EPSG: 3857'
-                        })
-                    );
-                }
-                // set the style of the geometries
-                var polyStyle = new ol.style.Style({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(0,139,0,0.1)'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'rgba(0,139,0,1)',
-                        width: 2
-                    })
-                });
-                
-                // show the geometries in the map
-                this.map.addLayer(new ol.layer.Vector({
-                    source: polySource,
-                    style: polyStyle,
-                    visible: true
-                    })
-                );
-                
+		var parser = new ol.format.WKT();
+		var polygeom;
+
+
+		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
+		for (var index = 0; index < data.geodata.length; index++) {
+			polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
+			polygeom.transform('EPSG:4326', 'EPSG:3857');
+			this.polySource.addFeature(new ol.Feature({
+				geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
+				projection: 'EPSG: 3857'
+			}));
+		}
+
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';

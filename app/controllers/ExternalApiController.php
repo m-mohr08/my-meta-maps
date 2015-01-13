@@ -33,7 +33,7 @@ class ExternalApiController extends BaseApiController {
 		);
 		foreach ($comments as $comment) {
 			$dataComment = array(
-				'id' => Config::get('app.url') . '/geodata/' . $comment->geodata_id . '/comment/' . $comment->id,
+				'id' => $comment->createPermalink(),
 				'text' => $comment->text,
 				'itemUnderReview' => $comment->url
 			);

@@ -48,6 +48,15 @@ class Geodata extends Eloquent {
 	public function layers() {
 		return $this->hasMany('Layer', 'geodata_id');
 	}
+	
+	public function createPermalink() {
+		if ($this->id) {
+			return Config::get('app.url') . '/geodata/' . $this->id;
+		}
+		else {
+			return null;
+		}
+	}
 
 	public function scopeFilter($query, array $filter) {
 		// Table Names

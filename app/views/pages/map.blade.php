@@ -8,7 +8,10 @@
 		<div class="panel-heading" role="tab" id="filterHeader">
 			<h4 class="panel-title clearfix">
 				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">Filter einstellen</a>
-				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
+				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">
+					<span class="glyphicon glyphicon-remove"></span>
+					Zurücksetzen
+				</button>
 			</h4>
 		</div>
 		<div id="filterArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="filterHeader">
@@ -29,16 +32,16 @@
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-start" onchange="executeSearch()">
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end" onchange="executeSearch()">
+						<input class="form-control" type="text" id=s"filterEndTime" placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
 					</div>
 				</div>
 
 				<div class="clearfix col-md-12 column">
-					<label class="label-filter">Lege einen Umkreis fest</label>
+					<label class="label-filter">Lege einen Umkreis in km fest</label>
 					<div class="input select rating-underline">
 						<select id="spatialFilter">
 							<option value="" selected="selected"></option>
@@ -74,7 +77,6 @@
 
 			<!-- For the datePicker-plugin -->
 			<script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-			<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
 
 		</div>
 	</form>
@@ -82,6 +84,11 @@
 		<div class="panel-heading" role="tab" id="geodataHeader">
 			<h4 class="panel-title">
 				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">Geodatensätze</a>
+				<span class="filter-progress"></span>
+				<button type="button" onclick="saveSearch()" id="mapFilterShare" class="btn btn-default btn-xs pull-right">
+					<span class="glyphicon glyphicon-share-alt"></span>
+					Teilen
+				</button>
 			</h4>
 		</div>
 		<ul id="showGeodata" class="list-group collapse in" role="tabpanel" aria-labelledby="geodataHeader">
@@ -94,4 +101,3 @@
 
 <!-- For the datePicker-plugin -->
 <script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>

@@ -4,8 +4,8 @@
 		<form class="modal-content" id="form-comment-firstStep" onsubmit="return false">
 				
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-				<h4 class="modal-title" id="meinModalLabel">Kommentar erstellen</h4>
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('client.close')</span></button>
+				<h4 class="modal-title" id="meinModalLabel">@lang('misc.createComm')</h4>
 			</div>
 						
 			<div class="modal-body">
@@ -18,9 +18,9 @@
 					</div>
 								
 					<div class="row form-group form-group-marginSides">
-						<label for="datatype">Datenformat</label>
+						<label for="datatype">@lang('misc.dataFormat')</label>
 						<select class="form-control" name="datatype" id="inputDataType">
-						<option value="">Bitte Datenformat wählen</option>
+						<option value="">@lang('misc.chooseFormat')</option>
 						@foreach (\GeoMetadata\GmRegistry::getServices() as $service)
 							<option value="{{{ $service->getCode() }}}">{{{ $service->getName() }}}</option>
 						@endforeach
@@ -31,7 +31,7 @@
 			</div>
 
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary" id="addCommentBtn">Erstellen</button>
+				<button type="submit" class="btn btn-primary" id="addCommentBtn">@lang('misc.create')</button>
 				<div class="modal-progress"></div>
 			</div>
 				
