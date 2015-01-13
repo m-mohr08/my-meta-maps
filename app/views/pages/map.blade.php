@@ -7,10 +7,10 @@
 	<form class="panel panel-default">
 		<div class="panel-heading" role="tab" id="filterHeader">
 			<h4 class="panel-title clearfix">
-				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">Filter einstellen</a>
+				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">@lang('misc.setFilter')</a>
 				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">
 					<span class="glyphicon glyphicon-remove"></span>
-					Zurücksetzen
+					@lang('misc.reset')
 				</button>
 			</h4>
 		</div>
@@ -19,7 +19,7 @@
 
 				<div class="form-group clearfix col-md-12 column">
 					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">Metadaten einbeziehen</label></div>
-					<label class="label-filter">Suchbegriffe</label>
+					<label class="label-filter">@lang('misc.search')</label>
 					<div class="input-group">
 						<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)" onchange="executeSearch()">
 						<span class="input-group-addon" onclick="executeSearch()"><span class="glyphicon glyphicon-search"></span></span>
@@ -28,7 +28,7 @@
 
 				<div class="form-group clearfix">
 					<div class="input-group col-md-12 column">
-						<label class="label-filter">Wähle Start- und Endzeitpunkt</label>
+						<label class="label-filter">@lang('misc.startEnd')</label>
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -41,7 +41,7 @@
 				</div>
 
 				<div class="clearfix col-md-12 column">
-					<label class="label-filter">Lege einen Umkreis in km fest</label>
+					<label class="label-filter">@lang('misc.buffer')</label>
 					<div class="input select rating-underline">
 						<select id="spatialFilter">
 							<option value="" selected="selected"></option>
@@ -57,7 +57,7 @@
 				</div>
 
 				<div class="form-group clearfix col-md-12 column">
-					<label class="label-filter">Bewertung größer oder gleich ... ?</label>
+					<label class="label-filter">@lang('misc.rateHigh')</label>
 					<div class="input select rating-stars">
 						<select id="ratingFilter">
 							<option value="" selected="selected"></option>
@@ -83,11 +83,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="geodataHeader">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">Geodatensätze</a>
+				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">@lang('misc.geodata')</a>
 				<span class="filter-progress"></span>
 				<button type="button" onclick="saveSearch()" id="mapFilterShare" class="btn btn-default btn-xs pull-right">
 					<span class="glyphicon glyphicon-share-alt"></span>
-					Teilen
+					@lang('misc.share')
 				</button>
 			</h4>
 		</div>

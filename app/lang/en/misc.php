@@ -64,4 +64,14 @@ return array(
 	'stay' => 'stay logged in?',
 
 
+	//variables for \app\views\pages\map.blade.php
+
+	'setFilter' => 'Set filter',
+	'reset' => 'Reset',
+	'search' => 'Search keyword',
+	'startEnd' => 'Choose start and endpoint',
+	'buffer' => 'Set a Buffer in km',
+	'rateHigh' => 'Rating higher oder equal?',
+	'geodata' => 'Geodatasets',
+	'share' => 'Share',
 );
