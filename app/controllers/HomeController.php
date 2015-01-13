@@ -30,12 +30,17 @@ class HomeController extends BaseController {
 	
 	public function getSearch($hash)
 	{
-		return Response::make($content, 404);
+		return Redirect::to('/' . Language::current() . '#/search/' . $hash);
+	}
+	
+	public function getGeodata($geodata)
+	{
+		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata)->with('geodata', '\d+');
 	}
 	
 	public function getComment($geodata, $comment)
 	{
-		return Response::make($content, 404);
+		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata . '/comment/' . $comment)->with('geodata', '\d+')->with('comment', '\d+');
 	}
 
 }
