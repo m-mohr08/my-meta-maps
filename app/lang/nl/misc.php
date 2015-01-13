@@ -64,5 +64,17 @@ return array(
 	'stay' => 'Aangemeld blijven?',
 
 
+	//variables for \app\views\pages\map.blade.php
+
+	'setFilter' => 'Filter instellen',
+	'reset' => 'opnieuw instellen',
+	'search' => 'Trefwoord',
+	'startEnd' => 'Kies een tijdstip begin en een einde',
+	'buffer' => 'Leg een omgeving in km vast',
+	'rateHigh' => 'Evaluatie grooter dan of even groot als ...?',
+	'geodata' => 'Geogegevens',
+	'share' => 'Delen',
+
+
 
 );
