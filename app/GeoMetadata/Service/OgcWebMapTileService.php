@@ -60,17 +60,16 @@ class OgcWebMapService extends OgcWebServices {
 		$this->parseBoundingBoxFromNode($parent, $model);
 	}
 	
-	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxContainer $model) {
+	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxTrait $model) {
 		$bboxes = array_merge(
-			$this->selectMany(array('LatLonBoundingBox'), $parent, false), // only before v1.3.0
+			$this->selectMany(array('LatLonBoundingBox'), $parent, false),
 			$this->selectMany(array("BoundingBox[@CRS='EPSG:4326' or @CRS='CRS:84']"), $parent, false)
 		);
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-				if ($this->isWmsVersion('1.3.0') && isset($bbox['CRS']) && $bbox['CRS'] == 'EPSG:4326') {
-					// In WMS version 1.3.0 with EPSG:4326 (NOT CRS:84) the lon/lat values order is changed.
+				if ($this->isWmsVersion('1.3.0')) {
+					// In WMS version 1.3.0 with WGS84 the lon/lat values order is changed.
 					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
-					// and http://viswaug.wordpress.com/2009/03/15/reversed-co-ordinate-axis-order-for-epsg4326-vs-crs84-when-requesting-wms-130-images/
 					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx']);
 				}
 				else {

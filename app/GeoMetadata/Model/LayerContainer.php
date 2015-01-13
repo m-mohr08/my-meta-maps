@@ -17,12 +17,12 @@
 
 namespace GeoMetadata\Model;
 
-interface Layer extends BoundingBoxContainer {
-	
-	public function getId();
-	public function setId($id);
+interface LayerContainer {
 
-	public function getTitle();
-	public function setTitle($title);
-	
+	public function getLayers();
+	public function addLayer(Layer $layer);
+	public function createLayer($id, $title = null);
+	public function removeLayer(Layer $layer);
+	public function copyLayer(Layer $layer);
+
 }

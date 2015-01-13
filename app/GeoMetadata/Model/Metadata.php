@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Model;
 
-interface Metadata extends BoundingBoxTrait {
+interface Metadata extends BoundingBoxContainer {
 	
 	public function createObject();
 
@@ -31,6 +31,7 @@ interface Metadata extends BoundingBoxTrait {
 	public function addLayer(Layer $layer);
 	public function createLayer($id, $title = null);
 	public function removeLayer(Layer $layer);
+	public function copyLayer(Layer $layer);
 
 	public function getTitle();
 	public function setTitle($title);
@@ -59,8 +60,5 @@ interface Metadata extends BoundingBoxTrait {
 
 	public function getEndTime();
 	public function setEndTime(\DateTime $end = null);
-
-	public function setData($key, $value);
-	public function getData($key);
 	
 }

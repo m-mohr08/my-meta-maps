@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-class GmBoundingBox extends GeoMetadata\Model\Generic\GmBoundingBox {
+class GmGeodataBoundingBox extends GeoMetadata\Model\Generic\GmBoundingBox {
 	
 	// Nothing important to change here. It's just to have a complete version of the Model.
 	
