@@ -154,15 +154,14 @@ MapView = ContentView.extend({
 		$('#ratingFilter').barrating('clear');
 		this.doSearch();
 	},
+        /*
+         * calculates the current bounding box of the map and returns it as an WKt String
+         */
 	getBoundingBox: function () {
-		// TODO: Return the current bounding box of the map
-                console.log(this.map.getView().calculateExtent(this.map.getSize()));
                 var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
-                console.log("obenlinks"+mapbbox.getBottomLeft());
-                console.log("obenrechts"+mapbbox.getBottomRight());
-                console.log("untenlinks"+mapbbox.getTopLeft());
-                console.log("untenrechts"+mapbbox.getTopRight());
-                return null;
+                mapbbox = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox)],[new ol.extent.getBottomRight(mapbbox)],[new ol.extent.getTopRight(mapbbox)],[new ol.extent.getTopLeft(mapbbox)],[new ol.extent.getBottomLeft(mapbbox)]]);
+                mapbbox = this.parser.writeGeometry(mapbbox);
+                return mapbbox;
 	},
 	/*
 	 * add the bboxes from the Geodata to the map
