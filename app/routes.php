@@ -31,7 +31,9 @@ Route::group(array('prefix' => '/geodata'), function() {
 	});
 
 	// Permalink for specific comment of a geo data set
-	Route::get('/{geodata}/comment/{comment}', 'HomeController@getComment');
+	Route::get('/{geodata}/comment/{comment}', function($geodata, $comment) {
+		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata . '/comment/' . $comment);
+	});
 
 });
 
