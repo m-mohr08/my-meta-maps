@@ -29,3 +29,10 @@ CommentsToGeodata = BaseModel.extend({
 		return '/api/internal/geodata/'+this.id+'/comments';
 	}
 });
+
+/*
+ * Model for (showing) geodata
+ */
+PermalinkSave = BaseModel.extend({
+	urlRoot: '/api/internal/geodata/search/save'
+});

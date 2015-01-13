@@ -56,8 +56,17 @@ class Comment extends Eloquent {
 	public function getGeomAttribute($value) {
 		return Geodata::convertPostGis($value);
 	}
+	
+	public function createPermalink() {
+		if ($this->id  && $this->geodata_id) {
+			return Config::get('app.url') . '/geodata/' . $this->geodata_id . '/comment/' . $this->id;
+		}
+		else {
+			return null;
+		}
+	}
 
-	public function scopeFilter($query, array $filter, $id) {
+	public function scopeFilter($query, array $filter, $id = 0) {
 		// Table Names
 		$gt = (new Geodata())->getTable();
 		$ct = (new Comment())->getTable();
@@ -65,6 +74,7 @@ class Comment extends Eloquent {
 		
 		// Select
 		$query->select(array(
+			"{$gt}.url",
 			"{$ct}.*",
 			"{$ut}.name AS user_name",
 			DB::raw("ST_AsText({$ct}.geom) AS geom")
@@ -78,8 +88,14 @@ class Comment extends Eloquent {
 		// Where
 		self::applyFilter($query, $filter);
 		// Where: Restrict to the requested geodata id
-		$query->where("{$gt}.id", '=', $id);
-		
+		if ($id > 0){
+			$query->where("{$gt}.id", '=', $id);
+		}
+		// Where: Restrict to the requested comment id
+		if (!empty($filter['comment'])){
+			$query->where("{$ct}.id", '=', $filter['comment']);
+		}
+
 		// Order By
 		$query->orderBy("{$gt}.title");
 
@@ -113,10 +129,10 @@ class Comment extends Eloquent {
 		}
 		
 		if (!empty($filter['start'])) {
-			$query->where("{$ct}.start", '<', $filter['start']);
+			$query->where("{$ct}.start", '>', $filter['start']);
 		}
 		if (!empty($filter['end'])) {
-			$query->where("{$ct}.end", '>', $filter['end']);
+			$query->where("{$ct}.end", '<', $filter['end']);
 		}
 		
 		if (!empty($filter['minrating'])) {
