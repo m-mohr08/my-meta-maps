@@ -158,8 +158,11 @@ MapView = ContentView.extend({
 		// TODO: Return the current bounding box of the map
                 console.log(this.map.getView().calculateExtent(this.map.getSize()));
                 var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
-                mapbbox = this.parser.writeFeature(mapbbox);
-                return mapbbox;
+                console.log("obenlinks"+mapbbox.getBottomLeft());
+                console.log("obenrechts"+mapbbox.getBottomRight());
+                console.log("untenlinks"+mapbbox.getTopLeft());
+                console.log("untenrechts"+mapbbox.getTopRight());
+                return null;
 	},
 	/*
 	 * add the bboxes from the Geodata to the map
@@ -170,6 +173,7 @@ MapView = ContentView.extend({
                 for(var index = 0; index < data.geodata.length; index++) {
                     polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
                     polygeom.transform('EPSG:4326', 'EPSG:3857');
+                    console.log(polygeom.getCoordinates());
                     this.polySource.addFeature(new ol.Feature({
                         geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
                         projection: 'EPSG: 3857'
