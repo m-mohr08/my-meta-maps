@@ -107,7 +107,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function union(\GeoMetadata\Model\BoundingBox $other) {
-		if ($other->defined()) {
+		if ($other === null || !$other->defined()) {
 			// The other bbox is not valid/fully set. We can skip this.
 			return;
 		}
