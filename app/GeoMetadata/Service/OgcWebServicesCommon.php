@@ -107,8 +107,9 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		// We are calculation a bounding box by joining all bboxes of the layers.
 		$bbox = new GmBoundingBox();
 		foreach($this->getContents() as $content) {
-			if (empty($content['bbox'])) {
-				$bbox->union($content['bbox']);
+			$bbox = $content->getBoundingBox();
+			if ($bbox !== null) {
+				$bbox->union($bbox);
 			}
 		}
 		$model->copyBoundingBox($bbox);

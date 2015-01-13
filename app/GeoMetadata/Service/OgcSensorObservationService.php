@@ -35,23 +35,22 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBeginTime() {
-		$beginTime = null;
-		foreach($this->getContents() as $content) {
-			if ($content['beginTime'] !== null && ($beginTime === null || $content['beginTime'] > $beginTime)) {
-				$beginTime = $content['beginTime'];
-			}
-		}
-		return $beginTime;
+		return $this->parseTime('beginTime');
 	}
 
 	protected function parseEndTime() {
-		$endTime = null;
+		return $this->parseTime('endTime');
+	}
+	
+	private function parseTime($key) {
+		$result = null;
 		foreach($this->getContents() as $content) {
-			if ($content['endTime'] !== null && ($endTime === null || $content['endTime'] > $endTime)) {
-				$endTime = $content['endTime'];
+			$time = $content->getData($key);
+			if ($time !== null && ($result === null || $time > $result)) {
+				$result = $time;
 			}
 		}
-		return $endTime;
+		return $result;
 	}
 	
 	protected function findLayerNodes() {
