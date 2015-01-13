@@ -74,7 +74,26 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 	
 	public function toWkt() {
+		// TODO: Replace this with geoPHP
 		return "POLYGON(({$this->west} {$this->north},{$this->west} {$this->south},{$this->east} {$this->south},{$this->east} {$this->north},{$this->west} {$this->north}))";
+	}
+
+	public function fromWkt($wkt) {
+		if (empty($wkt)) {
+			return null;
+		}
+		try {
+			$geometry = geoPHP::load($wkt, "wkt");
+			if ($geometry != null) {
+				$bbox = $geometry->getBBox();
+				$this->setWest($bbox['minx'])->setSouth($bbox['miny'])->setEast($bbox['maxx'])->setNorth($bbox['maxy']);
+				return true;
+			}
+		}
+		catch (Exception $e) {
+			Log::info($e);
+		}
+		return false;
 	}
 	
 	public function __toString() {
