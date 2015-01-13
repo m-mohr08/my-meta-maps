@@ -78,8 +78,10 @@ ModalView = ContentView.extend({
 
 MapView = ContentView.extend({
 	map: null,
-	polySource: new ol.source.Vector(),
-	vectorlayer: null,
+        polySource: new ol.source.Vector(),
+        vectorlayer: null,
+        parser: new ol.format.WKT(),
+        
 	onLoaded: function () {
 		var view = new ol.View({
 			center: [0, 0],
@@ -140,6 +142,7 @@ MapView = ContentView.extend({
 
 		this.doSearch();
 	},
+
 	doSearch: function () {
 		this.polySource.clear();
 		geodataShowController();
@@ -151,30 +154,30 @@ MapView = ContentView.extend({
 		$('#ratingFilter').barrating('clear');
 		this.doSearch();
 	},
+        /*
+         * calculates the current bounding box of the map and returns it as an WKt String
+         */
 	getBoundingBox: function () {
-		// TODO: Return the current bounding box of the map
-		var ViewPort = this.map.getViewport();
-
-		return null;
+                var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
+                mapbbox = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox)],[new ol.extent.getBottomRight(mapbbox)],[new ol.extent.getTopRight(mapbbox)],[new ol.extent.getTopLeft(mapbbox)],[new ol.extent.getBottomLeft(mapbbox)]]);
+                mapbbox = this.parser.writeGeometry(mapbbox);
+                return mapbbox;
 	},
 	/*
 	 * add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
-		var parser = new ol.format.WKT();
-		var polygeom;
-
-
-		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
-		for (var index = 0; index < data.geodata.length; index++) {
-			polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
-			polygeom.transform('EPSG:4326', 'EPSG:3857');
-			this.polySource.addFeature(new ol.Feature({
-				geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
-				projection: 'EPSG: 3857'
-			}));
-		}
-
+                var polygeom;
+                // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
+                for(var index = 0; index < data.geodata.length; index++) {
+                    polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
+                    polygeom.transform('EPSG:4326', 'EPSG:3857');
+                    console.log(polygeom.getCoordinates());
+                    this.polySource.addFeature(new ol.Feature({
+                        geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
+                        projection: 'EPSG: 3857'
+                    }));
+                }
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
