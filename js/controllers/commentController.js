@@ -1,27 +1,29 @@
 /*
 * Send a POST-request to the server to get geodata
 */
-function geodataShowController(model, mapview) {
-	
-	var details = {
-		"q" : $("#SearchTerms").val(),
-		"bbox" : mapview.getBoundingBox(),
-		"radius" : $("#spatialFilter").val(),
-		"start": $("#filterStartTime").val(),
-		"end": $("#filterEndTime").val(),		
-		"minrating": $("#ratingFilter").val(),
-		"metadata" : $('#includeMetadata').is(':checked')
-	};
+function geodataShowController() {
+	var model = new GeodataShow();
+	model.save(getFormData(), {
 
-	model.save(details, {
-		
+		before: function() {
+			Progress.start('.filter-progress');
+		},
+
         success: function (data, response) {
-			var geodataShowView = new GeodataShowView(response);
-			mapview.addGeodataToMap(response);
+			Progress.stop('.filter-progress');
+			new GeodataShowView(response);
+			if (ContentView.active instanceof MapView) {
+				ContentView.active.addGeodataToMap(response);
+			}
         },
         
         error: function() {
+			Progress.stop('.filter-progress');
 			MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
+		},
+		
+		skipped: function() {
+			Progress.stop('.filter-progress');
 		}
    });
 };
@@ -45,11 +47,38 @@ function resetSearch(form) {
 	}
 }
 
+function saveSearch() {
+	$('#mapFilterShare').popover({
+		title: 'Suchergebnisse teilen',
+		placement: 'left auto',
+		content: '<div id="permalinkContent"><img src="/img/loading.gif" /> Permalink wird generiert...</div>',
+		html: true,
+		trigger: 'manual',
+		viewport: '#mapDataPanel'
+	});
+	var model = new PermalinkSave();
+	model.save(getFormData(), {
+        success: function (model, response) {
+			$('#permalinkContent').html('<a href="' + response.permalink + '" target="_blank">' + response.permalink + '</a>');
+        },
+        error: function() {
+			$('#permalinkContent').html('Permalink konnte leider nicht generiert werden.<br />Bitte versuchen Sie es erneut.');
+		},
+		before: function() {
+			$('#mapFilterShare').popover('show');
+		},
+		skipped: function() {
+			$('#mapFilterShare').popover('toggle');
+			$('#permalinkContent').html('Leider zu häufig geklickt.<br />Bitte in 15 Sekunden erneut versuchen. ;)');
+		}
+   });
+	
+}
+
 /*
 * Send a POST-request to the server
 */
 function commentAddFirstStepController(model, details) {
-
 	model.save(details, {
 		
 		before: function() {
@@ -98,55 +127,38 @@ function commentAddSecondStepController(model, details) {
 * Send a POST-request to the server to get comments to a geodata
 */
 function commentsToGeodataController(id) {
-	
+	var progressClass = '.comment-' + id + '-progress';
+	Progress.start(progressClass);
 	var model = new CommentsToGeodata();
 	model.id = id;
-	
-	var details = {
-		"q" : $("#SearchTerms").val(),
-		"bbox" : null,
-		"radius" : $("#spatialFilter").val(),
-		"startDate": $("#filterStartTime").val(),
-		"endDate": $("#filterEndTime").val(),		
-		"minrating": $("#ratingFilter").val(),
-		"metadata" : $('#includeMetadata').is(':checked')
-	};
-
-	model.save(details, {
+	model.save(getFormData(), {
 		
         success: function (data, response) {
         	Debug.log('Showing comments to geodata succeded');
-
-			// Count of comments
-			response.geodata.commentCount = response.geodata.comments.length;
-			var ratingSum = 0;
-			var ratingCount = 0;
-			_.each(response.layer, function(layer) {
-				response.geodata.commentCount += layer.comments.length;
-				_.each(layer.comments, function(comment) {
-					if (comment.rating > 0) {
-						ratingSum += comment.rating;
-						ratingCount++;
-					}
-				});
-			});
-
-			// Average rating
-			if (ratingCount > 0 && ratingSum > 0) {
-				response.geodata.ratingAvg = ratingSum / ratingCount;
-			}
-			else {
-				response.geodata.ratingAvg = 'N/A';	
-			}
-			// TODO: This calculation is not good - move it to the server
-			
-			// Show info
-			var commentsToGeodataShowView = new CommentsShowView(response);
+			Progress.stop(progressClass);
+			new CommentsShowView(response);
         },
         
         error: function() {
         	Debug.log('Showing comments to geodata failed');
+			Progress.stop(progressClass);
 			MessageBox.addError('Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.');
-		}
+		},
    });
 };
+
+function getFormData() {
+	var bbox = null;
+	if (ContentView.active instanceof MapView) {
+		bbox = ContentView.active.getBoundingBox();
+	}
+	return {
+		q : $("#SearchTerms").val(),
+		bbox: bbox,
+		radius : $("#spatialFilter").val(),
+		start: $("#filterStartTime").val(),
+		end: $("#filterEndTime").val(),		
+		minrating: $("#ratingFilter").val(),
+		metadata : $('#includeMetadata').is(':checked')
+	};
+}

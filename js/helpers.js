@@ -308,6 +308,16 @@ ViewUtils = {
 		});
 
 		return text;
+	},
+	
+	join: function(sep, elements) {
+		var filled = [];
+		_.each(elements, function(element) {
+			if (!_.isEmpty(element)) {
+				filled.push(element);
+			}
+		});
+		return filled.join(sep);
 	}
 	
 };

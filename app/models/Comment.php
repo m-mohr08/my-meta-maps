@@ -56,6 +56,15 @@ class Comment extends Eloquent {
 	public function getGeomAttribute($value) {
 		return Geodata::convertPostGis($value);
 	}
+	
+	public function createPermalink() {
+		if ($this->id  && $this->geodata_id) {
+			return Config::get('app.url') . '/geodata/' . $this->geodata_id . '/comment/' . $this->id;
+		}
+		else {
+			return null;
+		}
+	}
 
 	public function scopeFilter($query, array $filter, $id=0) {
 		// Table Names
@@ -115,10 +124,10 @@ class Comment extends Eloquent {
 		}
 		
 		if (!empty($filter['start'])) {
-			$query->where("{$ct}.start", '<', $filter['start']);
+			$query->where("{$ct}.start", '>', $filter['start']);
 		}
 		if (!empty($filter['end'])) {
-			$query->where("{$ct}.end", '>', $filter['end']);
+			$query->where("{$ct}.end", '<', $filter['end']);
 		}
 		
 		if (!empty($filter['minrating'])) {

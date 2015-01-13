@@ -116,6 +116,12 @@ CommentsShowView = ModalView.extend({
 	getPageContent: function() {
 		return this.options.geodata; 
 	},
+	
+	onOpened: function() {
+		$('[data-toggle="popover"]').popover({
+			html: true
+		});
+	},
 
 	getPageTemplate: function() {
 		return '/api/internal/doc/showCommentsToGeodata';

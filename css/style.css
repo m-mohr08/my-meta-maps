@@ -151,10 +151,32 @@ h3 {
 	margin: 2%;
 }
 
-.comments dd pre {
+#showCommentsToGeodata dd pre {
+	font-family: "Ubuntu", Helvetica, Arial, sans-serif!important;
 	white-space: pre-wrap;
 	margin: 0;
 	padding: 0;
 	background-color: #ffffff;
 	border: 0;
+}
+
+.metadata-comment {
+	margin-top: 0.5em;
+}
+
+.metadata-comment .badge {
+	font-size: 13px;
+	padding: 5px 10px;
+}
+
+.metadata-comment .glyphicon {
+	font-size: 15px;
+}
+
+#ModalShowCommentsToGeodata .popover {
+	max-width: 400px;
+}
+.popover-content {
+	overflow: auto;
+	white-space: nowrap;
 }
