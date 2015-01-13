@@ -65,6 +65,15 @@ return array(
 	'stay' => 'Angemeldet bleiben?',
 	
 
-	//variables for \app\views\pages\
+	//variables for \app\views\pages\map.blade.php
+
+	'setFilter' => 'Filter einstellen',
+	'reset' => 'Zurücksetzen',
+	'search' => 'Suchbegriffe',
+	'startEnd' => 'Wähle Start- und Endzeitpunkt',
+	'buffer' => 'Lege einen Umkreis in km fest',
+	'rateHigh' => 'Bewertung größer oder gleich ... ?',
+	'geodata' => 'Geodatensätze',
+	'share' => 'Teilen',
 	
 );

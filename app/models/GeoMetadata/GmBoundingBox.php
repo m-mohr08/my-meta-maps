@@ -15,24 +15,8 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Model;
-
-interface BoundingBox {
+class GmBoundingBox extends GeoMetadata\Model\Generic\GmBoundingBox {
 	
-	public function getNorth();
-	public function setNorth($north);
+	// Nothing important to change here. It's just to have a complete version of the Model.
 	
-	public function getEast();
-	public function setEast($east);
-	
-	public function getSouth();
-	public function setSouth($south);
-	
-	public function getWest();
-	public function setWest($west);
-
-	public function getArray();
-	public function toWkt();
-	public function fromWkt($wkt);
-
 }

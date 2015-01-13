@@ -23,8 +23,13 @@ Validator::extend('geometry', function($attribute, $value, $parameters) {
 	if (empty($parameters[1])) {
 		$parameters[1] = 'Geometry';
 	}
-	$result = geoPHP::load($value);
-	return is_a($result, $parameters[1]);
+	try {
+		$result = geoPHP::load($value);
+		return is_a($result, $parameters[1]);
+	} catch (Exception $e) {
+		Log::debug($e);
+		return false;
+	}
 });
 
 Validator::extend('date8601', function($attribute, $value, $parameters) {

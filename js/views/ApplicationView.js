@@ -1,5 +1,6 @@
 ContentView = Backbone.View.extend({
 	el: $('#content'),
+	templateCache: [],
 	constructor: function (options) {
 		this.configure(options || {});
 		Backbone.View.prototype.constructor.apply(this, arguments);
@@ -15,9 +16,22 @@ ContentView = Backbone.View.extend({
 	},
 	onLoaded: function () {
 	},
+	loadTemplate: function (url, callback) {
+		if (typeof (this.templateCache[url]) == 'string') {
+			callback(this.templateCache[url]);
+		}
+		else {
+		var that = this;
+			$.get(url, function(data) {
+				that.templateCache[url] = data;
+				callback(data);
+			}, 'html');
+		}
+		
+	},
 	render: function () {
 		var that = this;
-		$.get(this.getPageTemplate(), function (data) {
+		this.loadTemplate(this.getPageTemplate(), function (data) {
 			template = _.template(data);
 			var vars = {
 				data: that.getPageContent(),
@@ -26,7 +40,7 @@ ContentView = Backbone.View.extend({
 			};
 			that.$el.html(template(vars));
 			that.onLoaded();
-		}, 'html');
+		});
 	},
 	getPageTemplate: function () {
 		Debug.log('Error: Called abstract method!');
@@ -78,15 +92,23 @@ ModalView = ContentView.extend({
 
 MapView = ContentView.extend({
 	map: null,
-        polySource: new ol.source.Vector(),
-        vectorlayer: null,
-        parser: new ol.format.WKT(),
-        
+	polySource: new ol.source.Vector(),
+	vectorlayer: null,
+	parser: new ol.format.WKT(),
+	mapSearchExecuted: true,
+	
 	onLoaded: function () {
+		// this for the callbacks
+		var that = this;
+		
 		var view = new ol.View({
 			center: [0, 0],
 			zoom: 2
 		});
+		// When the map view changes we need to search again
+		view.on('change:center', function() { that.onExtentChanged() });
+		view.on('change:resolution', function() { that.onExtentChanged() });
+		view.on('change:rotation', function() { that.onExtentChanged() });
 
 		// set the style of the vector geometries
 		var polyStyle = new ol.style.Style({
@@ -98,15 +120,18 @@ MapView = ContentView.extend({
 				width: 2
 			})
 		});
+		
+		this.vectorlayer = new ol.layer.Vector({
+			source: this.polySource,
+			style: polyStyle
+		});
 
 		this.map = new ol.Map({
-			layers: [new ol.layer.Tile({
+			layers: [
+				new ol.layer.Tile({
 					source: new ol.source.OSM()
 				}),
-				new ol.layer.Vector({
-					source: this.polySource,
-					style: polyStyle
-				})
+				this.vectorlayer
 			],
 			target: 'map',
 			controls: ol.control.defaults({
@@ -142,10 +167,29 @@ MapView = ContentView.extend({
 
 		this.doSearch();
 	},
-
+	onExtentChanged: function() {
+		// When multiple events occur in a certain time spam (500ms) then only search once.
+		this.mapSearchExecuted = false;
+		var that = this;
+		window.setTimeout(function() {
+			if (!that.mapSearchExecuted) {
+				executeSearch();
+				that.mapSearchExecuted = true;
+			}
+		}, 500);
+	},
 	doSearch: function () {
-		this.polySource.clear();
-		geodataShowController();
+		var that = this;
+		geodataShowController({
+			before: function () {
+				that.polySource.clear();
+			},
+			success: function (model, response) {
+				that.addGeodataToMap(response);
+			},
+			error: function (model, response) {},
+			skipped: function () {}
+		});
 	},
 	resetSearch: function (form) {
 		form.reset();
@@ -154,30 +198,35 @@ MapView = ContentView.extend({
 		$('#ratingFilter').barrating('clear');
 		this.doSearch();
 	},
-        /*
-         * calculates the current bounding box of the map and returns it as an WKt String
-         */
+	getServerCrs: function () {
+		return 'EPSG:4326';
+	},
+	getMapCrs: function () {
+		return 'EPSG:3857';
+	},
+	/*
+	 * calculates the current bounding box of the map and returns it as an WKt String
+	 */
 	getBoundingBox: function () {
-                var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
-                mapbbox = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox)],[new ol.extent.getBottomRight(mapbbox)],[new ol.extent.getTopRight(mapbbox)],[new ol.extent.getTopLeft(mapbbox)],[new ol.extent.getBottomLeft(mapbbox)]]);
-                mapbbox = this.parser.writeGeometry(mapbbox);
-                return mapbbox;
+		var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
+		var geom = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox), new ol.extent.getBottomRight(mapbbox), new ol.extent.getTopRight(mapbbox), new ol.extent.getTopLeft(mapbbox), new ol.extent.getBottomLeft(mapbbox)]]);
+		geom.transform(this.getMapCrs(), this.getServerCrs());
+		return this.parser.writeGeometry(geom);
 	},
 	/*
 	 * add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
-                var polygeom;
-                // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
-                for(var index = 0; index < data.geodata.length; index++) {
-                    polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
-                    polygeom.transform('EPSG:4326', 'EPSG:3857');
-                    console.log(polygeom.getCoordinates());
-                    this.polySource.addFeature(new ol.Feature({
-                        geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
-                        projection: 'EPSG: 3857'
-                    }));
-                }
+		var polygeom;
+		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
+		for (var index = 0; index < data.geodata.length; index++) {
+			polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, this.getServerCrs());
+			polygeom.transform(this.getServerCrs(), this.getMapCrs());
+			this.polySource.addFeature(new ol.Feature({
+				geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
+				projection: this.getMapCrs()
+			}));
+		}
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';

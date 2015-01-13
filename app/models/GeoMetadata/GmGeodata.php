@@ -74,17 +74,13 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 	}
 
 	public function getBoundingBox(){
-		if (empty($this->bbox)) {
-			return null;
-		}
-		$geometry = geoPHP::load($this->bbox, "wkt");
-		if ($geometry != null) {
-			$c = $geometry->getBBox();
-			$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-			$bbox->setWest($c['minx'])->setSouth($c['miny'])->setEast($c['maxx'])->setNorth($c['maxy']);
+		$bbox = new GmBoundingBox();
+		if ($bbox->fromWkt($this->bbox)) {
 			return $bbox;
 		}
-		return null;
+		else {
+			return null;
+		}
 	}
 	
 	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
@@ -92,7 +88,7 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 	}
 	
 	public function createBoundingBox($west, $south, $east, $north) {
-		$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
+		$bbox = new GmBoundingBox();
 		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
 		$this->bbox = $bbox->toWkt();
 	}
