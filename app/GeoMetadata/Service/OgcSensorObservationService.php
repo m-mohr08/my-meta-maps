@@ -83,7 +83,7 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		}
 	}
 	
-	protected function parseExtraDataFromContente(\SimpleXMLElement $node) {
+	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
 		$sosNode = $node->children($this->sosNsPrefix, true);
 		$data = array();
 		// Time

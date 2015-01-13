@@ -139,7 +139,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 			$layer->setId($this->parseIdentifierFromContents($node));
 			$layer->setTitle($this->parseTitleFromContents($node));
 			$layer->setBoundingBox($this->parseBoundingBoxFromContents($node));
-			$data = $this->parseExtraDataFromContente($node);
+			$data = $this->parseExtraDataFromContents($node);
 			foreach($data as $key => $value) {
 				$layer->setData($key, $value);
 			}
@@ -167,9 +167,8 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		return $this->n2s($children->Title);
 	}
 	
-	protected function parseExtraDataFromContente(\SimpleXMLElement $node) {
-		$children = $node->children($this->getOwsNamespacePrefix(), true);
-		return $this->n2s($children->Identifier);
+	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
+		return array();
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
