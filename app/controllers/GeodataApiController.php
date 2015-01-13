@@ -331,7 +331,7 @@ class GeodataApiController extends BaseApiController {
 		// Compute the count and averages
 		$geodata->ratingAvg = array(
 			'all' => round(Comment::where('geodata_id', $id)->avg('rating'), 1),
-			'filtered' => round(($count > 0 ? $ratingSumFiltered / $ratingCountFiltered : 0), 1)
+			'filtered' => round(($ratingCountFiltered > 0 ? $ratingSumFiltered / $ratingCountFiltered : 0), 1)
 		);
 		$geodata->commentCount = array(
 			'all' => Comment::where('geodata_id', $id)->count(),
