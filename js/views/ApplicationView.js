@@ -1,5 +1,6 @@
 ContentView = Backbone.View.extend({
 	el: $('#content'),
+	templateCache: [],
 	constructor: function (options) {
 		this.configure(options || {});
 		Backbone.View.prototype.constructor.apply(this, arguments);
@@ -15,9 +16,22 @@ ContentView = Backbone.View.extend({
 	},
 	onLoaded: function () {
 	},
+	loadTemplate: function (url, callback) {
+		if (typeof (this.templateCache[url]) == 'string') {
+			callback(this.templateCache[url]);
+		}
+		else {
+		var that = this;
+			$.get(url, function(data) {
+				that.templateCache[url] = data;
+				callback(data);
+			}, 'html');
+		}
+		
+	},
 	render: function () {
 		var that = this;
-		$.get(this.getPageTemplate(), function (data) {
+		this.loadTemplate(this.getPageTemplate(), function (data) {
 			template = _.template(data);
 			var vars = {
 				data: that.getPageContent(),
@@ -26,7 +40,7 @@ ContentView = Backbone.View.extend({
 			};
 			that.$el.html(template(vars));
 			that.onLoaded();
-		}, 'html');
+		});
 	},
 	getPageTemplate: function () {
 		Debug.log('Error: Called abstract method!');
