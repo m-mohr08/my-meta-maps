@@ -1,29 +1,30 @@
 /*
 * Send a POST-request to the server to get geodata
 */
-function geodataShowController() {
+function geodataShowController(callback) {
 	var model = new GeodataShow();
 	model.save(getFormData(), {
 
 		before: function() {
 			Progress.start('.filter-progress');
+			callback.before();
 		},
 
-        success: function (data, response) {
+        success: function (model, response) {
 			Progress.stop('.filter-progress');
 			new GeodataShowView(response);
-			if (ContentView.active instanceof MapView) {
-				ContentView.active.addGeodataToMap(response);
-			}
+			callback.success(model, response);
         },
         
-        error: function() {
+        error: function(model, response) {
 			Progress.stop('.filter-progress');
 			MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
+			callback.error(model, response);
 		},
 		
 		skipped: function() {
 			Progress.stop('.filter-progress');
+			callback.skipped();
 		}
    });
 };

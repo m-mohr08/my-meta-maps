@@ -81,11 +81,20 @@ MapView = ContentView.extend({
 	polySource: new ol.source.Vector(),
 	vectorlayer: null,
 	parser: new ol.format.WKT(),
+	mapSearchExecuted: true,
+	
 	onLoaded: function () {
+		// this for the callbacks
+		var that = this;
+		
 		var view = new ol.View({
 			center: [0, 0],
 			zoom: 2
 		});
+		// When the map view changes we need to search again
+		view.on('change:center', function() { that.onExtentChanged() });
+		view.on('change:resolution', function() { that.onExtentChanged() });
+		view.on('change:rotation', function() { that.onExtentChanged() });
 
 		// set the style of the vector geometries
 		var polyStyle = new ol.style.Style({
@@ -97,15 +106,18 @@ MapView = ContentView.extend({
 				width: 2
 			})
 		});
+		
+		this.vectorlayer = new ol.layer.Vector({
+			source: this.polySource,
+			style: polyStyle
+		});
 
 		this.map = new ol.Map({
-			layers: [new ol.layer.Tile({
+			layers: [
+				new ol.layer.Tile({
 					source: new ol.source.OSM()
 				}),
-				new ol.layer.Vector({
-					source: this.polySource,
-					style: polyStyle
-				})
+				this.vectorlayer
 			],
 			target: 'map',
 			controls: ol.control.defaults({
@@ -141,9 +153,29 @@ MapView = ContentView.extend({
 
 		this.doSearch();
 	},
+	onExtentChanged: function() {
+		// When multiple events occur in a certain time spam (500ms) then only search once.
+		this.mapSearchExecuted = false;
+		var that = this;
+		window.setTimeout(function() {
+			if (!that.mapSearchExecuted) {
+				executeSearch();
+				that.mapSearchExecuted = true;
+			}
+		}, 500);
+	},
 	doSearch: function () {
-		this.polySource.clear();
-		geodataShowController();
+		var that = this;
+		geodataShowController({
+			before: function () {
+				that.polySource.clear();
+			},
+			success: function (model, response) {
+				that.addGeodataToMap(response);
+			},
+			error: function (model, response) {},
+			skipped: function () {}
+		});
 	},
 	resetSearch: function (form) {
 		form.reset();
@@ -163,8 +195,8 @@ MapView = ContentView.extend({
 	 */
 	getBoundingBox: function () {
 		var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
-		mapbbox = ol.extent.applyTransform(mapbbox, ol.proj.getTransform(this.getMapCrs(), this.getServerCrs()));
 		var geom = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox), new ol.extent.getBottomRight(mapbbox), new ol.extent.getTopRight(mapbbox), new ol.extent.getTopLeft(mapbbox), new ol.extent.getBottomLeft(mapbbox)]]);
+		geom.transform(this.getMapCrs(), this.getServerCrs());
 		return this.parser.writeGeometry(geom);
 	},
 	/*
