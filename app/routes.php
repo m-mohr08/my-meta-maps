@@ -31,14 +31,14 @@ Route::group(array('prefix' => '/geodata'), function() {
 	});
 
 	// Permalink for specific comment of a geo data set
-	Route::get('/{geodata}/comment/{comment}', 'HomeController@getComment');
+	Route::get('/{geodata}/comment/{comment}', function($geodata, $comment) {
+		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata . '/comment/' . $comment);
+	});
 
 });
 
 // External API
-Route::get('/api/v1/search', function() {
-	// TODO: Implement external API
-});
+Route::get('/api/v1/search', 'ExternalApiController@getSearchApi');
 
 // Internal API for backbone communication
 Route::group(array('prefix' => '/api/internal'), function() {
