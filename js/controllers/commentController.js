@@ -104,7 +104,6 @@ function commentAddFirstStepController(model, details) {
 * Send a POST-request (because no id is specified) to the server to save a comment
 */
 function commentAddSecondStepController(model, details) {
-	
 	model.save(details, {
 		
 		// In case of successfull adding of comment
@@ -126,16 +125,22 @@ function commentAddSecondStepController(model, details) {
 /*
 * Send a POST-request to the server to get comments to a geodata
 */
-function commentsToGeodataController(id) {
-	var progressClass = '.comment-' + id + '-progress';
+function commentsToGeodataController(gid, cid) {
+	if (typeof(cid) == 'undefined') {
+		cid = 0;
+	}
+
+	var progressClass = '.comment-' + gid + '-progress';
 	Progress.start(progressClass);
+
 	var model = new CommentsToGeodata();
-	model.id = id;
-	model.save(getFormData(), {
+	model.id = gid;
+	model.save(getFormData(cid), {
 		
         success: function (data, response) {
         	Debug.log('Showing comments to geodata succeded');
 			Progress.stop(progressClass);
+			response.geodata.comment = cid;
 			new CommentsShowView(response);
         },
         
@@ -147,7 +152,7 @@ function commentsToGeodataController(id) {
    });
 };
 
-function getFormData() {
+function getFormData(commentId) {
 	var bbox = null;
 	if (ContentView.active instanceof MapView) {
 		bbox = ContentView.active.getBoundingBox();
@@ -159,6 +164,7 @@ function getFormData() {
 		start: $("#filterStartTime").val(),
 		end: $("#filterEndTime").val(),		
 		minrating: $("#ratingFilter").val(),
-		metadata : $('#includeMetadata').is(':checked')
+		metadata : $('#includeMetadata').is(':checked'),
+		comment: commentId
 	};
 }

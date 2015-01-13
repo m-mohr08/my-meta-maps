@@ -47,7 +47,7 @@
 										<span class="badge pull-right"><%= layer.comments.length %></span>
 									</h4>
 								</div>
-								<div class="panel-body list-group collapse" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
+								<div class="panel-body list-group collapse<%= (data.comment > 0 && layer.comments.length > 0) ? ' in' : '' %>" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
 									<% _.each(layer.comments, function(comment) { %>
 									@include('pages.showCommentsToGeodataBit')
 									<% }); if (_.isEmpty(layer.comments)) { %>

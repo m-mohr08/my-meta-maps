@@ -66,7 +66,7 @@ class Comment extends Eloquent {
 		}
 	}
 
-	public function scopeFilter($query, array $filter, $id=0) {
+	public function scopeFilter($query, array $filter, $id = 0) {
 		// Table Names
 		$gt = (new Geodata())->getTable();
 		$ct = (new Comment())->getTable();
@@ -91,6 +91,11 @@ class Comment extends Eloquent {
 		if ($id > 0){
 			$query->where("{$gt}.id", '=', $id);
 		}
+		// Where: Restrict to the requested comment id
+		if (!empty($filter['comment'])){
+			$query->where("{$ct}.id", '=', $filter['comment']);
+		}
+
 		// Order By
 		$query->orderBy("{$gt}.title");
 

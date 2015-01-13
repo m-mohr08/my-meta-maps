@@ -338,7 +338,7 @@ class GeodataApiController extends BaseApiController {
 			'filtered' => $count
 		);
 		// Get all layers
-		$layers = $geodata->layers->all();
+		$layers = $geodata->layers()->orderBy('title')->orderBy('id')->get();
 		// Append the comment data to the layers and the geodata
 		$geodata->comments = $groupedComments[0];
 		foreach($layers as $layer) {
@@ -355,7 +355,7 @@ class GeodataApiController extends BaseApiController {
 	}
 	
 	protected function getFilterInput(array $required = array()) {
-		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata');
+		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata', 'comment');
 		$rules = array(
 			'q' => '',
 			'bbox' => 'geometry:wkt,Polygon',
@@ -363,7 +363,8 @@ class GeodataApiController extends BaseApiController {
 			'start' => 'date8601',
 			'end' => 'date8601',
 			'minrating' => 'integer|between:1,5',
-			'metadata' => 'boolean'
+			'metadata' => 'boolean',
+			'comment' => 'integer',
 		);
 		foreach ($required as $field) {
 			$rules[$field] = empty($rules[$field]) ? 'required' : 'required|' . $rules[$field];
@@ -375,6 +376,7 @@ class GeodataApiController extends BaseApiController {
 		$data['start'] = !empty($data['start']) ? new Carbon($data['start']) : null;
 		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;
 		$data['metadata'] = ($data['metadata'] !== null) ? $data['metadata'] : false;
+		$data['comment'] = !empty($data['comment']) ? $data['comment'] : 0;
 		return $data;
 	}
 	
