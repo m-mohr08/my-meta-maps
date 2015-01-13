@@ -171,7 +171,7 @@ abstract class OgcWebServices extends ParserParser {
 	}
 	
 	protected function n2s($node) {
-		if (is_object($node)) {
+		if (!empty($node) && is_object($node)) {
 			return trim((string) $node);
 		}
 		else {
