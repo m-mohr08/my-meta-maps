@@ -78,15 +78,10 @@ ModalView = ContentView.extend({
 
 MapView = ContentView.extend({
 	map: null,
-<<<<<<< HEAD
         polySource: new ol.source.Vector(),
         vectorlayer: null,
         parser: new ol.format.WKT(),
         
-=======
-	polySource: new ol.source.Vector(),
-	vectorlayer: null,
->>>>>>> 8e850bf738094c478eae7e74e61ea5d54f558cc6
 	onLoaded: function () {
 		var view = new ol.View({
 			center: [0, 0],
@@ -147,7 +142,7 @@ MapView = ContentView.extend({
 
 		this.doSearch();
 	},
-		geodataShowController(new GeodataShow(), this);
+
 	doSearch: function () {
 		this.polySource.clear();
 		geodataShowController();
@@ -161,25 +156,16 @@ MapView = ContentView.extend({
 	},
 	getBoundingBox: function () {
 		// TODO: Return the current bounding box of the map
-<<<<<<< HEAD
                 console.log(this.map.getView().calculateExtent(this.map.getSize()));
                 var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
                 mapbbox = this.parser.writeFeature(mapbbox);
                 return mapbbox;
-=======
-		var ViewPort = this.map.getViewport();
-
-		return null;
->>>>>>> 8e850bf738094c478eae7e74e61ea5d54f558cc6
 	},
 	/*
 	 * add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
-<<<<<<< HEAD
                 var polygeom;
-                
-                
                 // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
                 for(var index = 0; index < data.geodata.length; index++) {
                     polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
@@ -189,23 +175,6 @@ MapView = ContentView.extend({
                         projection: 'EPSG: 3857'
                     }));
                 }
-                     
-=======
-		var parser = new ol.format.WKT();
-		var polygeom;
-
-
-		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
-		for (var index = 0; index < data.geodata.length; index++) {
-			polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
-			polygeom.transform('EPSG:4326', 'EPSG:3857');
-			this.polySource.addFeature(new ol.Feature({
-				geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
-				projection: 'EPSG: 3857'
-			}));
-		}
-
->>>>>>> 8e850bf738094c478eae7e74e61ea5d54f558cc6
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
