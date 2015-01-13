@@ -73,6 +73,7 @@ MapView = ContentView.extend({
 	map: null,
         polySource: new ol.source.Vector(),
         vectorlayer: null,
+        parser: new ol.format.WKT(),
         
 	onLoaded: function () {
 		var view = new ol.View({
@@ -147,22 +148,22 @@ MapView = ContentView.extend({
 	},
 	getBoundingBox: function() {
 		// TODO: Return the current bounding box of the map
-                var ViewPort = this.map.getViewport();
-                
-		return null;
+                console.log(this.map.getView().calculateExtent(this.map.getSize()));
+                var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
+                mapbbox = this.parser.writeFeature(mapbbox);
+                return mapbbox;
 	},
         
         /*
          * add the bboxes from the Geodata to the map
          */
 	addGeodataToMap: function (data) {
-                var parser = new ol.format.WKT();
                 var polygeom;
                 
                 
                 // gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
                 for(var index = 0; index < data.geodata.length; index++) {
-                    polygeom = parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
+                    polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, 'EPSG: 4326');
                     polygeom.transform('EPSG:4326', 'EPSG:3857');
                     this.polySource.addFeature(new ol.Feature({
                         geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
