@@ -68,9 +68,10 @@ return array(
 
 	'setFilter' => 'Set filter',
 	'reset' => 'Reset',
+	'metaUse' => 'Include metadata for search'
 	'search' => 'Search keyword',
 	'startEnd' => 'Choose start and endpoint',
-	'buffer' => 'Set a Buffer in km',
+	'buffer' => 'Set a radius in km',
 	'rateHigh' => 'Rating higher than oder equal to ...?',
 	'geodata' => 'Geodatasets',
 	'share' => 'Share',

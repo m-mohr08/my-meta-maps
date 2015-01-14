@@ -69,6 +69,7 @@ return array(
 
 	'setFilter' => 'Filter einstellen',
 	'reset' => 'Zurücksetzen',
+	'metaUse' => 'Metadaten einbeziehen',
 	'search' => 'Suchbegriffe',
 	'startEnd' => 'Wähle Start- und Endzeitpunkt',
 	'buffer' => 'Lege einen Umkreis in km fest',
