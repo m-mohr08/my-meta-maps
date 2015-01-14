@@ -87,7 +87,7 @@ class Microformats2 extends ParserParser {
 		
 		if (count($lat) == 0 || count($lon) == 0) {
 			// No geodata available, return
-			return null;
+			return false;
 		}
 		
 		// Build the bounding box from the lon/lat values
