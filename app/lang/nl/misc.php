@@ -76,5 +76,13 @@ return array(
 	'share' => 'Delen',
 
 
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Het oude wachtwoord', 
+	'newpw' => 'Het nieuwe wachtwoord',
+	'pwagain' => 'Het nieuwe wachtwoord herhalen',
+	'save' => 'Opslaan',
+	'loginAgain' => 'Je bent niet aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
+	
 
 );

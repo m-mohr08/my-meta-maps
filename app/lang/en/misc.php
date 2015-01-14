@@ -74,4 +74,13 @@ return array(
 	'rateHigh' => 'Rating higher than oder equal to ...?',
 	'geodata' => 'Geodatasets',
 	'share' => 'Share',
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Old password', 
+	'newpw' => 'New password',
+	'pwagain' => 'Repeat new password',
+	'save' => 'Save',
+	'loginAgain' => 'You are not logged in. Please log in again to change your password.',
+	
 );

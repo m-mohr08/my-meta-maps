@@ -75,5 +75,15 @@ return array(
 	'rateHigh' => 'Bewertung größer oder gleich ... ?',
 	'geodata' => 'Geodatensätze',
 	'share' => 'Teilen',
-	
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Altes Passwort', 
+	'newpw' => 'Neues Passwort',
+	'pwagain' => 'Neues Password wiederholen',
+	'save' => 'Speichern',
+	'loginAgain' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihr Passwort zu ändern.',
+	'' => '',
+
+
 );
