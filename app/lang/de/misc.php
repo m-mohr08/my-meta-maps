@@ -82,7 +82,7 @@ return array(
 
 	'oldpw' => 'Altes Passwort', 
 	'newpw' => 'Neues Passwort',
-	'pwagain' => 'Neues Password wiederholen',
+	'pwagain' => 'Neues Passwort wiederholen',
 	'save' => 'Speichern',
 	'loginAgain' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihr Passwort zu ändern.',
 
