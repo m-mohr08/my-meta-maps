@@ -59,7 +59,7 @@ return array(
 
 	//variables for \app\views\pages\login.blade.php
 
-	'mailname' => 'Mail-adress / Username',
+	'mailname' => 'Email adress / Username',
 	'pw' => 'Password',
 	'stay' => 'Stay logged in?',
 
@@ -68,10 +68,31 @@ return array(
 
 	'setFilter' => 'Set filter',
 	'reset' => 'Reset',
+	'metaUse' => 'Include metadata for search',
 	'search' => 'Search keyword',
 	'startEnd' => 'Choose start and endpoint',
-	'buffer' => 'Set a Buffer in km',
+	'buffer' => 'Set a radius in km',
 	'rateHigh' => 'Rating higher than oder equal to ...?',
 	'geodata' => 'Geodatasets',
 	'share' => 'Share',
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Old password', 
+	'newpw' => 'New password',
+	'pwagain' => 'Repeat new password',
+	'save' => 'Save',
+	'loginAgain' => 'You are not logged in. Please log in again to change your password.',
+	
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Username',
+	'mail' => 'Email adress',
+	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Sprache',
+	'loginAgainAcc' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihre Profildaten zu ändern.',
 );

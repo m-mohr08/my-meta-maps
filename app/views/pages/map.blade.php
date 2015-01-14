@@ -19,7 +19,7 @@
 			<div class="panel-body">
 
 				<div class="form-group clearfix col-md-12 column">
-					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">Metadaten einbeziehen</label></div>
+					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">@lang('misc.metaUse')</label></div>
 					<label class="label-filter">@lang('misc.search')</label>
 					<div class="input-group">
 						<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)" onchange="executeSearch()">

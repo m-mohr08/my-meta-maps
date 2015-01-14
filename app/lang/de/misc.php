@@ -69,11 +69,33 @@ return array(
 
 	'setFilter' => 'Filter einstellen',
 	'reset' => 'Zurücksetzen',
+	'metaUse' => 'Metadaten einbeziehen',
 	'search' => 'Suchbegriffe',
 	'startEnd' => 'Wähle Start- und Endzeitpunkt',
 	'buffer' => 'Lege einen Umkreis in km fest',
 	'rateHigh' => 'Bewertung größer oder gleich ... ?',
 	'geodata' => 'Geodatensätze',
 	'share' => 'Teilen',
+
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Altes Passwort', 
+	'newpw' => 'Neues Passwort',
+	'pwagain' => 'Neues Passwort wiederholen',
+	'save' => 'Speichern',
+	'loginAgain' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihr Passwort zu ändern.',
+
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Benutzername',
+	'mail' => 'E-Mail-Adresse',
+	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Sprache',
+	'loginAgainAcc' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihre Profildaten zu ändern.',
 	
 );
