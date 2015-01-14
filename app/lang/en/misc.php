@@ -68,7 +68,7 @@ return array(
 
 	'setFilter' => 'Set filter',
 	'reset' => 'Reset',
-	'metaUse' => 'Include metadata for search'
+	'metaUse' => 'Include metadata for search',
 	'search' => 'Search keyword',
 	'startEnd' => 'Choose start and endpoint',
 	'buffer' => 'Set a radius in km',
