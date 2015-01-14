@@ -76,6 +76,7 @@ return array(
 	'geodata' => 'Geodatensätze',
 	'share' => 'Teilen',
 
+
 	//variables for \app\views\pages\password.blade.php
 
 	'oldpw' => 'Altes Passwort', 
@@ -83,7 +84,18 @@ return array(
 	'pwagain' => 'Neues Password wiederholen',
 	'save' => 'Speichern',
 	'loginAgain' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihr Passwort zu ändern.',
+
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Benutzername',
+	'mail' => 'E-Mail-Adresse',
+	
+
+	//variables for \app\views\pages\
+	
 	'' => '',
-
-
+	'' => '',
+	'' => '',
+	'' => '',
 );

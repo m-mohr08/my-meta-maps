@@ -59,7 +59,7 @@ return array(
 
 	//variables for \app\views\pages\login.blade.php
 
-	'mailname' => 'Mail-adress / Username',
+	'mailname' => 'Email adress / Username',
 	'pw' => 'Password',
 	'stay' => 'Stay logged in?',
 
@@ -82,5 +82,11 @@ return array(
 	'pwagain' => 'Repeat new password',
 	'save' => 'Save',
 	'loginAgain' => 'You are not logged in. Please log in again to change your password.',
+	
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Username',
+	'mail' => 'Email adress',
 	
 );

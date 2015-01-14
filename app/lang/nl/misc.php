@@ -85,4 +85,9 @@ return array(
 	'loginAgain' => 'Je bent niet aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
 	
 
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Usernaam',
+	'mail' => 'E-mailadres',
+	
 );
