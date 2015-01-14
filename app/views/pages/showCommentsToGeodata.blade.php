@@ -90,8 +90,7 @@
 							</h4>
 						</div>
 						<div class="panel-body collapse in" id="showMapToGeodata" role="tabpanel" aria-labelledby="mapHeader">
-							Es folgt eine Karte...
-						</div>
+                                                    <div id="map"></div>
 					</div>
 
 					<div class="panel panel-primary">

@@ -112,6 +112,10 @@ CommentAddViewStep2 = ContentView.extend({
  * View for CommentsToGeodata
  */
 CommentsShowView = ModalView.extend({
+        
+        onLoaded: function (){
+            
+        },
 
 	getPageContent: function() {
 		return this.options.geodata; 
