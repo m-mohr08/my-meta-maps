@@ -82,7 +82,7 @@ return array(
 	'newpw' => 'Het nieuwe wachtwoord',
 	'pwagain' => 'Het nieuwe wachtwoord herhalen',
 	'save' => 'Opslaan',
-	'loginAgain' => 'Je bent niet aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
+	'loginAgain' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
 	
 
 	//variables for \app\views\pages\register.blade.php
@@ -90,4 +90,9 @@ return array(
 	'user' => 'Usernaam',
 	'mail' => 'E-mailadres',
 	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Taal',
+	'loginAgainAcc' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je profiel te wijzigen.',
 );

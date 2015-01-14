@@ -89,4 +89,9 @@ return array(
 	'user' => 'Username',
 	'mail' => 'Email adress',
 	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Sprache',
+	'loginAgainAcc' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihre Profildaten zu ändern.',
 );
