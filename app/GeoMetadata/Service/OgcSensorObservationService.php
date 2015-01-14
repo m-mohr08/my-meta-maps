@@ -108,7 +108,7 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 			if (!empty($bbNode->Envelope)) {
 				$envelopeAttrs = $this->getAttrsAsArray($bbNode->Envelope); // Seems we don't need a ns prefix here
 				if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
-					$envNode = $bbNode->Envelope->children($$this->gmlNsPrefix, true);
+					$envNode = $bbNode->Envelope->children($this->gmlNsPrefix, true);
 					if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
 						return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
 					}
