@@ -23,6 +23,6 @@ interface LayerContainer {
 	public function addLayer(Layer $layer);
 	public function createLayer($id, $title = null);
 	public function removeLayer(Layer $layer);
-	public function copyLayer(Layer $layer);
+	public function copyLayer(Layer $layer = null);
 
 }

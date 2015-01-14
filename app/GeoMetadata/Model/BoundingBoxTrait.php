@@ -36,7 +36,7 @@ trait BoundingBoxTrait {
 		return $this->boundingBox;
 	}
 
-	public function copyBoundingBox(BoundingBox $bbox) {
+	public function copyBoundingBox(BoundingBox $bbox = null) {
 		if ($bbox !== null && $bbox->defined()) {
 			return $this->createBoundingBox($bbox->getWest(), $bbox->getSouth(), $bbox->getEast(), $bbox->getNorth());
 		}

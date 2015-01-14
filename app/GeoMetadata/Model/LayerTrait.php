@@ -37,7 +37,7 @@ trait LayerTrait {
 		return $layer;
 	}
 
-	public function copyLayer(Layer $layer) {
+	public function copyLayer(Layer $layer = null) {
 		if ($layer !== null) {
 			$newLayer = $this->createLayer($layer->getId(), $layer->getTitle());
 			$newLayer->copyBoundingBox($layer->getBoundingBox());

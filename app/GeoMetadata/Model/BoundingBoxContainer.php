@@ -22,6 +22,6 @@ interface BoundingBoxContainer {
 	public function getBoundingBox();
 	public function setBoundingBox(BoundingBox $bbox = null);
 	public function createBoundingBox($west, $south, $east, $north);
-	public function copyBoundingBox(BoundingBox $bbox);
+	public function copyBoundingBox(BoundingBox $bbox = null);
 
 }

@@ -38,7 +38,7 @@ trait GmGeodataBoundingBoxTrait {
 		$this->bbox = $bbox !== null ? $bbox->toWkt() : null;
 	}
 
-	public function copyBoundingBox(\GeoMetadata\Model\BoundingBox $bbox) {
+	public function copyBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
 		if ($bbox !== null && $bbox->defined()) {
 			return $this->createBoundingBox($bbox->getWest(), $bbox->getSouth(), $bbox->getEast(), $bbox->getNorth());
 		}
