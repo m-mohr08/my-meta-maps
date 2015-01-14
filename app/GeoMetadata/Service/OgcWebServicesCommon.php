@@ -195,6 +195,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {
 			$bbox = new GmBoundingBox();
 			$bbox->setWest($minMatch[1])->setSouth($maxMatch[2])->setEast($minMatch[2])->setNorth($maxMatch[1]);
+			return $bbox;
 		}
 		else {
 			return null;
