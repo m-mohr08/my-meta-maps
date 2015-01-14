@@ -8,6 +8,7 @@
 		<div class="panel-heading" role="tab" id="filterHeader">
 			<h4 class="panel-title clearfix">
 				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">@lang('misc.setFilter')</a>
+				<span class="filter-progress"></span>
 				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">
 					<span class="glyphicon glyphicon-remove"></span>
 					@lang('misc.reset')
@@ -36,7 +37,7 @@
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id=s"filterEndTime" placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
 					</div>
 				</div>
 
@@ -84,7 +85,7 @@
 		<div class="panel-heading" role="tab" id="geodataHeader">
 			<h4 class="panel-title">
 				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">@lang('misc.geodata')</a>
-				<span class="filter-progress"></span>
+				<span class="geodata-progress"></span>
 				<button type="button" onclick="saveSearch()" id="mapFilterShare" class="btn btn-default btn-xs pull-right">
 					<span class="glyphicon glyphicon-share-alt"></span>
 					@lang('misc.share')

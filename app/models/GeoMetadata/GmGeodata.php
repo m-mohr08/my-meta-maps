@@ -22,12 +22,14 @@ use \Carbon\Carbon;
  */
 class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 
-	// Attributes for the interface - not stored in DB
-	private $gmLayer = array();
-	private $gmExtra = array();
+	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\LayerTrait;
 
 	public function createObject() {
 		return new static();
+	}
+
+	protected function createLayerObject($id, $title, $boundingBox) {
+		return new GmGeodataLayer($id, $title, $boundingBox);
 	}
 
 	public function getUrl(){
@@ -46,55 +48,12 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		$this->datatype = $service;
 	}
 
-	public function getLayers(){
-		return $this->gmLayer;
-	}
-
-	public function addLayer(\GeoMetadata\Model\Layer $layer){
-		$this->gmLayer[] = $layer;
-	}
-
-	public function createLayer($id, $title = null){
-		$layer = new GmGeodataLayer($id, $title);
-		$this->gmLayer[] = $layer;
-		return $layer;
-	}
-
-	public function removeLayer(\GeoMetadata\Model\Layer $layer){
-		Log::warning("Removing layers not supported by Geodata model.");
-		return false;
-	}
-
 	public function getTitle(){
 		return $this->title;
 	}
 
 	public function setTitle($title){
 		$this->title = $title;
-	}
-
-	public function getBoundingBox(){
-		if (empty($this->bbox)) {
-			return null;
-		}
-		$geometry = geoPHP::load($this->bbox, "wkt");
-		if ($geometry != null) {
-			$c = $geometry->getBBox();
-			$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-			$bbox->setWest($c['minx'])->setSouth($c['miny'])->setEast($c['maxx'])->setNorth($c['maxy']);
-			return $bbox;
-		}
-		return null;
-	}
-	
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
-		$this->bbox = $bbox !== null ? $bbox->toWkt() : null;
-	}
-	
-	public function createBoundingBox($west, $south, $east, $north) {
-		$bbox = new GeoMetadata\Model\Generic\GmBoundingBox();
-		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		$this->bbox = $bbox->toWkt();
 	}
 
 	public function getDescription(){
@@ -151,19 +110,6 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 
 	public function setEndTime(\DateTime $end = null){
 		$this->end = $end !== null ? Carbon::instance($end) : null;
-	}
-	
-	public function setData($key, $value) {
-		$this->gmExtra[$key] = $value;
-	}
-	
-	public function getData($key) {
-		if (isset($this->gmExtra[$key])) {
-			return $this->gmExtra[$key];
-		}
-		else {
-			return null;
-		}
 	}
 
 }

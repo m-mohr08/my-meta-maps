@@ -15,28 +15,30 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Model;
-
-trait BoundingBoxTrait {
-	
-	private $boundingBox;
-
-	protected abstract function createBoundingBoxObject();
-
-	public function getBoundingBox(){
-		return $this->boundingBox;
-	}
-	
-	public function setBoundingBox(BoundingBox $bbox = null) {
-		$this->boundingBox = $bbox;
-	}
+trait GmGeodataBoundingBoxTrait {
 	
 	public function createBoundingBox($west, $south, $east, $north) {
-		$this->boundingBox = $this->createBoundingBoxObject()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		return $this->boundingBox;
+		$bbox = new GmGeodataBoundingBox();
+		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
+		$this->bbox = $bbox->toWkt();
+		return $this->bbox;
 	}
 
-	public function copyBoundingBox(BoundingBox $bbox = null) {
+	public function getBoundingBox() {
+		$bbox = new GmGeodataBoundingBox();
+		if ($bbox->fromWkt($this->bbox)) {
+			return $bbox;
+		}
+		else {
+			return null;
+		}
+	}
+
+	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
+		$this->bbox = $bbox !== null ? $bbox->toWkt() : null;
+	}
+
+	public function copyBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
 		if ($bbox !== null && $bbox->defined()) {
 			return $this->createBoundingBox($bbox->getWest(), $bbox->getSouth(), $bbox->getEast(), $bbox->getNorth());
 		}
@@ -44,5 +46,5 @@ trait BoundingBoxTrait {
 			return null;
 		}
 	}
-
+	
 }

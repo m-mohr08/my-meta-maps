@@ -112,7 +112,11 @@ class Geodata extends Eloquent {
 	
 	public static function convertPostGis($value) {
 		if (!empty($value)) {
-			$geom = geoPHP::load($value, 'wkt'); // Detect whether it's already in WKT
+			try {
+				$geom = geoPHP::load($value, 'wkt'); // Detect whether it's already in WKT
+			} catch(Exception $e) {
+				$geom = null;
+			}
 			if (empty($geom)) {
 				// Due to a bad designed ORM we need to do some extra querys...
 				$result = DB::selectOne("SELECT ST_AsText('{$value}') AS bbox");
