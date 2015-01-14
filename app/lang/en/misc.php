@@ -51,9 +51,9 @@ return array(
 	'enterData' => 'Enter data',
 	'commNoLay' => 'Don´t allocate comment to a Layer',
 	'title' => 'Title*',
-	'freetext' => 'freetext*',
+	'freetext' => 'Text*',
 	'timerange' => 'Timerange',
-	'rating' => 'rating',
+	'rating' => 'Rating',
 	'addMeta' => 'Additional metadata',
 
 
@@ -61,7 +61,7 @@ return array(
 
 	'mailname' => 'Mail-adress / Username',
 	'pw' => 'Password',
-	'stay' => 'stay logged in?',
+	'stay' => 'Stay logged in?',
 
 
 	//variables for \app\views\pages\map.blade.php
@@ -71,7 +71,7 @@ return array(
 	'search' => 'Search keyword',
 	'startEnd' => 'Choose start and endpoint',
 	'buffer' => 'Set a Buffer in km',
-	'rateHigh' => 'Rating higher oder equal?',
+	'rateHigh' => 'Rating higher than oder equal to ...?',
 	'geodata' => 'Geodatasets',
 	'share' => 'Share',
 );

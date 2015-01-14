@@ -31,6 +31,9 @@ class BasedataApiController extends BaseApiController {
 		$config = array(
 			'debug' => Config::get('app.debug'),
 			'locale' => Language::current(),
+			'datepicker' => array(
+				'format' => Config::get('view.datepicker.format'),
+			),
 			'basemaps' => Basemap::active()->get(array('url', 'name')),
 			'datatypes' => array()
 		);

@@ -19,21 +19,17 @@ Route::get('/', function() {
 // Frontpage in the language chosen
 Route::get('/{language}', 'HomeController@getFrontpage')->where('language', '[a-z]{2}');
 
-// Permalink for search
-Route::get('/search/{hash}', 'HomeController@getSearch');
-
 // Permalink for geo data set and comments
 Route::group(array('prefix' => '/geodata'), function() {
 
 	// Permalink for all comments of a geo data set
-	Route::get('/{geodata}', function($geodata) {
-		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata);
-	});
+	Route::get('/{geodata}', 'HomeController@getGeodata');
 
 	// Permalink for specific comment of a geo data set
-	Route::get('/{geodata}/comment/{comment}', function($geodata, $comment) {
-		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata . '/comment/' . $comment);
-	});
+	Route::get('/{geodata}/comment/{comment}', 'HomeController@getComment');
+
+	// Permalink for search
+	Route::get('/search/{hash}', 'HomeController@getSearch');
 
 });
 

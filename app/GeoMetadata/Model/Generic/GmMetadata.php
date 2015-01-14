@@ -19,12 +19,12 @@ namespace GeoMetadata\Model\Generic;
 
 class GmMetadata implements \GeoMetadata\Model\Metadata {
 	
+	use \GeoMetadata\Model\BoundingBoxTrait, \GeoMetadata\Model\ExtraDataTrait, \GeoMetadata\Model\LayerTrait;
+	
 	protected $url;
 	protected $service;
-	protected $layers;
 	
 	protected $title;
-	protected $boundingBox;
 	protected $keywords;
 	protected $description;
 	protected $language;
@@ -35,12 +35,8 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 	protected $beginTime;
 	protected $endTime;
 	
-	protected $extra;
-	
 	public function __construct() {
-		$this->layers = array();
 		$this->keywords = array();
-		$this->extra = array();
 	}
 
 	public function createObject() {
@@ -63,49 +59,12 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->service = $service;
 	}
 
-	public function getLayers(){
-		return $this->layers;
-	}
-
-	public function addLayer(\GeoMetadata\Model\Layer $layer){
-		$this->layers[] = $layer;
-	}
-
-	public function createLayer($id, $title = null){
-		$layer = new GmLayer($id, $title, null);
-		$this->layers[] = $layer;
-		return $layer;
-	}
-
-	public function removeLayer(\GeoMetadata\Model\Layer $layer){
-		foreach ($this->layers as $key => $value) {
-			if ($value === $layer) {
-				unset($this->layers[$key]);
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function getTitle(){
 		return $this->title;
 	}
 
 	public function setTitle($title){
 		$this->title = $title;
-	}
-
-	public function getBoundingBox(){
-		return $this->boundingBox;
-	}
-	
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
-		$this->boundingBox = $bbox;
-	}
-	
-	public function createBoundingBox($west, $south, $east, $north) {
-		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		return $this->boundingBox;
 	}
 
 	public function getKeywords(){
@@ -175,18 +134,13 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 	public function setEndTime(\DateTime $end = null){
 		$this->endTime = $end;
 	}
-	
-	public function setData($key, $value) {
-		$this->extra[$key] = $value;
+
+	protected function createBoundingBoxObject() {
+		return new GmBoundingBox();
 	}
-	
-	public function getData($key) {
-		if (isset($this->extra[$key])) {
-			return $this->extra[$key];
-		}
-		else {
-			return null;
-		}
+
+	protected function createLayerObject($id, $title, $boundingBox) {
+		return new GmLayer($id, $title, $boundingBox);
 	}
-	
+
 }

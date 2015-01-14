@@ -22,7 +22,7 @@
 		<select class="form-control" name="layer" id="inputLayer">
 			<option value="">@lang('misc.commNoLay')</option>
 			<% _.each(data.layer, function(l) { %>
-			<option value="<%- l.id %>"><%- ViewUtils.join(' - ', [layer.title, layer.id]) %></option>
+			<option value="<%- l.id %>"><%- ViewUtils.join(' - ', [l.title, l.id]) %></option>
 			<% }); %>
 		</select>
 		<div class="error-message"></div>

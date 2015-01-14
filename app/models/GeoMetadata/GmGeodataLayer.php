@@ -19,35 +19,14 @@
  * Extends the layer model with the ability to be used as model in GeoMatadata Parser.
  */
 class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer  {
-	
-	private $extra;
+
+	use GmGeodataBoundingBoxTrait;
 
 	public function __construct($name = null, $title = null, BoundingBox $boundingBox = null) {
 		parent::__construct();
 		$this->setId($name);
 		$this->setTitle($title);
 		$this->setBoundingBox($boundingBox);
-		$this->extra = array();
-	}
-	
-	public function createBoundingBox($west, $south, $east, $north) {
-		$bbox = new GmBoundingBox();
-		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		$this->bbox = $bbox->toWkt();
-	}
-
-	public function getBoundingBox() {
-		$bbox = new GmBoundingBox();
-		if ($bbox->fromWkt($this->bbox)) {
-			return $bbox;
-		}
-		else {
-			return null;
-		}
-	}
-
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
-		$this->bbox = $bbox !== null ? $bbox->toWkt() : null;
 	}
 
 	public function getId() {
@@ -64,19 +43,6 @@ class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer  {
 
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-	
-	public function setData($key, $value) {
-		$this->extra[$key] = $value;
-	}
-	
-	public function getData($key) {
-		if (isset($this->extra[$key])) {
-			return $this->extra[$key];
-		}
-		else {
-			return null;
-		}
 	}
 
 }

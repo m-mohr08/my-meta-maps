@@ -3,30 +3,7 @@
 */
 function geodataShowController(callback) {
 	var model = new GeodataShow();
-	model.save(getFormData(), {
-
-		before: function() {
-			Progress.start('.filter-progress');
-			callback.before();
-		},
-
-        success: function (model, response) {
-			Progress.stop('.filter-progress');
-			new GeodataShowView(response);
-			callback.success(model, response);
-        },
-        
-        error: function(model, response) {
-			Progress.stop('.filter-progress');
-			MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
-			callback.error(model, response);
-		},
-		
-		skipped: function() {
-			Progress.stop('.filter-progress');
-			callback.skipped();
-		}
-   });
+	model.save(getFormData(), callback);
 };
 
 /**
