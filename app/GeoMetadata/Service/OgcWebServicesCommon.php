@@ -17,6 +17,8 @@
 
 namespace GeoMetadata\Service;
 
+use \GeoMetadata\Model\Generic\GmBoundingBox, \GeoMetadata\Model\Generic\GmLayer;
+
 abstract class OgcWebServicesCommon extends OgcWebServices {
 	
 	private $owsPrefix = null;
@@ -103,35 +105,19 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
 		// There is no bounding box in the metadata for the complete dataset.
 		// We are calculation a bounding box by joining all bboxes of the layers.
-		$bbox = array();
+		$bbox = new GmBoundingBox();
 		foreach($this->getContents() as $content) {
-			if (empty($content['bbox'])) {
-				continue; // No bbox, go to next entry
-			}
-			if (!isset($bbox['west']) || $content['bbox']['west'] < $bbox['west']) { // Search minimum
-				$bbox['west'] = $content['bbox']['west'];
-			}
-			if (!isset($bbox['north']) || $content['bbox']['north'] > $bbox['north']) { // Search maximum
-				$bbox['north'] = $content['bbox']['north'];
-			}
-			if (!isset($bbox['east']) || $content['bbox']['east'] < $bbox['east']) { // Search minimum
-				$bbox['east'] = $content['bbox']['east'];
-			}
-			if (!isset($bbox['south']) || $content['bbox']['south'] > $bbox['south']) { // Search maximum
-				$bbox['south'] = $content['bbox']['south'];
+			$bbox = $content->getBoundingBox();
+			if ($bbox !== null) {
+				$bbox->union($bbox);
 			}
 		}
-		if (count($bbox) == 4) {
-			$model->createBoundingBox($bbox['west'], $bbox['south'], $bbox['east'], $bbox['north']);
-		}
+		$model->copyBoundingBox($bbox);
 	}
 
 	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
 		foreach($this->getContents() as $content) {
-			$layer = $model->createLayer($content['id'], $content['title']);
-			if (count($content['bbox']) == 4) {
-				$layer->createBoundingBox($content['bbox']['west'], $content['bbox']['south'], $content['bbox']['east'], $content['bbox']['north']);
-			}
+			$model->copyLayer($content);
 		}
 	}
 	
@@ -144,59 +130,75 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	
 	protected function parseContents() {
 		// Version 1.0.0 of OWS Common doesn't specify anything for the contents.
-		// This implementation parses for version 1.1.0 and ignores everything from version 1.0.0.
+		// This implementation parses for contents of version 1.1.0 and ignores the contents section in version 1.0.0.
 		$data = array();
 
+		$nodes = $this->findLayerNodes();
+		foreach($nodes as $node) {
+			$layer = new GmLayer();
+			$layer->setId($this->parseIdentifierFromContents($node));
+			$layer->setTitle($this->parseTitleFromContents($node));
+			$layer->setBoundingBox($this->parseBoundingBoxFromContents($node));
+			$extra = $this->parseExtraDataFromContents($node);
+			foreach($extra as $key => $value) {
+				$layer->setData($key, $value);
+			}
+			$data[] = $layer;
+		}
+		return $data;
+	}
+	
+	protected function findLayerNodes() {
 		$nodes = $this->selectMany(array('Contents', 'DatasetSummary'), null, false, $this->getOwsNamespacePrefix(), true);
 		if (empty($nodes)) {
 			// Can you tell me why some servers use DatasetDescriptionSummary instead of the DatasetSummary tag as specified by the OGC?
 			$nodes = $this->selectMany(array('Contents', 'DatasetDescriptionSummary'), null, false, $this->getOwsNamespacePrefix(), true);
 		}
-		foreach($nodes as $node) {
-			$entry = array(
-				'id' => $this->selectOne(array('Identifier'), $node, true, $this->getOwsNamespacePrefix(), true),
-				'title' => $this->selectOne(array('Title'), $node, true, $this->getOwsNamespacePrefix(), true),
-				'bbox' => array()
-			);
+		return $nodes;
+	}
+	
+	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
+		$children = $node->children($this->getOwsNamespacePrefix(), true);
+		return $this->n2s($children->Identifier);
+	}
+	
+	protected function parseTitleFromContents(\SimpleXMLElement $node) {
+		$children = $node->children($this->getOwsNamespacePrefix(), true);
+		return $this->n2s($children->Title);
+	}
+	
+	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
+		return array();
+	}
+	
+	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
+		$result = $this->parseCoords(
+			$this->selectOne(array('WGS84BoundingBox', 'LowerCorner'), $node, true, $this->getOwsNamespacePrefix(), true),
+			$this->selectOne(array('WGS84BoundingBox', 'UpperCorner'), $node, true, $this->getOwsNamespacePrefix(), true)
+		);
 
-			$bbox = $this->parseCoords(
-				$this->selectOne(array('WGS84BoundingBox', 'LowerCorner'), $node, true, $this->getOwsNamespacePrefix(), true),
-				$this->selectOne(array('WGS84BoundingBox', 'UpperCorner'), $node, true, $this->getOwsNamespacePrefix(), true)
-			);
-			if (count($bbox) == 4) {
-				$entry['bbox'] = $bbox;
+		if (empty($result)) {
+			$crs = $this->selectOne(array('BoundingBox', 'crs'), $node, true, $this->getOwsNamespacePrefix(), true);
+			if ($this->isWgs84($crs)) {
+				$result = $this->parseCoords(
+					$this->selectOne(array('BoundingBox', 'LowerCorner'), $node, true, $this->getOwsNamespacePrefix(), true),
+					$this->selectOne(array('BoundingBox', 'UpperCorner'), $node, true, $this->getOwsNamespacePrefix(), true)
+				);
 			}
-			
-			if (empty($entry['bbox'])) {
-				$crs = $this->selectOne(array('BoundingBox', 'crs'), $node, true, $this->getOwsNamespacePrefix(), true);
-				if ($this->isWgs84($crs)) {
-					$bbox = $this->parseCoords(
-						$this->selectOne(array('BoundingBox', 'LowerCorner'), $node, true, $this->getOwsNamespacePrefix(), true),
-						$this->selectOne(array('BoundingBox', 'UpperCorner'), $node, true, $this->getOwsNamespacePrefix(), true)
-					);
-					if (count($bbox) == 4) {
-						$entry['bbox'] = $bbox;
-					}
-				}
-			}
-
-			$data[] = $entry;
 		}
-		return $data;
+		
+		return $result;
 	}
 		
 	protected function parseCoords($min, $max) {
 		$regex = '~(-?\d*\.?\d+)\s+(-?\d*\.?\d+)~';
 		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {
-			return array(
-				'west' => $minMatch[1], // minx
-				'north' => $maxMatch[1], // maxx
-				'east' => $minMatch[2], // miny
-				'south' => $maxMatch[2] // maxy
-			);
+			$bbox = new GmBoundingBox();
+			$bbox->setWest($minMatch[1])->setSouth($maxMatch[2])->setEast($minMatch[2])->setNorth($maxMatch[1]);
+			return $bbox;
 		}
 		else {
-			return array();
+			return null;
 		}
 	}
 

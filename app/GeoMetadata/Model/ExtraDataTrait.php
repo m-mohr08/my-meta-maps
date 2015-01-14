@@ -17,12 +17,25 @@
 
 namespace GeoMetadata\Model;
 
-interface Layer extends BoundingBoxContainer {
+trait ExtraDataTrait {
 	
-	public function getId();
-	public function setId($id);
+	private $extra = array();
 
-	public function getTitle();
-	public function setTitle($title);
+	public function setData($key, $value) {
+		$this->extra[$key] = $value;
+	}
 	
+	public function getData($key) {
+		if (isset($this->extra[$key])) {
+			return $this->extra[$key];
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public function hasData($key) {
+		return (isset($this->extra[$key]) && $this->extra[$key] !== null);
+	}
+
 }

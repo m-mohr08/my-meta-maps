@@ -51,17 +51,48 @@ return array(
 	'enterData' => 'Enter data',
 	'commNoLay' => 'Don´t allocate comment to a Layer',
 	'title' => 'Title*',
-	'freetext' => 'freetext*',
+	'freetext' => 'Text*',
 	'timerange' => 'Timerange',
-	'rating' => 'rating',
+	'rating' => 'Rating',
 	'addMeta' => 'Additional metadata',
 
 
 	//variables for \app\views\pages\login.blade.php
 
-	'mailname' => 'Mail-adress / Username',
+	'mailname' => 'Email adress / Username',
 	'pw' => 'Password',
-	'stay' => 'stay logged in?',
+	'stay' => 'Stay logged in?',
 
 
+	//variables for \app\views\pages\map.blade.php
+
+	'setFilter' => 'Set filter',
+	'reset' => 'Reset',
+	'metaUse' => 'Include metadata for search',
+	'search' => 'Search keyword',
+	'startEnd' => 'Choose start and endpoint',
+	'buffer' => 'Set a radius in km',
+	'rateHigh' => 'Rating higher than oder equal to ...?',
+	'geodata' => 'Geodatasets',
+	'share' => 'Share',
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Old password', 
+	'newpw' => 'New password',
+	'pwagain' => 'Repeat new password',
+	'save' => 'Save',
+	'loginAgain' => 'You are not logged in. Please log in again to change your password.',
+	
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Username',
+	'mail' => 'Email adress',
+	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Sprache',
+	'loginAgainAcc' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihre Profildaten zu ändern.',
 );

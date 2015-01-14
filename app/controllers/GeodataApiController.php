@@ -272,7 +272,7 @@ class GeodataApiController extends BaseApiController {
 		$search->radius = $data['radius'];
 		if ($search->save()) {
 			return $this->getJsonResponse(array(
-				'permalink' => Config::get('app.url') . '/search/' . $search->id
+				'permalink' => Config::get('app.url') . '/geodata/search/' . $search->id
 			));
 		}
 		else {
@@ -331,7 +331,7 @@ class GeodataApiController extends BaseApiController {
 		// Compute the count and averages
 		$geodata->ratingAvg = array(
 			'all' => round(Comment::where('geodata_id', $id)->avg('rating'), 1),
-			'filtered' => round(($count > 0 ? $ratingSumFiltered / $ratingCountFiltered : 0), 1)
+			'filtered' => round(($ratingCountFiltered > 0 ? $ratingSumFiltered / $ratingCountFiltered : 0), 1)
 		);
 		$geodata->commentCount = array(
 			'all' => Comment::where('geodata_id', $id)->count(),
@@ -370,8 +370,11 @@ class GeodataApiController extends BaseApiController {
 			$rules[$field] = empty($rules[$field]) ? 'required' : 'required|' . $rules[$field];
 		}
 		$validator = Validator::make($input, $rules);
-		$data = $validator->valid(); // TODO: Not all elements might be here, so we have to check that.
+		$data = $validator->valid();
+		// Set default values when not existant
+		$data['q'] = !empty($data['q']) ? $data['q'] : '';
 		$data['bbox'] = !empty($data['bbox']) ? $data['bbox'] : null;
+		$data['radius'] = !empty($data['radius']) ? $data['radius'] : null;
 		$data['minrating'] = !empty($data['minrating']) ? $data['minrating'] : null;
 		$data['start'] = !empty($data['start']) ? new Carbon($data['start']) : null;
 		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;

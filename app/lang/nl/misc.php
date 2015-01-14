@@ -64,5 +64,36 @@ return array(
 	'stay' => 'Aangemeld blijven?',
 
 
+	//variables for \app\views\pages\map.blade.php
 
+	'setFilter' => 'Filter instellen',
+	'reset' => 'Opnieuw instellen',
+	'metaUse' => 'Ook in meta-gegevens zoeken',
+	'search' => 'Trefwoord',
+	'startEnd' => 'Kies een tijdstip begin en een einde',
+	'buffer' => 'Leg een omgeving in km vast',
+	'rateHigh' => 'Evaluatie groter dan of even groot als ...?',
+	'geodata' => 'Geogegevens',
+	'share' => 'Delen',
+
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Het oude wachtwoord', 
+	'newpw' => 'Het nieuwe wachtwoord',
+	'pwagain' => 'Het nieuwe wachtwoord herhalen',
+	'save' => 'Opslaan',
+	'loginAgain' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
+	
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Usernaam',
+	'mail' => 'E-mailadres',
+	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Taal',
+	'loginAgainAcc' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je profiel te wijzigen.',
 );

@@ -15,14 +15,8 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Model;
-
-interface Layer extends BoundingBoxContainer {
+class GmGeodataBoundingBox extends GeoMetadata\Model\Generic\GmBoundingBox {
 	
-	public function getId();
-	public function setId($id);
-
-	public function getTitle();
-	public function setTitle($title);
+	// Nothing important to change here. It's just to have a complete version of the Model.
 	
 }

@@ -24,9 +24,6 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	protected $source;
 	protected $west;
 	
-	public function __construct() {
-	}
-	
 	public static function create() {
 		return new static();
 	}
@@ -74,11 +71,59 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 	
 	public function toWkt() {
-		return "POLYGON(({$this->west} {$this->north},{$this->west} {$this->south},{$this->east} {$this->south},{$this->east} {$this->north},{$this->west} {$this->north}))";
+		// TODO: Replace this with geoPHP
+		if ($this->defined()) {
+			return "POLYGON(({$this->west} {$this->north},{$this->west} {$this->south},{$this->east} {$this->south},{$this->east} {$this->north},{$this->west} {$this->north}))";
+		}
+		else {
+			return null;
+		}
+	}
+
+	public function fromWkt($wkt) {
+		if (empty($wkt)) {
+			return null;
+		}
+		try {
+			$geometry = geoPHP::load($wkt, "wkt");
+			if ($geometry != null) {
+				$bbox = $geometry->getBBox();
+				$this->setWest($bbox['minx'])->setSouth($bbox['miny'])->setEast($bbox['maxx'])->setNorth($bbox['maxy']);
+				return true;
+			}
+		}
+		catch (Exception $e) {
+			Log::info($e);
+		}
+		return false;
 	}
 	
 	public function __toString() {
 		return $this->toWkt();
+	}
+	
+	public function defined() {
+		return (is_numeric($this->west) && is_numeric($this->south) && is_numeric($this->east) && is_numeric($this->north));
+	}
+
+	public function union(\GeoMetadata\Model\BoundingBox $other) {
+		if ($other === null || !$other->defined()) {
+			// The other bbox is not valid/fully set. We can skip this.
+			return;
+		}
+		// Grow the bbox
+		if (!is_numeric($this->west) || $other->getWest() < $this->west) { // Search minimum
+			$this->west = $other->getWest();
+		}
+		if (!is_numeric($this->north) || $other->getNorth() > $this->north) { // Search maximum
+			$this->north = $other->getNorth();
+		}
+		if (!is_numeric($this->east) || $other->getEast() > $this->east) { // Search maximum
+			$this->east = $other->getEast();
+		}
+		if (!is_numeric($this->south) || $other->getSouth() < $this->south) { // Search minimum
+			$this->south = $other->getSouth();
+		}
 	}
 
 }
