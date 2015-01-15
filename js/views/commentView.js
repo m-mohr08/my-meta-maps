@@ -66,7 +66,7 @@ CommentAddViewStep2 = ContentView.extend({
 
 	initialize: function () {
 		if (typeof this.options.metadata.url === undefined) {
-			MessageBox.addError(@lang('misc.failedLoadMeta'));
+			MessageBox.addError('Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuchen Sie erneut.');
 		}
 		else {
 			this.render();

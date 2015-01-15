@@ -91,7 +91,7 @@ function commentAddSecondStepController(model, details) {
 			Debug.log("Adding comment was successful: " + JSON.stringify(response.responseJSON));
 			FormErrorMessages.remove('#form-comment-secondStep');
 			router.navigate('', {trigger: true}); // Redirect to frontpage
-			MessageBox.addSuccess(@lang('misc.succededAddComm'));
+			MessageBox.addSuccess('Ihr Kommentar wurde erfolgreich hinzugefügt.');
 		},
 	
 		error: function (model, response) {
@@ -126,7 +126,7 @@ function commentsToGeodataController(gid, cid) {
         error: function() {
         	Debug.log('Showing comments to geodata failed');
 			Progress.stop(progressClass);
-			MessageBox.addError(@lang('misc.failedLoadGeodata'));
+			MessageBox.addError('Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.');
 		},
    });
 };

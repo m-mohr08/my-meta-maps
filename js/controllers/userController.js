@@ -13,7 +13,7 @@ function userRegisterController(model, inputRegister) {
 			Debug.log('Registration succeded');
 			FormErrorMessages.remove('#form-register');
         	$('#ModalRegister').modal('hide');
-			MessageBox.addSuccess(@lang('misc.succededRegister'));
+			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun anmelden.');
 		},
 	
 		error: function (data, response) {
@@ -34,13 +34,13 @@ function userLogoutController() {
 		
 		success: function(){
 			Debug.log('Logout succeded');
-			MessageBox.addSuccess(@lang('misc.succededLogin'));
+			MessageBox.addSuccess('Sie haben sich erfolgreich abgemeldet.');
 			AuthUser.setUser();
 		},
 		
 		error: function(){
 			Debug.log('Logout failed');
-			MessageBox.addError(@lang('misc.failedLogout'));
+			MessageBox.addError('Die Abmeldung ist fehlgeschlagen.');
 		}
 	});
 }
@@ -60,7 +60,7 @@ function userLoginController(model, inputLogin) {
 			Debug.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
         	$('#ModalLogin').modal('hide');
-			MessageBox.addSuccess(@lang('misc.succededLogin'));
+			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet');
 			AuthUser.setUser(response.user.name);
 			if (config.locale !== response.user.language) {
 				registeredUserChangedLanguage();
@@ -70,7 +70,7 @@ function userLoginController(model, inputLogin) {
 		error: function () {
 			Debug.log('Login failed');
 			Progress.stop('.modal-progress');
-			var msg = '@lang('misc.failedLogin');
+			var msg = 'Die Anmeldedaten sind nicht korrekt';
 			var errorMessages = {
 				identifier: msg,
 				password: msg
@@ -95,7 +95,7 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 			Debug.log('Change general user data succeded');
 			FormErrorMessages.remove('#form-changeGeneral');
 			$('#ModalUserAccountGeneral').modal('hide');
-			MessageBox.addSuccess(@lang('misc.succededChangeGeneral'));
+			MessageBox.addSuccess('Ihre Profiländerungen wurden erfolgreich übernommen.');
 			// Änderung des Benutzernamens weiterleiten
 			AuthUser.setUser(model.get('name'));
 			// Bei Änderung der Sprache die Seite neuladen
@@ -127,7 +127,7 @@ function userChangePasswordController(model, inputChangePassword) {
 			Debug.log('Change password succeded');
 			FormErrorMessages.remove('#form-changePassword');
 			$('#ModalUserAccountPassword').modal('hide');
-			MessageBox.addSuccess(@lang('misc.succededChangePW'));
+			MessageBox.addSuccess('Ihr neues Passwort wurde erfolgreich übernommen.');
 		},
 	
 		error: function (data, response) {
