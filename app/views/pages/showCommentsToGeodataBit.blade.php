@@ -5,7 +5,7 @@
 	<div class="row clearfix text-right metadata-comment">
 		<% if (_.isEmpty(comment.user)) { %>
 			<span class="badge alert-default pull-left">
-				<span class="glyphicon glyphicon-user"></span>&nbsp;<span>Anonym</span>
+				<span class="glyphicon glyphicon-user"></span>&nbsp;<span>@lang('misc.anonym')</span>
 			</span>
 		<% } else { %>
 			<span class="badge alert-info pull-left">

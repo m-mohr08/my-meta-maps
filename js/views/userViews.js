@@ -1,3 +1,7 @@
+/**
+ * View for register an user 
+ * Extend ModalView
+ */
 RegisterView = ModalView.extend({
 
 	getPageTemplate: function() {
@@ -23,6 +27,10 @@ RegisterView = ModalView.extend({
 	}
 });
 
+/**
+ * View for login as an user 
+ * Extend ModalView
+ */
 LoginView = ModalView.extend({
 
 	getPageTemplate: function() {
@@ -49,6 +57,10 @@ LoginView = ModalView.extend({
 	}
 });
 
+/**
+ * View for change general user data as an registered user
+ * Extend ModalView
+ */
 ProfileView = ModalView.extend({
 	
 	getPageTemplate: function() {
@@ -74,6 +86,10 @@ ProfileView = ModalView.extend({
 
 });
 
+/**
+ * View for change the password as an registered user
+ * Extend ModalView
+ */
 PasswordView = ModalView.extend({
 	
 	getPageTemplate: function() {

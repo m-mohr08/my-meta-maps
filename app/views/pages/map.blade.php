@@ -22,7 +22,7 @@
 					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">@lang('misc.metaUse')</label></div>
 					<label class="label-filter">@lang('misc.search')</label>
 					<div class="input-group">
-						<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)" onchange="executeSearch()">
+						<input type="text" class="form-control" id="SearchTerms" placeholder="@lang('misc.searchTerm')" onchange="executeSearch()">
 						<span class="input-group-addon" onclick="executeSearch()"><span class="glyphicon glyphicon-search"></span></span>
 					</div>
 				</div>
@@ -33,11 +33,11 @@
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-start" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterStartTime" placeholder=" @lang('misc.startingDate') ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-start" onchange="executeSearch()">
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterEndTime" placeholder=" @lang('misc.endingDate') ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
 					</div>
 				</div>
 
