@@ -8,7 +8,9 @@ var Router = Backbone.Router.extend({
 		'profile': 'profile',
 		'password': 'password',
 		'comments/add': 'addComment',
-		'geodata/:id': 'geodata'
+		'geodata/:id': 'geodata',
+		'geodata/:gid/comment/:cid': 'comment',
+		'search/:hash': 'search'
 		
 	},
 
@@ -51,9 +53,19 @@ var Router = Backbone.Router.extend({
 	},
 
 	geodata: function (id) {
-		this.navigate('geodata/' + id); // Set correct url if not already set.
+		this.navigate('/geodata/' + id); // Set correct url if not already set.
 		commentsToGeodataController(id);
-	}
+	},
+
+	comment: function (gid, cid) {
+		this.navigate('/geodata/' + gid + '/comment/' + cid); // Set correct url if not already set.
+		commentsToGeodataController(gid, cid);
+	},
+
+	search: function (hash) {
+		this.navigate('/search/' + hash); // Set correct url if not already set.
+		ContentView.register(new MapView({searchHash: hash}));
+	},
 
 });
 

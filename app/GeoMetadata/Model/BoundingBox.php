@@ -33,5 +33,10 @@ interface BoundingBox {
 
 	public function getArray();
 	public function toWkt();
+	public function fromWkt($wkt);
+
+	public function defined();
+
+	public function union(BoundingBox $other);
 
 }

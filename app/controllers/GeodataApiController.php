@@ -40,6 +40,7 @@ class GeodataApiController extends BaseApiController {
 	protected function buildGeodataEntry(Geodata $geodata, $layers = null) {
 		$data =  array(
 			'id' => $geodata->id,
+			'permalink' => $geodata->createPermalink(),
 			'url' => $geodata->url,
 			'metadata' => array(
 				'datatype' => $geodata->datatype,
@@ -54,6 +55,12 @@ class GeodataApiController extends BaseApiController {
 				'license' => $geodata->license
 			)
 		);
+		if (isset($geodata->ratingAvg)) {
+			$data['ratingAvg'] = $geodata->ratingAvg;
+		}
+		if (isset($geodata->commentCount)) {
+			$data['commentCount'] = $geodata->commentCount;
+		}
 		if (isset($geodata->comments)) {
 			if (is_array($geodata->comments)) { // Add comment entries
 				$data['comments'] = $this->buildCommentList($geodata->comments);
@@ -90,6 +97,7 @@ class GeodataApiController extends BaseApiController {
 		foreach($comments as $comment) {
 			$entry = array(
 				'id' => $comment->id,
+				'permalink' => $comment->createPermalink(),
 				'text' => $comment->text,
 				'rating' => $comment->rating,
 				'geometry' => $comment->geom,
@@ -97,7 +105,7 @@ class GeodataApiController extends BaseApiController {
 				'user' => null
 			);
 			if ($comment->user_id > 0) {
-				$comment['user'] = array(
+				$entry['user'] = array(
 					'id' => $comment->user_id,
 					'name' => $comment->user_name
 				);
@@ -250,6 +258,9 @@ class GeodataApiController extends BaseApiController {
 	
 	public function postSearchSave() {
 		$data = $this->getFilterInput(array('bbox'));
+		if (empty($data['bbox'])) {
+			return $this->getConflictResponse();
+		}
 		$search = new SavedSearch();
 		$search->id = SavedSearch::generateId();
 		$search->keywords = $data['q'];
@@ -261,7 +272,7 @@ class GeodataApiController extends BaseApiController {
 		$search->radius = $data['radius'];
 		if ($search->save()) {
 			return $this->getJsonResponse(array(
-				'permalink' => Config::get('app.url') . '/search/' . $search->id
+				'permalink' => Config::get('app.url') . '/geodata/search/' . $search->id
 			));
 		}
 		else {
@@ -302,7 +313,13 @@ class GeodataApiController extends BaseApiController {
 		// Get all suitable comments for the filter and group them by layer (no layer = 0)
 		$comments = Comment::filter($filter, $id)->get();
 		$groupedComments = array(0 => array()); // Make sure the geodata entry is always a valid array
+		$ratingSumFiltered = 0;
+		$ratingCountFiltered = 0;
 		foreach($comments as $comment) {
+			if ($comment->rating > 0) {
+				$ratingSumFiltered += $comment->rating;
+				$ratingCountFiltered++;
+			}
 			if (empty($comment->layer_id)) {
 				$groupedComments[0][] = $comment;
 			}
@@ -310,8 +327,18 @@ class GeodataApiController extends BaseApiController {
 				$groupedComments[$comment->layer_id][] = $comment;
 			}
 		}
+		$count = count($comments);
+		// Compute the count and averages
+		$geodata->ratingAvg = array(
+			'all' => round(Comment::where('geodata_id', $id)->avg('rating'), 1),
+			'filtered' => round(($ratingCountFiltered > 0 ? $ratingSumFiltered / $ratingCountFiltered : 0), 1)
+		);
+		$geodata->commentCount = array(
+			'all' => Comment::where('geodata_id', $id)->count(),
+			'filtered' => $count
+		);
 		// Get all layers
-		$layers = $geodata->layers->all();
+		$layers = $geodata->layers()->orderBy('title')->orderBy('id')->get();
 		// Append the comment data to the layers and the geodata
 		$geodata->comments = $groupedComments[0];
 		foreach($layers as $layer) {
@@ -328,7 +355,7 @@ class GeodataApiController extends BaseApiController {
 	}
 	
 	protected function getFilterInput(array $required = array()) {
-		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata');
+		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata', 'comment');
 		$rules = array(
 			'q' => '',
 			'bbox' => 'geometry:wkt,Polygon',
@@ -336,17 +363,23 @@ class GeodataApiController extends BaseApiController {
 			'start' => 'date8601',
 			'end' => 'date8601',
 			'minrating' => 'integer|between:1,5',
-			'metadata' => 'boolean'
+			'metadata' => 'boolean',
+			'comment' => 'integer',
 		);
 		foreach ($required as $field) {
 			$rules[$field] = empty($rules[$field]) ? 'required' : 'required|' . $rules[$field];
 		}
 		$validator = Validator::make($input, $rules);
-		$data = $validator->valid(); // TODO: Not all elements might be here, so we have to check that.
+		$data = $validator->valid();
+		// Set default values when not existant
+		$data['q'] = !empty($data['q']) ? $data['q'] : '';
+		$data['bbox'] = !empty($data['bbox']) ? $data['bbox'] : null;
+		$data['radius'] = !empty($data['radius']) ? $data['radius'] : null;
 		$data['minrating'] = !empty($data['minrating']) ? $data['minrating'] : null;
 		$data['start'] = !empty($data['start']) ? new Carbon($data['start']) : null;
 		$data['end'] = !empty($data['end']) ? new Carbon($data['end']) : null;
 		$data['metadata'] = ($data['metadata'] !== null) ? $data['metadata'] : false;
+		$data['comment'] = !empty($data['comment']) ? $data['comment'] : 0;
 		return $data;
 	}
 	

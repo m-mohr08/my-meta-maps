@@ -18,17 +18,16 @@
 namespace GeoMetadata\Model\Generic;
 
 class GmLayer implements \GeoMetadata\Model\Layer {
+
+	use \GeoMetadata\Model\BoundingBoxTrait, \GeoMetadata\Model\ExtraDataTrait;
 	
 	protected $id;
 	protected $title;
-	protected $boundingBox;
-	protected $extra;
 	
 	public function __construct($id = null, $title = null, GmBoundingBox $boundingBox = null) {
 		$this->id = $id;
 		$this->title = $title;
-		$this->boundingBox = $boundingBox;
-		$this->extra = array();
+		$this->setBoundingBox($boundingBox);
 	}
 	
 	public function getId() {
@@ -47,30 +46,8 @@ class GmLayer implements \GeoMetadata\Model\Layer {
 		$this->title = $title;
 	}
 
-	public function getBoundingBox() {
-		return $this->boundingBox;
+	protected function createBoundingBoxObject() {
+		return new GmBoundingBox();
 	}
-	
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
-		$this->boundingBox = $bbox;
-	}
-	
-	public function createBoundingBox($west, $south, $east, $north) {
-		$this->boundingBox = GmBoundingBox::create()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		return $this->boundingBox;
-	}
-	
-	public function setData($key, $value) {
-		$this->extra[$key] = $value;
-	}
-	
-	public function getData($key) {
-		if (isset($this->extra[$key])) {
-			return $this->extra[$key];
-		}
-		else {
-			return null;
-		}
-	}
-	
+
 }

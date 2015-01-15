@@ -48,6 +48,15 @@ class Geodata extends Eloquent {
 	public function layers() {
 		return $this->hasMany('Layer', 'geodata_id');
 	}
+	
+	public function createPermalink() {
+		if ($this->id) {
+			return Config::get('app.url') . '/geodata/' . $this->id;
+		}
+		else {
+			return null;
+		}
+	}
 
 	public function scopeFilter($query, array $filter) {
 		// Table Names
@@ -103,7 +112,11 @@ class Geodata extends Eloquent {
 	
 	public static function convertPostGis($value) {
 		if (!empty($value)) {
-			$geom = geoPHP::load($value, 'wkt'); // Detect whether it's already in WKT
+			try {
+				$geom = geoPHP::load($value, 'wkt'); // Detect whether it's already in WKT
+			} catch(Exception $e) {
+				$geom = null;
+			}
 			if (empty($geom)) {
 				// Due to a bad designed ORM we need to do some extra querys...
 				$result = DB::selectOne("SELECT ST_AsText('{$value}') AS bbox");

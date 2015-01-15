@@ -21,8 +21,12 @@ class OgcWebMapService extends OgcWebServices {
 	
 	private $cache = array();
 
-	public function getSupportedNamespaceUri() {
+	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/wms';
+	}
+	
+	protected function registerNamespaces() {
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMS
 	}
 
 	public function verify($source) {
@@ -40,36 +44,37 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseAbstract() {
-		return $this->selectOne(array('Service', 'Abstract'));
+		return $this->selectOne(array('wms:Service', 'wms:Abstract'));
 	}
 
 	protected function parseAuthor() {
-		return $this->selectHierarchyAsOne(array('Service', 'ContactInformation'));
+		return $this->selectNestedText(array('wms:Service', 'wms:ContactInformation'), $this->getNamespace('wms'));
 	}
 	
 	private function isWmsVersion($version) {
 		if (!isset($this->cache['version'][$version])) {
-			$wmsNode = $this->xpath(array("WMS_Capabilities[@version='{$version}']"));
+			$wmsNode = $this->xpath(array("wms:WMS_Capabilities[@version='{$version}']"));
 			$this->cache['version'][$version] = !empty($wmsNode);
 		}
 		return $this->cache['version'][$version];
 	}
 	
 	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
-		$parent = $this->selectOne(array('Capability', 'Layer'), null, false);
+		$parent = $this->selectOne(array('wms:Capability', 'wms:Layer'), null, false);
 		$this->parseBoundingBoxFromNode($parent, $model);
 	}
 	
-	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxTrait $model) {
+	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxContainer $model) {
 		$bboxes = array_merge(
-			$this->selectMany(array('LatLonBoundingBox'), $parent, false),
-			$this->selectMany(array("BoundingBox[@CRS='EPSG:4326' or @CRS='CRS:84']"), $parent, false)
+			$this->selectMany(array('wms:LatLonBoundingBox'), $parent, false), // only before v1.3.0
+			$this->selectMany(array("wms:BoundingBox[@CRS='EPSG:4326' or @CRS='CRS:84']"), $parent, false)
 		);
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-				if ($this->isWmsVersion('1.3.0')) {
-					// In WMS version 1.3.0 with WGS84 the lon/lat values order is changed.
+				if ($this->isWmsVersion('1.3.0') && isset($bbox['CRS']) && strtoupper($bbox['CRS']) == 'EPSG:4326') {
+					// In WMS version 1.3.0 with EPSG:4326 (NOT CRS:84) the lon/lat values order is changed.
 					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
+					// and http://viswaug.wordpress.com/2009/03/15/reversed-co-ordinate-axis-order-for-epsg4326-vs-crs84-when-requesting-wms-130-images/
 					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx']);
 				}
 				else {
@@ -80,10 +85,10 @@ class OgcWebMapService extends OgcWebServices {
 			}
 		}
 
-		$crs = $this->selectMany(array('CRS'), $parent);
-		if ($this->isWgs84($crs) && is_object($parent->EX_GeographicBoundingBox)) {
-			$bbox = $parent->EX_GeographicBoundingBox->children($this->getUsedNamespaceUri());
-			if (is_object($bbox) && $bbox->count() >= 4) {
+		$crs = $this->selectMany(array('wms:CRS'), $parent);
+		if ($this->isWgs84($crs) && !empty($parent->EX_GeographicBoundingBox)) {
+			$bbox = $parent->EX_GeographicBoundingBox->children();
+			if ($bbox->count() >= 4) {
 				$model->createBoundingBox($this->n2s($bbox->westBoundLongitude), $this->n2s($bbox->southBoundLatitude), $this->n2s($bbox->eastBoundLongitude), $this->n2s($bbox->northBoundLatitude));
 				return true;
 			}
@@ -104,7 +109,7 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseKeywords() {
-		return $this->selectMany(array('Service', 'KeywordList', 'Keyword'));
+		return $this->selectMany(array('wms:Service', 'wms:KeywordList', 'wms:Keyword'));
 	}
 
 	protected function parseLanguage() {
@@ -112,11 +117,11 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
-		$nodes = $this->selectMany(array('Capability', 'Layer', 'Layer'), null, false);
+		$nodes = $this->selectMany(array('wms:Capability', 'wms:Layer', 'wms:Layer'), null, false);
 		foreach ($nodes as $node) {
-			$name = (string) $node->Name;
+			$name = $this->n2s($node->Name);
 			if (!empty($name)) {
-				$title = (string) $node->Title;
+				$title = $this->n2s($node->Title);
 				$layer = $model->createLayer($name, $title);
 				if (!$this->parseBoundingBoxFromNode($node, $layer)) {
 					// Inheritance of bbox from global WMS bbox if not an own bbox is provided by the layer
@@ -127,7 +132,7 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseLicense() {
-		$license = $this->selectOne(array('Service', 'AccessConstraints'));
+		$license = $this->selectOne(array('wms:Service', 'wms:AccessConstraints'));
 		if (!empty($license) && strtolower($license) != 'none') {
 			return $license;
 		}
@@ -137,7 +142,7 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseTitle() {
-		return $this->selectOne(array('Service', 'Title'));
+		return $this->selectOne(array('wms:Service', 'wms:Title'));
 	}
 
 }

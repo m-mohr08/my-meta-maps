@@ -4,7 +4,7 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-				<h4 class="modal-title" id="meinModalLabel"><%= _.escape(data.metadata.title) %></h4>
+				<h4 class="modal-title" id="meinModalLabel"><%- data.metadata.title %></h4>
 			</div>
 
 			<div class="modal-body row"><!-- Model Body Start -->
@@ -17,7 +17,7 @@
 							</h4>
 						</div>
 
-						<div id="showCommentsToGeodata" class="panel-body comments collapse in" role="tabpanel" aria-labelledby="commentHeader">
+						<div id="showCommentsToGeodata" class="panel-body collapse in" role="tabpanel" aria-labelledby="commentHeader">
 
 							<div class="panel panel-default">
 								<div class="panel-heading" role="tab" id="General_Header">
@@ -30,39 +30,7 @@
 								</div>
 								<div class="panel-body list-group collapse in" id="General_Body" role="tabpanel" aria-labelledby="General_Header">
 									<% _.each(data.comments, function(comment) { %>
-									<div class="list-group-item">
-										<div class="row clearfix">
-											<dd><pre><%= _.escape(comment.text) %></pre></dd>
-										</div>
-										<div class="row clearfix" align="right">
-											<% if (comment.user === null) { %>
-												<span>
-													<% if (comment.rating !== null) { %>
-														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
-													<% } %>
-													<% if (comment.rating === null) { %>
-														<img src="/img/stars/0.png">
-													<% } %>
-												</span>&nbsp;
-												<span class="badge alert-default">
-													<span class="glyphicon glyphicon-user"></span>&nbsp;<span>Anonym</span>
-												</span>
-											<% } %>
-											<% if (comment.user !== null) { %>
-												<span>
-													<% if (comment.rating !== null) { %>
-														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
-													<% } %>
-													<% if (comment.rating === null) { %>
-														<img src="/img/stars/0.png">
-													<% } %>
-												</span>&nbsp;
-												<span class="badge alert-info">
-													<span class="glyphicon glyphicon-user"></span>&nbsp;<span> <%= _.escape(comment.user.name) %> </span>
-												</span>
-											<% } %>
-										</div>
-									</div>
+									@include('pages.showCommentsToGeodataBit')
 									<% }); if (_.isEmpty(data.comments)) { %>
 									<span class="list-group-item">Es liegen leider keine allgemeinen Kommentare vor.</span>
 									<% } %>
@@ -74,46 +42,14 @@
 								<div class="panel-heading" role="tab" id="Layer<%= key %>Header">
 									<h4 class="panel-title">
 										<a data-toggle="collapse" href="#Layer<%= key %>Body" aria-expanded="true" aria-controls="Layer<%= key %>Body">
-											Layer: <%= _.escape(layer.name) %> - <%= _.escape(layer.id) %>
+											Layer: <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
 										</a>
 										<span class="badge pull-right"><%= layer.comments.length %></span>
 									</h4>
 								</div>
-								<div class="panel-body list-group collapse" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
+								<div class="panel-body list-group collapse<%= (data.comment > 0 && layer.comments.length > 0) ? ' in' : '' %>" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
 									<% _.each(layer.comments, function(comment) { %>
-									<div class="list-group-item">
-										<div class="row clearfix">
-											<dd><pre><%= _.escape(comment.text) %></pre></dd>
-										</div>
-										<div class="row clearfix" align="right">
-											<% if (comment.user === null) { %>
-												<span>
-													<% if (comment.rating !== null) { %>
-														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
-													<% } %>
-													<% if (comment.rating === null) { %>
-														<img src="/img/stars/0.png">
-													<% } %>
-												</span>&nbsp;
-												<span class="badge alert-default">
-													<span class="glyphicon glyphicon-user"></span>&nbsp;<span>Anonym</span>
-												</span>
-											<% } %>
-											<% if (comment.user !== null) { %>
-												<span>
-													<% if (comment.rating !== null) { %>
-														<img src="/img/stars/<%= _.escape(comment.rating) %>.png">
-													<% } %>
-													<% if (comment.rating === null) { %>
-														<img src="/img/stars/0.png">
-													<% } %>
-												</span>&nbsp;
-												<span class="badge alert-info">
-													<span class="glyphicon glyphicon-user"></span>&nbsp;<span> <%= _.escape(comment.user.name) %> </span>
-												</span>
-											<% } %>
-										</div>
-									</div>
+									@include('pages.showCommentsToGeodataBit')
 									<% }); if (_.isEmpty(layer.comments)) { %>
 									<span class="list-group-item">Zu diesem Layer liegen noch keine Kommentare vor.</span>
 									<% } %>
@@ -135,15 +71,15 @@
 						</div>
 						<dl class="panel-body dl-horizontal metadata-list collapse in" id="showDataToGeodata" role="tabpanel" aria-labelledby="dataHeader">
 							<dt>Adresse</dt>
-							<dd><a href="<%= _.escape(data.url) %>" target="_blank"><%= _.escape(data.url) %></a></dd>
+							<dd><a href="<%- data.url %>" target="_blank"><%- data.url %></a></dd>
 							<dt>Datenformat</dt>
-							<dd><%= _.escape(config.datatypes[data.metadata.datatype]) %></dd>
+							<dd><%- config.datatypes[data.metadata.datatype] %></dd>
 							<dt>Σ Kommentare</dt>
-							<dd><%= _.escape(data.commentCount) %></dd>
+							<dd><%- data.commentCount.filtered %> (<%- data.commentCount.all %> gesamt)</dd>
 							<dt>Ø Bewertung</dt>
-							<dd><%= _.escape(data.ratingAvg) %></dd>
+							<dd><%- data.ratingAvg.filtered %> (<%- data.ratingAvg.all %> gesamt)</dd>
 							<dt>Permalink</dt>
-							<dd><a href="{{ Config::get('app.url') }}/geodata/<%= _.escape(data.id) %>" target="_blank">{{ Config::get('app.url') }}/geodata/<%= _.escape(data.id) %></a></dd>
+							<dd><a href="<%- data.permalink %>" target="_blank"><%- data.permalink %></a></dd>
 						</dl>
 					</div>
 					
@@ -167,32 +103,32 @@
 						<dl class="panel-body dl-horizontal metadata-list collapse in" id="showMetadataToGeodata" role="tabpanel" aria-labelledby="metadataHeader">
 							<%  if (!_.isEmpty(data.metadata.abstract)) { %>
 							<dt>Beschreibung</dt>
-							<dd><pre><%= _.escape(data.metadata.abstract) %></pre></dd>
+							<dd><pre><%- data.metadata.abstract %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.keywords)) { %>
 							<dt>Tags</dt>
 							<dd>
 								<% _.each(data.metadata.keywords, function(word) { %>
-								<span class="label label-default"><%= _.escape(word) %></span>
+								<span class="label label-default"><%- word %></span>
 								<% }); %>
 							</dd>
 							<% } if (!_.isEmpty(data.metadata.language)) { %>
 							<dt>Sprache</dt>
-							<dd><%= _.escape(data.metadata.language) %></dd>
+							<dd><%- data.metadata.language %></dd>
 							<% } if (!_.isEmpty(data.metadata.beginTime) || !_.isEmpty(data.metadata.endTime)) { %>
 							<dt>Zeitraum</dt>
 							<dd>
-								Anfangsdatum: <%= data.metadata.beginTime ? _.escape(data.metadata.beginTime) : 'Unbekannt' %><br />
-								Enddatum: <%= data.metadata.endTime ? _.escape(data.metadata.endTime) : 'Unbekannt' %>
+								Anfangsdatum: <%- data.metadata.beginTime ? data.metadata.beginTime : 'Unbekannt' %><br />
+								Enddatum: <%- data.metadata.endTime ? data.metadata.endTime : 'Unbekannt' %>
 							</dd>
 							<% } if (!_.isEmpty(data.metadata.author)) { %>
 							<dt>Autor</dt>
-							<dd><pre><%= _.escape(data.metadata.author) %></pre></dd>
+							<dd><pre><%- data.metadata.author %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.copyright)) { %>
 							<dt>Copyright</dt>
-							<dd><pre><%= _.escape(data.metadata.copyright) %></pre></dd>
+							<dd><pre><%- data.metadata.copyright %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.license)) { %>
 							<dt>Lizenz</dt>
-							<dd><pre><%= _.escape(data.metadata.license) %></pre></dd>
+							<dd><pre><%- data.metadata.license %></pre></dd>
 							<% } %>
 						</dl>
 					</div>

@@ -27,8 +27,12 @@ class OgcWebServicesContext extends OgcWebServices {
 		return 'owc';
 	}
 
-	public function getSupportedNamespaceUri() {
+	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/owc/1.0';
+	}
+
+	protected function registerNamespaces() {
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWC
 	}
 
 	protected function parseAbstract() {

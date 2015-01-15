@@ -19,7 +19,7 @@ namespace GeoMetadata\Service;
 
 class OgcSensorObservationService extends OgcWebServicesCommon {
 
-	public function getSupportedNamespaceUri() {
+	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/sos/1.0';
 	}
 
@@ -32,88 +32,84 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBeginTime() {
-		$beginTime = null;
-		foreach($this->getContents() as $content) {
-			if ($content['beginTime'] !== null && ($beginTime === null || $content['beginTime'] > $beginTime)) {
-				$beginTime = $content['beginTime'];
-			}
-		}
-		return $beginTime;
+		return $this->parseTime('beginTime');
 	}
 
 	protected function parseEndTime() {
-		$endTime = null;
-		foreach($this->getContents() as $content) {
-			if ($content['endTime'] !== null && ($endTime === null || $content['endTime'] > $endTime)) {
-				$endTime = $content['endTime'];
-			}
-		}
-		return $endTime;
+		return $this->parseTime('endTime');
 	}
 	
-	protected function parseContents() {
+	private function parseTime($key) {
+		$result = null;
+		foreach($this->getContents() as $content) {
+			$time = $content->getData($key);
+			if ($time !== null && ($result === null || $time > $result)) {
+				$result = $time;
+			}
+		}
+		return $result;
+	}
+	
+	protected function findLayerNodes() {
+		return $this->selectMany(array('sos:Contents', 'sos:ObservationOfferingList', 'sos:ObservationOffering'), null, false);
+	}
+	
+	protected function registerNamespaces() {
+		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // SOS
+		$this->registerNamespace('gml', 'http://www.opengis.net/gml'); // GML
+	}
+	
+	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
+		$gmlAttributes = $this->selectAttributes($node, $this->getNamespace('gml'));
+		return empty($gmlAttributes['id']) ? null : $gmlAttributes['id'];
+	}
+	
+	protected function parseTitleFromContents(\SimpleXMLElement $node) {
+		$gmlNode = $node->children($this->getNamespace('gml'));
+		if (!empty($gmlNode->description)) {
+			return $this->n2s($gmlNode->description);
+		}
+		else if (!empty($gmlNode->name)) {
+			return $this->n2s($gmlNode->name);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
+		$sosNode = $node->children($this->getNamespace('sos'));
 		$data = array();
-
-		// Some server use a prefix without specifying it, so we take 'sos' as default.
-		$nsPrefix = $this->getUsedNamespacePrefix($this->getUsedNamespaceUri(), 'sos');
-		$gmlNsPrefix = $this->getUsedNamespacePrefix('http://www.opengis.net/gml', 'gml');
-		$nodes = $this->selectMany(array('Contents', 'ObservationOfferingList', 'ObservationOffering'), null, false, $nsPrefix, true);
-		foreach($nodes as $node) {
-			$gmlAttributes = $this->getAttrsAsArray($node, $gmlNsPrefix, true);
-			$gmlNode = $node->children($gmlNsPrefix, true);
-			$sosNode = $node->children($nsPrefix, true);
-			
-			// Title
-			$title = null;
-			if (!empty($gmlNode->description)) {
-				$title = $this->n2s($gmlNode->description);
-			}
-			else if (!empty($gmlNode->name)) {
-				$title = $this->n2s($gmlNode->name);
-			}
-			
-			// Entry stub
-			$entry = array(
-				'id' => empty($gmlAttributes['id']) ? null : $gmlAttributes['id'],
-				'title' => $title,
-				'bbox' => array(),
-				'beginTime' => null,
-				'endTime' => null
-			);
-
-			// Bounding Box
-			if (!empty($gmlNode->boundedBy)) {
-				$bbNode = $gmlNode->boundedBy->children($gmlNsPrefix, true);
-				if (!empty($bbNode->Envelope)) {
-					$envelopeAttrs = $this->getAttrsAsArray($bbNode->Envelope); // Seems we don't need a ns prefix here
-					if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
-						$envNode = $bbNode->Envelope->children($gmlNsPrefix, true);
-						if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
-							$bbox = $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
-							if (count($bbox) == 4) {
-								$entry['bbox'] = $bbox;
-							}
-						}
-					}
+		// Time
+		if (!empty($sosNode->time) && $sosNode->count() > 0) {
+			foreach (array('begin', 'end') as $when) {
+				$gmlNode = $sosNode->time->children($this->getNamespace('gml'));
+				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode); // TODO: Das zweite gml: wird nicht vom Querybuilder berücksichtigt
+				if (isIso8601Date($position)) {
+					$data[$when . 'Time'] = new \Carbon\Carbon($position);
 				}
 			}
-			
-			// Time
-			if (!empty($sosNode->time)) {
-				// GML is a nuightmare. Let's do some regexp instead to parse some common formats.
-				$xml = $sosNode->time->asXml();
-				$regexNs = preg_quote($gmlNsPrefix, '~');
-				foreach(array('begin', 'end') as $when) {
-					$regexp = "<(({$regexNs}:)?TimePeriod)>\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g3>)\s*)*<(\g2{$when}(?:Position)?)>\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g5>)\s*|\s*<[^/>]+>\s*)*([^<>\s]+(?:[T\s][^<>\s]+)?)\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g7>)\s*|\s*</[^>]+>\s*)*</\g4>\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g8>)\s*)*</\g1>";
-					if (preg_match("~{$regexp}~is", $xml, $matches) && isIso8601Date($matches[6])) {
-						$entry[$when . 'Time'] = new \Carbon\Carbon($matches[6]);
-					}
-				}
-			}
-
-			$data[] = $entry;
 		}
 		return $data;
+	}
+	
+	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
+		$gmlNs = $this->getNamespace('gml');
+		$gmlNode = $node->children($gmlNs);
+		if (!empty($gmlNode->boundedBy)) {
+			$bbNode = $gmlNode->boundedBy->children($gmlNs);
+			if (!empty($bbNode->Envelope)) {
+				$envelopeAttrs = $this->selectAttributes($bbNode->Envelope); // Seems we don't need a ns prefix here
+				if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
+					$envNode = $bbNode->Envelope->children($gmlNs);
+					if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
+						return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 }

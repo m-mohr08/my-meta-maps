@@ -7,16 +7,20 @@
 	<form class="panel panel-default">
 		<div class="panel-heading" role="tab" id="filterHeader">
 			<h4 class="panel-title clearfix">
-				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">Filter einstellen</a>
-				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">Zurücksetzen</button>
+				<a data-toggle="collapse" href="#filterArea" aria-expanded="true" aria-controls="filterArea">@lang('misc.setFilter')</a>
+				<span class="filter-progress"></span>
+				<button onclick="resetSearch(this.form)" type="button" class="btn btn-default btn-xs pull-right">
+					<span class="glyphicon glyphicon-remove"></span>
+					@lang('misc.reset')
+				</button>
 			</h4>
 		</div>
 		<div id="filterArea" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="filterHeader">
 			<div class="panel-body">
 
 				<div class="form-group clearfix col-md-12 column">
-					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">Metadaten einbeziehen</label></div>
-					<label class="label-filter">Suchbegriffe</label>
+					<div class="pull-right"><input type="checkbox" name="metadata" id="includeMetadata" onchange="executeSearch()"> <label for="includeMetadata" class="label-metadata">@lang('misc.metaUse')</label></div>
+					<label class="label-filter">@lang('misc.search')</label>
 					<div class="input-group">
 						<input type="text" class="form-control" id="SearchTerms" placeholder="Suchbegriff(e)" onchange="executeSearch()">
 						<span class="input-group-addon" onclick="executeSearch()"><span class="glyphicon glyphicon-search"></span></span>
@@ -25,20 +29,20 @@
 
 				<div class="form-group clearfix">
 					<div class="input-group col-md-12 column">
-						<label class="label-filter">Wähle Start- und Endzeitpunkt</label>
+						<label class="label-filter">@lang('misc.startEnd')</label>
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-start" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt" datepicker data-trigger="#show-datepicker-start" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterStartTime" placeholder="Startzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-start" onchange="executeSearch()">
 					</div>
 					<div class="input-group col-md-6 column">
 						<span id="show-datepicker-end" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt" datepicker data-trigger="#show-datepicker-end" onchange="executeSearch()">
+						<input class="form-control" type="text" id="filterEndTime" placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-end" onchange="executeSearch()">
 					</div>
 				</div>
 
 				<div class="clearfix col-md-12 column">
-					<label class="label-filter">Lege einen Umkreis fest</label>
+					<label class="label-filter">@lang('misc.buffer')</label>
 					<div class="input select rating-underline">
 						<select id="spatialFilter">
 							<option value="" selected="selected"></option>
@@ -54,7 +58,7 @@
 				</div>
 
 				<div class="form-group clearfix col-md-12 column">
-					<label class="label-filter">Bewertung größer oder gleich ... ?</label>
+					<label class="label-filter">@lang('misc.rateHigh')</label>
 					<div class="input select rating-stars">
 						<select id="ratingFilter">
 							<option value="" selected="selected"></option>
@@ -74,14 +78,18 @@
 
 			<!-- For the datePicker-plugin -->
 			<script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-			<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>
 
 		</div>
 	</form>
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="geodataHeader">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">Geodatensätze</a>
+				<a data-toggle="collapse" href="#showGeodata" aria-expanded="true" aria-controls="showGeodata">@lang('misc.geodata')</a>
+				<span class="geodata-progress"></span>
+				<button type="button" onclick="saveSearch()" id="mapFilterShare" class="btn btn-default btn-xs pull-right">
+					<span class="glyphicon glyphicon-share-alt"></span>
+					@lang('misc.share')
+				</button>
 			</h4>
 		</div>
 		<ul id="showGeodata" class="list-group collapse in" role="tabpanel" aria-labelledby="geodataHeader">
@@ -94,4 +102,3 @@
 
 <!-- For the datePicker-plugin -->
 <script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-<script type="text/javascript" src="/js/plugins/datePicker/datePicker-views.js"></script>

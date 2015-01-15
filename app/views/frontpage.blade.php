@@ -19,8 +19,8 @@
 		<script type="text/javascript" src="/js/helpers.js"></script>
 
 		<!-- For the Map -->
-		<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
-		<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="http://openlayers.org/en/v3.1.1/css/ol.css" type="text/css">
+		<script src="http://openlayers.org/en/v3.1.1/build/ol.js" type="text/javascript"></script>
 
 		<!-- For the datePicker-plugin -->
 		<link rel="stylesheet" href="/js/plugins/datePicker/datepicker.min.css" type="text/css">

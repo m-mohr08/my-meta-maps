@@ -25,6 +25,7 @@ return array(
 	'clicktop' => 'Nieuw op My Meta Maps? Wij verklaren jou graag hoe je de eerste stappen kan maken. Tik alleen maar op ',
 	'furtherInfo' => '.',
 	
+
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'De user-hulp geeft je de antwoorden van veelgestelde vragen en de bediening van My Meta Maps.',
 
@@ -35,4 +36,64 @@ return array(
 	'team' => 'Het team bestaat uit:',
 	'pubAdress' => 'Adres van de openbaare gegevens-interface',
 	'libs' => 'Gebruikte bibliotheken',
+
+
+	//variables for \app\views\pages\addCommentFirstStep.blade.php
+
+	'createComm' => 'Commentaar cre&eumlren',
+	'dataFormat' => 'Gegevens formaat',
+	'chooseFormat' => 'Kies een gegevens formaat',
+	'create' => 'Cre&eumlren',
+
+
+	//variables for \app\views\pages\addCommentSecondStep.blade.php
+	
+	'enterData' => 'Gegevens ingeven',
+	'commNoLay' => 'Commentaar niet aan een Layer toewijzen',
+	'title' => 'Titel*',
+	'freetext' => 'Vrijtekst*',
+	'timerange' => 'Tijdsbestek',
+	'rating' => 'Evaluatie',
+	'addMeta' => 'Aanvullend meta gegevens',
+
+
+	//variables for \app\views\pages\login.blade.php
+
+	'mailname' => 'E-mailadres / Usernaam',
+	'pw' => 'Wachtwoord',
+	'stay' => 'Aangemeld blijven?',
+
+
+	//variables for \app\views\pages\map.blade.php
+
+	'setFilter' => 'Filter instellen',
+	'reset' => 'Opnieuw instellen',
+	'metaUse' => 'Ook in meta-gegevens zoeken',
+	'search' => 'Trefwoord',
+	'startEnd' => 'Kies een tijdstip begin en een einde',
+	'buffer' => 'Leg een omgeving in km vast',
+	'rateHigh' => 'Evaluatie groter dan of even groot als ...?',
+	'geodata' => 'Geogegevens',
+	'share' => 'Delen',
+
+
+	//variables for \app\views\pages\password.blade.php
+
+	'oldpw' => 'Het oude wachtwoord', 
+	'newpw' => 'Het nieuwe wachtwoord',
+	'pwagain' => 'Het nieuwe wachtwoord herhalen',
+	'save' => 'Opslaan',
+	'loginAgain' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
+	
+
+	//variables for \app\views\pages\register.blade.php
+
+	'user' => 'Usernaam',
+	'mail' => 'E-mailadres',
+	
+
+	//variables for \app\views\pages\userAccount.blade.php
+
+	'lang' => 'Taal',
+	'loginAgainAcc' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je profiel te wijzigen.',
 );
