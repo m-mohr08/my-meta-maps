@@ -1,3 +1,7 @@
+/**
+ * View for whole content 
+ * All views that extend this view, will shown in this view
+ */
 ContentView = Backbone.View.extend({
 	el: $('#content'),
 	templateCache: [],
@@ -60,6 +64,7 @@ ContentView = Backbone.View.extend({
 		return {};
 	}
 });
+
 // Statics
 ContentView.active = null;
 ContentView.register = function (view) {
@@ -70,6 +75,11 @@ ContentView.register = function (view) {
 	ContentView.active = view;
 };
 
+/**
+ * View for modals
+ * Extend ContentView
+ * All views that extend this view, will shown in this view
+ */
 ModalView = ContentView.extend({
 	el: $('#modal'),
 	// Called after modal is loaded (and not opened yet)
@@ -90,6 +100,9 @@ ModalView = ContentView.extend({
 	}
 });
 
+/**
+ * View for the map, the filters and the list of geodata 
+ */
 MapView = ContentView.extend({
 	// OpenLayers/Map
 	map: null,
@@ -324,12 +337,20 @@ MapView = ContentView.extend({
 
 });
 
+/**
+ * View for imprint site
+ * Extend ContentView
+ */
 AboutView = ContentView.extend({
 	getPageTemplate: function () {
 		return 'api/internal/doc/about';
 	}
 });
 
+/**
+ * View for help site 
+ * Extend ContentView
+ */
 HelpView = ContentView.extend({
 	getPageTemplate: function () {
 		return 'api/internal/doc/help';

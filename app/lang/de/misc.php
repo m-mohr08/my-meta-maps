@@ -71,6 +71,7 @@ return array(
 	'reset' => 'Zurücksetzen',
 	'metaUse' => 'Metadaten einbeziehen',
 	'search' => 'Suchbegriffe',
+	'searchTerm' => 'Suchbegriff(e)',
 	'startEnd' => 'Wähle Start- und Endzeitpunkt',
 	'buffer' => 'Lege einen Umkreis in km fest',
 	'rateHigh' => 'Bewertung größer oder gleich ... ?',
@@ -98,4 +99,24 @@ return array(
 	'lang' => 'Sprache',
 	'loginAgainAcc' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihre Profildaten zu ändern.',
 	
+	//variables for \app\views\pages\showCommentsToGeodata.blade.php
+	
+	'generalComm' => 'Allgemeine Kommentare',
+	'noComm' => 'Es liegen keine allgemeinen Kommentare vor.',
+	'noCommLayer' => 'Zu diesem Layer liegen noch keine Kommentare vor.',
+	'adress' => 'Adresse',
+	'dataFormatComm' => 'Datenformat',
+	'comments' => 'Kommentare',
+	'total' => 'gesamt',
+	'map' => 'Karte',
+	'metadata' => 'Metadaten',
+	'description' => 'Beschreibung',
+	'startingDate' => 'Anfangsdatum',
+	'endingDate' => 'Enddatum',
+	'author' => 'Autor',
+	'license' => 'Lizenz',
+		
+	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
+	
+	'anonym' => 'Anonym',
 );
