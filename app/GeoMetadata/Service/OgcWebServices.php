@@ -54,8 +54,10 @@ abstract class OgcWebServices extends XmlParser {
 			$crs = array($crs);
 		}
 		foreach($crs as $i) {
-			$i = strtolower($i);
-			if (($i == 'http://www.opengis.net/def/crs/epsg/0/4326' || $i == 'epsg:4326' || $i == 'crs:84')) {
+			if (\GeoMetadata\GmRegistry::getEpsgCodeNumber($i) == 4326) {
+				return true;
+			}
+			else if (strtolower($i) == 'crs:84') { // crs:84 is mostly an alternative for EPSG:4326
 				return true;
 			}
 		}
