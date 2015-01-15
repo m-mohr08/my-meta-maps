@@ -33,7 +33,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function setNorth($north) {
-		$this->north = $north;
+		$this->north = (double) $north;
 		return $this;
 	}
 	
@@ -43,7 +43,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function setEast($east) {
-		$this->east = $east;
+		$this->east = (double) $east;
 		return $this;
 	}
 	
@@ -53,7 +53,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function setSouth($south) {
-		$this->south = $south;
+		$this->south = (double) $south;
 		return $this;
 	}
 	
@@ -62,7 +62,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function setWest($west) {
-		$this->west = $west;
+		$this->west = (double) $west;
 		return $this;
 	}
 
