@@ -28,10 +28,15 @@ abstract class ParserParser implements Parser {
 	public function getParser() {
 		return $this->parser;
 	}
+	
+	protected function setParser($parser) {
+		$this->parser = $parser;
+		return ($this->parser !== null);
+	}
 
 	public function verify($source) {
 		if ($this->parser == null) {
-			$this->parser = $this->createParser($source);
+			$this->setParser($this->createParser($source));
 		}
 		return ($this->parser !== null);
 	}
@@ -44,11 +49,8 @@ abstract class ParserParser implements Parser {
 	 * @return boolean true on success, false on failure.
 	 */
 	public function parse($source, \GeoMetadata\Model\Metadata &$model) {
-		if ($this->parser == null) {
-			$this->parser = $this->createParser($source);
-			if ($this->parser == null) {
-				return false;
-			}
+		if ($this->parser === null && !$this->setParser($this->createParser($source))) {
+			return false;
 		}
 		return $this->fillModel($model);
 	}

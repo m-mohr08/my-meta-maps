@@ -28,8 +28,13 @@ class OgcWebMapTileService extends OgcWebServicesCommon {
 		return $url;
 	}
 	
-	public function getSupportedNamespaceUri() {
+	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/wmts/1.0';
+	}
+	
+	protected function registerNamespaces() {
+		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMTS
 	}
 
 	public function getName() {
@@ -41,8 +46,7 @@ class OgcWebMapTileService extends OgcWebServicesCommon {
 	}
 	
 	protected function findLayerNodes() {
-		$nodes = $this->selectOne(array('Contents', 'Layer'), null, false);
-		return $nodes->children($this->getOwsNamespacePrefix(), true);
+		return $this->selectMany(array('wmts:Contents', 'wmts:Layer'), null, false);
 	}
 
 }
