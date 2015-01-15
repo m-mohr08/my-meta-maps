@@ -18,11 +18,8 @@
 namespace GeoMetadata\Service;
 
 class OgcSensorObservationService extends OgcWebServicesCommon {
-	
-	private $gmlNsPrefix;
-	private $sosNsPrefix;
 
-	public function getSupportedNamespaceUri() {
+	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/sos/1.0';
 	}
 
@@ -54,24 +51,22 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function findLayerNodes() {
-		return $this->selectMany(array('Contents', 'ObservationOfferingList', 'ObservationOffering'), null, false, $this->sosNsPrefix, true);
+		return $this->selectMany(array('sos:Contents', 'sos:ObservationOfferingList', 'sos:ObservationOffering'), null, false);
 	}
 	
-	protected function parseContents() {
-		// Some server use a prefix without specifying it, so we take 'sos' as default.
-		$this->sosNsPrefix = $this->getUsedNamespacePrefix($this->getUsedNamespaceUri(), 'sos');
-		$this->gmlNsPrefix = $this->getUsedNamespacePrefix('http://www.opengis.net/gml', 'gml');
-		
-		return parent::parseContents();
+	protected function registerNamespaces() {
+		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // SOS
+		$this->registerNamespace('gml', 'http://www.opengis.net/gml'); // GML
 	}
 	
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
-		$gmlAttributes = $this->getAttrsAsArray($node, $this->gmlNsPrefix, true);
+		$gmlAttributes = $this->selectAttributes($node, $this->getNamespace('gml'));
 		return empty($gmlAttributes['id']) ? null : $gmlAttributes['id'];
 	}
 	
 	protected function parseTitleFromContents(\SimpleXMLElement $node) {
-		$gmlNode = $node->children($this->gmlNsPrefix, true);
+		$gmlNode = $node->children($this->getNamespace('gml'));
 		if (!empty($gmlNode->description)) {
 			return $this->n2s($gmlNode->description);
 		}
@@ -84,17 +79,15 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
-		$sosNode = $node->children($this->sosNsPrefix, true);
+		$sosNode = $node->children($this->getNamespace('sos'));
 		$data = array();
 		// Time
-		if (!empty($sosNode->time)) {
-			// GML is a nuightmare. Let's do some regexp instead to parse some common formats.
-			$xml = $sosNode->time->asXml();
-			$regexNs = preg_quote($this->gmlNsPrefix, '~');
-			foreach(array('begin', 'end') as $when) {
-				$regexp = "<(({$regexNs}:)?TimePeriod)>\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g3>)\s*)*<(\g2{$when}(?:Position)?)>\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g5>)\s*|\s*<[^/>]+>\s*)*([^<>\s]+(?:[T\s][^<>\s]+)?)\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g7>)\s*|\s*</[^>]+>\s*)*</\g4>\s*(?:\s*<([\w-:]+)[^>]*(?:/>|>[^<>]*</\g8>)\s*)*</\g1>";
-				if (preg_match("~{$regexp}~is", $xml, $matches) && isIso8601Date($matches[6])) {
-					$data[$when . 'Time'] = new \Carbon\Carbon($matches[6]);
+		if (!empty($sosNode->time) && $sosNode->count() > 0) {
+			foreach (array('begin', 'end') as $when) {
+				$gmlNode = $sosNode->time->children($this->getNamespace('gml'));
+				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode); // TODO: Das zweite gml: wird nicht vom Querybuilder berücksichtigt
+				if (isIso8601Date($position)) {
+					$data[$when . 'Time'] = new \Carbon\Carbon($position);
 				}
 			}
 		}
@@ -102,13 +95,14 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
-		$gmlNode = $node->children($this->gmlNsPrefix, true);
+		$gmlNs = $this->getNamespace('gml');
+		$gmlNode = $node->children($gmlNs);
 		if (!empty($gmlNode->boundedBy)) {
-			$bbNode = $gmlNode->boundedBy->children($this->gmlNsPrefix, true);
+			$bbNode = $gmlNode->boundedBy->children($gmlNs);
 			if (!empty($bbNode->Envelope)) {
-				$envelopeAttrs = $this->getAttrsAsArray($bbNode->Envelope); // Seems we don't need a ns prefix here
+				$envelopeAttrs = $this->selectAttributes($bbNode->Envelope); // Seems we don't need a ns prefix here
 				if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
-					$envNode = $bbNode->Envelope->children($this->gmlNsPrefix, true);
+					$envNode = $bbNode->Envelope->children($gmlNs);
 					if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
 						return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
 					}

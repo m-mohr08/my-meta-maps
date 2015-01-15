@@ -20,8 +20,7 @@ namespace GeoMetadata\Service;
 use \GeoMetadata\Model\Generic\GmBoundingBox, \GeoMetadata\Model\Generic\GmLayer;
 
 abstract class OgcWebServicesCommon extends OgcWebServices {
-	
-	private $owsPrefix = null;
+
 	private $contents = null;
 	
 	public function getName() {
@@ -32,19 +31,12 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		return 'ows';
 	}
 
-	public function getSupportedNamespaceUri() {
-		return $this->getOwsNamespaceUri();
-	}
-
-	protected function getOwsNamespaceUri() {
+	public function getSupportedNamespaces() {
 		return array('http://www.opengis.net/ows/1.0', 'http://www.opengis.net/ows/1.1');
 	}
-
-	protected function getOwsNamespacePrefix() {
-		if ($this->owsPrefix === null) {
-			$this->owsPrefix = $this->getUsedNamespacePrefix($this->getOwsNamespaceUri(), 'ows');
-		}
-		return $this->owsPrefix;
+	
+	protected function registerNamespaces() {
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWS
 	}
 
 	public function verify($source) {
@@ -52,17 +44,17 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 	
 	protected function checkServiceType() {
-		$docCode = $this->selectOne(array('ServiceIdentification', 'ServiceType'), null, true, $this->getOwsNamespacePrefix(), true);
+		$docCode = $this->selectOne(array('ows:ServiceIdentification', 'ows:ServiceType'));
 		$parserCode = preg_quote($this->getCode(), '~');
 		return (preg_match('~^\s*(OGC[:\s]?)?'.$parserCode.'\s*$~i', $docCode) == 1); // There might be a "OGC" prefix in front in some implementations.
 	}
 
 	protected function parseAbstract() {
-		return $this->selectOne(array('ServiceIdentification', 'Abstract'), null, true, $this->getOwsNamespacePrefix(), true);
+		return $this->selectOne(array('ows:ServiceIdentification', 'ows:Abstract'));
 	}
 
 	protected function parseAuthor() {
-		return $this->selectHierarchyAsOne(array('ServiceProvider'), null, $this->getOwsNamespacePrefix(), true);
+		return $this->selectNestedText(array('ows:ServiceProvider'), $this->getNamespace('ows'));
 	}
 
 	protected function parseCopyright() {
@@ -78,18 +70,18 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 
 	protected function parseKeywords() {
-		return $this->selectMany(array('ServiceIdentification', 'Keywords', 'Keyword'), null, true, $this->getOwsNamespacePrefix(), true);
+		return $this->selectMany(array('ows:ServiceIdentification', 'ows:Keywords', 'ows:Keyword'));
 	}
 
 	protected function parseLanguage() {
 		// Language tag can appear in several areas, just try to parse one of them...
 		// The format of this language tag is according to RFC 4646. We expect ISO 639-1, which is not always compatible.
 		// TODO: We need to implement a conversion for the language from RFC 4646 to ISO 639-1 and we might need to check where the language really is located.
-		return $this->selectOne(array('Language'), null, true, $this->getOwsNamespacePrefix(), true);
+		return $this->selectOne(array('ows:Language'));
 	}
 
 	protected function parseLicense() {
-		$license = $this->selectOne(array('ServiceIdentification', 'AccessConstraints'), null, true, $this->getOwsNamespacePrefix(), true);
+		$license = $this->selectOne(array('ows:ServiceIdentification', 'ows:AccessConstraints'));
 		if (!empty($license) && strtolower($license) != 'none') {
 			return $license;
 		}
@@ -99,7 +91,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 
 	protected function parseTitle() {
-		return $this->selectOne(array('ServiceIdentification', 'Title'), null, true, $this->getOwsNamespacePrefix(), true);
+		return $this->selectOne(array('ows:ServiceIdentification', 'ows:Title'));
 	}
 
 	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
@@ -149,21 +141,21 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 	
 	protected function findLayerNodes() {
-		$nodes = $this->selectMany(array('Contents', 'DatasetSummary'), null, false, $this->getOwsNamespacePrefix(), true);
+		$nodes = $this->selectMany(array('ows:Contents', 'ows:DatasetSummary'), null, false);
 		if (empty($nodes)) {
 			// Can you tell me why some servers use DatasetDescriptionSummary instead of the DatasetSummary tag as specified by the OGC?
-			$nodes = $this->selectMany(array('Contents', 'DatasetDescriptionSummary'), null, false, $this->getOwsNamespacePrefix(), true);
+			$nodes = $this->selectMany(array('ows:Contents', 'ows:DatasetDescriptionSummary'), null, false);
 		}
 		return $nodes;
 	}
 	
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
-		$children = $node->children($this->getOwsNamespacePrefix(), true);
+		$children = $node->children($this->getNamespace('ows'));
 		return $this->n2s($children->Identifier);
 	}
 	
 	protected function parseTitleFromContents(\SimpleXMLElement $node) {
-		$children = $node->children($this->getOwsNamespacePrefix(), true);
+		$children = $node->children($this->getNamespace('ows'));
 		return $this->n2s($children->Title);
 	}
 	
@@ -172,17 +164,18 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
+//		$node = $node->children($this->getNamespace('ows'));
 		$result = $this->parseCoords(
-			$this->selectOne(array('WGS84BoundingBox', 'LowerCorner'), $node, true, $this->getOwsNamespacePrefix(), true),
-			$this->selectOne(array('WGS84BoundingBox', 'UpperCorner'), $node, true, $this->getOwsNamespacePrefix(), true)
+			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:LowerCorner'), $node),
+			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node)
 		);
 
 		if (empty($result)) {
-			$crs = $this->selectOne(array('BoundingBox', 'crs'), $node, true, $this->getOwsNamespacePrefix(), true);
+			$crs = $this->selectOne(array('ows:BoundingBox', 'ows:crs'), $node);
 			if ($this->isWgs84($crs)) {
 				$result = $this->parseCoords(
-					$this->selectOne(array('BoundingBox', 'LowerCorner'), $node, true, $this->getOwsNamespacePrefix(), true),
-					$this->selectOne(array('BoundingBox', 'UpperCorner'), $node, true, $this->getOwsNamespacePrefix(), true)
+					$this->selectOne(array('ows:BoundingBox', 'ows:LowerCorner'), $node),
+					$this->selectOne(array('ows:BoundingBox', 'ows:UpperCorner'), $node)
 				);
 			}
 		}
