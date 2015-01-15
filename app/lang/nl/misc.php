@@ -100,8 +100,8 @@ return array(
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
 	
-	'generalComm' => 'Algemeen Commentaaren',
-	'noComm' => 'Er zijn geen algemene opmerkingen.',
+	'generalComm' => 'Algemeene commentaaren',
+	'noComm' => 'Er zijn geen algemeene opmerkingen.',
 	'noCommLayer' => 'Er zijn nog geen reacties op deze laag.',
 	'adress' => 'Adres',
 	'dataFormatComm' => 'Gegevens formaat',
