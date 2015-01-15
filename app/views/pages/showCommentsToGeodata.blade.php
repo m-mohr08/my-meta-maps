@@ -3,7 +3,7 @@
 		<div class="modal-content">
 
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('client.close')</span></button>
 				<h4 class="modal-title" id="meinModalLabel"><%- data.metadata.title %></h4>
 			</div>
 
@@ -13,7 +13,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="commentHeader">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#showCommentsToGeodata" aria-expanded="true" aria-controls="showCommentsToGeodata">@lang('misc.comments)</a>
+								<a data-toggle="collapse" href="#showCommentsToGeodata" aria-expanded="true" aria-controls="showCommentsToGeodata">@lang('misc.comments')</a>
 							</h4>
 						</div>
 
@@ -66,7 +66,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="dataHeader">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#showDataToGeodata" aria-expanded="true" aria-controls="showDataToGeodata">Allgemeine Daten</a>
+								<a data-toggle="collapse" href="#showDataToGeodata" aria-expanded="true" aria-controls="showDataToGeodata">@lang('misc.generalData')</a>
 							</h4>
 						</div>
 						<dl class="panel-body dl-horizontal metadata-list collapse in" id="showDataToGeodata" role="tabpanel" aria-labelledby="dataHeader">
