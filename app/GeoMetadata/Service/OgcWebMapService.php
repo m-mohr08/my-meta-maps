@@ -17,6 +17,8 @@
 
 namespace GeoMetadata\Service;
 
+use GeoMetadata\GmRegistry;
+
 class OgcWebMapService extends OgcWebServices {
 	
 	private $cache = array();
@@ -71,8 +73,8 @@ class OgcWebMapService extends OgcWebServices {
 		);
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-				if ($this->isWmsVersion('1.3.0') && isset($bbox['CRS']) && strtoupper($bbox['CRS']) == 'EPSG:4326') {
-					// In WMS version 1.3.0 with EPSG:4326 (NOT CRS:84) the lon/lat values order is changed.
+				if ($this->isWmsVersion('1.3.0') && isset($bbox['CRS']) && GmRegistry::getEpsgCodeNumber($bbox['CRS']) == 4326) {
+					// In WMS version 1.3.0 with EPSG:4326 (NOT CRS:84) and some other CRS the lon/lat values order is changed.
 					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
 					// and http://viswaug.wordpress.com/2009/03/15/reversed-co-ordinate-axis-order-for-epsg4326-vs-crs84-when-requesting-wms-130-images/
 					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx']);

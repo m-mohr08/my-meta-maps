@@ -40,7 +40,7 @@
 					<div class="col-md-12 column">
 						<!-- Start: Logo -->
 						<div class="navbar-header">
-							<a class="navbar-brand logo" href="#"><img src="/img/logo.png" alt="My Meta Maps"></a>
+							<a class="navbar-brand logo" href=""><img src="/img/logo.png" alt="My Meta Maps"></a>
 							<button type="button" class="navbar-toggle glyphicon glyphicon-chevron-down"  data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
 							</button>
