@@ -115,6 +115,7 @@ return array(
 	'endingDate' => 'Enddatum',
 	'author' => 'Autor',
 	'license' => 'Lizenz',
+	'generalData' => 'Allgemeine Daten',
 		
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
