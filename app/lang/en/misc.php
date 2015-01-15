@@ -73,7 +73,7 @@ return array(
 	'searchTerm' => 'Search term(s)',
 	'startEnd' => 'Choose start and endpoint',
 	'buffer' => 'Set a radius in km',
-	'rateHigh' => 'Rating higher than oder equal to ...?',
+	'rateHigh' => 'Rating higher than or equal to ...?',
 	'geodata' => 'Geodatasets',
 	'share' => 'Share',
 
