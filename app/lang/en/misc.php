@@ -70,6 +70,7 @@ return array(
 	'reset' => 'Reset',
 	'metaUse' => 'Include metadata for search',
 	'search' => 'Search keyword',
+	'searchTerm' => 'Search term(s)',
 	'startEnd' => 'Choose start and endpoint',
 	'buffer' => 'Set a radius in km',
 	'rateHigh' => 'Rating higher than oder equal to ...?',
@@ -93,6 +94,46 @@ return array(
 
 	//variables for \app\views\pages\userAccount.blade.php
 
-	'lang' => 'Sprache',
-	'loginAgainAcc' => 'Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an, um Ihre Profildaten zu ändern.',
+	'lang' => 'Language',
+	'loginAgainAcc' => 'You are no longer logged in. Please log in again to change your account data.',
+	
+	//variables for \app\views\pages\showCommentsToGeodata.blade.php
+	
+	'generalComm' => 'Genral comments',
+	'noComm' => 'There are not general comments available.',
+	'noCommLayer' => 'There are no comments to this layer.',
+	'adress' => 'Adress',
+	'dataFormatComm' => 'Data format',
+	'comments' => 'Comments',
+	'total' => 'total',
+	'map' => 'Map',
+	'metadata' => 'Metadata',
+	'description' => 'Description',
+	'startingDate' => 'Starting date',
+	'endingDate' => 'Ending date',
+	'author' => 'Author',
+	'license' => 'license',
+		
+	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
+	
+	'anonym' => 'Anonym',
+	
+	//variables for \js\controllers\userController.js
+	
+	'succededRegister' => 'You have successfully registered and can sign up now.',
+	'succededLogout' => 'You have successfully logged out.',
+	'failedLogout' => 'The logout has failed unfortunately.',
+	'succededLogin' => 'You have successfully logged in.',
+	'failedLogin' => 'The credentials are incorrect.',
+	'succededChangeGeneral' => 'Your profile changes were successfully applied.',
+	'succededChangePW' => 'Your new password was successfully applied.',
+	
+	//variables for \js\controllers\commentController.js
+	
+	'succededAddComm' => 'Your comments was successfully added.',
+	'failedLoadGeodata' => 'The comments on this set of geo data could not be loaded.',
+	
+	//variables for \js\views\commentView.js
+	
+	'failedLoadMeta' =>	'An error occurred when downloading the metadata. Please try it again.',
 );

@@ -1,5 +1,6 @@
-/*
+/**
  * View for GeodataShow; showing geodata
+ * Extend ContentView
  */
 GeodataShowView = ContentView.extend({
 	
@@ -18,8 +19,9 @@ GeodataShowView = ContentView.extend({
 
 
 
-/*
+/**
  * View for CommentAddFirstStep
+ * Extend ModalView
  */
 CommentAddViewStep1 = ModalView.extend({ 
 
@@ -48,8 +50,9 @@ CommentAddViewStep1 = ModalView.extend({
 	}
 });
 
-/*
+/**
  * View for CommentAddSecondStep; will only shown after CommentAddViewStep1
+ * Extend ContentView
  */
 CommentAddViewStep2 = ContentView.extend({ 
 
@@ -63,7 +66,7 @@ CommentAddViewStep2 = ContentView.extend({
 
 	initialize: function () {
 		if (typeof this.options.metadata.url === undefined) {
-			MessageBox.addError('Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuchen Sie erneut.');
+			MessageBox.addError(@lang('misc.failedLoadMeta'));
 		}
 		else {
 			this.render();
@@ -108,8 +111,9 @@ CommentAddViewStep2 = ContentView.extend({
 	}
 });
 
-/*
+/**
  * View for CommentsToGeodata
+ * Extend ModalView
  */
 CommentsShowView = ModalView.extend({
 

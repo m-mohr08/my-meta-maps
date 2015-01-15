@@ -1,4 +1,4 @@
-/*
+/**
 * Send a POST-request to the server to get geodata
 */
 function geodataShowController(callback) {
@@ -25,6 +25,9 @@ function resetSearch(form) {
 	}
 }
 
+/**
+ * Save a certain search in a 'permalink' 
+ */
 function saveSearch() {
 	$('#mapFilterShare').popover({
 		title: 'Suchergebnisse teilen',
@@ -53,7 +56,7 @@ function saveSearch() {
 	
 }
 
-/*
+/**
 * Send a POST-request to the server
 */
 function commentAddFirstStepController(model, details) {
@@ -78,21 +81,19 @@ function commentAddFirstStepController(model, details) {
    });
 };
 
-/*
+/**
 * Send a POST-request (because no id is specified) to the server to save a comment
 */
 function commentAddSecondStepController(model, details) {
 	model.save(details, {
 		
-		// In case of successfull adding of comment
 		success: function (model, response) {
 			Debug.log("Adding comment was successful: " + JSON.stringify(response.responseJSON));
 			FormErrorMessages.remove('#form-comment-secondStep');
 			router.navigate('', {trigger: true}); // Redirect to frontpage
-			MessageBox.addSuccess('Ihr Kommentar wurde erfolgreich hinzugefügt.');
+			MessageBox.addSuccess(@lang('misc.succededAddComm'));
 		},
 	
-		// In case of failed adding of comment
 		error: function (model, response) {
 			Debug.log("Adding comment failed");
 			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
@@ -100,7 +101,7 @@ function commentAddSecondStepController(model, details) {
 	});
 };
 
-/*
+/**
 * Send a POST-request to the server to get comments to a geodata
 */
 function commentsToGeodataController(gid, cid) {
@@ -125,12 +126,13 @@ function commentsToGeodataController(gid, cid) {
         error: function() {
         	Debug.log('Showing comments to geodata failed');
 			Progress.stop(progressClass);
-			MessageBox.addError('Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.');
+			MessageBox.addError(@lang('misc.failedLoadGeodata'));
 		},
    });
 };
 
 function getFormData(commentId) {
+	
 	var bbox = null;
 	if (ContentView.active instanceof MapView) {
 		bbox = ContentView.active.getBoundingBox();

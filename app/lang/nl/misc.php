@@ -70,9 +70,10 @@ return array(
 	'reset' => 'Opnieuw instellen',
 	'metaUse' => 'Ook in meta-gegevens zoeken',
 	'search' => 'Trefwoord',
+	'searchTerm' => 'Trefwoord term',
 	'startEnd' => 'Kies een tijdstip begin en een einde',
 	'buffer' => 'Leg een omgeving in km vast',
-	'rateHigh' => 'Evaluatie groter dan of even groot als ...?',
+	'rateHigh' => 'Evaluatie groter dan of even groot ...?',
 	'geodata' => 'Geogegevens',
 	'share' => 'Delen',
 
@@ -96,4 +97,44 @@ return array(
 
 	'lang' => 'Taal',
 	'loginAgainAcc' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je profiel te wijzigen.',
+	
+	//variables for \app\views\pages\showCommentsToGeodata.blade.php
+	
+	'generalComm' => 'Algemeen Commentaaren',
+	'noComm' => 'Er zijn geen algemene opmerkingen.',
+	'noCommLayer' => 'Er zijn nog geen reacties op deze laag.',
+	'adress' => 'Adres',
+	'dataFormatComm' => 'Gegevens formaat',
+	'comments' => 'Commentaaren',
+	'total' => 'Geheel',
+	'map' => 'Kaart',
+	'metadata' => 'Meta-gegevens',
+	'description' => 'Beschrijving',
+	'startingDate' => 'Aanvang datum',
+	'endingDate' => 'Eind datum',
+	'author' => 'Autuer',
+	'license' => 'Licentie',
+		
+	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
+	
+	'anonym' => 'Anoniem',
+	
+	//variables for \js\controllers\userController.js
+	
+	'succededRegister' => 'Je hebt je succesvol geregistreerd en kunt zich nu aanmelden.',
+	'succededLogout' => 'Je hebt met succes afgemeld.',
+	'failedLogout' => 'De logout is helaas mislukt.',
+	'succededLogin' => 'Je hebt met succes aangemeld.',
+	'failedLogin' => 'De gegevens van de inschrijving zijn niet correct.',
+	'succededChangeGeneral' => 'De wijziging van het profiel met succes overgenomen.',
+	'succededChangePW' => 'Uw nieuwe wachtwoord werd succesvol toegepast.',
+	
+	//variables for \js\controllers\commentController.js
+	
+	'succededAddComm' => 'Uw commentaar is met succes toegevoegd.',
+	'failedLoadGeodata' => 'De reacties op deze set van geo-gegevens kunnen niet worden geladen.',
+	
+	//variables for \js\views\commentView.js
+	
+	'failedLoadMeta' =>	'Er is een fout opgetreden bij het downloaden van de metagegevens. Probeer het opnieuw.',
 );

@@ -27,6 +27,9 @@ Progress = {
 	
 };
 
+/**
+ * Class to handle submissions form a user in a form 
+ */
 FormErrorMessages = {
 
 	errorClass: 'invalid',
@@ -53,6 +56,9 @@ FormErrorMessages = {
 	
 };
 
+/**
+ * Class for logged in user 
+ */
 AuthUser = {
 	
 	loggedIn: false,
@@ -93,6 +99,9 @@ AuthUser = {
 	
 };
 
+/**
+ * Class to handle alerts for user-iteractions 
+ */
 MessageBox = {
 
 	dismissPermanently: function(name) {
@@ -133,7 +142,7 @@ MessageBox = {
 	
 };
 
-/*
+/**
  * Class to handle the language phrases.
  * 
  * This code bases on an implementation from https://github.com/andywer/laravel-js-localization !
@@ -143,7 +152,7 @@ MessageBox = {
  */
 Lang = {
 	
-	/**
+	/*
 	 * Translate a message.
 	 *
 	 * @method get
