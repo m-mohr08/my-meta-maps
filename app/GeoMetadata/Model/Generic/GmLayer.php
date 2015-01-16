@@ -24,10 +24,9 @@ class GmLayer implements \GeoMetadata\Model\Layer {
 	protected $id;
 	protected $title;
 	
-	public function __construct($id = null, $title = null, GmBoundingBox $boundingBox = null) {
+	public function __construct($id = null, $title = null) {
 		$this->id = $id;
 		$this->title = $title;
-		$this->setBoundingBox($boundingBox);
 	}
 	
 	public function getId() {

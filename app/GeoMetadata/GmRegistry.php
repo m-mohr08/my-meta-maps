@@ -123,7 +123,7 @@ class GmRegistry {
 	
 	public static function isInversedAxisOrderEpsgCode($code) {
 		$number = self::getEpsgCodeNumber($code);
-		return in_array($number, self::$invertedAxisOrderEpsCode);
+		return $number > 0 && in_array($number, self::$invertedAxisOrderEpsCode);
 	}
 	
 	/**

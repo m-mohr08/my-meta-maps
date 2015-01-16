@@ -21,7 +21,7 @@ trait LayerTrait {
 
 	private $layers;
 	
-	protected abstract function createLayerObject($id, $title, $boundingBox);
+	protected abstract function createLayerObject();
 
 	public function getLayers(){
 		return $this->layers;
@@ -32,7 +32,9 @@ trait LayerTrait {
 	}
 
 	public function createLayer($id, $title = null){
-		$layer = $this->createLayerObject($id, $title, null);
+		$layer = $this->createLayerObject();
+		$layer->setId($id);
+		$layer->setTitle($title);
 		$this->layers[] = $layer;
 		return $layer;
 	}

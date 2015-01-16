@@ -113,6 +113,7 @@ return array(
 	'endingDate' => 'Ending date',
 	'author' => 'Author',
 	'license' => 'license',
+	'generalData' => 'General data',
 		
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	

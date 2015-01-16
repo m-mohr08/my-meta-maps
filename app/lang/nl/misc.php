@@ -114,6 +114,7 @@ return array(
 	'endingDate' => 'Eind datum',
 	'author' => 'Autuer',
 	'license' => 'Licentie',
+	'generalData' => 'Algemeene gegevens',
 		
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
