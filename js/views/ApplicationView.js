@@ -1,3 +1,7 @@
+/**
+ * View for whole content 
+ * All views that extend this view, will shown in this view
+ */
 ContentView = Backbone.View.extend({
 	el: $('#content'),
 	templateCache: [],
@@ -21,7 +25,7 @@ ContentView = Backbone.View.extend({
 			callback(this.templateCache[url]);
 		}
 		else {
-		var that = this;
+			var that = this;
 			$.get(url, function(data) {
 				that.templateCache[url] = data;
 				callback(data);
@@ -47,29 +51,35 @@ ContentView = Backbone.View.extend({
 		return null;
 	},
 	close: function () {
-		this.$el.html(''); // Remove content from page
+		// Normally we should remove the content from the DOM, but this is delayed for some reasons
+		// and destroys our cached and "fast" templates. Therefore we skip this as the DOM node 
+		// content is replaced anyway.
+//		this.$el.html('');
+
 		// Remove callbacks, events, listeners etc.
 		this.stopListening();
 		this.undelegateEvents();
 		this.unbind();
-		this.off();
-//		this.remove(); // Remove view from DOM
-//		Backbone.View.prototype.remove.call(this);
 	},
 	getPageContent: function () {
 		return {};
 	}
 });
+
 // Statics
 ContentView.active = null;
 ContentView.register = function (view) {
 	if (ContentView.active !== null) {
 		ContentView.active.close();
-		ContentView.active = null;
 	}
 	ContentView.active = view;
 };
 
+/**
+ * View for modals
+ * Extend ContentView
+ * All views that extend this view, will shown in this view
+ */
 ModalView = ContentView.extend({
 	el: $('#modal'),
 	// Called after modal is loaded (and not opened yet)
@@ -90,6 +100,9 @@ ModalView = ContentView.extend({
 	}
 });
 
+/**
+ * View for the map, the filters and the list of geodata 
+ */
 MapView = ContentView.extend({
 	// OpenLayers/Map
 	map: null,
@@ -324,12 +337,20 @@ MapView = ContentView.extend({
 
 });
 
+/**
+ * View for imprint site
+ * Extend ContentView
+ */
 AboutView = ContentView.extend({
 	getPageTemplate: function () {
 		return 'api/internal/doc/about';
 	}
 });
 
+/**
+ * View for help site 
+ * Extend ContentView
+ */
 HelpView = ContentView.extend({
 	getPageTemplate: function () {
 		return 'api/internal/doc/help';

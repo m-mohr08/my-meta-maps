@@ -17,7 +17,9 @@
 
 namespace GeoMetadata\Service;
 
-use \GeoMetadata\Model\Generic\GmBoundingBox, \GeoMetadata\Model\Generic\GmLayer;
+use \GeoMetadata\Model\Generic\GmBoundingBox;
+use \GeoMetadata\Model\Generic\GmLayer;
+use \GeoMetadata\GmRegistry;
 
 abstract class OgcWebServicesCommon extends OgcWebServices {
 
@@ -97,14 +99,19 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
 		// There is no bounding box in the metadata for the complete dataset.
 		// We are calculation a bounding box by joining all bboxes of the layers.
-		$bbox = new GmBoundingBox();
+		$growingBBoxes = array();
 		foreach($this->getContents() as $content) {
-			$bbox = $content->getBoundingBox();
-			if ($bbox !== null) {
-				$bbox->union($bbox);
+			$layerBBoxes = $content->getBoundingBox();
+			foreach($layerBBoxes as $crs => $bbox) {
+				if (!isset($growingBBoxes[$crs])) {
+					$growingBBoxes[$crs] = new GmBoundingBox();
+				}
+				$growingBBoxes[$crs]->union($bbox);
 			}
 		}
-		$model->copyBoundingBox($bbox);
+		foreach($growingBBoxes as $bbox) {
+			$model->copyBoundingBox($bbox);
+		}
 	}
 
 	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
@@ -164,30 +171,34 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
-//		$node = $node->children($this->getNamespace('ows'));
 		$result = $this->parseCoords(
 			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:LowerCorner'), $node),
-			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node)
+			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node),
+			'CRS:84' // Axis order does not depend on the CRS
 		);
 
 		if (empty($result)) {
 			$crs = $this->selectOne(array('ows:BoundingBox', 'ows:crs'), $node);
-			if ($this->isWgs84($crs)) {
-				$result = $this->parseCoords(
-					$this->selectOne(array('ows:BoundingBox', 'ows:LowerCorner'), $node),
-					$this->selectOne(array('ows:BoundingBox', 'ows:UpperCorner'), $node)
-				);
-			}
+			$result = $this->parseCoords(
+				$this->selectOne(array('ows:BoundingBox', 'ows:LowerCorner'), $node),
+				$this->selectOne(array('ows:BoundingBox', 'ows:UpperCorner'), $node),
+				$crs, true // Axis order depends on the CRS
+			);
 		}
 		
 		return $result;
 	}
 		
-	protected function parseCoords($min, $max) {
+	protected function parseCoords($min, $max, $crs = '', $checkInverseAxisOrder = false, $forceChangeAxisOrder = false) {
 		$regex = '~(-?\d*\.?\d+)\s+(-?\d*\.?\d+)~';
 		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {
 			$bbox = new GmBoundingBox();
-			$bbox->setWest($minMatch[1])->setSouth($maxMatch[2])->setEast($minMatch[2])->setNorth($maxMatch[1]);
+			$bbox->setCoordinateReferenceSystem($crs);
+			$x = 1; $y = 2;
+			if ($forceChangeAxisOrder || ($checkInverseAxisOrder && GmRegistry::isInversedAxisOrderEpsgCode($crs))) {
+				$x = 2; $y = 1;
+			}
+			$bbox->setWest($minMatch[$x])->setSouth($minMatch[$y])->setEast($maxMatch[$x])->setNorth($maxMatch[$y]);
 			return $bbox;
 		}
 		else {

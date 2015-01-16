@@ -70,9 +70,10 @@ return array(
 	'reset' => 'Opnieuw instellen',
 	'metaUse' => 'Ook in meta-gegevens zoeken',
 	'search' => 'Trefwoord',
+	'searchTerm' => 'Trefwoord term',
 	'startEnd' => 'Kies een tijdstip begin en een einde',
 	'buffer' => 'Leg een omgeving in km vast',
-	'rateHigh' => 'Evaluatie groter dan of even groot als ...?',
+	'rateHigh' => 'Evaluatie groter dan of even groot ...?',
 	'geodata' => 'Geogegevens',
 	'share' => 'Delen',
 
@@ -96,4 +97,26 @@ return array(
 
 	'lang' => 'Taal',
 	'loginAgainAcc' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je profiel te wijzigen.',
+	
+	//variables for \app\views\pages\showCommentsToGeodata.blade.php
+	
+	'generalComm' => 'Algemeene commentaaren',
+	'noComm' => 'Er zijn geen algemeene opmerkingen.',
+	'noCommLayer' => 'Er zijn nog geen reacties op deze laag.',
+	'adress' => 'Adres',
+	'dataFormatComm' => 'Gegevens formaat',
+	'comments' => 'Commentaaren',
+	'total' => 'Geheel',
+	'map' => 'Kaart',
+	'metadata' => 'Meta-gegevens',
+	'description' => 'Beschrijving',
+	'startingDate' => 'Aanvang datum',
+	'endingDate' => 'Eind datum',
+	'author' => 'Autuer',
+	'license' => 'Licentie',
+	'generalData' => 'Algemeene gegevens',
+		
+	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
+	
+	'anonym' => 'Anoniem',
 );

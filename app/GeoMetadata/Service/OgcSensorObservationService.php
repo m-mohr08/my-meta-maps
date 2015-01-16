@@ -85,7 +85,7 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		if (!empty($sosNode->time) && $sosNode->count() > 0) {
 			foreach (array('begin', 'end') as $when) {
 				$gmlNode = $sosNode->time->children($this->getNamespace('gml'));
-				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode); // TODO: Das zweite gml: wird nicht vom Querybuilder berücksichtigt
+				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode);
 				if (isIso8601Date($position)) {
 					$data[$when . 'Time'] = new \Carbon\Carbon($position);
 				}
@@ -101,11 +101,10 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 			$bbNode = $gmlNode->boundedBy->children($gmlNs);
 			if (!empty($bbNode->Envelope)) {
 				$envelopeAttrs = $this->selectAttributes($bbNode->Envelope); // Seems we don't need a ns prefix here
-				if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
-					$envNode = $bbNode->Envelope->children($gmlNs);
-					if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
-						return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
-					}
+				$envNode = $bbNode->Envelope->children($gmlNs);
+				if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
+					$crs = isset($envelopeAttrs['srsName']) ? $envelopeAttrs['srsName'] : '';
+					return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner), $crs, false, true); // Reverse axis order in GML
 				}
 			}
 		}

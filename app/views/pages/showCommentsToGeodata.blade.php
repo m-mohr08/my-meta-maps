@@ -3,7 +3,7 @@
 		<div class="modal-content">
 
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@lang('client.close')</span></button>
 				<h4 class="modal-title" id="meinModalLabel"><%- data.metadata.title %></h4>
 			</div>
 
@@ -13,7 +13,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="commentHeader">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#showCommentsToGeodata" aria-expanded="true" aria-controls="showCommentsToGeodata">Kommentare</a>
+								<a data-toggle="collapse" href="#showCommentsToGeodata" aria-expanded="true" aria-controls="showCommentsToGeodata">@lang('misc.comments')</a>
 							</h4>
 						</div>
 
@@ -23,7 +23,7 @@
 								<div class="panel-heading" role="tab" id="General_Header">
 									<h4 class="panel-title">
 										<a data-toggle="collapse" href="#General_Body" aria-expanded="true" aria-controls="General_Body">
-											Allgemeine Kommentare
+											@lang('misc.generalComm')
 										</a>
 										<span class="badge pull-right"><%= data.comments.length %></span>
 									</h4>
@@ -32,7 +32,7 @@
 									<% _.each(data.comments, function(comment) { %>
 									@include('pages.showCommentsToGeodataBit')
 									<% }); if (_.isEmpty(data.comments)) { %>
-									<span class="list-group-item">Es liegen leider keine allgemeinen Kommentare vor.</span>
+									<span class="list-group-item">@lang('misc.noComm')</span>
 									<% } %>
 								</div>
 							</div>
@@ -51,7 +51,7 @@
 									<% _.each(layer.comments, function(comment) { %>
 									@include('pages.showCommentsToGeodataBit')
 									<% }); if (_.isEmpty(layer.comments)) { %>
-									<span class="list-group-item">Zu diesem Layer liegen noch keine Kommentare vor.</span>
+									<span class="list-group-item">@lang('misc.noCommLayer')</span>
 									<% } %>
 								</div>
 							</div>
@@ -66,18 +66,18 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="dataHeader">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#showDataToGeodata" aria-expanded="true" aria-controls="showDataToGeodata">Allgemeine Daten</a>
+								<a data-toggle="collapse" href="#showDataToGeodata" aria-expanded="true" aria-controls="showDataToGeodata">@lang('misc.generalData')</a>
 							</h4>
 						</div>
 						<dl class="panel-body dl-horizontal metadata-list collapse in" id="showDataToGeodata" role="tabpanel" aria-labelledby="dataHeader">
-							<dt>Adresse</dt>
+							<dt>@lang('misc.adress')</dt>
 							<dd><a href="<%- data.url %>" target="_blank"><%- data.url %></a></dd>
-							<dt>Datenformat</dt>
+							<dt>@lang('misc.dataFormatComm')</dt>
 							<dd><%- config.datatypes[data.metadata.datatype] %></dd>
-							<dt>Σ Kommentare</dt>
-							<dd><%- data.commentCount.filtered %> (<%- data.commentCount.all %> gesamt)</dd>
-							<dt>Ø Bewertung</dt>
-							<dd><%- data.ratingAvg.filtered %> (<%- data.ratingAvg.all %> gesamt)</dd>
+							<dt>Σ @lang('misc.comments')</dt>
+							<dd><%- data.commentCount.filtered %> (<%- data.commentCount.all %> @lang('misc.total'))</dd>
+							<dt>Ø @lang('misc.rating')</dt>
+							<dd><%- data.ratingAvg.filtered %> (<%- data.ratingAvg.all %> @lang('misc.total'))</dd>
 							<dt>Permalink</dt>
 							<dd><a href="<%- data.permalink %>" target="_blank"><%- data.permalink %></a></dd>
 						</dl>
@@ -86,7 +86,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="mapHeader">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#showMapToGeodata" aria-expanded="true" aria-controls="showMapToGeodata">Karte</a>
+								<a data-toggle="collapse" href="#showMapToGeodata" aria-expanded="true" aria-controls="showMapToGeodata">@lang('misc.map')</a>
 							</h4>
 						</div>
 						<div class="panel-body collapse in" id="showMapToGeodata" role="tabpanel" aria-labelledby="mapHeader">
@@ -96,12 +96,12 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="metadataHeader">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#showMetadataToGeodata" aria-expanded="true" aria-controls="showMetadataToGeodata">Metadaten</a>
+								<a data-toggle="collapse" href="#showMetadataToGeodata" aria-expanded="true" aria-controls="showMetadataToGeodata">@lang('misc.metadata')</a>
 							</h4>
 						</div>
 						<dl class="panel-body dl-horizontal metadata-list collapse in" id="showMetadataToGeodata" role="tabpanel" aria-labelledby="metadataHeader">
 							<%  if (!_.isEmpty(data.metadata.abstract)) { %>
-							<dt>Beschreibung</dt>
+							<dt>@lang('misc.description')</dt>
 							<dd><pre><%- data.metadata.abstract %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.keywords)) { %>
 							<dt>Tags</dt>
@@ -111,22 +111,22 @@
 								<% }); %>
 							</dd>
 							<% } if (!_.isEmpty(data.metadata.language)) { %>
-							<dt>Sprache</dt>
+							<dt>@lang('misc.lang')</dt>
 							<dd><%- data.metadata.language %></dd>
 							<% } if (!_.isEmpty(data.metadata.beginTime) || !_.isEmpty(data.metadata.endTime)) { %>
-							<dt>Zeitraum</dt>
+							<dt>@lang('misc.timerange')</dt>
 							<dd>
-								Anfangsdatum: <%- data.metadata.beginTime ? data.metadata.beginTime : 'Unbekannt' %><br />
-								Enddatum: <%- data.metadata.endTime ? data.metadata.endTime : 'Unbekannt' %>
+								@lang('misc.startingDate'): <%- data.metadata.beginTime ? data.metadata.beginTime : 'Unbekannt' %><br />
+								@lang('misc.endingDate'): <%- data.metadata.endTime ? data.metadata.endTime : 'Unbekannt' %>
 							</dd>
 							<% } if (!_.isEmpty(data.metadata.author)) { %>
-							<dt>Autor</dt>
+							<dt>@lang('misc.author')</dt>
 							<dd><pre><%- data.metadata.author %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.copyright)) { %>
 							<dt>Copyright</dt>
 							<dd><pre><%- data.metadata.copyright %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.license)) { %>
-							<dt>Lizenz</dt>
+							<dt>@lang('misc.license')</dt>
 							<dd><pre><%- data.metadata.license %></pre></dd>
 							<% } %>
 						</dl>

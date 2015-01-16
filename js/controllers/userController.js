@@ -1,4 +1,4 @@
-/*
+/**
 * Send a POST-request to the server to save a registration
 */
 function userRegisterController(model, inputRegister) {
@@ -24,25 +24,28 @@ function userRegisterController(model, inputRegister) {
 	});
 };
 
-/*
+/**
 * Send a GET-request to the server to logout a user
 */
 function userLogoutController() {
+	
 	var model = new UserLogout();
 	model.fetch({
+		
 		success: function(){
 			Debug.log('Logout succeded');
 			MessageBox.addSuccess('Sie haben sich erfolgreich abgemeldet.');
 			AuthUser.setUser();
 		},
+		
 		error: function(){
 			Debug.log('Logout failed');
-			MessageBox.addError('Die Abmeldung ist leider fehlgeschlagen.');
+			MessageBox.addError('Die Abmeldung ist fehlgeschlagen.');
 		}
 	});
 }
 
-/*
+/**
 * Send a POST-request to the server to login a user
 */
 function userLoginController(model, inputLogin) {
@@ -57,7 +60,7 @@ function userLoginController(model, inputLogin) {
 			Debug.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
         	$('#ModalLogin').modal('hide');
-			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet.');
+			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet');
 			AuthUser.setUser(response.user.name);
 			if (config.locale !== response.user.language) {
 				registeredUserChangedLanguage();
@@ -67,7 +70,7 @@ function userLoginController(model, inputLogin) {
 		error: function () {
 			Debug.log('Login failed');
 			Progress.stop('.modal-progress');
-			var msg = 'Die Anmeldedaten sind nicht korrekt.';
+			var msg = 'Die Anmeldedaten sind nicht korrekt';
 			var errorMessages = {
 				identifier: msg,
 				password: msg
@@ -77,7 +80,7 @@ function userLoginController(model, inputLogin) {
 	});
 };
 
-/*
+/**
 * Send a POST-request to the server to login a user
 */
 function userChangeGeneralController(model, inputChangeGeneral) {
@@ -92,7 +95,7 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 			Debug.log('Change general user data succeded');
 			FormErrorMessages.remove('#form-changeGeneral');
 			$('#ModalUserAccountGeneral').modal('hide');
-			MessageBox.addSuccess('Ihr Profiländerungen wurden erfolgreich übernommen.');
+			MessageBox.addSuccess('Ihre Profiländerungen wurden erfolgreich übernommen.');
 			// Änderung des Benutzernamens weiterleiten
 			AuthUser.setUser(model.get('name'));
 			// Bei Änderung der Sprache die Seite neuladen
@@ -109,7 +112,7 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 	});
 };
 
-/*
+/**
 * Send a POST-request to the server to login a user
 */
 function userChangePasswordController(model, inputChangePassword) {
@@ -142,7 +145,7 @@ function registeredUserChangedLanguage() {
 	window.location.href = '/';
 }
 
-/*
+/**
  * Send POST-request to the server to check user data
  */
 function userCheckDataController(model, id, key) {

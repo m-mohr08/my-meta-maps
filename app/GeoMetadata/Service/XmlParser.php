@@ -154,11 +154,15 @@ abstract class XmlParser extends ParserParser {
 	private function buildQuery(array $path, $hasNamespace = true) {
 		// Remove namespace prefixes if no namespace is available.
 		if (!$hasNamespace) {
-			foreach($path as $key => $value) {
-				$parts = explode(':', $value, 2); 
-				if (count($parts) == 2 && $parts[0] == $this->getCode()) {
-					$path[$key] = $parts[1];
+			foreach($path as $pkey => $pvalue) {
+				$conditions = explode('|', $pvalue); // Check each conditional (|)
+				foreach ($conditions as $ckey => $cvalue) {
+					$parts = explode(':', $cvalue, 2); // Split the parts into prefix and node name
+					if (count($parts) == 2 && $parts[0] == $this->getCode()) {
+						$conditions[$ckey] = $parts[1];
+					}
 				}
+				$path[$pkey] = implode('|', $conditions);
 			}
 		}
 
