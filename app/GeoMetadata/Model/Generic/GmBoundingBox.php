@@ -17,15 +17,26 @@
 
 namespace GeoMetadata\Model\Generic;
 
+use GeoMetadata\GmRegistry;
+
 class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	
 	protected $north;
 	protected $east;
-	protected $source;
+	protected $south;
 	protected $west;
+	protected $crs;
 	
 	public static function create() {
 		return new static();
+	}
+
+	public function getCoordinateReferenceSystem() {
+		return $this->crs;
+	}
+
+	public function setCoordinateReferenceSystem($crs) {
+		$this->crs = $crs;
 	}
 	
 	public function getNorth() {
@@ -67,7 +78,12 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	}
 
 	public function getArray() {
-		return array(array($this->west, $this->south), array($this->east, $this->north));
+		return array(
+			'west' =>$this->west, 
+			'south' => $this->south,
+			'east' => $this->east, 
+			'north' => $this->north
+		);
 	}
 	
 	public function toWkt() {
@@ -76,16 +92,16 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 			return "POLYGON(({$this->west} {$this->north},{$this->west} {$this->south},{$this->east} {$this->south},{$this->east} {$this->north},{$this->west} {$this->north}))";
 		}
 		else {
-			return null;
+			return '';
 		}
 	}
 
 	public function fromWkt($wkt) {
-		if (empty($wkt)) {
-			return null;
+		if (empty($wkt) || !class_exists('\geoPHP', false)) { // Avoid dependency to geoPHP for external usage
+			return false;
 		}
 		try {
-			$geometry = geoPHP::load($wkt, "wkt");
+			$geometry = \geoPHP::load($wkt, "wkt");
 			if ($geometry != null) {
 				$bbox = $geometry->getBBox();
 				$this->setWest($bbox['minx'])->setSouth($bbox['miny'])->setEast($bbox['maxx'])->setNorth($bbox['maxy']);
@@ -93,7 +109,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 			}
 		}
 		catch (Exception $e) {
-			Log::info($e);
+			GmRegistry::log($e);
 		}
 		return false;
 	}
@@ -109,6 +125,15 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 	public function union(\GeoMetadata\Model\BoundingBox $other) {
 		if ($other === null || !$other->defined()) {
 			// The other bbox is not valid/fully set. We can skip this.
+			return;
+		}
+		if ($this->getCoordinateReferenceSystem() === null && !$this->defined()) {
+			// This is an empty bounding box, we can do the union (which is more or less a copy)
+			$this->setCoordinateReferenceSystem($other->getCoordinateReferenceSystem());
+		}
+		else if ($this->getCoordinateReferenceSystem() != $other->getCoordinateReferenceSystem()) {
+			// CRS differ from BBoxes, throw error
+			GmRegistry::log('Cannot union two bounding boxes with different CRS.');
 			return;
 		}
 		// Grow the bbox

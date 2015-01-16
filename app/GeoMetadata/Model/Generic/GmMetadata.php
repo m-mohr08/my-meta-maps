@@ -139,8 +139,8 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		return new GmBoundingBox();
 	}
 
-	protected function createLayerObject($id, $title, $boundingBox) {
-		return new GmLayer($id, $title, $boundingBox);
+	protected function createLayerObject() {
+		return new GmLayer();
 	}
 
 }

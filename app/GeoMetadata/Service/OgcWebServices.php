@@ -48,22 +48,6 @@ abstract class OgcWebServices extends XmlParser {
 	public function getMetadataUrl($url) {
 		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . strtoupper($this->getCode());
 	}
-	
-	protected function isWgs84($crs) {
-		if (!is_array($crs)) {
-			$crs = array($crs);
-		}
-		foreach($crs as $i) {
-			$i = strtolower($i);
-			if (\GeoMetadata\GmRegistry::getEpsgCodeNumber($i) == 4326) {
-				return true;
-			}
-			else if ($i == 'crs:84' || $i == 'urn:ogc:def:crs:ogc:2:84' || $i = 'http://www.opengis.net/def/crs/ogc/1.3/crs84') { // crs:84 is mostly an alternative for EPSG:4326
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public function verify($source) {
 		return (parent::verify($source) && $this->getUsedNamespace());

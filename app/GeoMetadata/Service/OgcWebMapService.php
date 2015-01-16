@@ -87,11 +87,16 @@ class OgcWebMapService extends OgcWebServices {
 			}
 		}
 
-		$crs = $this->selectMany(array('wms:CRS'), $parent);
-		if ($this->isWgs84($crs) && !empty($parent->EX_GeographicBoundingBox)) {
+		if (!empty($parent->EX_GeographicBoundingBox)) {
 			$bbox = $parent->EX_GeographicBoundingBox->children();
 			if ($bbox->count() >= 4) {
-				$model->createBoundingBox($this->n2s($bbox->westBoundLongitude), $this->n2s($bbox->southBoundLatitude), $this->n2s($bbox->eastBoundLongitude), $this->n2s($bbox->northBoundLatitude));
+				$model->createBoundingBox(
+					$this->n2s($bbox->westBoundLongitude),
+					$this->n2s($bbox->southBoundLatitude),
+					$this->n2s($bbox->eastBoundLongitude),
+					$this->n2s($bbox->northBoundLatitude),
+					'CRS:84'
+				);
 				return true;
 			}
 		}
@@ -103,10 +108,12 @@ class OgcWebMapService extends OgcWebServices {
 	}
 
 	protected function parseBeginTime() {
+		// TODO: There is a <Dimension name="time" ...> tag for layers which we should use for this data.
 		return null; // Not supported
 	}
 
 	protected function parseEndTime() {
+		// TODO: There is a <Dimension name="time" ...> tag for layers which we should use for this data.
 		return null; // Not supported
 	}
 

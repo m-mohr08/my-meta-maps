@@ -20,6 +20,8 @@ namespace GeoMetadata\Service;
 use Mf2;
 
 class Microformats2 extends ParserParser {
+	
+	const CRS = 'EPSG:4326';
 
 	/**
 	 * Takes the user specified URL and builds the metadata url of the service from it.
@@ -91,7 +93,7 @@ class Microformats2 extends ParserParser {
 		}
 		
 		// Build the bounding box from the lon/lat values
-		$model->createBoundingBox(min($lon), min($lat), max($lon), max($lat));
+		$model->createBoundingBox(min($lon), min($lat), max($lon), max($lat), self::CRS);
 		
 		// Trying to parse additional meta data
 		if (isset($json['rels'])) {

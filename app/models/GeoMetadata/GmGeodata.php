@@ -28,8 +28,8 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		return new static();
 	}
 
-	protected function createLayerObject($id, $title, $boundingBox) {
-		return new GmGeodataLayer($id, $title, $boundingBox);
+	protected function createLayerObject() {
+		return new GmGeodataLayer();
 	}
 
 	public function getUrl(){

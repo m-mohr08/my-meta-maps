@@ -19,6 +19,9 @@ namespace GeoMetadata\Model;
 
 interface BoundingBox {
 	
+	public function getCoordinateReferenceSystem();
+	public function setCoordinateReferenceSystem($crs);
+	
 	public function getNorth();
 	public function setNorth($north);
 	

@@ -19,29 +19,63 @@ namespace GeoMetadata\Model;
 
 trait BoundingBoxTrait {
 	
-	private $boundingBox;
+	private $boundingBox = array();
 
 	protected abstract function createBoundingBoxObject();
+	
+	public function getCoordinateReferenceSystems() {
+		return array_keys($this->getBoundingBox());
+	}
 
-	public function getBoundingBox(){
-		return $this->boundingBox;
+	public function hasBoundingBox($crs = null) {
+		$result = $this->getBoundingBox($crs);
+		return !empty($result);
+	}
+
+	public function getBoundingBox($crs = null){
+		if ($crs !== null) {
+			return isset($this->boundingBox[$crs]) ? $this->boundingBox[$crs] : null;
+		}
+		else {
+			return $this->boundingBox;
+		}
+	}
+	
+	public function removeBoundingBox($crs) {
+		if ($this->hasBoundingBox($crs)) {
+			unset($this->boundingBox[$crs]);
+		}
 	}
 	
 	public function setBoundingBox(BoundingBox $bbox = null) {
-		$this->boundingBox = $bbox;
+		if ($bbox === null) {
+			return;
+		}
+		$crs = $bbox->getCoordinateReferenceSystem();
+		$this->boundingBox[$crs] = $bbox;
 	}
 	
-	public function createBoundingBox($west, $south, $east, $north) {
-		$this->boundingBox = $this->createBoundingBoxObject()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		return $this->boundingBox;
+	public function createBoundingBox($west, $south, $east, $north, $crs = '') {
+		$bbox = $this->createBoundingBoxObject()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
+		$bbox->setCoordinateReferenceSystem($crs);
+		$this->setBoundingBox($bbox);
+		return $bbox;
 	}
 
-	public function copyBoundingBox(BoundingBox $bbox = null) {
-		if ($bbox !== null && $bbox->defined()) {
-			return $this->createBoundingBox($bbox->getWest(), $bbox->getSouth(), $bbox->getEast(), $bbox->getNorth());
-		}
-		else {
+	public function copyBoundingBox($bbox = null) {
+		if ($bbox === null) {
 			return null;
+		}
+		if (is_array($bbox)) {
+			foreach ($bbox as $box) {
+				if ($box !== null) { // Double check this to prevent an endless loop
+					$this->copyBoundingBox($box);
+				}
+			}
+			return $this->getBoundingBox();
+		}
+		else if ($bbox instanceof BoundingBox && $bbox->defined()) {
+			return $this->createBoundingBox($bbox->getWest(), $bbox->getSouth(), $bbox->getEast(), $bbox->getNorth(), $bbox->getCoordinateReferenceSystem());
 		}
 	}
 
