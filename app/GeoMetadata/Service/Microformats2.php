@@ -19,7 +19,7 @@ namespace GeoMetadata\Service;
 
 use Mf2;
 
-class Microformats2 extends ParserParser {
+class Microformats2 extends CachedParser {
 	
 	const CRS = 'EPSG:4326';
 
