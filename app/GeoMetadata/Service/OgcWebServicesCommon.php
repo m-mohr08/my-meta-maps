@@ -48,7 +48,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	protected function checkServiceType() {
 		$docCode = $this->selectOne(array('ows:ServiceIdentification', 'ows:ServiceType'));
 		$parserCode = preg_quote($this->getCode(), '~');
-		return (preg_match('~^\s*(OGC[:\s]?)?'.$parserCode.'\s*$~i', $docCode) == 1); // There might be a "OGC" prefix in front in some implementations.
+		return (preg_match('~^\s*(urn:ogc:service:|OGC[:\s]?)?'.$parserCode.'\s*$~i', $docCode) == 1); // There might be a "OGC" prefix in front in some implementations.
 	}
 
 	protected function parseAbstract() {
