@@ -67,22 +67,21 @@ class OgcWebMapService extends OgcWebServices {
 	}
 	
 	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxContainer $model) {
-		$bboxes = array_merge(
-			$this->selectMany(array('wms:LatLonBoundingBox'), $parent, false), // only before v1.3.0
-			$this->selectMany(array("wms:BoundingBox[@CRS='EPSG:4326' or @CRS='CRS:84']"), $parent, false)
-		);
+		$isVersion130 = $this->isWmsVersion('1.3.0');
+
+		$bboxes = $this->selectMany(array("wms:BoundingBox"), $parent, false);
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
-				if ($this->isWmsVersion('1.3.0') && isset($bbox['CRS']) && GmRegistry::getEpsgCodeNumber($bbox['CRS']) == 4326) {
+				$crs = isset($bbox['CRS']) ? $bbox['CRS'] : '';
+				if ($isVersion130 && GmRegistry::getEpsgCodeNumber($crs) == 4326) {
 					// In WMS version 1.3.0 with EPSG:4326 (NOT CRS:84) and some other CRS the lon/lat values order is changed.
 					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
 					// and http://viswaug.wordpress.com/2009/03/15/reversed-co-ordinate-axis-order-for-epsg4326-vs-crs84-when-requesting-wms-130-images/
-					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx']);
+					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx'], $crs);
 				}
 				else {
-					$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
+					$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy'], $crs);
 				}
-				// We found a bbox, skip other methods and return
 				return true;
 			}
 		}
@@ -100,6 +99,15 @@ class OgcWebMapService extends OgcWebServices {
 				return true;
 			}
 		}
+
+		if (!$isVersion130) { // only before v1.3.0
+			$latlonBBox = $this->selectOne(array('wms:LatLonBoundingBox'), $parent, false);
+			if (isset($latlonBBox['minx']) && isset($latlonBBox['miny']) && isset($latlonBBox['maxx']) && isset($latlonBBox['maxy'])) {
+				$model->createBoundingBox($latlonBBox['minx'], $latlonBBox['miny'], $latlonBBox['maxx'], $latlonBBox['maxy'], 'EPSG:4326');
+				return true;
+			}
+		}
+
 		return false;
 	}
 
