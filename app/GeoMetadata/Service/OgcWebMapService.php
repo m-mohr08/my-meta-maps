@@ -103,10 +103,6 @@ class OgcWebMapService extends OgcWebServices {
 		return false;
 	}
 
-	protected function parseCopyright() {
-		return null; // Not supported
-	}
-
 	protected function parseBeginTime() {
 		// TODO: There is a <Dimension name="time" ...> tag for layers which we should use for this data.
 		return null; // Not supported
@@ -119,10 +115,6 @@ class OgcWebMapService extends OgcWebServices {
 
 	protected function parseKeywords() {
 		return $this->selectMany(array('wms:Service', 'wms:KeywordList', 'wms:Keyword'));
-	}
-
-	protected function parseLanguage() {
-		return null; // Not supported
 	}
 
 	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {

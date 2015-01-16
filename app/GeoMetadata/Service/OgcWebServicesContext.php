@@ -35,48 +35,4 @@ class OgcWebServicesContext extends OgcWebServices {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWC
 	}
 
-	protected function parseAbstract() {
-		
-	}
-
-	protected function parseAuthor() {
-		
-	}
-
-	protected function parseBeginTime() {
-		
-	}
-
-	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
-		
-	}
-
-	protected function parseCopyright() {
-		
-	}
-
-	protected function parseEndTime() {
-		
-	}
-
-	protected function parseKeywords() {
-		
-	}
-
-	protected function parseLanguage() {
-		
-	}
-
-	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
-		
-	}
-
-	protected function parseLicense() {
-		
-	}
-
-	protected function parseTitle() {
-		
-	}
-
 }

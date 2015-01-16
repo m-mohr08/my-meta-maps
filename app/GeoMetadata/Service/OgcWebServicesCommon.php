@@ -59,18 +59,6 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		return $this->selectNestedText(array('ows:ServiceProvider'), $this->getNamespace('ows'));
 	}
 
-	protected function parseCopyright() {
-		return null; // Not supported
-	}
-
-	protected function parseBeginTime() {
-		return null; // Not supported
-	}
-
-	protected function parseEndTime() {
-		return null; // Not supported
-	}
-
 	protected function parseKeywords() {
 		return $this->selectMany(array('ows:ServiceIdentification', 'ows:Keywords', 'ows:Keyword'));
 	}

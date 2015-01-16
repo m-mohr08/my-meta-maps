@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Service\Traits;
+namespace GeoMetadata\Service;
 
 trait SimpleFillModelTrait {
 
@@ -36,16 +36,44 @@ trait SimpleFillModelTrait {
 		return true;
 	}
 	
-	protected abstract function parseAuthor();
-	protected abstract function parseCopyright();
-	protected abstract function parseBeginTime();
-	protected abstract function parseEndTime();
-	protected abstract function parseAbstract();
-	protected abstract function parseKeywords();
-	protected abstract function parseLanguage();
-	protected abstract function parseLicense();
-	protected abstract function parseTitle();
-	protected abstract function parseBoundingBox(\GeoMetadata\Model\Metadata &$model);
-	protected abstract function parseLayer(\GeoMetadata\Model\Metadata &$model);
+	protected function parseAuthor() {
+		return null;
+	}
+
+	protected function parseCopyright() {
+		return null;
+	}
+
+	protected function parseBeginTime() {
+		return null;
+	}
+
+	protected function parseEndTime() {
+		return null;
+	}
+
+	protected function parseAbstract() {
+		return null;
+	}
+
+	protected function parseKeywords() {
+		return array();
+	}
+
+	protected function parseLanguage() {
+		return null;
+	}
+
+	protected function parseLicense() {
+		return null;
+	}
+
+	protected function parseTitle() {
+		return null;
+	}
+
+	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {}
+
+	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {}
 	
 }
