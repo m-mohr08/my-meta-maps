@@ -37,7 +37,11 @@ class GeoMetadata {
 			$instance->metadataUrl = $instance->service->getMetadataUrl($url);
 			
 			$net = new GmNet();
-			$instance->data = $net->get($instance->metadataUrl);
+			$instance->data = $net->get(
+				$instance->metadataUrl,
+				$instance->service->getMetadataRequestMethod(),
+				$instance->service->getMetadataRequestData()
+			);
 			if ($instance->data != null && $instance->service->verify($instance->data)) {
 				return $instance;
 			}

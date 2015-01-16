@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Service;
+namespace GeoMetadata\Service\Traits;
 
 trait SimpleFillModelTrait {
 
