@@ -171,7 +171,7 @@ Lang = {
 					result[prop] = phrases[prop];
 				}
 			};
-			if (!isEmpty(result)) {
+			if (!_.isEmpty(result)) {
 				return result;
 			}
 			/* if there is nothing to return, return messageKey */
@@ -255,18 +255,6 @@ Lang = {
         }
 
         return message;
-    },
-
-    /**
-	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
-     */
-    isEmpty: function (obj) {
-        for(var prop in obj) {
-            if(obj.hasOwnProperty(prop))
-                return false;
-        }
-
-        return true;
     }
 	
 };
