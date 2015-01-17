@@ -19,7 +19,9 @@ namespace GeoMetadata\Service;
 
 use Mf2;
 
-class Microformats2 extends ParserParser {
+class Microformats2 extends CachedParser {
+	
+	use Traits\HttpGetTrait;
 	
 	const CRS = 'EPSG:4326';
 

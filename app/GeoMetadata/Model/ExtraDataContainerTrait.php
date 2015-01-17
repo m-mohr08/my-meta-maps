@@ -17,13 +17,25 @@
 
 namespace GeoMetadata\Model;
 
-interface LayerContainer {
+trait ExtraDataContainerTrait {
+	
+	private $extra = array();
 
-	public function getLayers();
-	public function addLayer(Layer $layer);
-	public function createLayer($id, $title = null);
-	public function deliverLayer();
-	public function removeLayer(Layer $layer);
-	public function copyLayer(Layer $layer = null);
+	public function setData($key, $value) {
+		$this->extra[$key] = $value;
+	}
+	
+	public function getData($key) {
+		if (isset($this->extra[$key])) {
+			return $this->extra[$key];
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public function hasData($key) {
+		return (isset($this->extra[$key]) && $this->extra[$key] !== null);
+	}
 
 }

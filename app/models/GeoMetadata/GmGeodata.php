@@ -20,15 +20,15 @@ use \Carbon\Carbon;
 /**
  * Extends the geodata model with the ability to be used as model in GeoMatadata Parser.
  */
-class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
+class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata, \GeoMetadata\Model\ExtraDataContainer {
 
-	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\LayerTrait;
+	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\LayerContainerTrait, \GeoMetadata\Model\ExtraDataContainerTrait;
 
 	public function createObject() {
 		return new static();
 	}
 
-	protected function createLayerObject() {
+	public function deliverLayer() {
 		return new GmGeodataLayer();
 	}
 
@@ -56,12 +56,12 @@ class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
 		$this->title = $title;
 	}
 
-	public function getDescription(){
+	public function getAbstract(){
 		return $this->abstract;
 	}
 
-	public function setDescription($description){
-		$this->abstract = $description;
+	public function setAbstract($abstract){
+		$this->abstract = $abstract;
 	}
 
 	public function getLanguage(){

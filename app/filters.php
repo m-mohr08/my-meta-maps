@@ -20,10 +20,12 @@ App::before(function($request)
 	
 	// Set up GeoMetadata
 	GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
+	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebCoverageService());
+//	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebFeatureService());
+	GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapTileService());
-	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
-	GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
+//	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
 
 	GmRegistry::setLogger(array('Log', 'debug'));
 	GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));

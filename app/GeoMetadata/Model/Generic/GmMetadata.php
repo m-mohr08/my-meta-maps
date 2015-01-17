@@ -17,16 +17,16 @@
 
 namespace GeoMetadata\Model\Generic;
 
-class GmMetadata implements \GeoMetadata\Model\Metadata {
+class GmMetadata implements \GeoMetadata\Model\Metadata, \GeoMetadata\Model\ExtraDataContainer {
 	
-	use \GeoMetadata\Model\BoundingBoxTrait, \GeoMetadata\Model\ExtraDataTrait, \GeoMetadata\Model\LayerTrait;
+	use \GeoMetadata\Model\BoundingBoxContainerTrait, \GeoMetadata\Model\ExtraDataContainerTrait, \GeoMetadata\Model\LayerContainerTrait;
 	
 	protected $url;
 	protected $service;
 	
 	protected $title;
 	protected $keywords;
-	protected $description;
+	protected $abstract;
 	protected $language;
 	protected $author;
 	protected $copyright;
@@ -40,7 +40,7 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 	}
 
 	public function createObject() {
-		return new static();
+		return new self();
 	}
 
 	public function getUrl(){
@@ -79,12 +79,12 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->keywords[] = $keyword;
 	}
 
-	public function getDescription(){
-		return $this->description;
+	public function getAbstract(){
+		return $this->abstract;
 	}
 
-	public function setDescription($description){
-		$this->description = $description;
+	public function setAbstract($abstract){
+		$this->abstract = $abstract;
 	}
 
 	public function getLanguage(){
@@ -135,11 +135,11 @@ class GmMetadata implements \GeoMetadata\Model\Metadata {
 		$this->endTime = $end;
 	}
 
-	protected function createBoundingBoxObject() {
+	public function deliverBoundingBox() {
 		return new GmBoundingBox();
 	}
 
-	protected function createLayerObject() {
+	public function deliverLayer() {
 		return new GmLayer();
 	}
 

@@ -17,11 +17,11 @@
 
 namespace GeoMetadata\Model;
 
-trait LayerTrait {
+trait LayerContainerTrait {
 
 	private $layers;
 	
-	protected abstract function createLayerObject();
+	public abstract function deliverLayer();
 
 	public function getLayers(){
 		return $this->layers;
@@ -32,7 +32,7 @@ trait LayerTrait {
 	}
 
 	public function createLayer($id, $title = null){
-		$layer = $this->createLayerObject();
+		$layer = $this->deliverLayer();
 		$layer->setId($id);
 		$layer->setTitle($title);
 		$this->layers[] = $layer;

@@ -19,7 +19,7 @@ namespace GeoMetadata\Service;
 
 abstract class OgcWebServices extends XmlParser {
 	
-	use SimpleFillModelTrait;
+	use Traits\SimpleFillModelTrait, Traits\HttpGetTrait;
 	
 	/**
 	 * Takes the user specified URL and builds the service (or base) url from it.

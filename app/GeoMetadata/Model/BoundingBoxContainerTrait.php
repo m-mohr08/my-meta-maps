@@ -17,11 +17,11 @@
 
 namespace GeoMetadata\Model;
 
-trait BoundingBoxTrait {
+trait BoundingBoxContainerTrait {
 	
 	private $boundingBox = array();
 
-	protected abstract function createBoundingBoxObject();
+	public abstract function deliverBoundingBox();
 	
 	public function getCoordinateReferenceSystems() {
 		return array_keys($this->getBoundingBox());
@@ -47,7 +47,7 @@ trait BoundingBoxTrait {
 		}
 	}
 	
-	public function setBoundingBox(BoundingBox $bbox = null) {
+	public function addBoundingBox(BoundingBox $bbox = null) {
 		if ($bbox === null) {
 			return;
 		}
@@ -56,9 +56,9 @@ trait BoundingBoxTrait {
 	}
 	
 	public function createBoundingBox($west, $south, $east, $north, $crs = '') {
-		$bbox = $this->createBoundingBoxObject()->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
+		$bbox = $this->deliverBoundingBox()->set($west, $south, $east, $north);
 		$bbox->setCoordinateReferenceSystem($crs);
-		$this->setBoundingBox($bbox);
+		$this->addBoundingBox($bbox);
 		return $bbox;
 	}
 
