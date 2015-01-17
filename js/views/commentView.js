@@ -215,18 +215,63 @@ CommentAddViewStep2 = ContentView.extend({
  * Extend ModalView
  */
 CommentsShowView = ModalView.extend({
-
-	getPageContent: function() {
-		return this.options.geodata; 
+	getPageContent: function () {
+		return this.options.geodata;
 	},
-	
-	onOpened: function() {
+	onOpened: function () {
 		$('[data-toggle="popover"]').popover({
 			html: true
 		});
-	},
 
-	getPageTemplate: function() {
+		var that = this;
+		// When other layer is selected remove and add the new data to the map
+		var panels = $('#commentAccordion').find('.panel');
+		panels.on('hide.bs.collapse', function (event) {
+			var layerId = $(event.currentTarget).data('layer');
+			that.onLayerHidden(layerId);
+		});
+		panels.on('shown.bs.collapse', function (event) {
+			var geodata = that.getPageContent();
+			var layerId = $(event.currentTarget).data('layer');
+			var layer = null;
+			// Find layer
+			if (layerId === '') {
+				// General comments
+				layer = {
+					id: null,
+					title: Lang.t('generalComm'),
+					bbox: geodata.metadata.bbox,
+					comments: geodata.comments
+				};
+			}
+			else {
+				// One of the layers, find it...
+				if (geodata.layer) {
+					_.each(geodata.layer, function(element) {
+						if (element.id === layerId) {
+							layer = element;
+						}
+					});
+				}
+			}
+			if (layer !== null) {
+				that.onLayerShown(layer);
+			}
+		});
+
+	},
+	
+	onLayerHidden: function(layerId) {
+		// TODO: Remove data from map
+		Debug.log('Layer ' + layerId + ' hidden');
+	},
+	
+	onLayerShown: function(data) {
+		// TODO: Add data to map
+		Debug.log('Layer ' + data.id + ' shown');
+	},
+	
+	getPageTemplate: function () {
 		return '/api/internal/doc/showCommentsToGeodata';
 	}
 });

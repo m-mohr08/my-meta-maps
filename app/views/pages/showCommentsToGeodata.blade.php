@@ -19,18 +19,18 @@
 
 						<div id="showCommentsToGeodata" class="panel-body collapse in" role="tabpanel" aria-labelledby="commentHeader">
 							
-							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="panel-group" id="commentAccordion" role="tablist" aria-multiselectable="true">
 								
-								<div class="panel panel-default">
-									<div class="panel-heading" role="tab" id="General_Header">
+								<div class="panel panel-default" data-layer="">
+									<div class="panel-heading" role="tab" id="LayerGeneralheader">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" href="#General_Body" data-parent="#accordion" aria-expanded="true" aria-controls="General_Body">
-												@lang('misc.generalComm')
+											<a data-toggle="collapse" href="#LayerGeneralBody" data-parent="#commentAccordion" aria-expanded="true" aria-controls="LayerGeneralBody">
+												@lang('client.generalComm')
 											</a>
 											<span class="badge pull-right"><%= data.comments.length %></span>
 										</h4>
 									</div>
-									<div class="panel-body list-group collapse in" id="General_Body" role="tabpanel" aria-labelledby="General_Header">
+									<div class="panel-body list-group collapse<%= (data.comments.length > 0) ? ' in' : '' %>" id="LayerGeneralBody" role="tabpanel" aria-labelledby="LayerGeneralheader">
 										<% _.each(data.comments, function(comment) { %>
 										@include('pages.showCommentsToGeodataBit')
 										<% }); if (_.isEmpty(data.comments)) { %>
@@ -40,10 +40,10 @@
 							  	</div>
 							  	
 								<% _.each(data.layer, function(layer, key) { %>
-								<div class="panel panel-default">
+								<div class="panel panel-default" data-layer="<%- layer.id %>">
 									<div class="panel-heading" role="tab" id="Layer<%= key %>Header">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" href="#Layer<%= key %>Body" data-parent="#accordion" aria-expanded="false" aria-controls="Layer<%= key %>Body">
+											<a data-toggle="collapse" href="#Layer<%= key %>Body" data-parent="#commentAccordion" aria-expanded="false" aria-controls="Layer<%= key %>Body">
 												Layer: <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
 											</a>
 											<span class="badge pull-right"><%= layer.comments.length %></span>
