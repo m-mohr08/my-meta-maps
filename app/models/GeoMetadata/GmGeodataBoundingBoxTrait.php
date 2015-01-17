@@ -60,12 +60,12 @@ trait GmGeodataBoundingBoxTrait {
 		}
 		else {
 			$bbox = $this->fromWkt($this->bbox);
-			$crs = array();
+			$list = array();
 			if ($bbox !== null) {
 				$bbox->setCoordinateReferenceSystem('EPSG:4326'); // Set one of the WGS84 CRS, we don't know which exactly it was, but that doesn't really care.
-				$crs[$bbox->getCoordinateReferenceSystem()] = $bbox;
+				$list[$bbox->getCoordinateReferenceSystem()] = $bbox;
 			}
-			return $crs;
+			return $list;
 		}
 	}
 

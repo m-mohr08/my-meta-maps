@@ -97,6 +97,7 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
+		$list = array();
 		$gmlNs = $this->getNamespace('gml');
 		$gmlNode = $node->children($gmlNs);
 		if (!empty($gmlNode->boundedBy)) { // boundedBy
@@ -106,11 +107,11 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 				$envNode = $bbNode->Envelope->children($gmlNs);
 				if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) { // lower/upperCorner
 					$crs = isset($envelopeAttrs['srsName']) ? $envelopeAttrs['srsName'] : '';
-					return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner), $crs, false, true); // Reverse axis order in GML
+					$list[] = $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner), $crs, false, true); // Reverse axis order in GML
 				}
 			}
 		}
-		return null;
+		return $list;
 	}
 
 }

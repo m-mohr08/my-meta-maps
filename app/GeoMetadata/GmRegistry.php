@@ -105,6 +105,7 @@ class GmRegistry {
 	 */
 	public static function getEpsgCodeNumber($code) {
 		$prefixes = array(
+			'http://www.opengis.net/def/crs/epsg/0/epsg:', // Not a valid urn, but can be found on the web
 			'http://www.opengis.net/def/crs/epsg/0/',
 			'epsg:',
 			'urn:ogc:def:drc:epsg::'

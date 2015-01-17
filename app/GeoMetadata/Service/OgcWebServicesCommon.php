@@ -30,7 +30,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 
 	public function getSupportedNamespaces() {
-		return array('http://www.opengis.net/ows/1.0', 'http://www.opengis.net/ows/1.1');
+		return array('http://www.opengis.net/ows/1.0', 'http://www.opengis.net/ows/1.1', 'http://www.opengis.net/ows/2.0');
 	}
 	
 	protected function registerNamespaces() {
@@ -99,12 +99,13 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	protected function parseLayers() {
 		// Version 1.0.0 of OWS Common doesn't specify anything for the contents.
 		// This implementation parses for contents of version 1.1.0 and ignores the contents section in version 1.0.0.
+		// Version 2.0.x is not supported as of yet.
 		$data = array();
 
 		$nodes = $this->findLayerNodes();
 		foreach($nodes as $node) {
 			$layer = $this->createLayer($this->parseIdentifierFromContents($node), $this->parseTitleFromContents($node));
-			$layer->addBoundingBox($this->parseBoundingBoxFromContents($node));
+			$layer->copyBoundingBox($this->parseBoundingBoxFromContents($node));
 			// Not all models implement the ExtraDataContainerTrait, check this
 			if ($layer instanceof \GeoMetadata\Model\ExtraDataContainer) {
 				$extra = $this->parseExtraDataFromContents($node);
@@ -141,18 +142,23 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
-		$result = $this->parseCoords(
-			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:LowerCorner'), $node),
-			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node),
-			'CRS:84' // Axis order does not depend on the CRS
-		);
+		$result = array();
+		
+		$bboxes = $this->selectMany(array('ows:BoundingBox'), $node, false);
+		foreach ($bboxes as $bbox) {
+			$attrs = $bbox->attributes(); // Namespace seems to be not needed here
+			$lc = $this->n2s($bbox->LowerCorner);
+			$uc = $this->n2s($bbox->UpperCorner);
+			if (!empty($lc) && !empty($uc)){
+				$result[] = $this->parseCoords($lc, $uc, $this->n2s($attrs->crs), true); // Axis order depends on the CRS
+			}
+		}
 
 		if (empty($result)) {
-			$crs = $this->selectOne(array('ows:BoundingBox', 'ows:crs'), $node);
-			$result = $this->parseCoords(
-				$this->selectOne(array('ows:BoundingBox', 'ows:LowerCorner'), $node),
-				$this->selectOne(array('ows:BoundingBox', 'ows:UpperCorner'), $node),
-				$crs, true // Axis order depends on the CRS
+			$result[] = $this->parseCoords(
+				$this->selectOne(array('ows:WGS84BoundingBox', 'ows:LowerCorner'), $node),
+				$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node),
+				'CRS:84' // Axis order does not depend on the CRS
 			);
 		}
 		
