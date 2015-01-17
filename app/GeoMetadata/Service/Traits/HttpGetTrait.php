@@ -15,15 +15,18 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Model;
+namespace GeoMetadata\Service\Traits;
 
-interface LayerContainer {
+use GeoMetadata\GmNet;
 
-	public function getLayers();
-	public function addLayer(Layer $layer);
-	public function createLayer($id, $title = null);
-	public function deliverLayer();
-	public function removeLayer(Layer $layer);
-	public function copyLayer(Layer $layer = null);
+trait HttpGetTrait {
 
+	public function getMetadataRequestData() {
+		return null;
+	}
+
+	public function getMetadataRequestMethod() {
+		return GmNet::GET;
+	}
+	
 }

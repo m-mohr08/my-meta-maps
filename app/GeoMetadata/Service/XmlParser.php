@@ -24,7 +24,7 @@ use \GeoMetadata\GmRegistry;
  * 
  * Note: When speaking about namespaces we are describing the namespace URI.
  */
-abstract class XmlParser extends ParserParser {
+abstract class XmlParser extends CachedParser {
 	
 	private $namespaces = array();
 	private $usedNamespace;

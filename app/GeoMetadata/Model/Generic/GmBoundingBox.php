@@ -76,6 +76,10 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 		$this->west = (double) $west;
 		return $this;
 	}
+	
+	public function set($west, $south, $east, $north) {
+		$this->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
+	}
 
 	public function getArray() {
 		return array(
@@ -104,7 +108,7 @@ class GmBoundingBox implements \GeoMetadata\Model\BoundingBox {
 			$geometry = \geoPHP::load($wkt, "wkt");
 			if ($geometry != null) {
 				$bbox = $geometry->getBBox();
-				$this->setWest($bbox['minx'])->setSouth($bbox['miny'])->setEast($bbox['maxx'])->setNorth($bbox['maxy']);
+				$this->set($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy']);
 				return true;
 			}
 		}
