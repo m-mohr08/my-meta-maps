@@ -87,7 +87,7 @@ CommentAddViewStep2 = ContentView.extend({
 		var that = this;
 		
 		var raster = new ol.layer.Tile({
-			source: new ol.source.MapQuest({layer: 'sat'})
+			source: new ol.source.OSM(),
 		});
 		
 		this.source = new ol.source.Vector();
