@@ -262,13 +262,34 @@ CommentsShowView = ModalView.extend({
 	},
 	
 	onLayerHidden: function(layerId) {
-		// TODO: Remove data from map
 		Debug.log('Layer ' + layerId + ' hidden');
+
+		// TODO: Remove data from map
 	},
 	
 	onLayerShown: function(data) {
-		// TODO: Add data to map
 		Debug.log('Layer ' + data.id + ' shown');
+
+		// TODO: Add data to map
+		
+		// Load WMS/WMTS data
+		var datatype = this.options.geodata.metadata.datatype;
+		if (datatype == 'wms') {
+			this.loadWms(this.options.geodata.url, data.id);
+		}
+		else if (datatype == 'wmts') {
+			this.loadWmts(this.options.geodata.url, data.id);
+		}
+	},
+	
+	loadWms: function(url, layerId) {
+		Debug.log('Loading WMS ' + url + ' with layer ' + layerId);
+		// TODO: Add code to show the WMS on the map
+	},
+	
+	loadWmts: function(url, layerId) {
+		Debug.log('Loading WMTS ' + url + ' with layer ' + layerId);
+		// TODO: Add code to show the WMTS on the map
 	},
 	
 	getPageTemplate: function () {
