@@ -106,7 +106,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 			$layer = $this->createLayer($this->parseIdentifierFromContents($node), $this->parseTitleFromContents($node));
 			$layer->addBoundingBox($this->parseBoundingBoxFromContents($node));
 			// Not all models implement the ExtraDataContainerTrait, check this
-			if ($layer instanceof ExtraDataContainer) {
+			if ($layer instanceof \GeoMetadata\Model\ExtraDataContainer) {
 				$extra = $this->parseExtraDataFromContents($node);
 				foreach($extra as $key => $value) {
 					$layer->setData($key, $value);

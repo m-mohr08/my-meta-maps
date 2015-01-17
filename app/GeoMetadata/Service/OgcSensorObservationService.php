@@ -32,19 +32,19 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBeginTime() {
-		return $this->parseTime('beginTime');
+		return $this->parseTime('beginTime', function($a, $b) { return $a < $b; } );
 	}
 
 	protected function parseEndTime() {
-		return $this->parseTime('endTime');
+		return $this->parseTime('endTime', function($a, $b) { return $a > $b; } );
 	}
 	
-	private function parseTime($key) {
+	private function parseTime($key, $comparator) {
 		$result = null;
 		foreach($this->getLayers() as $content) {
-			if ($content instanceof ExtraDataContainer) {
+			if ($content instanceof \GeoMetadata\Model\ExtraDataContainer) {
 				$time = $content->getData($key);
-				if ($time !== null && ($result === null || $time > $result)) {
+				if ($time !== null && ($result === null || call_user_func($comparator, $time, $result))) {
 					$result = $time;
 				}
 			}
@@ -89,7 +89,7 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 				$gmlNode = $sosNode->time->children($this->getNamespace('gml'));
 				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode);
 				if (isIso8601Date($position)) {
-					$data[$when . 'Time'] = new \Carbon\Carbon($position);
+					$data[$when . 'Time'] = new \DateTime($position);
 				}
 			}
 		}

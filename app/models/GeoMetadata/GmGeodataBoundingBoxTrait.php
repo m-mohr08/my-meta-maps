@@ -43,9 +43,9 @@ trait GmGeodataBoundingBoxTrait {
 		}
 	}
 	
-	private function fromWkt($bbox) {
-		$bbox = new GmGeodataBoundingBox();
-		if ($bbox->fromWkt($bbox)) {
+	private function fromWkt($wkt) {
+		$bbox = $this->deliverBoundingBox();
+		if ($bbox->fromWkt($wkt)) {
 			return $bbox;
 		}
 		return null;
@@ -62,7 +62,8 @@ trait GmGeodataBoundingBoxTrait {
 			$bbox = $this->fromWkt($this->bbox);
 			$crs = array();
 			if ($bbox !== null) {
-				$crs['EPSG:4326'] = $bbox; // Set one of the WGS84 CRS, we don't know which exactly it was, but that doesn't really care.
+				$bbox->setCoordinateReferenceSystem('EPSG:4326'); // Set one of the WGS84 CRS, we don't know which exactly it was, but that doesn't really care.
+				$crs[$bbox->getCoordinateReferenceSystem()] = $bbox;
 			}
 			return $crs;
 		}

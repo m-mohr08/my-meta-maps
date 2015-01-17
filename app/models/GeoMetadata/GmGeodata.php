@@ -20,9 +20,9 @@ use \Carbon\Carbon;
 /**
  * Extends the geodata model with the ability to be used as model in GeoMatadata Parser.
  */
-class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata {
+class GmGeodata extends Geodata implements GeoMetadata\Model\Metadata, \GeoMetadata\Model\ExtraDataContainer {
 
-	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\LayerContainerTrait;
+	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\LayerContainerTrait, \GeoMetadata\Model\ExtraDataContainerTrait;
 
 	public function createObject() {
 		return new static();
