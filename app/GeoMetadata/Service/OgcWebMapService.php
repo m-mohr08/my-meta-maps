@@ -61,14 +61,16 @@ class OgcWebMapService extends OgcWebServices {
 		return $this->cache['version'][$version];
 	}
 	
-	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
+	protected function parseBoundingBox() {
 		$parent = $this->selectOne(array('wms:Capability', 'wms:Layer'), null, false);
-		$this->parseBoundingBoxFromNode($parent, $model);
+		return $this->parseBoundingBoxFromNode($parent);
 	}
 	
-	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent, \GeoMetadata\Model\BoundingBoxContainer $model) {
+	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent) {
 		$isVersion130 = $this->isWmsVersion('1.3.0');
 
+		$list = array();
+		
 		$bboxes = $this->selectMany(array("wms:BoundingBox"), $parent, false);
 		foreach ($bboxes as $bbox) {
 			if (isset($bbox['minx']) && isset($bbox['miny']) && isset($bbox['maxx']) && isset($bbox['maxy'])) {
@@ -77,38 +79,39 @@ class OgcWebMapService extends OgcWebServices {
 					// In WMS version 1.3.0 with EPSG:4326 (NOT CRS:84) and some other CRS the lon/lat values order is changed.
 					// See http://www.esri.de/support/produkte/arcgis-server-10-0/korrekte-achsen-reihenfolge-fuer-wms-dienste
 					// and http://viswaug.wordpress.com/2009/03/15/reversed-co-ordinate-axis-order-for-epsg4326-vs-crs84-when-requesting-wms-130-images/
-					$model->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx'], $crs);
+					$list[] = $this->createBoundingBox($bbox['miny'], $bbox['minx'], $bbox['maxy'], $bbox['maxx'], $crs);
 				}
 				else {
-					$model->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy'], $crs);
+					$list[] = $this->createBoundingBox($bbox['minx'], $bbox['miny'], $bbox['maxx'], $bbox['maxy'], $crs);
 				}
-				return true;
 			}
+		}
+		if (!empty($list)) {
+			return $list;
 		}
 
 		if (!empty($parent->EX_GeographicBoundingBox)) {
 			$bbox = $parent->EX_GeographicBoundingBox->children();
 			if ($bbox->count() >= 4) {
-				$model->createBoundingBox(
+				$list[] = $this->createBoundingBox(
 					$this->n2s($bbox->westBoundLongitude),
 					$this->n2s($bbox->southBoundLatitude),
 					$this->n2s($bbox->eastBoundLongitude),
 					$this->n2s($bbox->northBoundLatitude),
 					'CRS:84'
 				);
-				return true;
+				return $list;
 			}
 		}
 
 		if (!$isVersion130) { // only before v1.3.0
 			$latlonBBox = $this->selectOne(array('wms:LatLonBoundingBox'), $parent, false);
 			if (isset($latlonBBox['minx']) && isset($latlonBBox['miny']) && isset($latlonBBox['maxx']) && isset($latlonBBox['maxy'])) {
-				$model->createBoundingBox($latlonBBox['minx'], $latlonBBox['miny'], $latlonBBox['maxx'], $latlonBBox['maxy'], 'EPSG:4326');
-				return true;
+				$list[] = $this->createBoundingBox($latlonBBox['minx'], $latlonBBox['miny'], $latlonBBox['maxx'], $latlonBBox['maxy'], 'EPSG:4326');
 			}
 		}
 
-		return false;
+		return $list;
 	}
 
 	protected function parseBeginTime() {
@@ -125,19 +128,23 @@ class OgcWebMapService extends OgcWebServices {
 		return $this->selectMany(array('wms:Service', 'wms:KeywordList', 'wms:Keyword'));
 	}
 
-	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
+	protected function parseLayers() {
 		$nodes = $this->selectMany(array('wms:Capability', 'wms:Layer', 'wms:Layer'), null, false);
+		$layers = array();
 		foreach ($nodes as $node) {
-			$name = $this->n2s($node->Name);
-			if (!empty($name)) {
-				$title = $this->n2s($node->Title);
-				$layer = $model->createLayer($name, $title);
-				if (!$this->parseBoundingBoxFromNode($node, $layer)) {
-					// Inheritance of bbox from global WMS bbox if not an own bbox is provided by the layer
-					$layer->setBoundingBox($model->getBoundingBox());
+			$id = $this->n2s($node->Name);
+			if (!empty($id)) {
+				$layer = $this->createLayer($id, $this->n2s($node->Title));
+				$bboxes = $this->parseBoundingBoxFromNode($node);
+				if (empty($bboxes)) {
+					// Inheritance of bbox from global WMS bbox if not an own bbox is provided by the layer.
+					$bboxes = $this->getBoundingBox();
 				}
+				$layer->copyBoundingBox($bboxes);
+				$layers[] = $layer;
 			}
 		}
+		return $layers;
 	}
 
 	protected function parseLicense() {

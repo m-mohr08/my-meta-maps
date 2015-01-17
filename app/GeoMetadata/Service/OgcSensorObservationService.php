@@ -41,10 +41,12 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	
 	private function parseTime($key) {
 		$result = null;
-		foreach($this->getContents() as $content) {
-			$time = $content->getData($key);
-			if ($time !== null && ($result === null || $time > $result)) {
-				$result = $time;
+		foreach($this->getLayers() as $content) {
+			if ($content instanceof ExtraDataContainer) {
+				$time = $content->getData($key);
+				if ($time !== null && ($result === null || $time > $result)) {
+					$result = $time;
+				}
 			}
 		}
 		return $result;
@@ -97,12 +99,12 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
 		$gmlNs = $this->getNamespace('gml');
 		$gmlNode = $node->children($gmlNs);
-		if (!empty($gmlNode->boundedBy)) {
+		if (!empty($gmlNode->boundedBy)) { // boundedBy
 			$bbNode = $gmlNode->boundedBy->children($gmlNs);
-			if (!empty($bbNode->Envelope)) {
+			if (!empty($bbNode->Envelope)) { // Envelope
 				$envelopeAttrs = $this->selectAttributes($bbNode->Envelope); // Seems we don't need a ns prefix here
 				$envNode = $bbNode->Envelope->children($gmlNs);
-				if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
+				if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) { // lower/upperCorner
 					$crs = isset($envelopeAttrs['srsName']) ? $envelopeAttrs['srsName'] : '';
 					return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner), $crs, false, true); // Reverse axis order in GML
 				}

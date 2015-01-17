@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,27 +16,58 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Service;
+namespace GeoMetadata\Service\Traits;
 
 trait SimpleFillModelTrait {
 
-	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
-		$this->parseLayer($model);
-		$this->parseBoundingBox($model);
+	private $called = array();
+	private $model;
 
-		$model->setAuthor($this->parseAuthor());
-		$model->setCopyright($this->parseCopyright());
-		$model->setDescription($this->parseAbstract());
-		$model->setKeywords($this->parseKeywords());
-		$model->setLanguage($this->parseLanguage());
-		$model->setLicense($this->parseLicense());
-		$model->setBeginTime($this->parseBeginTime());
-		$model->setEndTime($this->parseEndTime());
-		$model->setTitle($this->parseTitle());
+	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
+		$this->model = $model;
+		// Get all data we want to parse. 
+		// Data is set to the model directly in the get methods.
+		$this->getAuthor();
+		$this->getCopyright();
+		$this->getAbstract();
+		$this->getKeywords();
+		$this->getLanguage();
+		$this->getLicense();
+		$this->getBeginTime();
+		$this->getEndTime();
+		$this->getTitle();
+		$this->getBoundingBox();
+		$this->getLayers();
 
 		return true;
 	}
 	
+	public function __call($method, $args) {
+		if (strpos($method, 'get') === 0) {
+			// Redirect all 'undefined' getXXX requests to this code for parsing and caching of the data.
+			$method = substr($method, 3); // Remove the leading 'get'
+			if (empty($this->loaded[$method])) {
+				$result = call_user_func_array(array($this, "parse{$method}"), $args);
+				if (is_array($result)) {
+					foreach ($result as $entry) {
+						// For addXXX you usually have no plural s at the end which you normally have 
+						// with the given getters. But don't remove it with a leading x or s.
+						$addMethod = preg_replace('~([^xs])s$~', '$1', "add{$method}");
+						call_user_func(array($this->model, $addMethod), $entry);
+					}
+				}
+				else {
+					call_user_func(array($this->model, "set{$method}"), $result);
+				}
+				$this->loaded[$method] = true;
+			}
+			return call_user_func(array($this->model, "get{$method}"));
+		}
+		else {
+			throw new \BadMethodCallException('Call to undefined method ' . $method);
+		}
+	}
+
 	protected function parseAuthor() {
 		return null;
 	}
@@ -72,8 +104,30 @@ trait SimpleFillModelTrait {
 		return null;
 	}
 
-	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {}
+	protected function parseBoundingBox() {
+		return array();
+	}
 
-	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {}
+	protected function parseLayers() {
+		return array();
+	}
 	
+	protected function createLayer($id, $title) {
+		$layer = $this->model->deliverLayer();
+		$layer->setId($id);
+		$layer->setTitle($title);
+		return $layer;
+	}
+	
+	protected function createEmptyBoundingBox() {
+		return $this->model->deliverBoundingBox();
+	}
+	
+	protected function createBoundingBox($west, $south, $east, $north, $crs = '') {
+		$bbox = $this->model->deliverBoundingBox();
+		$bbox->set($west, $south, $east, $north);
+		$bbox->setCoordinateReferenceSystem($crs);
+		return $bbox;
+	}
+
 }

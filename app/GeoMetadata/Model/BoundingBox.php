@@ -33,6 +33,8 @@ interface BoundingBox {
 	
 	public function getWest();
 	public function setWest($west);
+	
+	public function set($west, $south, $east, $north);
 
 	public function getArray();
 	public function toWkt();

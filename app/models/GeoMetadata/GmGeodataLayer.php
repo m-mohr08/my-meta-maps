@@ -18,15 +18,14 @@
 /**
  * Extends the layer model with the ability to be used as model in GeoMatadata Parser.
  */
-class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer  {
+class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer, \GeoMetadata\Model\ExtraDataContainer  {
 
-	use GmGeodataBoundingBoxTrait;
+	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\ExtraDataContainerTrait;
 
-	public function __construct($name = null, $title = null, BoundingBox $boundingBox = null) {
+	public function __construct($name = null, $title = null) {
 		parent::__construct();
 		$this->setId($name);
 		$this->setTitle($title);
-		$this->setBoundingBox($boundingBox);
 	}
 
 	public function getId() {

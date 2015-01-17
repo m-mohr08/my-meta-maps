@@ -20,16 +20,16 @@
  */
 trait GmGeodataBoundingBoxTrait {
 
-	use \GeoMetadata\Model\BoundingBoxTrait;
+	use \GeoMetadata\Model\BoundingBoxContainerTrait;
 
-	protected function createBoundingBoxObject() {
+	public function deliverBoundingBox() {
 		return new GmGeodataBoundingBox();
 	}
 	
 	public function createBoundingBox($west, $south, $east, $north, $crs = null) {
 		if (Geodata::isWgs84($crs)) {
 			$bbox = new GmGeodataBoundingBox();
-			$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
+			$bbox->set($west, $south, $east, $north);
 			$bbox->setCoordinateReferenceSystem($crs);
 			$this->bbox = $bbox->toWkt();
 			return $bbox;
@@ -68,7 +68,7 @@ trait GmGeodataBoundingBoxTrait {
 		}
 	}
 
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
+	public function addBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
 		if ($bbox  !== null && Geodata::isWgs84($bbox->getCoordinateReferenceSystem())) {
 			$this->bbox = $bbox->toWkt();
 		}
