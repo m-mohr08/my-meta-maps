@@ -102,8 +102,6 @@
 		<dt>Titel</dt>
 		<dd><%- data.metadata.title %></dd>
 	<% } %>
-		<dt>Karte</dt>
-		<dd><%- data.metadata.bbox %></dd>
 	<% if (!_.isEmpty(data.metadata.language)) { %>
 		<dt>Sprache</dt>
 		<dd><%- data.metadata.language %></dd>
