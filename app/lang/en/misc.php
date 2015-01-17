@@ -99,7 +99,7 @@ return array(
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
 	
-	'generalComm' => 'Genral comments',
+	'generalComm' => 'General comments',
 	'noComm' => 'There are not general comments available.',
 	'noCommLayer' => 'There are no comments to this layer.',
 	'adress' => 'Adress',
