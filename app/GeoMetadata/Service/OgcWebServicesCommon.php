@@ -17,11 +17,9 @@
 
 namespace GeoMetadata\Service;
 
-use \GeoMetadata\Model\Generic\GmBoundingBox, \GeoMetadata\Model\Generic\GmLayer;
+use \GeoMetadata\GmRegistry;
 
 abstract class OgcWebServicesCommon extends OgcWebServices {
-
-	private $contents = null;
 	
 	public function getName() {
 		return 'OGC OWS Common';
@@ -32,7 +30,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 
 	public function getSupportedNamespaces() {
-		return array('http://www.opengis.net/ows/1.0', 'http://www.opengis.net/ows/1.1');
+		return array('http://www.opengis.net/ows/1.0', 'http://www.opengis.net/ows/1.1', 'http://www.opengis.net/ows/2.0');
 	}
 	
 	protected function registerNamespaces() {
@@ -46,7 +44,7 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	protected function checkServiceType() {
 		$docCode = $this->selectOne(array('ows:ServiceIdentification', 'ows:ServiceType'));
 		$parserCode = preg_quote($this->getCode(), '~');
-		return (preg_match('~^\s*(OGC[:\s]?)?'.$parserCode.'\s*$~i', $docCode) == 1); // There might be a "OGC" prefix in front in some implementations.
+		return (preg_match('~^\s*(urn:ogc:service:|OGC[:\s]?)?'.$parserCode.'\s*$~i', $docCode) == 1); // There might be a "OGC" prefix in front in some implementations.
 	}
 
 	protected function parseAbstract() {
@@ -55,18 +53,6 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 
 	protected function parseAuthor() {
 		return $this->selectNestedText(array('ows:ServiceProvider'), $this->getNamespace('ows'));
-	}
-
-	protected function parseCopyright() {
-		return null; // Not supported
-	}
-
-	protected function parseBeginTime() {
-		return null; // Not supported
-	}
-
-	protected function parseEndTime() {
-		return null; // Not supported
 	}
 
 	protected function parseKeywords() {
@@ -94,46 +80,38 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		return $this->selectOne(array('ows:ServiceIdentification', 'ows:Title'));
 	}
 
-	protected function parseBoundingBox(\GeoMetadata\Model\Metadata &$model) {
+	protected function parseBoundingBox() {
 		// There is no bounding box in the metadata for the complete dataset.
 		// We are calculation a bounding box by joining all bboxes of the layers.
-		$bbox = new GmBoundingBox();
-		foreach($this->getContents() as $content) {
-			$bbox = $content->getBoundingBox();
-			if ($bbox !== null) {
-				$bbox->union($bbox);
+		$growingBBoxes = array();
+		foreach($this->getLayers() as $content) {
+			$layerBBoxes = $content->getBoundingBox();
+			foreach($layerBBoxes as $crs => $bbox) {
+				if (!isset($growingBBoxes[$crs])) {
+					$growingBBoxes[$crs] = $this->createEmptyBoundingBox();
+				}
+				$growingBBoxes[$crs]->union($bbox);
 			}
 		}
-		$model->copyBoundingBox($bbox);
+		return $growingBBoxes;
 	}
 
-	protected function parseLayer(\GeoMetadata\Model\Metadata &$model) {
-		foreach($this->getContents() as $content) {
-			$model->copyLayer($content);
-		}
-	}
-	
-	protected function getContents() {
-		if ($this->contents === null) {
-			$this->contents = $this->parseContents();
-		}
-		return $this->contents;
-	}
-	
-	protected function parseContents() {
+	protected function parseLayers() {
 		// Version 1.0.0 of OWS Common doesn't specify anything for the contents.
 		// This implementation parses for contents of version 1.1.0 and ignores the contents section in version 1.0.0.
+		// Version 2.0.x is not supported as of yet.
 		$data = array();
 
 		$nodes = $this->findLayerNodes();
 		foreach($nodes as $node) {
-			$layer = new GmLayer();
-			$layer->setId($this->parseIdentifierFromContents($node));
-			$layer->setTitle($this->parseTitleFromContents($node));
-			$layer->setBoundingBox($this->parseBoundingBoxFromContents($node));
-			$extra = $this->parseExtraDataFromContents($node);
-			foreach($extra as $key => $value) {
-				$layer->setData($key, $value);
+			$layer = $this->createLayer($this->parseIdentifierFromContents($node), $this->parseTitleFromContents($node));
+			$layer->copyBoundingBox($this->parseBoundingBoxFromContents($node));
+			// Not all models implement the ExtraDataContainerTrait, check this
+			if ($layer instanceof \GeoMetadata\Model\ExtraDataContainer) {
+				$extra = $this->parseExtraDataFromContents($node);
+				foreach($extra as $key => $value) {
+					$layer->setData($key, $value);
+				}
 			}
 			$data[] = $layer;
 		}
@@ -164,30 +142,39 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
-//		$node = $node->children($this->getNamespace('ows'));
-		$result = $this->parseCoords(
-			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:LowerCorner'), $node),
-			$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node)
-		);
+		$result = array();
+		
+		$bboxes = $this->selectMany(array('ows:BoundingBox'), $node, false);
+		foreach ($bboxes as $bbox) {
+			$attrs = $bbox->attributes(); // Namespace seems to be not needed here
+			$lc = $this->n2s($bbox->LowerCorner);
+			$uc = $this->n2s($bbox->UpperCorner);
+			if (!empty($lc) && !empty($uc)){
+				$result[] = $this->parseCoords($lc, $uc, $this->n2s($attrs->crs), true); // Axis order depends on the CRS
+			}
+		}
 
 		if (empty($result)) {
-			$crs = $this->selectOne(array('ows:BoundingBox', 'ows:crs'), $node);
-			if ($this->isWgs84($crs)) {
-				$result = $this->parseCoords(
-					$this->selectOne(array('ows:BoundingBox', 'ows:LowerCorner'), $node),
-					$this->selectOne(array('ows:BoundingBox', 'ows:UpperCorner'), $node)
-				);
-			}
+			$result[] = $this->parseCoords(
+				$this->selectOne(array('ows:WGS84BoundingBox', 'ows:LowerCorner'), $node),
+				$this->selectOne(array('ows:WGS84BoundingBox', 'ows:UpperCorner'), $node),
+				'CRS:84' // Axis order does not depend on the CRS
+			);
 		}
 		
 		return $result;
 	}
 		
-	protected function parseCoords($min, $max) {
+	protected function parseCoords($min, $max, $crs = '', $checkInverseAxisOrder = false, $forceChangeAxisOrder = false) {
 		$regex = '~(-?\d*\.?\d+)\s+(-?\d*\.?\d+)~';
 		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {
-			$bbox = new GmBoundingBox();
-			$bbox->setWest($minMatch[1])->setSouth($maxMatch[2])->setEast($minMatch[2])->setNorth($maxMatch[1]);
+			$bbox = $this->createEmptyBoundingBox();
+			$bbox->setCoordinateReferenceSystem($crs);
+			$x = 1; $y = 2;
+			if ($forceChangeAxisOrder || ($checkInverseAxisOrder && GmRegistry::isInversedAxisOrderEpsgCode($crs))) {
+				$x = 2; $y = 1;
+			}
+			$bbox->set($minMatch[$x], $minMatch[$y], $maxMatch[$x], $maxMatch[$y]);
 			return $bbox;
 		}
 		else {

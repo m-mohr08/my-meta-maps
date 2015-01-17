@@ -32,19 +32,21 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBeginTime() {
-		return $this->parseTime('beginTime');
+		return $this->parseTime('beginTime', function($a, $b) { return $a < $b; } );
 	}
 
 	protected function parseEndTime() {
-		return $this->parseTime('endTime');
+		return $this->parseTime('endTime', function($a, $b) { return $a > $b; } );
 	}
 	
-	private function parseTime($key) {
+	private function parseTime($key, $comparator) {
 		$result = null;
-		foreach($this->getContents() as $content) {
-			$time = $content->getData($key);
-			if ($time !== null && ($result === null || $time > $result)) {
-				$result = $time;
+		foreach($this->getLayers() as $content) {
+			if ($content instanceof \GeoMetadata\Model\ExtraDataContainer) {
+				$time = $content->getData($key);
+				if ($time !== null && ($result === null || call_user_func($comparator, $time, $result))) {
+					$result = $time;
+				}
 			}
 		}
 		return $result;
@@ -85,9 +87,9 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		if (!empty($sosNode->time) && $sosNode->count() > 0) {
 			foreach (array('begin', 'end') as $when) {
 				$gmlNode = $sosNode->time->children($this->getNamespace('gml'));
-				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode); // TODO: Das zweite gml: wird nicht vom Querybuilder berücksichtigt
+				$position = $this->selectOne(array("gml:{$when}Position|gml:{$when}"), $gmlNode);
 				if (isIso8601Date($position)) {
-					$data[$when . 'Time'] = new \Carbon\Carbon($position);
+					$data[$when . 'Time'] = new \DateTime($position);
 				}
 			}
 		}
@@ -95,21 +97,21 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	}
 	
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
+		$list = array();
 		$gmlNs = $this->getNamespace('gml');
 		$gmlNode = $node->children($gmlNs);
-		if (!empty($gmlNode->boundedBy)) {
+		if (!empty($gmlNode->boundedBy)) { // boundedBy
 			$bbNode = $gmlNode->boundedBy->children($gmlNs);
-			if (!empty($bbNode->Envelope)) {
+			if (!empty($bbNode->Envelope)) { // Envelope
 				$envelopeAttrs = $this->selectAttributes($bbNode->Envelope); // Seems we don't need a ns prefix here
-				if (isset($envelopeAttrs['srsName']) && $this->isWgs84($envelopeAttrs['srsName'])) {
-					$envNode = $bbNode->Envelope->children($gmlNs);
-					if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) {
-						return $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner));
-					}
+				$envNode = $bbNode->Envelope->children($gmlNs);
+				if (!empty($envNode->lowerCorner) && !empty($envNode->upperCorner)) { // lower/upperCorner
+					$crs = isset($envelopeAttrs['srsName']) ? $envelopeAttrs['srsName'] : '';
+					$list[] = $this->parseCoords(strval($envNode->lowerCorner), strval($envNode->upperCorner), $crs, false, true); // Reverse axis order in GML
 				}
 			}
 		}
-		return null;
+		return $list;
 	}
 
 }

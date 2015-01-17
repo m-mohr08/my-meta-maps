@@ -40,8 +40,8 @@ interface Metadata extends BoundingBoxContainer {
 	public function setKeywords(array $keywords);
 	public function addKeyword($keyword);
 
-	public function getDescription();
-	public function setDescription($description);
+	public function getAbstract();
+	public function setAbstract($abstract);
 
 	public function getLanguage();
 	public function setLanguage($language);

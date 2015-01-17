@@ -15,27 +15,18 @@
  * limitations under the License.
  */
 
-namespace GeoMetadata\Model;
+namespace GeoMetadata\Service\Traits;
 
-trait ExtraDataTrait {
-	
-	private $extra = array();
+use GeoMetadata\GmNet;
 
-	public function setData($key, $value) {
-		$this->extra[$key] = $value;
-	}
-	
-	public function getData($key) {
-		if (isset($this->extra[$key])) {
-			return $this->extra[$key];
-		}
-		else {
-			return null;
-		}
-	}
-	
-	public function hasData($key) {
-		return (isset($this->extra[$key]) && $this->extra[$key] !== null);
+trait HttpGetTrait {
+
+	public function getMetadataRequestData() {
+		return null;
 	}
 
+	public function getMetadataRequestMethod() {
+		return GmNet::GET;
+	}
+	
 }

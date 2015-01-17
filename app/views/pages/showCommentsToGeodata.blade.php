@@ -51,7 +51,7 @@
 									<% _.each(layer.comments, function(comment) { %>
 									@include('pages.showCommentsToGeodataBit')
 									<% }); if (_.isEmpty(layer.comments)) { %>
-									<span class="list-group-item">@lang('misc.generalCommLayer')</span>
+									<span class="list-group-item">@lang('misc.noCommLayer')</span>
 									<% } %>
 								</div>
 							</div>

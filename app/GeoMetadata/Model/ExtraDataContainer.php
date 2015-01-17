@@ -15,36 +15,12 @@
  * limitations under the License.
  */
 
-/**
- * Implements the basemap model.
- */
-class Basemap extends Eloquent {
+namespace GeoMetadata\Model;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'mmm_basemap';
-	
-	/**
-	 * Tell the ORM to use timestamp fields or not. 
-	 * 
-	 * @var boolean
-	 */
-	public $timestamps = false;
+interface ExtraDataContainer {
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array();
-	
-    public function scopeActive($query)
-    {
-        return $query->where('active', true);
-    }
+	public function setData($key, $value);
+	public function getData($key);
+	public function hasData($key);
 
 }
-?>

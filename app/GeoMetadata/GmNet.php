@@ -19,6 +19,9 @@ namespace GeoMetadata;
 
 class GmNet {
 	
+	const GET = false;
+	const POST = true;
+	
 	protected $timeout;
 
 	protected $proxyHost;
@@ -43,9 +46,11 @@ class GmNet {
 	 * Downloads the content of a URL and returns it.
 	 * 
 	 * @param string $url URL to the data.
+	 * @param boolean $post true to use the POST method instead of GET.
+	 * @param string $body Additional data to send to the server as body of the request. If specified POST method is used anyway.
 	 * @return Returns the content as string or null on failure.
 	 */
-	public function get($url) {
+	public function get($url, $post = false, $body = null) {
 		// Check whether URL is given
 		if (!filter_var($url, FILTER_VALIDATE_URL)) {
 			return null;
@@ -61,6 +66,10 @@ class GmNet {
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
 		curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
+		curl_setopt($ch, ($post || $body !== null) ? CURLOPT_POST : CURLOPT_HTTPGET, true);
+		if ($body !== null) {
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+		}
 		if (!empty($this->proxyHost)) {
 			curl_setopt($ch, CURLOPT_PROXY, $this->proxyHost);
 			if (intval($this->proxyPort) > 0) {

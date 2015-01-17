@@ -34,7 +34,6 @@ class BasedataApiController extends BaseApiController {
 			'datepicker' => array(
 				'format' => Config::get('view.datepicker.format'),
 			),
-			'basemaps' => Basemap::active()->get(array('url', 'name')),
 			'datatypes' => array()
 		);
 		foreach (\GeoMetadata\GmRegistry::getServices() as $service) {
