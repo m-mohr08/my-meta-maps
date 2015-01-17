@@ -15,35 +15,63 @@
  * limitations under the License.
  */
 
+/**
+ * Bounding Box implementation for My Meta Maps that only accepts WGS84 bounding boxes.
+ */
 trait GmGeodataBoundingBoxTrait {
-	
-	public function createBoundingBox($west, $south, $east, $north) {
-		$bbox = new GmGeodataBoundingBox();
-		$bbox->setWest($west)->setSouth($south)->setEast($east)->setNorth($north);
-		$this->bbox = $bbox->toWkt();
-		return $this->bbox;
-	}
 
-	public function getBoundingBox() {
-		$bbox = new GmGeodataBoundingBox();
-		if ($bbox->fromWkt($this->bbox)) {
+	use \GeoMetadata\Model\BoundingBoxContainerTrait;
+
+	public function deliverBoundingBox() {
+		return new GmGeodataBoundingBox();
+	}
+	
+	public function createBoundingBox($west, $south, $east, $north, $crs = null) {
+		if (Geodata::isWgs84($crs)) {
+			$bbox = new GmGeodataBoundingBox();
+			$bbox->set($west, $south, $east, $north);
+			$bbox->setCoordinateReferenceSystem($crs);
+			$this->bbox = $bbox->toWkt();
 			return $bbox;
 		}
-		else {
+		return null;
+	}
+	
+	public function removeBoundingBox($crs) {
+		if (Geodata::isWgs84($crs)) {
+			$this->bbox = null;
+		}
+	}
+	
+	private function fromWkt($wkt) {
+		$bbox = $this->deliverBoundingBox();
+		if ($bbox->fromWkt($wkt)) {
+			return $bbox;
+		}
+		return null;
+	}
+
+	public function getBoundingBox($crs = null) {
+		if ($crs !== null) {
+			if (Geodata::isWgs84($crs)) {
+				return $this->fromWkt($this->bbox);
+			}
 			return null;
+		}
+		else {
+			$bbox = $this->fromWkt($this->bbox);
+			$list = array();
+			if ($bbox !== null) {
+				$bbox->setCoordinateReferenceSystem('EPSG:4326'); // Set one of the WGS84 CRS, we don't know which exactly it was, but that doesn't really care.
+				$list[$bbox->getCoordinateReferenceSystem()] = $bbox;
+			}
+			return $list;
 		}
 	}
 
-	public function setBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
-		$this->bbox = $bbox !== null ? $bbox->toWkt() : null;
-	}
-
-	public function copyBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
-		if ($bbox !== null && $bbox->defined()) {
-			return $this->createBoundingBox($bbox->getWest(), $bbox->getSouth(), $bbox->getEast(), $bbox->getNorth());
-		}
-		else {
-			return null;
+	public function addBoundingBox(\GeoMetadata\Model\BoundingBox $bbox = null) {
+		if ($bbox  !== null && Geodata::isWgs84($bbox->getCoordinateReferenceSystem())) {
+			$this->bbox = $bbox->toWkt();
 		}
 	}
 	

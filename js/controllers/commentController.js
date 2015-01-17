@@ -35,7 +35,7 @@ function saveSearch() {
 		content: '<div id="permalinkContent"><img src="/img/loading.gif" /> Permalink wird generiert...</div>',
 		html: true,
 		trigger: 'manual',
-		viewport: '#mapDataPanel'
+		container: '#mapDataPanel'
 	});
 	var model = new PermalinkSave();
 	model.save(getFormData(), {

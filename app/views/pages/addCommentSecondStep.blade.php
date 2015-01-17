@@ -42,6 +42,20 @@
 		<textarea class="form-control" rows="6" name="text" id="inputText"></textarea>
 		<div class="error-message"></div>
 	</div>
+	
+	<div class="row form-group">
+		
+	  	<label>Wähle einen Geometrie-Typ &nbsp;</label>
+	    <select id="geomType">
+	        <option value="None">None</option>
+	        <option value="Point">Point</option>
+	        <option value="LineString">LineString</option>
+	        <option value="Polygon">Polygon</option>
+        </select>
+	
+    	<div id="mapAddComm"></div>
+    	
+	</div>
 
 	<div class="row form-group">
 		<label for="startDate">@lang('misc.timerange')</label>
@@ -88,8 +102,6 @@
 		<dt>Titel</dt>
 		<dd><%- data.metadata.title %></dd>
 	<% } %>
-		<dt>Karte</dt>
-		<dd><%- data.metadata.bbox %></dd>
 	<% if (!_.isEmpty(data.metadata.language)) { %>
 		<dt>Sprache</dt>
 		<dd><%- data.metadata.language %></dd>

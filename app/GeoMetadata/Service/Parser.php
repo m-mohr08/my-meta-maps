@@ -59,6 +59,22 @@ interface Parser {
 	public function getMetadataUrl($url);
 	
 	/**
+	 * Returns which request method should be used for get the metadata.
+	 * 
+	 * Use GmNet::POST for POST method or GmNet::GET for GET method of HTTP 1.1.
+	 * 
+	 * @return string URL giving the metadata for the service
+	 */
+	public function getMetadataRequestMethod();
+
+	/**
+	 * Returns the body data for the HTTP request sent to the server to get the metadata.
+	 * 
+	 * @return string HTTP request body data or null for no data to be sent.
+	 */
+	public function getMetadataRequestData();
+	
+	/**
 	 * Checks whether the given service data is of this type.
 	 * 
 	 * @param string $source String containing the data to parse.

@@ -25,7 +25,7 @@ ContentView = Backbone.View.extend({
 			callback(this.templateCache[url]);
 		}
 		else {
-		var that = this;
+			var that = this;
 			$.get(url, function(data) {
 				that.templateCache[url] = data;
 				callback(data);
@@ -51,14 +51,15 @@ ContentView = Backbone.View.extend({
 		return null;
 	},
 	close: function () {
-		this.$el.html(''); // Remove content from page
+		// Normally we should remove the content from the DOM, but this is delayed for some reasons
+		// and destroys our cached and "fast" templates. Therefore we skip this as the DOM node 
+		// content is replaced anyway.
+//		this.$el.html('');
+
 		// Remove callbacks, events, listeners etc.
 		this.stopListening();
 		this.undelegateEvents();
 		this.unbind();
-		this.off();
-//		this.remove(); // Remove view from DOM
-//		Backbone.View.prototype.remove.call(this);
 	},
 	getPageContent: function () {
 		return {};
@@ -70,7 +71,6 @@ ContentView.active = null;
 ContentView.register = function (view) {
 	if (ContentView.active !== null) {
 		ContentView.active.close();
-		ContentView.active = null;
 	}
 	ContentView.active = view;
 };

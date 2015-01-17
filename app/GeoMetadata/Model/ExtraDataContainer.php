@@ -17,25 +17,10 @@
 
 namespace GeoMetadata\Model;
 
-trait ExtraDataTrait {
-	
-	private $extra = array();
+interface ExtraDataContainer {
 
-	public function setData($key, $value) {
-		$this->extra[$key] = $value;
-	}
-	
-	public function getData($key) {
-		if (isset($this->extra[$key])) {
-			return $this->extra[$key];
-		}
-		else {
-			return null;
-		}
-	}
-	
-	public function hasData($key) {
-		return (isset($this->extra[$key]) && $this->extra[$key] !== null);
-	}
+	public function setData($key, $value);
+	public function getData($key);
+	public function hasData($key);
 
 }

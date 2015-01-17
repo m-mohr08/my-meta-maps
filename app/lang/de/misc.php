@@ -101,7 +101,6 @@ return array(
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
 	
-	'generalComm' => 'Allgemeine Kommentare',
 	'noComm' => 'Es liegen keine allgemeinen Kommentare vor.',
 	'noCommLayer' => 'Zu diesem Layer liegen noch keine Kommentare vor.',
 	'adress' => 'Adresse',
@@ -115,6 +114,7 @@ return array(
 	'endingDate' => 'Enddatum',
 	'author' => 'Autor',
 	'license' => 'Lizenz',
+	'generalData' => 'Allgemeine Daten',
 		
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	

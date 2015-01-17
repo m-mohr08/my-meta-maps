@@ -172,9 +172,12 @@ h3 {
 .metadata-comment .glyphicon {
 	font-size: 15px;
 }
-
 #ModalShowCommentsToGeodata .popover {
 	max-width: 400px;
+}
+#mapDataPanel .popover {
+	width: 300px;
+	max-width: 300px;
 }
 .popover-content {
 	overflow: auto;

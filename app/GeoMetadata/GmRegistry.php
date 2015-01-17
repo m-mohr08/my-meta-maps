@@ -105,6 +105,7 @@ class GmRegistry {
 	 */
 	public static function getEpsgCodeNumber($code) {
 		$prefixes = array(
+			'http://www.opengis.net/def/crs/epsg/0/epsg:', // Not a valid urn, but can be found on the web
 			'http://www.opengis.net/def/crs/epsg/0/',
 			'epsg:',
 			'urn:ogc:def:drc:epsg::'
@@ -123,7 +124,7 @@ class GmRegistry {
 	
 	public static function isInversedAxisOrderEpsgCode($code) {
 		$number = self::getEpsgCodeNumber($code);
-		return in_array($number, self::$invertedAxisOrderEpsCode);
+		return $number > 0 && in_array($number, self::$invertedAxisOrderEpsCode);
 	}
 	
 	/**

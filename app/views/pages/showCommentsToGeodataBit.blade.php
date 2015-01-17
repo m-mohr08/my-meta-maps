@@ -17,12 +17,12 @@
 			<span class="glyphicon glyphicon-map-marker"></span>
 		</span>
 		<% } if (!_.isEmpty(comment.time.start) || !_.isEmpty(comment.time.end)) { %>
-		<a href="#" class="badge alert-default" title="Zeitraum" role="button" data-toggle="popover" 
+		<a href="#" class="badge alert-default" title="Zeitraum" role="button" data-placement="left" data-toggle="popover" data-container="#showCommentsToGeodata"
 		   data-content="Anfangsdatum: <%- comment.time.start ? comment.time.start : 'Keine Angabe' %>&lt;br /&gt;Enddatum: <%- comment.time.end ? comment.time.end : 'Keine Angabe' %>">
 			<span class="glyphicon glyphicon-time"></span>
 		</a>
 		<% } %>
-		<a href="#" class="badge alert-default" title="Permalink" role="button" data-toggle="popover" 
+		<a href="#" class="badge alert-default" title="Permalink" role="button" data-placement="left" data-toggle="popover" data-container="#showCommentsToGeodata"
 		   data-content="&lt;a href='<%- comment.permalink %>' target='_blank'&gt;<%- comment.permalink %>&lt;/a&gt;">
 			<span class="glyphicon glyphicon-share-alt"></span>
 		</a>

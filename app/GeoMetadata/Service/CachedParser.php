@@ -17,7 +17,7 @@
 
 namespace GeoMetadata\Service;
 
-abstract class ParserParser implements Parser {
+abstract class CachedParser implements Parser {
 	
 	private $parser;
 	

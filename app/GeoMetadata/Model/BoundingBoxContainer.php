@@ -19,9 +19,13 @@ namespace GeoMetadata\Model;
 
 interface BoundingBoxContainer {
 
-	public function getBoundingBox();
-	public function setBoundingBox(BoundingBox $bbox = null);
-	public function createBoundingBox($west, $south, $east, $north);
-	public function copyBoundingBox(BoundingBox $bbox = null);
+	public function getCoordinateReferenceSystems();
+	public function hasBoundingBox($crs = null);
+	public function getBoundingBox($crs = null);
+	public function addBoundingBox(BoundingBox $bbox = null);
+	public function removeBoundingBox($crs);
+	public function createBoundingBox($west, $south, $east, $north, $crs = '');
+	public function deliverBoundingBox();
+	public function copyBoundingBox($bbox = null);
 
 }

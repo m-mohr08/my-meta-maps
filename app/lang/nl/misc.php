@@ -100,7 +100,6 @@ return array(
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
 	
-	'generalComm' => 'Algemeene commentaaren',
 	'noComm' => 'Er zijn geen algemeene opmerkingen.',
 	'noCommLayer' => 'Er zijn nog geen reacties op deze laag.',
 	'adress' => 'Adres',
@@ -114,6 +113,7 @@ return array(
 	'endingDate' => 'Eind datum',
 	'author' => 'Autuer',
 	'license' => 'Licentie',
+	'generalData' => 'Algemeene gegevens',
 		
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	

@@ -19,7 +19,7 @@ namespace GeoMetadata\Service;
 
 abstract class OgcWebServices extends XmlParser {
 	
-	use SimpleFillModelTrait;
+	use Traits\SimpleFillModelTrait, Traits\HttpGetTrait;
 	
 	/**
 	 * Takes the user specified URL and builds the service (or base) url from it.
@@ -47,21 +47,6 @@ abstract class OgcWebServices extends XmlParser {
 	 */
 	public function getMetadataUrl($url) {
 		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . strtoupper($this->getCode());
-	}
-	
-	protected function isWgs84($crs) {
-		if (!is_array($crs)) {
-			$crs = array($crs);
-		}
-		foreach($crs as $i) {
-			if (\GeoMetadata\GmRegistry::getEpsgCodeNumber($i) == 4326) {
-				return true;
-			}
-			else if (strtolower($i) == 'crs:84') { // crs:84 is mostly an alternative for EPSG:4326
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public function verify($source) {
