@@ -90,9 +90,10 @@
 							</h4>
 						</div>
 						<div class="panel-body collapse in" id="showMapToGeodata" role="tabpanel" aria-labelledby="mapHeader">
-                                                    <div id="map"></div>
+							<div id="commentviewmap"></div>
+						</div>
 					</div>
-
+							
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="metadataHeader">
 							<h4 class="panel-title">

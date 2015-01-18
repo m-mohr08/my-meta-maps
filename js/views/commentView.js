@@ -116,10 +116,6 @@ CommentAddViewStep2 = ContentView.extend({
  * Extend ModalView
  */
 CommentsShowView = ModalView.extend({
-        
-        onLoaded: function (){
-            
-        },
 
 	getPageContent: function() {
 		return this.options.geodata; 
@@ -129,8 +125,28 @@ CommentsShowView = ModalView.extend({
 		$('[data-toggle="popover"]').popover({
 			html: true
 		});
+		
+		var view = new ol.View({
+			center: [0, 0],
+			zoom: 2
+		});
+		
+		var map = new ol.Map({
+			layers: [
+				new ol.layer.Tile({
+					source: new ol.source.OSM()
+				})
+			],
+			target: 'commentviewmap',
+			controls: ol.control.defaults({
+				attributionOptions: /** @type {olx.control.AttributionOptions} */({
+					collapsible: false
+				})
+			}),
+			view: view
+		});
 	},
-
+	
 	getPageTemplate: function() {
 		return '/api/internal/doc/showCommentsToGeodata';
 	}
