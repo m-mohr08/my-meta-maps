@@ -12,6 +12,7 @@ return array(
 	|
 	*/
 	'close' => 'Close',
+	'noComm' => 'There are not general comments available.',
 	
 	//variables for \js\controllers\userController.js
 	

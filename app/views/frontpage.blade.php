@@ -11,23 +11,17 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" type="text/css">
+		<link rel="stylesheet" href="http://openlayers.org/en/v3.1.1/css/ol.css" type="text/css">
+		<link rel="stylesheet" href="/js/plugins/datePicker/datepicker.min.css" type="text/css">
+		<link rel="stylesheet" href="/js/plugins/barRating/css/rating-plugin.css" type="text/css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" type="text/css">
 		<link rel="stylesheet" href="/css/style.css" type="text/css">
 
 		<script type="text/javascript" src="/api/internal/config"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/helpers.js"></script>
-
-		<!-- For the Map -->
-		<link rel="stylesheet" href="http://openlayers.org/en/v3.1.1/css/ol.css" type="text/css">
 		<script src="http://openlayers.org/en/v3.1.1/build/ol.js" type="text/javascript"></script>
-
-		<!-- For the datePicker-plugin -->
-		<link rel="stylesheet" href="/js/plugins/datePicker/datepicker.min.css" type="text/css">
-
-		<!-- For barRating-plugin -->
-		<link rel="stylesheet" href="/js/plugins/barRating/css/rating-plugin.css" type="text/css">
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" type="text/css">
+		<script type="text/javascript" src="/js/helpers.js"></script>
 
 	</head>
 

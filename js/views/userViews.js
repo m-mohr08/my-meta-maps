@@ -67,6 +67,11 @@ ProfileView = ModalView.extend({
 		return '/api/internal/doc/userAccount';
 	},
 	
+	noCache: function(url) {
+		// The templates contain the user data, therefore we shouldn't cache them!
+		return true;
+	},
+	
 	events: {
 		"click #changeGeneralDataBtn": "changeGeneral"
 	},

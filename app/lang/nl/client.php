@@ -12,6 +12,7 @@ return array(
 	|
 	*/
 	'close' => 'Close',
+	'generalComm' => 'Algemeene commentaaren',
 	
 	//variables for \js\controllers\userController.js
 	

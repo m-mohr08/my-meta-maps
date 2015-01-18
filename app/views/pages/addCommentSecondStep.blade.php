@@ -45,15 +45,8 @@
 	
 	<div class="row form-group">
 		
-	  	<label>Wähle einen Geometrie-Typ &nbsp;</label>
-	    <select id="geomType">
-	        <option value="None">None</option>
-	        <option value="Point">Point</option>
-	        <option value="LineString">LineString</option>
-	        <option value="Polygon">Polygon</option>
-        </select>
-	
-    	<div id="mapAddComm"></div>
+	  	<label>Räumliche Zuordnung des Kommentars</label>
+	   	<div id="mapAddComm"></div>
     	
 	</div>
 

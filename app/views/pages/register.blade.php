@@ -6,6 +6,8 @@
 				<h4 class="modal-title" id="meinModalLabel">@lang('misc.register')</h4>
 			</div>
 			<div class="modal-body">
+				
+				@include('oauth')
 							
 				<div class="row form-group form-group-marginSides">
 					<label for="name">@lang('misc.user')</label>
