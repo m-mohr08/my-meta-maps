@@ -20,8 +20,11 @@ ContentView = Backbone.View.extend({
 	},
 	onLoaded: function () {
 	},
+	noCache: function(url) {
+		return false;
+	},
 	loadTemplate: function (url, callback) {
-		if (typeof (this.templateCache[url]) == 'string') {
+		if (typeof (this.templateCache[url]) == 'string' && !this.noCache(url)) {
 			callback(this.templateCache[url]);
 		}
 		else {
