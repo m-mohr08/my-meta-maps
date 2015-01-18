@@ -195,7 +195,7 @@ h3 {
     color: #fff;
 	opacity: 0.85;
 }
-.btn-social:hover, .btn-social:active {
+.btn-social:hover, .btn-social:active, .btn-social:focus {
     border-color: rgba(0, 0, 0, 0.4);
 	color: #fff;
 	opacity: 1;

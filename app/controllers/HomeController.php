@@ -40,11 +40,13 @@ class HomeController extends BaseController {
 	}
 
 	public function oauth(\Opauth $opauth) {
-		$response = unserialize(base64_decode(Input::get('opauth')));
+		session_start();
+		$response = $_SESSION['opauth'];
+		unset($_SESSION['opauth']);
 
 		$error = false;
 		if (array_key_exists('error', $response) || empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
-			Log::debug('Opauth: Invalid response');
+			Log::debug('Opauth: Invalid response | ' . json_encode($response));
 			$error = true;
 		}
 		elseif (!$opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
@@ -57,27 +59,30 @@ class HomeController extends BaseController {
 			$user = User::where('oauth', $nsUid)->first();
 			if ($user === null) {
 				// Register
+				$info = $response['auth']['info'];
 				$user = new User();
+				$user->name = $info['name'];
+				$user->email = empty($info['email']) ? null : $info['email'];
+				$user->oauth = $nsUid;
 
-				$validator = Validator::make($response['auth']['info'],
-					array(
-						'name' => 'required|min:3|max:60|regex:/^[^@]+$/i|unique:'.$user->getTable(),
-						'email' => 'required|email|unique:'.$user->getTable()
-					)
-				);
-				if ($validator->fails()) {
-					Log::debug('Opauth: User data does not fit our requirements');
-					$error = true;
+				$nameValidator = Validator::make($info, array('name' => 'required|min:3|max:60|regex:/^[^@]+$/i|unique:'.$user->getTable()));
+				if ($nameValidator->fails()) {
+					// The specified name is not acceptable, build an acceptable random name
+					$user->name = str_replace('@', '', substr($user->name, 0, 55)) . ' ' . mt_rand(2, 99999);
 				}
-				else {
-					$user->name = $response['auth']['info']['name'];
-					$user->email = $response['auth']['info']['email'];
-					$user->oauth = $nsUid;
-					if (!$user->save()) {
-						Log::debug('OpAuth: Could not register user');
-						$user = null;
-						$error = true;
-					}
+
+				// We don't require an email for now as the OpAuth strategies are badly implemented in terms of providing an email
+				$mailvalidator = Validator::make($info, array('email' => 'email|unique:'.$user->getTable()));
+				if ($mailvalidator->fails()) {
+					// The specified email is not acceptable, simply save none.
+					$user->email = null;
+				}
+
+				// Finally save the new user
+				if (!$user->save()) {
+					Log::debug('OpAuth: Could not register user');
+					$user = null;
+					$error = true;
 				}
 			}
 

@@ -3,7 +3,7 @@
 return [
 	'route' => 'auth.social',
 	'opauth' => [
-		'callback_transport' => 'post',
+		'callback_transport' => 'session',
 		'path' => '/auth/social/',
 		'callback' => '/auth/social/callback',
 		'debug' => false,
@@ -23,7 +23,8 @@ return [
 			),
 			'Twitter' => array(
 				'key' => '',
-				'secret' => ''
+				'secret' => '',
+				'curl_proxy' => Config::get('remote.proxy.host')
 			)
 		]
 	]
