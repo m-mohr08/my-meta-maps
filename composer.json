@@ -8,23 +8,29 @@
 	"authors": [
 		{
 			"name": "Christopher Rohtermundt",
-            "role": "Developer"
+			"role": "Developer"
 		},
 		{
 			"name": "Clara Franziska Rendel",
-            "role": "Developer"
+			"role": "Developer"
 		},
 		{
 			"name": "Matthias Mohr",
-            "role": "Developer"
+			"role": "Developer"
 		},
 		{
 			"name": "Michael Rieping",
-            "role": "Developer"
+			"role": "Developer"
 		},
 		{
 			"name": "Milan Köster",
-            "role": "Developer"
+			"role": "Developer"
+		}
+	],
+	"repositories": [
+		{
+			"url": "https://github.com/m-mohr/opauth",
+			"type": "vcs"
 		}
 	],
 	"require": {
@@ -32,7 +38,7 @@
 		"phayes/geophp": "@dev",
 		"mf2/mf2": "0.2.*",
 		"socialism/laravel-opauth": "0.1.*",
-		"opauth/opauth": "0.4.*",
+		"opauth/opauth": "dev-proxy as 0.4.4",
 		"opauth/github": "0.1.*",
 		"opauth/twitter": "0.3.*",
 		"opauth/google": "0.2.*",

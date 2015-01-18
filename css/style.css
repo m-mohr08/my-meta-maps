@@ -183,3 +183,55 @@ h3 {
 	overflow: auto;
 	white-space: nowrap;
 }
+
+.btn-social {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+	opacity: 0.85;
+}
+.btn-social:hover, .btn-social:active {
+    border-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
+	opacity: 1;
+}
+
+.btn-facebook {
+	background-color: #3b5998;
+}
+
+.btn-github {
+	background-color: #444;
+}
+
+.btn-google {
+    background-color: #dd4b39;
+}
+
+.btn-twitter {
+    background-color: #55acee;
+}
+
+.divider-or hr {
+	height: 1px;
+	background-color: #cdcdcd;
+	margin: 1em 0 1em 0;
+	display: block;
+}
+.divider-or span {
+	text-transform: uppercase;
+	margin: auto;
+	margin-top: -1.75em;
+    color: #aaa;
+	background-color: white;
+	text-align: center;
+	width: 5em;
+	position: relative;
+	display: block;
+	font-weight: bold;
+}

@@ -37,6 +37,7 @@ class CreateUserTable extends Migration {
 			$table->string('password')->nullable();
 			$table->string('email')->unique();
 			$table->string('language', 2)->nullable();
+			$table->string('oauth')->nullable();
 			$table->rememberToken();
 		});
 	}

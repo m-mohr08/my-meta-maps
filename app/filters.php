@@ -18,6 +18,17 @@ App::before(function($request)
 	// Set the locale for all requests
 	App::setLocale(Language::current());
 	
+	// Set the proxy for the default stream context to be used in OpAuth
+	$proxy = Config::get('remote.proxy.host');
+	if (!empty($proxy)) {
+		stream_context_set_default(array(
+			'http' => array(
+				'proxy' => $proxy,
+				'request_fulluri' => true
+			)
+		));
+	}
+	
 	// Set up GeoMetadata
 	GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebCoverageService());
