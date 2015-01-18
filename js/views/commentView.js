@@ -219,11 +219,32 @@ CommentsShowView = ModalView.extend({
 		return this.options.geodata;
 	},
 	onOpened: function () {
+		var that = this;
+
 		$('[data-toggle="popover"]').popover({
 			html: true
 		});
 
-		var that = this;
+		var view = new ol.View({
+			center: [0, 0],
+			zoom: 2
+		});
+		
+		var map = new ol.Map({
+			layers: [
+				new ol.layer.Tile({
+					source: new ol.source.OSM()
+				})
+			],
+			target: 'commentviewmap',
+			controls: ol.control.defaults({
+				attributionOptions: /** @type {olx.control.AttributionOptions} */({
+					collapsible: false
+				})
+			}),
+			view: view
+		});
+
 		// When other layer is selected remove and add the new data to the map
 		var panels = $('#commentAccordion').find('.panel');
 		panels.on('hide.bs.collapse', function (event) {
@@ -292,7 +313,7 @@ CommentsShowView = ModalView.extend({
 		// TODO: Add code to show the WMTS on the map
 	},
 	
-	getPageTemplate: function () {
+	getPageTemplate: function() {
 		return '/api/internal/doc/showCommentsToGeodata';
 	}
 });
