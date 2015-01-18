@@ -6,6 +6,175 @@ Debug = {
 	}
 };
 
+Mapping = {
+	
+	wkt: new ol.format.WKT(),
+	
+	getServerCrs: function () {
+		return 'EPSG:4326';
+	},
+
+	getMapCrs: function (map) {
+		// ToDo: Get the real projection from the map object
+		return 'EPSG:3857';
+	},
+	
+	geolocate: function(view) {
+		// gets the geolocation
+		var geolocation = new ol.Geolocation({
+			projection: view.getProjection(),
+			tracking: true
+		});
+		// zooms the map to the users location
+		geolocation.once('change:position', function () {
+			view.setCenter(geolocation.getPosition());
+			view.setZoom(7);
+		});	
+	},
+	
+	fromWkt: function(wkt, map) {
+		var geom = this.wkt.readGeometry(wkt);
+		if (geom) {
+			geom.transform(Mapping.getServerCrs(), Mapping.getMapCrs(map));
+		}
+		return geom;
+	},
+
+	toWkt: function(geom, map) {
+		geom.transform(Mapping.getMapCrs(map), Mapping.getServerCrs());
+		return this.wkt.writeGeometry(geom);
+	},
+	
+	getBasemps: function(layers){
+		var basemaps = [
+			// OSM
+			new ol.layer.Tile({
+				source: new ol.source.OSM()
+			})
+			// TODO: Add Bing
+		];
+		if (layers) {
+			basemaps = basemaps.concat(layers);
+		}
+		return basemaps;
+	},
+	
+	getDefaultView: function() {
+		return new ol.View({
+			center: [0, 0],
+			zoom: 2
+		});
+	},
+	
+	getControls: function(controls) {
+		if (!controls) {
+			controls = [];
+		}
+		return ol.control.defaults({
+			attributionOptions: /** @type {olx.control.AttributionOptions} */({
+				collapsible: false
+			})
+		}).extend(controls);
+		// TODO: Add layer switcher
+	},
+	
+	getFeatureLayer: function(source) {
+		return new ol.layer.Vector({
+			source: source,
+			style: Mapping.getFeatureStyle()
+		})
+	},
+	
+	getFeatureStyle: function() {
+		return new ol.style.Style({
+			fill: new ol.style.Fill({
+				color: 'rgba(255, 255, 255, 0.2)'
+			}),
+			stroke: new ol.style.Stroke({
+				color: '#d9534f',
+				width: 2
+			}),
+			image: new ol.style.Circle({
+				radius: 7,
+				fill: new ol.style.Fill({
+					color: '#d9534f'
+				})
+			})
+		});
+	},
+	
+	getBBoxLayer: function(style, source) {
+		if (!source) {
+			source = new ol.source.Vector();
+		}
+		return new ol.layer.Vector({
+			source: source,
+			style: style
+		});
+	},
+	
+	getBBoxStyle: function(fill) {
+		var style = {
+			stroke: new ol.style.Stroke({
+				color: 'rgba(0,139,0,1)',
+				width: 2
+			})
+		};
+		// Add transparent filling if requested
+		if (fill) {
+			style.fill = new ol.style.Fill({
+				color: 'rgba(0,139,0,0.1)'
+			});
+		}
+		return new ol.style.Style(style);
+	},
+	
+	addWktToLayer: function(map, layer, wkt, fitExtent) {
+		if (!map || !layer || !wkt) {
+			return;
+		}
+		var geom = Mapping.fromWkt(wkt, map);
+		if (geom) {
+			if (fitExtent) {
+				map.getView().fitExtent(geom.getExtent(), map.getSize());
+			}
+			layer.getSource().addFeature(new ol.Feature({
+				geometry: geom,
+				projection: Mapping.getMapCrs(map)
+			}));
+		}
+	},
+	
+	createCustomControl: function(content, title, className, callback) {
+		var customControl = function (opt_options) {
+			var options = opt_options || {};
+
+			var callbackWrapper = function(e) {
+				e.preventDefault(); // Prevent the anchor href getting called
+				callback(e);
+			};
+
+			var button = document.createElement('button');
+			button.title = title;
+			button.innerHTML = content;
+			button.addEventListener('click', callbackWrapper, false);
+//			button.addEventListener('touchstart', callbackWrapper, false);
+
+			var element = document.createElement('div');
+			element.className = className + ' ol-control ol-custom-control ol-unselectable';
+			element.title = title;
+			element.appendChild(button);
+
+			ol.control.Control.call(this, {
+				element: element,
+				target: options.target
+			});
+		};
+		ol.inherits(customControl, ol.control.Control);
+		return new customControl();
+	}
+};
+
 Progress = {
 	
 	show: function(id) {

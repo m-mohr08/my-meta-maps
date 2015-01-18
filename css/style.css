@@ -242,3 +242,25 @@ h3 {
 	display: block;
 	font-weight: bold;
 }
+
+.ol-custom-control {
+    position: absolute;
+	bottom: 0.5em;
+	display: inline-block;
+}
+
+.draw-none {
+	left: 0.5em;
+}
+
+.draw-point {
+	left: calc(0.5em + 30px);
+}
+
+.draw-line {
+	left: calc(0.5em + 60px);
+}
+
+.draw-polygon {
+	left: calc(0.5em + 90px);
+}
