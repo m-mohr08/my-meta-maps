@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,24 +18,14 @@
 
 namespace GeoMetadata\Service;
 
-class OgcWebServicesContext extends OgcWebServices {
-
-	public function getName() {
-		return 'OGC OWS Context';
-	}
+class Iso19115 extends Iso191xx {
 
 	public function getCode() {
-		return 'owc';
+		return 'iso19115';
 	}
 
-	public function getSupportedNamespaces() {
-		return 'http://www.opengis.net/owc/1.0';
+	public function getName() {
+		return 'ISO 19115';
 	}
-
-	protected function registerNamespaces() {
-		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWC
-	}
-
-	// TODO: ...
-
+	
 }

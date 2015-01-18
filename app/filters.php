@@ -30,13 +30,16 @@ App::before(function($request)
 	}
 	
 	// Set up GeoMetadata
+//	GmRegistry::registerService(new \GeoMetadata\Service\Iso19115());
+//	GmRegistry::registerService(new \GeoMetadata\Service\Iso19119());
+//	GmRegistry::registerService(new \GeoMetadata\Service\Kml());
 	GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
+//	GmRegistry::registerService(new \GeoMetadata\Service\OgcCatalogueService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebCoverageService());
 //	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebFeatureService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapTileService());
-//	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebServicesContext());
 
 	GmRegistry::setLogger(array('Log', 'debug'));
 	GmRegistry::setProxy(Config::get('remote.proxy.host'), Config::get('remote.proxy.port'));
