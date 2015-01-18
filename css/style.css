@@ -151,6 +151,7 @@ h3 {
 	margin: 2%;
 }
 
+
 #showCommentsToGeodata dd pre {
 	font-family: "Ubuntu", Helvetica, Arial, sans-serif!important;
 	white-space: pre-wrap;
@@ -173,10 +174,93 @@ h3 {
 	font-size: 15px;
 }
 
+#commentviewmap{
+	position: static;
+	height: 400px;
+}
+
 #ModalShowCommentsToGeodata .popover {
 	max-width: 400px;
+}
+#mapDataPanel .popover {
+	width: 300px;
+	max-width: 300px;
 }
 .popover-content {
 	overflow: auto;
 	white-space: nowrap;
+}
+
+.btn-social {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+	opacity: 0.85;
+}
+.btn-social:hover, .btn-social:active, .btn-social:focus {
+    border-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
+	opacity: 1;
+}
+
+.btn-facebook {
+	background-color: #3b5998;
+}
+
+.btn-github {
+	background-color: #444;
+}
+
+.btn-google {
+    background-color: #dd4b39;
+}
+
+.btn-twitter {
+    background-color: #55acee;
+}
+
+.divider-or hr {
+	height: 1px;
+	background-color: #cdcdcd;
+	margin: 1em 0 1em 0;
+	display: block;
+}
+.divider-or span {
+	text-transform: uppercase;
+	margin: auto;
+	margin-top: -1.75em;
+    color: #aaa;
+	background-color: white;
+	text-align: center;
+	width: 5em;
+	position: relative;
+	display: block;
+	font-weight: bold;
+}
+
+.ol-custom-control {
+    position: absolute;
+	bottom: 0.5em;
+	display: inline-block;
+}
+
+.draw-none {
+	left: 0.5em;
+}
+
+.draw-point {
+	left: calc(0.5em + 30px);
+}
+
+.draw-line {
+	left: calc(0.5em + 60px);
+}
+
+.draw-polygon {
+	left: calc(0.5em + 90px);
 }

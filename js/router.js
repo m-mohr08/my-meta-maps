@@ -10,7 +10,8 @@ var Router = Backbone.Router.extend({
 		'comments/add': 'addComment',
 		'geodata/:id': 'geodata',
 		'geodata/:gid/comment/:cid': 'comment',
-		'search/:hash': 'search'
+		'search/:hash': 'search',
+		'oauth/failed': 'oauthFailed'
 		
 	},
 
@@ -24,6 +25,11 @@ var Router = Backbone.Router.extend({
 
 	map: function () {
 		ContentView.register(new MapView());
+	},
+
+	oauthFailed: function (action) {
+		this.map();
+		MessageBox.addError('Die Anmeldung über den gewählten Anbieter ist leider fehlgeschlagen.');
 	},
 
 	loginout: function () {

@@ -18,44 +18,48 @@
 						</div>
 
 						<div id="showCommentsToGeodata" class="panel-body collapse in" role="tabpanel" aria-labelledby="commentHeader">
-
-							<div class="panel panel-default">
-								<div class="panel-heading" role="tab" id="General_Header">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" href="#General_Body" aria-expanded="true" aria-controls="General_Body">
-											@lang('misc.generalComm')
-										</a>
-										<span class="badge pull-right"><%= data.comments.length %></span>
-									</h4>
+							
+							<div class="panel-group" id="commentAccordion" role="tablist" aria-multiselectable="true">
+								
+								<div class="panel panel-default" data-layer="">
+									<div class="panel-heading" role="tab" id="LayerGeneralheader">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" href="#LayerGeneralBody" data-parent="#commentAccordion" aria-expanded="true" aria-controls="LayerGeneralBody">
+												@lang('client.generalComm')
+											</a>
+											<span class="badge pull-right"><%= data.comments.length %></span>
+										</h4>
+									</div>
+									<div class="panel-body list-group collapse<%= (data.comments.length > 0) ? ' in' : '' %>" id="LayerGeneralBody" role="tabpanel" aria-labelledby="LayerGeneralheader">
+										<% _.each(data.comments, function(comment) { %>
+										@include('pages.showCommentsToGeodataBit')
+										<% }); if (_.isEmpty(data.comments)) { %>
+										<span class="list-group-item">@lang('misc.noComm')</span>
+										<% } %>
+									</div>
+							  	</div>
+							  	
+								<% _.each(data.layer, function(layer, key) { %>
+								<div class="panel panel-default" data-layer="<%- layer.id %>">
+									<div class="panel-heading" role="tab" id="Layer<%= key %>Header">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" href="#Layer<%= key %>Body" data-parent="#commentAccordion" aria-expanded="false" aria-controls="Layer<%= key %>Body">
+												Layer: <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
+											</a>
+											<span class="badge pull-right"><%= layer.comments.length %></span>
+										</h4>
+									</div>
+									<div class="panel-body list-group collapse<%= (data.comment > 0 && layer.comments.length > 0) ? ' in' : '' %>" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
+										<% _.each(layer.comments, function(comment) { %>
+										@include('pages.showCommentsToGeodataBit')
+										<% }); if (_.isEmpty(layer.comments)) { %>
+										<span class="list-group-item">@lang('misc.noCommLayer')</span>
+										<% } %>
+									</div>
 								</div>
-								<div class="panel-body list-group collapse in" id="General_Body" role="tabpanel" aria-labelledby="General_Header">
-									<% _.each(data.comments, function(comment) { %>
-									@include('pages.showCommentsToGeodataBit')
-									<% }); if (_.isEmpty(data.comments)) { %>
-									<span class="list-group-item">@lang('misc.noComm')</span>
-									<% } %>
-								</div>
+								<% }); %>
+							 	
 							</div>
-
-							<% _.each(data.layer, function(layer, key) { %>
-							<div class="panel panel-default">
-								<div class="panel-heading" role="tab" id="Layer<%= key %>Header">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" href="#Layer<%= key %>Body" aria-expanded="true" aria-controls="Layer<%= key %>Body">
-											Layer: <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
-										</a>
-										<span class="badge pull-right"><%= layer.comments.length %></span>
-									</h4>
-								</div>
-								<div class="panel-body list-group collapse<%= (data.comment > 0 && layer.comments.length > 0) ? ' in' : '' %>" id="Layer<%= key %>Body" role="tabpanel" aria-labelledby="Layer<%= key %>Header">
-									<% _.each(layer.comments, function(comment) { %>
-									@include('pages.showCommentsToGeodataBit')
-									<% }); if (_.isEmpty(layer.comments)) { %>
-									<span class="list-group-item">@lang('misc.noCommLayer')</span>
-									<% } %>
-								</div>
-							</div>
-							<% }); %>
 
 						</div>
 
@@ -90,10 +94,10 @@
 							</h4>
 						</div>
 						<div class="panel-body collapse in" id="showMapToGeodata" role="tabpanel" aria-labelledby="mapHeader">
-							Es folgt eine Karte...
+							<div id="commentviewmap"></div>
 						</div>
 					</div>
-
+							
 					<div class="panel panel-primary">
 						<div class="panel-heading" role="tab" id="metadataHeader">
 							<h4 class="panel-title">

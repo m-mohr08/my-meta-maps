@@ -35,8 +35,9 @@ class CreateUserTable extends Migration {
 			$table->increments('id');
 			$table->string('name')->unique();
 			$table->string('password')->nullable();
-			$table->string('email')->unique();
+			$table->string('email')->unique()->nullable();
 			$table->string('language', 2)->nullable();
+			$table->string('oauth')->nullable();
 			$table->rememberToken();
 		});
 	}

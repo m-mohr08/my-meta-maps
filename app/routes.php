@@ -19,6 +19,17 @@ Route::get('/', function() {
 // Frontpage in the language chosen
 Route::get('/{language}', 'HomeController@getFrontpage')->where('language', '[a-z]{2}');
 
+Route::any('auth/social/{strategy}/{action?}', ['as' => 'auth.social', function ($strategy, $action = 'request') {
+	$app = app('opauth');
+	if ($strategy == 'callback') {
+		$c = new HomeController();
+		return $c->oauth($app);
+	}
+	else {
+		$app->run();
+	}
+}])->where(['strategy' => '.*']);
+
 // Permalink for geo data set and comments
 Route::group(array('prefix' => '/geodata'), function() {
 

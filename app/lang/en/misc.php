@@ -59,7 +59,7 @@ return array(
 
 	//variables for \app\views\pages\login.blade.php
 
-	'mailname' => 'Email adress / Username',
+	'mailname' => 'Email address / Username',
 	'pw' => 'Password',
 	'stay' => 'Stay logged in?',
 
@@ -89,7 +89,7 @@ return array(
 	//variables for \app\views\pages\register.blade.php
 
 	'user' => 'Username',
-	'mail' => 'Email adress',
+	'mail' => 'Email address',
 	
 
 	//variables for \app\views\pages\userAccount.blade.php
@@ -99,10 +99,8 @@ return array(
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
 	
-	'generalComm' => 'Genral comments',
-	'noComm' => 'There are not general comments available.',
 	'noCommLayer' => 'There are no comments to this layer.',
-	'adress' => 'Adress',
+	'adress' => 'Address',
 	'dataFormatComm' => 'Data format',
 	'comments' => 'Comments',
 	'total' => 'total',
