@@ -10,6 +10,8 @@
 			@if(Auth::user())
 			
 			<div class="modal-body">
+				
+				@include('oauth-alert')
 
 				<div class="row form-group form-group-marginSides">
 					<label for="name">@lang('misc.user')</label>
