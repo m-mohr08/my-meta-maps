@@ -34,7 +34,7 @@ class OgcWebMapService extends OgcWebServices {
 	public function verify($source) {
 		// We don't parse the XML here as the regexp matching the root tags is much faster and we don't ask for validity anyway.
 		// Additionally the first versions of WMS had no xml namespace URI required so we can't detect it with the normal verification process.
-		return preg_match('~<((?:WMS|WMT_MS)_Capabilities)(?:\s[^>]+)?>.+</\1>~is', $source);
+		return preg_match('~<((?:[\w\d]:)?(?:WMS|WMT_MS)_Capabilities)(?:\s[^>]+)?>.+</\1>~is', $source);
 	}
 
 	public function getName() {
@@ -135,6 +135,7 @@ class OgcWebMapService extends OgcWebServices {
 			$id = $this->n2s($node->Name);
 			if (!empty($id)) {
 				$layer = $this->createLayer($id, $this->n2s($node->Title));
+				// TODO: Implement inheritance of bboxes from the bboxes provided in Capability/Layer.
 				$bboxes = $this->parseBoundingBoxFromNode($node);
 				if (empty($bboxes)) {
 					// Inheritance of bbox from global WMS bbox if not an own bbox is provided by the layer.

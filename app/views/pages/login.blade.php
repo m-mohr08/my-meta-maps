@@ -7,6 +7,8 @@
 			</div>
 			
 			<div class="modal-body">
+				
+				@include('oauth')
 					
 				<div class="row form-group form-group-marginSides">
 					<label for="identifier">@lang('misc.mailname')</label>
