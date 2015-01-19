@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,27 +20,84 @@
  */
 class HomeController extends BaseController {
 
-	public function getFrontpage($language = null)
-	{
+	public function getFrontpage($language = null) {
 		if (Language::valid($language) && !Language::is($language)) {
 			Language::change($language);
 		}
 		return View::make('frontpage');
 	}
-	
-	public function getSearch($hash)
-	{
+
+	public function getSearch($hash) {
 		return Redirect::to('/' . Language::current() . '#/search/' . $hash);
 	}
-	
-	public function getGeodata($geodata)
-	{
+
+	public function getGeodata($geodata) {
 		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata)->with('geodata', '\d+');
 	}
-	
-	public function getComment($geodata, $comment)
-	{
+
+	public function getComment($geodata, $comment) {
 		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata . '/comment/' . $comment)->with('geodata', '\d+')->with('comment', '\d+');
+	}
+
+	public function oauth(\Opauth $opauth) {
+		session_start();
+		$response = $_SESSION['opauth'];
+		unset($_SESSION['opauth']);
+
+		$error = false;
+		if (array_key_exists('error', $response) || empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
+			Log::debug('Opauth: Invalid response | ' . json_encode($response));
+			$error = true;
+		}
+		elseif (!$opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
+			Log::debug('Opauth: '. $reason);
+			$error = true;
+		}
+		
+		if (!$error) {
+			$nsUid = $response['auth']['provider'].':'.$response['auth']['uid'];
+			$user = User::where('oauth', $nsUid)->first();
+			if ($user === null) {
+				// Register
+				$info = $response['auth']['info'];
+				$user = new User();
+				$user->name = $info['name'];
+				$user->email = empty($info['email']) ? null : $info['email'];
+				$user->oauth = $nsUid;
+
+				$nameValidator = Validator::make($info, array('name' => 'required|min:3|max:60|regex:/^[^@]+$/i|unique:'.$user->getTable()));
+				if ($nameValidator->fails()) {
+					// The specified name is not acceptable, build an acceptable random name
+					$user->name = str_replace('@', '', substr($user->name, 0, 55)) . ' ' . mt_rand(2, 99999);
+				}
+
+				// We don't require an email for now as the OpAuth strategies are badly implemented in terms of providing an email
+				$mailvalidator = Validator::make($info, array('email' => 'email|unique:'.$user->getTable()));
+				if ($mailvalidator->fails()) {
+					// The specified email is not acceptable, simply save none.
+					$user->email = null;
+				}
+
+				// Finally save the new user
+				if (!$user->save()) {
+					Log::debug('OpAuth: Could not register user');
+					$user = null;
+					$error = true;
+				}
+			}
+
+			// Login
+			if ($user !== null) {
+				Auth::login($user);
+			}
+		}
+
+		if ($error) {
+			return Redirect::to('/' . Language::current() . '#/oauth/failed');
+		}
+		else {
+			return Redirect::to('/' . Language::current());
+		}
 	}
 
 }

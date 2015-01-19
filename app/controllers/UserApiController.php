@@ -85,9 +85,6 @@ class UserApiController extends BaseApiController {
 			else {
 				return $this->getForbiddenResponse();
 			}
-		case 'oauth':
-			// TODO: Implementation
-			return $this->getForbiddenResponse();
 		default:
 			return $this->getNotFoundResponse();
 		}
@@ -221,10 +218,12 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postCheck() {
-		$user = new User();
+		$id = Auth::id();
+		$id = empty($id) ? 0 : $id;
+		$table = (new User())->getTable();
 		$supported = array(
-			'email' => 'required|email|unique:'.$user->getTable(),
-			'name' => 'required|min:3|max:60|regex:/^[^@]+$/i|unique:'.$user->getTable()
+			'email' => "required|email|unique:{$table},email,{$id}",
+			'name' => "required|min:3|max:60|regex:/^[^@]+$/i|unique:{$table},name,{$id}"
 		);
 		
 		$data = Input::json();

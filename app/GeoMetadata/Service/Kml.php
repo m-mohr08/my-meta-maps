@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * Copyright 2014/15 Matthias Mohr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,24 +18,36 @@
 
 namespace GeoMetadata\Service;
 
-class OgcWebServicesContext extends OgcWebServices {
-
-	public function getName() {
-		return 'OGC OWS Context';
-	}
+class Kml extends XmlParser {
+	
+	use Traits\HttpGetTrait;
 
 	public function getCode() {
-		return 'owc';
+		return 'kml';
 	}
 
-	public function getSupportedNamespaces() {
-		return 'http://www.opengis.net/owc/1.0';
+	public function getName() {
+		return 'KML';
+	}
+
+	public function getServiceUrl($url) {
+		return $url;
+	}
+
+	public function getMetadataUrl($url) {
+		return $url;
+	}
+
+	protected function getSupportedNamespaces() {
+		return array('http://www.opengis.net/kml/2.2');
 	}
 
 	protected function registerNamespaces() {
-		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWC
+		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // KML
 	}
-
-	// TODO: ...
+	
+	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
+		// TODO: Implementation
+	}
 
 }

@@ -59,7 +59,7 @@ return array(
 
 	//variables for \app\views\pages\login.blade.php
 
-	'mailname' => 'Email adress / Username',
+	'mailname' => 'Email address / Username',
 	'pw' => 'Password',
 	'stay' => 'Stay logged in?',
 
@@ -89,7 +89,7 @@ return array(
 	//variables for \app\views\pages\register.blade.php
 
 	'user' => 'Username',
-	'mail' => 'Email adress',
+	'mail' => 'Email address',
 	
 
 	//variables for \app\views\pages\userAccount.blade.php
@@ -99,10 +99,8 @@ return array(
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
 	
-	'generalComm' => 'Genral comments',
-	'noComm' => 'There are not general comments available.',
 	'noCommLayer' => 'There are no comments to this layer.',
-	'adress' => 'Adress',
+	'adress' => 'Address',
 	'dataFormatComm' => 'Data format',
 	'comments' => 'Comments',
 	'total' => 'total',
@@ -118,4 +116,21 @@ return array(
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',
+
+	//variables for \app\views\pages\show GeodataBit.blade.php
+
+	'noSearch' => 'No data matches your search.',
+
+	//variables for \app\views\emails\auth\reminder.blade.php
+
+	'pwReset' => 'Password Reset',
+	'resetForm' => 'To reset your password, complete this form:',
+	'expire' => 'This link will expire in',
+	'minutes' => 'minutes',
+
+	//variables for \app\views\oauth-alert.de.blade.php
+
+	'hint' => 'Note:',
+	'extAuth' => 'You authentificated via an external provider. For that case we created a My Meta Maps account for you. You can change your account data here. Your data at the external provider stays untouched.',
+	
 );

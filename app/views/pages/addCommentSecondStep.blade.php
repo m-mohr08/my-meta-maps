@@ -42,6 +42,13 @@
 		<textarea class="form-control" rows="6" name="text" id="inputText"></textarea>
 		<div class="error-message"></div>
 	</div>
+	
+	<div class="row form-group">
+		
+	  	<label>Räumliche Zuordnung des Kommentars</label>
+	   	<div id="mapAddComm"></div>
+    	
+	</div>
 
 	<div class="row form-group">
 		<label for="startDate">@lang('misc.timerange')</label>
@@ -88,8 +95,6 @@
 		<dt>Titel</dt>
 		<dd><%- data.metadata.title %></dd>
 	<% } %>
-		<dt>Karte</dt>
-		<dd><%- data.metadata.bbox %></dd>
 	<% if (!_.isEmpty(data.metadata.language)) { %>
 		<dt>Sprache</dt>
 		<dd><%- data.metadata.language %></dd>

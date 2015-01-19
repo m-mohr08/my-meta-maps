@@ -20,8 +20,11 @@ ContentView = Backbone.View.extend({
 	},
 	onLoaded: function () {
 	},
+	noCache: function(url) {
+		return false;
+	},
 	loadTemplate: function (url, callback) {
-		if (typeof (this.templateCache[url]) == 'string') {
+		if (typeof (this.templateCache[url]) == 'string' && !this.noCache(url)) {
 			callback(this.templateCache[url]);
 		}
 		else {
@@ -106,9 +109,7 @@ ModalView = ContentView.extend({
 MapView = ContentView.extend({
 	// OpenLayers/Map
 	map: null,
-	polySource: new ol.source.Vector(),
-	vectorlayer: null,
-	parser: new ol.format.WKT(),
+	polyLayer: null,
 	mapSearchExecuted: true,
 	// Default options for filters
 	options: {
@@ -128,44 +129,19 @@ MapView = ContentView.extend({
 		// this for the callbacks
 		var that = this;
 		
-		var view = new ol.View({
-			center: [0, 0],
-			zoom: 2
-		});
+		var view = Mapping.getDefaultView();
 		// When the map view changes we need to search again
 		view.on('change:center', function() { that.onExtentChanged() });
 		view.on('change:resolution', function() { that.onExtentChanged() });
 		view.on('change:rotation', function() { that.onExtentChanged() });
 
-		// set the style of the vector geometries
-		var polyStyle = new ol.style.Style({
-			fill: new ol.style.Fill({
-				color: 'rgba(0,139,0,0.1)'
-			}),
-			stroke: new ol.style.Stroke({
-				color: 'rgba(0,139,0,1)',
-				width: 2
-			})
-		});
-		
-		this.vectorlayer = new ol.layer.Vector({
-			source: this.polySource,
-			style: polyStyle
-		});
+		// Layer with the bounding boxes
+		this.polyLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(true));
 
 		this.map = new ol.Map({
-			layers: [
-				new ol.layer.Tile({
-					source: new ol.source.OSM()
-				}),
-				this.vectorlayer
-			],
+			layers: Mapping.getBasemps([this.polyLayer]),
 			target: 'map',
-			controls: ol.control.defaults({
-				attributionOptions: /** @type {olx.control.AttributionOptions} */({
-					collapsible: false
-				})
-			}),
+			controls: Mapping.getControls(),
 			view: view
 		});
 		
@@ -205,21 +181,13 @@ MapView = ContentView.extend({
 		var view = this.map.getView();
 		if (this.options.bbox) {
 			// fit the extent to the given bbox
-			var geom = this.parser.readGeometry(this.options.bbox);
-			geom.transform(this.getServerCrs(), this.getMapCrs());
-			view.fitExtent(geom.getExtent(), this.map.getSize());
+			var geom = Mapping.fromWkt(this.options.bbox, this.map);
+			if (geom) {
+				view.fitExtent(geom.getExtent(), this.map.getSize());
+			}
 		}
 		else {
-			// gets the geolocation
-			var geolocation = new ol.Geolocation({
-				projection: view.getProjection(),
-				tracking: true
-			});
-			// zooms the map to the users location
-			geolocation.once('change:position', function () {
-				view.setCenter(geolocation.getPosition());
-				view.setZoom(5);
-			});
+			Mapping.geolocate(view);
 		}
 
 		// Check the "Include metadata" checkbox
@@ -278,7 +246,7 @@ MapView = ContentView.extend({
 		geodataShowController({
 			before: function () {
 				Progress.start('.geodata-progress');
-				that.polySource.clear();
+				that.polyLayer.getSource().clear();
 			},
 			success: function (model, response) {
 				new GeodataShowView(response);
@@ -301,34 +269,21 @@ MapView = ContentView.extend({
 		$('#ratingFilter').barrating('clear');
 		this.doSearch();
 	},
-	getServerCrs: function () {
-		return 'EPSG:4326';
-	},
-	getMapCrs: function () {
-		return 'EPSG:3857';
-	},
 	/*
 	 * calculates the current bounding box of the map and returns it as an WKt String
 	 */
 	getBoundingBox: function () {
 		var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
 		var geom = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox), new ol.extent.getBottomRight(mapbbox), new ol.extent.getTopRight(mapbbox), new ol.extent.getTopLeft(mapbbox), new ol.extent.getBottomLeft(mapbbox)]]);
-		geom.transform(this.getMapCrs(), this.getServerCrs());
-		return this.parser.writeGeometry(geom);
+		return Mapping.toWkt(geom, this.map);
 	},
 	/*
 	 * add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
-		var polygeom;
 		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
 		for (var index = 0; index < data.geodata.length; index++) {
-			polygeom = this.parser.readGeometry(data.geodata[index].metadata.bbox, this.getServerCrs());
-			polygeom.transform(this.getServerCrs(), this.getMapCrs());
-			this.polySource.addFeature(new ol.Feature({
-				geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
-				projection: this.getMapCrs()
-			}));
+			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox);
 		}
 	},
 	getPageTemplate: function () {

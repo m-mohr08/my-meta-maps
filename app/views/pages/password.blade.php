@@ -10,6 +10,8 @@
 			@if(Auth::user())
 			
 			<div class="modal-body">
+
+				@include('oauth-alert')
 					
 				@if(Auth::user()->password !== null)
 				<div class="row form-group form-group-marginSides">

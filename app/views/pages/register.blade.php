@@ -6,16 +6,18 @@
 				<h4 class="modal-title" id="meinModalLabel">@lang('misc.register')</h4>
 			</div>
 			<div class="modal-body">
+				
+				@include('oauth')
 							
 				<div class="row form-group form-group-marginSides">
 					<label for="name">@lang('misc.user')</label>
-					<input class="form-control" name="name" id="inputNameForRegister" type="text" onchange="userCheckDataController(new UserCheckData(), 'inputNameForRegister', 'name')">
+					<input class="form-control" name="name" id="inputNameForRegister" type="text" onchange="userCheckDataController(new UserCheckData(), 'inputNameForRegister', 'form-register', 'name')">
 					<div class="error-message"></div>
 				</div>
 
 				<div class="row form-group form-group-marginSides">
 					<label for="email">@lang('misc.mail')</label>
-					<input class="form-control" name="email" id="inputMailForRegister" type="text" placeholder="@" onchange="userCheckDataController(new UserCheckData(), 'inputMailForRegister', 'email')">
+					<input class="form-control" name="email" id="inputMailForRegister" type="text" placeholder="@" onchange="userCheckDataController(new UserCheckData(), 'inputMailForRegister', 'form-register', 'email')">
 					<div class="error-message"></div>
 				</div>
 
