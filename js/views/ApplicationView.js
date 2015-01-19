@@ -265,7 +265,6 @@ MapView = ContentView.extend({
 		geodataShowController({
 			before: function () {
 				Progress.start('.geodata-progress');
-				that.polyLayer.getSource().clear();
 			},
 			success: function (model, response) {
 				new GeodataShowView(response);
@@ -300,6 +299,7 @@ MapView = ContentView.extend({
 	 * add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
+		this.polyLayer.getSource().clear();
 		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
 		for (var index = 0; index < data.geodata.length; index++) {
 			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox, false, data.geodata[index].id);
