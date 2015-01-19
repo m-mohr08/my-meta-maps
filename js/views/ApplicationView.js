@@ -157,9 +157,9 @@ MapView = ContentView.extend({
 		this.map.addInteraction(select);
 		select.getFeatures().on('change:length', function(e) {
 			if (e.target.getArray().length === 0) {
-			// this means it's changed to no features selected
+			//no features selected
 			} else {
-			// this means there is at least 1 feature selected
+			//open CommentView of the feature
 			 router.geodata(e.target.item(0).getId());
 			}
 		});
