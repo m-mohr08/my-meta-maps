@@ -44,4 +44,7 @@ return array(
 	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
 	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
 
+	//variables for \js\router.js
+
+	'providerFail' => 'Login via chosen provider failed',
 );
