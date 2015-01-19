@@ -25,7 +25,13 @@ return array(
 	'succededChangePW' => 'Your new password was successfully applied.',
 	
 	//variables for \js\controllers\commentController.js
-	
+
+	'searchShare' => 'Suchergebnisse teilen',
+	'permLink' => 'Permalink wird generiert...',
+	'noPerm' => 'Permalink konnte leider nicht generiert werden.',
+	'tryAgain' => 'Bitte versuchen Sie es erneut.',
+	'manyClicks' => 'Leider zu häufig geklickt.',
+	'try15' => 'Bitte in 15 Sekunden erneut versuchen. ;)',
 	'succededAddComm' => 'Your comments was successfully added.',
 	'failedLoadGeodata' => 'The comments on this set of geo data could not be loaded.',
 	

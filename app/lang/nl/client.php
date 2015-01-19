@@ -26,6 +26,12 @@ return array(
 	
 	//variables for \js\controllers\commentController.js
 	
+	'searchShare' => 'Suchergebnisse teilen',
+	'permLink' => 'Permalink wird generiert...',
+	'noPerm' => 'Permalink konnte leider nicht generiert werden.',
+	'tryAgain' => 'Bitte versuchen Sie es erneut.',
+	'manyClicks' => 'Leider zu häufig geklickt.',
+	'try15' => 'Bitte in 15 Sekunden erneut versuchen. ;)',
 	'succededAddComm' => 'Je commentaar werd met succes toegevoegd.',
 	'failedLoadGeodata' => 'De reacties op deze set van geo-gegevens kunnen niet worden geladen.',
 	
