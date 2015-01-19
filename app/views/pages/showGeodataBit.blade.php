@@ -5,5 +5,5 @@
 	</a>
 <% }); %>
 <% if (_.isEmpty(data)) { %>
-	<span class="list-group-item">Es entsprechen leider keine Daten der Suchanfrage.</span>
+	<span class="list-group-item">@lang('misc.noSearch')</span>
 <% } %>

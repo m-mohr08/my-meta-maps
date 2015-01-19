@@ -15,13 +15,13 @@
 
 				<div class="row form-group form-group-marginSides">
 					<label for="name">@lang('misc.user')</label>
-					<input class="form-control" name="name" id="inputChangeUsername" type="text" value="{{{ Auth::user()->name }}}">
+					<input class="form-control" name="name" id="inputChangeUsername" type="text" value="{{{ Auth::user()->name }}}" onchange="userCheckDataController(new UserCheckData(), 'inputChangeUsername', 'form-changeGeneral', 'name')">
 					<div class="error-message"></div>
 				</div>
 
 				<div class="row form-group form-group-marginSides">
 					<label for="email">@lang('misc.mail')</label>
-					<input class="form-control" name="email" id="inputChangeMail" type="text" value="{{{ Auth::user()->email }}}">
+					<input class="form-control" name="email" id="inputChangeMail" type="text" value="{{{ Auth::user()->email }}}" onchange="userCheckDataController(new UserCheckData(), 'inputChangeMail', 'form-changeGeneral', 'email')">
 					<div class="error-message"></div>
 				</div>
 

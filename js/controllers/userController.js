@@ -148,10 +148,10 @@ function registeredUserChangedLanguage() {
 /**
  * Send POST-request to the server to check user data
  */
-function userCheckDataController(model, id, key) {
+function userCheckDataController(model, idInput, idForm, key) {
 	
 	var inputCheckData = {};
-	inputCheckData[key] = $("#" + id).val();
+	inputCheckData[key] = $("#" + idInput).val();
 	
 	model.save(inputCheckData, {
 		
@@ -163,12 +163,12 @@ function userCheckDataController(model, id, key) {
 			Debug.log('User data has not already been taken.');
 			responseJSON = {};
 			responseJSON[key] = 'This name/email can been taken.';
-			FormErrorMessages.applyPartially('#form-register', responseJSON, true);
+			FormErrorMessages.applyPartially('#'+idForm, responseJSON, true);
 		},
 	
 		error: function (data, response) {
 			Debug.log('User data has already been taken.');
-			FormErrorMessages.applyPartially('#form-register', response.responseJSON, false);
+			FormErrorMessages.applyPartially('#'+idForm, response.responseJSON, false);
 		}
 	});
 };
