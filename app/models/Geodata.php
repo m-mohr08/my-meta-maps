@@ -41,14 +41,29 @@ class Geodata extends Eloquent {
 	 */
 	protected $hidden = array();
 
+	/**
+	 * Implementation of the relation to the Comment table.
+	 * 
+	 * @return HasMany
+	 */
 	public function comments() {
 		return $this->hasMany('Comment', 'geodata_id');
 	}
 
+	/**
+	 * Implementation of the relation to the Layer table.
+	 * 
+	 * @return HasMany
+	 */
 	public function layers() {
 		return $this->hasMany('Layer', 'geodata_id');
 	}
 	
+	/**
+	 * Creates the permalink URI for this comment.
+	 * 
+	 * @return string|null
+	 */	
 	public function createPermalink() {
 		if ($this->id) {
 			return Config::get('app.url') . '/geodata/' . $this->id;
@@ -57,7 +72,15 @@ class Geodata extends Eloquent {
 			return null;
 		}
 	}
-
+	/**
+	 * Implements the search filter for the comments/geodata.
+	 * 
+	 * @see Comment::applyFilter()
+	 * @param Builder $query Query Builder
+	 * @param array $filter Filter parameters
+	 * @param int $id ID of the geodata set
+	 * @return Builder Query Builder
+	 */
 	public function scopeFilter($query, array $filter) {
 		// Table Names
 		$gt = (new Geodata())->getTable();
@@ -85,31 +108,63 @@ class Geodata extends Eloquent {
 		return $query;
 	}
 	
+	/**
+	 * Adds a select field to the query that returns the bbox as WKT, not as PostGIS.
+	 * 
+	 * @param Builder $query Query Builder
+	 * @return Builder
+	 */
 	public function scopeSelectBbox($query) {
 		return $query->addSelect(DB::raw('ST_AsText(bbox) AS bbox'));
 	}
 
+	/**
+	 * Returns the keywords as array.
+	 * 
+	 * @return array
+	 */
 	public function getKeywords(){
 		if (empty($this->keywords)) {
 			return array();
 		}
 		return explode('|', $this->keywords);
 	}
-	
+
+	/**
+	 * Returns the bbox attribute of the table and converts it from PostGIS to WKT style.
+	 * 
+	 * @return string WKT based geometry
+	 */
 	public function getBboxAttribute($value) {
 		return self::convertPostGis($value);
 	}
 
+	/**
+	 * Replaces the list of keywords with the given list.
+	 * 
+	 * @param array $keywords Keywords to set
+	 */
 	public function setKeywords(array $keywords){
 		$this->keywords = implode('|', $keywords);
 	}
 
+	/**
+	 * Adds a keyword to the list of keywords.
+	 * 
+	 * @param string $keywords Keyword
+	 */
 	public function addKeyword($keyword){
 		$keywords = $this->getKeywords();
 		$keywords[] = $keyword;
 		$this->setKeywords($keywords);
 	}
 	
+	/**
+	 * Converts the PostGIS based bbox to WKT style.
+	 * 
+	 * @param string $value Value to convert
+	 * @return string BBox in WKT
+	 */
 	public static function convertPostGis($value) {
 		if (!empty($value)) {
 			try {
@@ -119,6 +174,7 @@ class Geodata extends Eloquent {
 			}
 			if (empty($geom)) {
 				// Due to a bad designed ORM we need to do some extra querys...
+				// TODO: Find a better solution. This is a really BAD solution!
 				$result = DB::selectOne("SELECT ST_AsText('{$value}') AS bbox");
 				return $result->bbox;
 			}
@@ -131,6 +187,12 @@ class Geodata extends Eloquent {
 		}
 	}
 	
+	/**
+	 * Checks whether the given CRS is a name/alias for WGS84.
+	 * 
+	 * @param string $crs CRS to check
+	 * @return boolean true if its a WGS84 alias, false if not.
+	 */
 	public static function isWgs84($crs) {
 		if (!is_array($crs)) {
 			$crs = array($crs);
@@ -148,4 +210,3 @@ class Geodata extends Eloquent {
 	}
 	
 }
-?>

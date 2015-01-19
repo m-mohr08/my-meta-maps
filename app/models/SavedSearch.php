@@ -41,10 +41,21 @@ class SavedSearch extends Eloquent {
 	 */
 	protected $hidden = array();
 	
+	/**
+	 * Generates a unique ID for the search.
+	 * 
+	 * @return string
+	 */
 	public static function generateId() {
 		return str_replace('.', '', uniqid("", true));
 	}
 	
+	/**
+	 * Adds a select field to the query that returns the bbox as WKT, not as PostGIS.
+	 * 
+	 * @param Builder $query Query Builder
+	 * @return Builder
+	 */
 	public function scopeSelectBbox($query) {
 		return $query->addSelect('*')->addSelect(DB::raw('ST_AsText(bbox) AS bbox'));
 	}
