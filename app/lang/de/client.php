@@ -39,4 +39,8 @@ return array(
 	
 	'failedLoadMeta' =>	'Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuche sie es erneut.',
 
+	//variables for \js\views\ApplicationView.js
+
+	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
+	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
 );
