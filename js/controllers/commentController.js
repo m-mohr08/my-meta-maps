@@ -68,9 +68,18 @@ function commentAddFirstStepController(model, details) {
 		
         success: function (model, response) {
         	Debug.log('Try to validate URL');
+			Progress.stop('.modal-progress');
         	FormErrorMessages.remove('#form-comment-firstStep');
-        	$('#ModalAddComment').modal('hide');
-			ContentView.register(new CommentAddViewStep2({metadata: response.geodata}));
+			// Validate data
+			if (typeof(response.geodata.metadata.bbox) === 'string') {
+				$('#ModalAddComment').modal('hide');
+				ContentView.register(new CommentAddViewStep2({metadata: response.geodata}));
+			}
+			else {
+				FormErrorMessages.apply('#form-comment-firstStep', {
+					url: Lang.t('bboxInvalid')
+				});
+			}
         },
         
         error: function(model, response) {

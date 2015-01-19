@@ -35,6 +35,7 @@ return array(
 	'try15' => 'Please try again in 15 seconds ;)',
 	'succededAddComm' => 'Your comment was successfully added.',
 	'failedLoadGeodata' => 'The comments on this set of geo data could not be loaded.',
+	'bboxInvalid' => 'The given dataset is invalid. The reason could be that we currently only support WGS84 as CRS.',
 	
 	//variables for \js\views\commentView.js
 	
