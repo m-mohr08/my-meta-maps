@@ -45,7 +45,7 @@
 	
 	<div class="row form-group">
 		
-	  	<label>Räumliche Zuordnung des Kommentars</label>
+	  	<label>@lang('misc.spatial')</label>
 	   	<div id="mapAddComm"></div>
     	
 	</div>

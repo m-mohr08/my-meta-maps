@@ -30,9 +30,9 @@ function resetSearch(form) {
  */
 function saveSearch() {
 	$('#mapFilterShare').popover({
-		title: 'Suchergebnisse teilen',
+		title: Lang.t('searchShare'),
 		placement: 'left auto',
-		content: '<div id="permalinkContent"><img src="/img/loading.gif" /> Permalink wird generiert...</div>',
+		content: '<div id="permalinkContent"><img src="/img/loading.gif" />' + Lang.t('permLink')+'</div>',
 		html: true,
 		trigger: 'manual',
 		container: '#mapDataPanel'
@@ -43,14 +43,14 @@ function saveSearch() {
 			$('#permalinkContent').html('<a href="' + response.permalink + '" target="_blank">' + response.permalink + '</a>');
         },
         error: function() {
-			$('#permalinkContent').html('Permalink konnte leider nicht generiert werden.<br />Bitte versuchen Sie es erneut.');
+			$('#permalinkContent').html(Lang.t('permLink') + '<br />' + Lang.t('tryAgain'));
 		},
 		before: function() {
 			$('#mapFilterShare').popover('show');
 		},
 		skipped: function() {
 			$('#mapFilterShare').popover('toggle');
-			$('#permalinkContent').html('Leider zu häufig geklickt.<br />Bitte in 15 Sekunden erneut versuchen. ;)');
+			$('#permalinkContent').html(Lang.t('manyClicks') + '<br />' + Lang.t('try15'));
 		}
    });
 	
@@ -91,7 +91,7 @@ function commentAddSecondStepController(model, details) {
 			Debug.log("Adding comment was successful: " + JSON.stringify(response.responseJSON));
 			FormErrorMessages.remove('#form-comment-secondStep');
 			router.navigate('', {trigger: true}); // Redirect to frontpage
-			MessageBox.addSuccess('Ihr Kommentar wurde erfolgreich hinzugefügt.');
+			MessageBox.addSuccess(Lang.t('succededAddComm'));
 		},
 	
 		error: function (model, response) {
@@ -126,7 +126,7 @@ function commentsToGeodataController(gid, cid) {
         error: function() {
         	Debug.log('Showing comments to geodata failed');
 			Progress.stop(progressClass);
-			MessageBox.addError('Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.');
+			MessageBox.addError(Lang.t('failedLoadGeodata'));
 		},
    });
 };
