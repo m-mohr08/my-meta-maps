@@ -27,6 +27,7 @@
 											<a data-toggle="collapse" href="#LayerGeneralBody" data-parent="#commentAccordion" aria-expanded="true" aria-controls="LayerGeneralBody">
 												@lang('client.generalComm')
 											</a>
+											<a href="javascript:createCommentDirectly('<%- data.url %>', '<%- data.metadata.datatype %>')" class="badge" role="button">+</a>
 											<span class="badge pull-right"><%= data.comments.length %></span>
 										</h4>
 									</div>
@@ -46,6 +47,7 @@
 											<a data-toggle="collapse" href="#Layer<%= key %>Body" data-parent="#commentAccordion" aria-expanded="false" aria-controls="Layer<%= key %>Body">
 												Layer: <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
 											</a>
+											<a href="javascript:createCommentDirectly('<%- data.url %>', '<%- data.metadata.datatype %>', '<%- layer.id %>')" class="badge" role="button">+</a>
 											<span class="badge pull-right"><%= layer.comments.length %></span>
 										</h4>
 									</div>
@@ -75,9 +77,9 @@
 						</div>
 						<dl class="panel-body dl-horizontal metadata-list collapse in" id="showDataToGeodata" role="tabpanel" aria-labelledby="dataHeader">
 							<dt>@lang('misc.adress')</dt>
-							<dd><a href="<%- data.url %>" target="_blank"><%- data.url %></a></dd>
+							<dd><a href="<%- data.url %>" id="commMetaAdress" target="_blank"><%- data.url %></a></dd>
 							<dt>@lang('misc.dataFormatComm')</dt>
-							<dd><%- config.datatypes[data.metadata.datatype] %></dd>
+							<dd id="commMetaFormat"><%- config.datatypes[data.metadata.datatype] %></dd>
 							<dt>Σ @lang('misc.comments')</dt>
 							<dd><%- data.commentCount.filtered %> (<%- data.commentCount.all %> @lang('misc.total'))</dd>
 							<dt>Ø @lang('misc.rating')</dt>
