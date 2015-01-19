@@ -151,7 +151,9 @@ MapView = ContentView.extend({
 		});
 		this.map.addInteraction(selectMouseMove);
 		// select geometry on mouseclick and open CommentView
-		var select = new ol.interaction.Select();
+		var select = new ol.interaction.Select({
+			style: Mapping.getBBoxStyle(true)
+		});
 		this.map.addInteraction(select);
 		select.getFeatures().on('change:length', function(e) {
 			if (e.target.getArray().length === 0) {
