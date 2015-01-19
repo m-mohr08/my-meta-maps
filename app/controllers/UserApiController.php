@@ -218,12 +218,12 @@ class UserApiController extends BaseApiController {
 	 * @return Response
 	 */
 	public function postCheck() {
-		$user = Auth::user();
-		$id = empty($user->id) ? 0 : $user->id;
-		$table = $user->getTable();
+		$id = Auth::id();
+		$id = empty($id) ? 0 : $id;
+		$table = (new User())->getTable();
 		$supported = array(
-			'email' => "required|email|unique:{$table},name,{$id})",
-			'name' => "required|min:3|max:60|regex:/^[^@]+$/i|unique:{$table},email,{$id}"
+			'email' => "required|email|unique:{$table},email,{$id}",
+			'name' => "required|min:3|max:60|regex:/^[^@]+$/i|unique:{$table},name,{$id}"
 		);
 		
 		$data = Input::json();

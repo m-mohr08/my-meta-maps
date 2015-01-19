@@ -116,4 +116,21 @@ return array(
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',
+
+	//variables for \app\views\pages\show GeodataBit.blade.php
+
+	'noSearch' => 'No data matches your search.',
+
+	//variables for \app\views\emails\auth\reminder.blade.php
+
+	'pwReset' => 'Password Reset',
+	'resetForm' => 'To reset your password, complete this form:',
+	'expire' => 'This link will expire in',
+	'minutes' => 'minutes',
+
+	//variables for \app\views\oauth-alert.de.blade.php
+
+	'hint' => 'Note:',
+	'extAuth' => 'You authentificated via an external provider. For that case we created a My Meta Maps account for you. You can change your account data here. Your data at the external provider stays untouched.',
+	
 );

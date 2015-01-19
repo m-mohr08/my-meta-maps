@@ -1,8 +1,6 @@
 {
 	"name": "geosoft2/my-meta-maps",
 	"description": "",
-	"php": ">=5.4.0",
-	"version": "1.0.0-dev",
 	"type": "project",
 	"license": "Apache-2.0",
 	"authors": [
@@ -31,12 +29,27 @@
 		{
 			"url": "https://github.com/m-mohr/opauth",
 			"type": "vcs"
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "terrestris/IMP",
+				"version": "0.1",
+				"dist": {
+					"url": "https://github.com/terrestris/IMP/archive/master.zip",
+					"type": "zip"
+				},
+                "autoload": {
+                    "classmap": ["classes/"]
+                }
+			}
 		}
 	],
 	"require": {
 		"laravel/laravel": "4.2.*",
-		"phayes/geophp": "@dev",
+		"phayes/geophp": "1.2",
 		"mf2/mf2": "0.2.*",
+		"terrestris/IMP": "0.1",
 		"socialism/laravel-opauth": "0.1.*",
 		"opauth/opauth": "dev-proxy as 0.4.4",
 		"opauth/github": "0.1.*",
