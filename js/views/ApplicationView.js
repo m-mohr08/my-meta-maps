@@ -160,7 +160,7 @@ MapView = ContentView.extend({
 				},
 				error: function() {
 					Progress.stop('.filter-progress');
-					MessageBox.addError('Die Parameter der Suche konnten leider nicht geladen werden.');
+					MessageBox.addError(Lang.t('paramNoLoad'));
 					that.inititlizeData();
 				}
 			});
@@ -253,7 +253,7 @@ MapView = ContentView.extend({
 				that.addGeodataToMap(response);
 			},
 			error: function (model, response) {
-				MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
+				MessageBox.addError(Lang.t('noLoad'));
 				Progress.stop('.geodata-progress');
 			},
 			skipped: function () {

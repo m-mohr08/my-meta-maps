@@ -25,12 +25,26 @@ return array(
 	'succededChangePW' => 'Your new password was successfully applied.',
 	
 	//variables for \js\controllers\commentController.js
-	
-	'succededAddComm' => 'Your comments was successfully added.',
+
+	'searchShare' => 'Share searchresults',
+	'permLink' => 'Permalink will be generated...',
+	'noPerm' => 'Were not able to generate permalink',
+	'tryAgain' => 'Please try again',
+	'manyClicks' => 'Sorry you clicked too often.',
+	'try15' => 'Please try again in 15 seconds ;)',
+	'succededAddComm' => 'Your comment was successfully added.',
 	'failedLoadGeodata' => 'The comments on this set of geo data could not be loaded.',
 	
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'An error occurred when downloading the metadata. Please try it again.',
 
+	//variables for \js\views\ApplicationView.js
+
+	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
+	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
+
+	//variables for \js\router.js
+
+	'providerFail' => 'Login via chosen provider failed',
 );

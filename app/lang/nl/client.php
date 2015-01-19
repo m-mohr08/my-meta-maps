@@ -26,6 +26,12 @@ return array(
 	
 	//variables for \js\controllers\commentController.js
 	
+	'searchShare' => 'Zoekresultaat delen',
+	'permLink' => 'Permalink wordt gegenereerd...',
+	'noPerm' => 'Permalink werd helaas niet gegenereerd.',
+	'tryAgain' => 'Verzoek het opnieuw alsjeblieft',
+	'manyClicks' => 'Je hebt te vaak geklikt.',
+	'try15' => 'Verzoek het na 15 seconden opnieuw alsjeblieft ;)',
 	'succededAddComm' => 'Je commentaar werd met succes toegevoegd.',
 	'failedLoadGeodata' => 'De reacties op deze set van geo-gegevens kunnen niet worden geladen.',
 	
@@ -33,4 +39,12 @@ return array(
 	
 	'failedLoadMeta' =>	'Er is een fout opgetreden bij het downloaden van de metagegevens. Probeer het opnieuw alsjeblieft.',
 
+	//variables for \js\views\ApplicationView.js
+
+	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
+	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
+
+	//variables for \js\router.js
+
+	'providerFail' => 'Aanmelding via gekozen provider is niet gelukkt.',
 );

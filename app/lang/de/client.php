@@ -26,6 +26,12 @@ return array(
 	
 	//variables for \js\controllers\commentController.js
 	
+	'searchShare' => 'Suchergebnisse teilen',
+	'permLink' => 'Permalink wird generiert...',
+	'noPerm' => 'Permalink konnte leider nicht generiert werden.',
+	'tryAgain' => 'Bitte versuchen Sie es erneut.',
+	'manyClicks' => 'Leider zu häufig geklickt.',
+	'try15' => 'Bitte in 15 Sekunden erneut versuchen. ;)',
 	'succededAddComm' => 'Ihr Kommentar wurde erfolgreich hinzugefügt.',
 	'failedLoadGeodata' => 'Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.',
 	
@@ -33,4 +39,12 @@ return array(
 	
 	'failedLoadMeta' =>	'Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuche sie es erneut.',
 
+	//variables for \js\views\ApplicationView.js
+
+	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
+	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
+
+	//variables for \js\router.js
+
+	'providerFail' => 'Die Anmeldung über den gewählten Anbieter ist leider fehlgeschlagen.',
 );
