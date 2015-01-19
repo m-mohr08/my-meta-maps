@@ -168,7 +168,7 @@ MapView = ContentView.extend({
 			}),
 			view: view
 		});
-
+		
 		// The basic page is now loaded. Now we set the default data depending on the context.
 		if (this.options.searchHash) {
 			// We have a search permalink and need to get the stored parameters.
@@ -327,7 +327,8 @@ MapView = ContentView.extend({
 			polygeom.transform(this.getServerCrs(), this.getMapCrs());
 			this.polySource.addFeature(new ol.Feature({
 				geometry: new ol.geom.Polygon(polygeom.getCoordinates()),
-				projection: this.getMapCrs()
+				projection: this.getMapCrs(),
+				name: data.geodata[index].id
 			}));
 		}
 	},
