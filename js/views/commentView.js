@@ -39,7 +39,6 @@ CommentAddViewStep1 = ModalView.extend({
 			"datatype": $("#inputDataType").val()
 		};
 
-		// Creates a new CommentAdd-Model
 		commentAddFirstStepController(new CommentAddFirstStep(), details);
 	}
 });
@@ -72,6 +71,9 @@ CommentAddViewStep2 = ContentView.extend({
 
 		$('#ratingComment').barrating({showSelectedRating: false});
 		$("#inputDataType option[value='" + this.options.metadata.datatype + "']").attr('selected', true);
+		$("#inputLayer option[value='" + this.options.metadata.layerID + "']").attr('selected', true);
+				
+		Debug.log(this.options.metadata.layerID);
 
 		// this for the callbacks
 		var that = this;
@@ -83,7 +85,7 @@ CommentAddViewStep2 = ContentView.extend({
 			}
 			that.feature = event.feature;
 		});
-		
+
 		var bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
 		var layers = [bboxLayer, Mapping.getFeatureLayer(this.featureVector)];
 
@@ -91,10 +93,18 @@ CommentAddViewStep2 = ContentView.extend({
 			layers: Mapping.getBasemps(layers),
 			target: 'mapAddComm',
 			controls: Mapping.getControls([
-				Mapping.createCustomControl('<img src="/img/draw/none.png" />', 'Disable drawing', 'draw-none', function() { that.setDrawType(null); }),
-				Mapping.createCustomControl('<img src="/img/draw/point.png" />', 'Draw a Point', 'draw-point', function() { that.setDrawType('Point'); }),
-				Mapping.createCustomControl('<img src="/img/draw/line.png" />', 'Draw a Line', 'draw-line', function() { that.setDrawType('LineString'); }),
-				Mapping.createCustomControl('<img src="/img/draw/polygon.png" />', 'Draw a Polygon', 'draw-polygon', function() { that.setDrawType('Polygon'); })
+				Mapping.createCustomControl('<img src="/img/draw/none.png" />', 'Disable drawing', 'draw-none', function () {
+					that.setDrawType(null);
+				}),
+				Mapping.createCustomControl('<img src="/img/draw/point.png" />', 'Draw a Point', 'draw-point', function () {
+					that.setDrawType('Point');
+				}),
+				Mapping.createCustomControl('<img src="/img/draw/line.png" />', 'Draw a Line', 'draw-line', function () {
+					that.setDrawType('LineString');
+				}),
+				Mapping.createCustomControl('<img src="/img/draw/polygon.png" />', 'Draw a Polygon', 'draw-polygon', function () {
+					that.setDrawType('Polygon');
+				})
 			]),
 			view: Mapping.getDefaultView()
 		});
@@ -113,7 +123,7 @@ CommentAddViewStep2 = ContentView.extend({
 
 		this.addInteraction();
 	},
-	setDrawType: function(type) {
+	setDrawType: function (type) {
 		this.map.removeInteraction(this.draw);
 		this.drawType = type;
 		this.addInteraction();
@@ -168,7 +178,7 @@ CommentAddViewStep2 = ContentView.extend({
  */
 CommentsShowView = ModalView.extend({
 	map: null,
-	
+	seviceLayer: null,
 	getPageContent: function () {
 		return this.options.geodata;
 	},
@@ -178,7 +188,7 @@ CommentsShowView = ModalView.extend({
 		$('[data-toggle="popover"]').popover({
 			html: true
 		});
-		
+
 		this.map = new ol.Map({
 			layers: Mapping.getBasemps(),
 			target: 'commentviewmap',
@@ -209,7 +219,7 @@ CommentsShowView = ModalView.extend({
 			else {
 				// One of the layers, find it...
 				if (geodata.layer) {
-					_.each(geodata.layer, function(element) {
+					_.each(geodata.layer, function (element) {
 						if (element.id === layerId) {
 							layer = element;
 						}
@@ -222,18 +232,16 @@ CommentsShowView = ModalView.extend({
 		});
 
 	},
-	
-	onLayerHidden: function(layerId) {
+	onLayerHidden: function (layerId) {
 		Debug.log('Layer ' + layerId + ' hidden');
 
 		// TODO: Remove data from map
 	},
-	
-	onLayerShown: function(data) {
+	onLayerShown: function (data) {
 		Debug.log('Layer ' + data.id + ' shown');
 
 		// TODO: Add data to map
-		
+
 		// Load WMS/WMTS data
 		var datatype = this.options.geodata.metadata.datatype;
 		if (datatype == 'wms') {
@@ -243,18 +251,56 @@ CommentsShowView = ModalView.extend({
 			this.loadWmts(this.options.geodata.url, data.id);
 		}
 	},
-	
-	loadWms: function(url, layerId) {
+	removeService: function () {
+		if (this.serviceLayer != null) {
+			this.map.removeLayer(this.serviceLayer);
+		}
+	},
+	loadWms: function (url, layerId) {
+		this.removeService();
 		Debug.log('Loading WMS ' + url + ' with layer ' + layerId);
-		// TODO: Add code to show the WMS on the map
+		this.serviceLayer = new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: url,
+				params: {
+					'LAYERS': layerId,
+					'TRANSPARENT': 'true'
+				}
+			})
+		});
+		this.map.addLayer(this.serviceLayer);
 	},
-	
-	loadWmts: function(url, layerId) {
+	loadWmts: function (url, layerId) {
+		this.removeService();
 		Debug.log('Loading WMTS ' + url + ' with layer ' + layerId);
-		// TODO: Add code to show the WMTS on the map
+		var projection = ol.proj.get(this.getMapCrs());
+		var projectionExtent = projection.getExtent();
+		var size = ol.extent.getWidth(projectionExtent) / 256;
+		var resolutions = new Array(14);
+		var matrixIds = new Array(14);
+		for (var z = 0; z < 14; ++z) {
+			resolutions[z] = size / Math.pow(2, z);
+			matrixIds[z] = z;
+		}
+		this.serviceLayer = new ol.layer.Tile({
+			source: new ol.source.WMTS({
+				extent: projectionExtent,
+				url: url,
+				layer: layerId,
+				matrixSet: Mapping.getMapCrs(this.map),
+				format: 'image/png',
+				projection: projection,
+				tileGrid: new ol.tilegrid.WMTS({
+					origin: ol.extent.getTopLeft(projectionExtent),
+					resolutions: resolutions,
+					matrixIds: matrixIds
+				}),
+				style: 'default'
+			})
+		});
+		this.map.addLayer(this.serviceLayer);
 	},
-	
-	getPageTemplate: function() {
+	getPageTemplate: function () {
 		return '/api/internal/doc/showCommentsToGeodata';
 	}
 });

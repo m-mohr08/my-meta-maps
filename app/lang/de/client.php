@@ -13,6 +13,7 @@ return array(
 	*/
 	'close' => 'Schließen',
 	'generalComm' => 'Allgemeine Kommentare',
+	'commentAddQuickError' => 'Kommentar erstellen fehlgeschlagen',
 	
 	//variables for \js\controllers\userController.js
 	
@@ -34,6 +35,7 @@ return array(
 	'try15' => 'Bitte in 15 Sekunden erneut versuchen. ;)',
 	'succededAddComm' => 'Ihr Kommentar wurde erfolgreich hinzugefügt.',
 	'failedLoadGeodata' => 'Die Kommentare zu diesem Geodatensatz konnten nicht geladen werden.',
+	'bboxInvalid' => 'Der angegebene Datensatz ist nicht kompatibel. Ursache könnte sein, dass derzeit nur Datensätze in WGS84 unterstützt werden.',
 	
 	//variables for \js\views\commentView.js
 	

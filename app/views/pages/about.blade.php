@@ -43,7 +43,6 @@
 			<!-- Server -->
 			<a href="http://laravel.com" class="list-group-item" target="_blank">Laravel</a>
 			<a href="http://www.webmapcenter.de/imp/webseite/" class="list-group-item" target="_blank">IMP - INSPIRE Metadata Parser</a>
-			<a href="http://www.easyrdf.org" class="list-group-item" target="_blank">EasyRDF</a>
 			<a href="https://github.com/indieweb/php-mf2" class="list-group-item" target="_blank">php-mf2</a>
 			<a href="https://geophp.net" class="list-group-item" target="_blank">GeoPHP</a>
 			<!-- Client -->
