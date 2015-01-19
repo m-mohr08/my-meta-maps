@@ -13,6 +13,7 @@ return array(
 	*/
 	'close' => 'Schließen',
 	'generalComm' => 'Allgemeine Kommentare',
+	'commentAddQuickError' => 'Kommentar erstellen fehlgeschlagen',
 	
 	//variables for \js\controllers\userController.js
 	

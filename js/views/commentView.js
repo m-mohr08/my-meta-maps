@@ -39,7 +39,6 @@ CommentAddViewStep1 = ModalView.extend({
 			"datatype": $("#inputDataType").val()
 		};
 
-		// Creates a new CommentAdd-Model
 		commentAddFirstStepController(new CommentAddFirstStep(), details);
 	}
 });
@@ -72,6 +71,9 @@ CommentAddViewStep2 = ContentView.extend({
 
 		$('#ratingComment').barrating({showSelectedRating: false});
 		$("#inputDataType option[value='" + this.options.metadata.datatype + "']").attr('selected', true);
+		$("#inputLayer option[value='" + this.options.metadata.layerID + "']").attr('selected', true);
+				
+		Debug.log(this.options.metadata.layerID);
 
 		// this for the callbacks
 		var that = this;

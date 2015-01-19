@@ -101,6 +101,38 @@ function commentAddSecondStepController(model, details) {
 	});
 };
 
+function createCommentDirectly(url, datatype, layer) {
+	
+	Debug.log('Try to add comment directly');
+		
+	var details = {
+		"url": url,
+		"datatype": datatype
+	};
+	
+	var model = new CommentAddFirstStep();
+	
+	model.save(details, {
+			
+	        success: function (model, response) {
+	        	Debug.log('Try to get metadata');
+	        	$('#ModalShowCommentsToGeodata').modal('hide');
+	        	var commAddViewStep2 = new CommentAddViewStep2({metadata: response.geodata});
+	        	commAddViewStep2.options.metadata.layerID = layer;
+	        	Debug.log('Controller: ' + layer);
+				ContentView.register(commAddViewStep2);
+	        },
+	        
+	        error: function(model, response) {
+	        	Debug.log('Can not get metadata');
+	        	MessageBox(lang.t('commentAddQuickError'));
+			}
+		}
+		
+	);
+};
+
+
 /**
 * Send a POST-request to the server to get comments to a geodata
 */

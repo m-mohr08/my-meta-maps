@@ -13,6 +13,7 @@ return array(
 	*/
 	'close' => 'Close',
 	'generalComm' => 'Algemeene commentaaren',
+	'commentAddQuickError' => 'Adding comment failed',
 	
 	//variables for \js\controllers\userController.js
 	
