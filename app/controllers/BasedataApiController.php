@@ -18,14 +18,29 @@
 /**
  * This controller handles the internal API requests related to the basedata of the app, like language phrases, basemaps and html documents/pages.
  * Request is always a GET request. Reponse can be either JSON or HTML based.
+ * 
+ * @see https://github.com/m-mohr/my-meta-maps/wiki/Client-Server-Protocol
  */
 class BasedataApiController extends BaseApiController {
 	
+	/**
+	 * Handles a GET request to return a template or document from the server.
+	 * 
+	 * @param string $page Template name
+	 * @return Response
+	 */
 	public function getDoc($page) {
 		// $page is checked in routes file for being only alphanumeric with dashes
 		return View::make("pages.{$page}");
 	}
 	
+	/**
+	 * Handles a GET requests that includes several config data and language phrases for the client. 
+	 * 
+	 * Sends JavaScript code to the client.
+	 * 
+	 * @return Response
+	 */
 	public function getConfig() {
 		// Get config
 		$config = array(
