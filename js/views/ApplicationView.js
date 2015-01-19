@@ -131,9 +131,9 @@ MapView = ContentView.extend({
 		
 		var view = Mapping.getDefaultView();
 		// When the map view changes we need to search again
-		view.on('change:center', function() { that.onExtentChanged() });
-		view.on('change:resolution', function() { that.onExtentChanged() });
-		view.on('change:rotation', function() { that.onExtentChanged() });
+		view.on('change:center', function() { that.onExtentChanged(); });
+		view.on('change:resolution', function() { that.onExtentChanged(); });
+		view.on('change:rotation', function() { that.onExtentChanged(); });
 
 		// Layer with the bounding boxes
 		this.polyLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(true));
@@ -143,6 +143,23 @@ MapView = ContentView.extend({
 			target: 'map',
 			controls: Mapping.getControls(),
 			view: view
+		});
+		
+		//highlight geometry on mousemouve
+		var selectMouseMove = new ol.interaction.Select({
+			condition: ol.events.condition.mouseMove
+		});
+		this.map.addInteraction(selectMouseMove);
+		// select geometry on mouseclick and open CommentView
+		var select = new ol.interaction.Select();
+		this.map.addInteraction(select);
+		select.getFeatures().on('change:length', function(e) {
+			if (e.target.getArray().length === 0) {
+			// this means it's changed to no features selected
+			} else {
+			// this means there is at least 1 feature selected
+			 router.geodata(e.target.item(0).getId());
+			}
 		});
 		
 		// The basic page is now loaded. Now we set the default data depending on the context.
@@ -283,7 +300,7 @@ MapView = ContentView.extend({
 	addGeodataToMap: function (data) {
 		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
 		for (var index = 0; index < data.geodata.length; index++) {
-			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox);
+			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox, false, data.geodata[index].id);
 		}
 	},
 	getPageTemplate: function () {
