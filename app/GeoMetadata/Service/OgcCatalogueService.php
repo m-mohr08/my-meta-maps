@@ -35,9 +35,11 @@ class OgcCatalogueService extends CachedParser {
 	}
 
 	protected function createParser($source) {
+		// IMP is not very well written, throws E_NOTICES. Therefore we turn error_reporting off for this parser.
+		error_reporting(E_WARNING);
 		// We don't use IMP class as we don't need the fancy JSON/PDF/HTML stuff, we just need plain PHP
 		// and we get this straight from the parser. THis is nothing different from what IMP does directly.
-		$parser = new Parser();
+		$parser = new \Parser();
 		try {
 			return $parser->parseXML($source);
 		} catch (Exception $e) {
@@ -47,8 +49,82 @@ class OgcCatalogueService extends CachedParser {
 
 	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
 		$records = $this->getParser();
-		// TODO: Implementation
-		dd($records);
+		
+		if (empty($records)) {
+			return false;
+		}
+
+		// For now we only parse the first record
+		// TODO: Improve that
+		$data = reset($records);
+		
+		// Not supported: Copyright
+		
+		// Abstract
+		if (!empty($data->recordAbstract)) {
+			$model->setAbstract($data->recordAbstract);
+		}
+		
+		// Author
+		if (!empty($data->pointOfContact['organisationName'])) {
+			$model->setAuthor($this->arrayTotext($data->pointOfContact));
+		}
+		else if (!empty($data->responsibleParty)) {
+			$model->setAuthor($this->arrayTotext($data->responsibleParty));
+		}
+		else if (!empty($data->distributor)) {
+			$model->setAuthor($this->arrayTotext($data->distributor));
+		}
+
+		// Begin/end time
+		if (!empty($data->temporalExtent['begin'])) {
+			$model->setBeginTime($data->temporalExtent['begin']);
+		}
+		if (!empty($data->temporalExtent['end'])) {
+			$model->setEndTime($data->temporalExtent['end']);
+		}
+		
+		// Keywords
+		if (!empty($data->descriptiveKeywords['keywords'])) {
+			$model->setKeywords($data->descriptiveKeywords['keywords']);
+		}
+		
+		// Language
+		if (!empty($data->ressourceLang)) {
+			$model->setLanguage($data->ressourceLang);
+		}
+
+		// License
+		if (!empty($data->legalConstraints)) {
+			$model->setLicense($this->arrayTotext($data->legalConstraints));
+		}
+		
+		// Title
+		if ($data->title) {
+			$model->setTitle($data->title);
+		}
+		
+		// BBox
+		if (!empty($data->geographicBoundingBox)) {
+			$bbox = $data->geographicBoundingBox;
+			$model->createBoundingBox($bbox['westBoundLongitude'], $bbox['southBoundLatitude'], $bbox['eastBoundLongitude'], $bbox['northBoundLatitude'], 'EPSG:4326');
+		}
+		
+		return true;
+	}
+	
+	private function arrayTotext($array) {
+		$text = '';
+		if (!empty($array)) {
+			foreach ($array as $key => $value) {
+				$value = trim($value);
+				if (!empty($value)) {
+					$text .= "{$key}: {$value}\r\n";#
+				}
+			}
+			$text = trim($text);
+		}
+		return (empty($text) ? null : $text);
 	}
 
 	public function getMetadataUrl($url) {
