@@ -17,6 +17,9 @@
 
 namespace GeoMetadata;
 
+/**
+ * Networking class. Does the HTTP requests for the services.
+ */
 class GmNet {
 	
 	const GET = false;
@@ -27,17 +30,31 @@ class GmNet {
 	protected $proxyHost;
 	protected $proxyPort;
 	
+	/**
+	 * Constructs the GmNet object.
+	 */
 	public function __construct() {
 		$this->timeout = 10;
 		$this->proxyHost = GmRegistry::get('gm.proxy.host');
 		$this->proxyPort = GmRegistry::get('gm.proxy.port');
 	}
 	
+	/**
+	 * Sets a proxy host and port to use for the HTTP requests.
+	 * 
+	 * @param string $host Proxy host (might include the port aswell)
+	 * @param int $port Proxy port
+	 */
 	public function setProxy($host, $port) {
 		$this->proxyHost = $host;
 		$this->proxyPort = $port;
 	}
 	
+	/**
+	 * Sets a timeout in seconds for the HTTP requests.
+	 * 
+	 * @param int $timeout Timeout in seconds
+	 */
 	public function setTimeout($timeout) {
 		$this->timeout = $timeout;
 	}
