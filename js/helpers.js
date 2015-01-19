@@ -82,7 +82,7 @@ Mapping = {
 		return new ol.layer.Vector({
 			source: source,
 			style: Mapping.getFeatureStyle()
-		})
+		});
 	},
 	
 	getFeatureStyle: function() {
@@ -129,8 +129,8 @@ Mapping = {
 		return new ol.style.Style(style);
 	},
 	
-	addWktToLayer: function(map, layer, wkt, fitExtent) {
-		if (!map || !layer || !wkt) {
+	addWktToLayer: function(map, layer, wkt, fitExtent, idgeofeature) {
+		if (!map || !layer || !wkt ) {
 			return;
 		}
 		var geom = Mapping.fromWkt(wkt, map);
@@ -138,10 +138,12 @@ Mapping = {
 			if (fitExtent) {
 				map.getView().fitExtent(geom.getExtent(), map.getSize());
 			}
-			layer.getSource().addFeature(new ol.Feature({
+			var feature = new ol.Feature({
 				geometry: geom,
 				projection: Mapping.getMapCrs(map)
-			}));
+			});
+			feature.setId(idgeofeature);
+			layer.getSource().addFeature(feature);
 		}
 	},
 	
