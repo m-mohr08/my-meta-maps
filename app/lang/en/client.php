@@ -26,13 +26,13 @@ return array(
 	
 	//variables for \js\controllers\commentController.js
 
-	'searchShare' => 'Suchergebnisse teilen',
-	'permLink' => 'Permalink wird generiert...',
-	'noPerm' => 'Permalink konnte leider nicht generiert werden.',
-	'tryAgain' => 'Bitte versuchen Sie es erneut.',
-	'manyClicks' => 'Leider zu häufig geklickt.',
-	'try15' => 'Bitte in 15 Sekunden erneut versuchen. ;)',
-	'succededAddComm' => 'Your comments was successfully added.',
+	'searchShare' => 'Share searchresults',
+	'permLink' => 'Permalink will be generated...',
+	'noPerm' => 'Were not able to generate permalink',
+	'tryAgain' => 'Please try again',
+	'manyClicks' => 'Sorry you clicked too often.',
+	'try15' => 'Please try again in 15 seconds ;)',
+	'succededAddComm' => 'Your comment was successfully added.',
 	'failedLoadGeodata' => 'The comments on this set of geo data could not be loaded.',
 	
 	//variables for \js\views\commentView.js
