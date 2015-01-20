@@ -96,7 +96,15 @@ ModalView = ContentView.extend({
 
 	},
 	modal: function () {
-		$('#modal').find('.modal').modal('show');
+		var modal = $('#modal').find('.modal');
+		modal.modal('show');
+		// If we opened the modal without having a content view loaded (e.g. after opening a 
+		// permalink), we are redirecting the user to the frontpage.
+		modal.on('hidden.bs.modal', function() {
+			if (ContentView.active === null) {
+				router.navigate('/', true);
+			}
+		});
 	},
 	showProgress: function () {
 		Progress.show('.modal-progress');
