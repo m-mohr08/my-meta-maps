@@ -22,13 +22,28 @@ use \GeoMetadata\GeoMetadata;
 /**
  * This controller handles the internal API requests related to geodata/comment tasks, like adding and retrieving comments, parsing metadata, storing permalinks for searches etc.
  * Request is always a GET or POST request with JSON based parameters. Reponse is always JSON based, too.
+ * 
+ * @see https://github.com/m-mohr/my-meta-maps/wiki/Client-Server-Protocol
  */
 class GeodataApiController extends BaseApiController {
 	
+	/**
+	 * Builds a JSON response for a sinlge geo data set.
+	 * 
+	 * @param Geodata $geodata Geo dataset to use
+	 * @param array $layers List of layers to add
+	 * @return array
+	 */
 	protected function buildSingleGeodata(Geodata $geodata, $layers = array()) {
 		return array('geodata' => $this->buildGeodataEntry($geodata, $layers));
 	}
 	
+	/**
+	 * Builds a JSON response with multiple geo data sets included.
+	 * 
+	 * @param array $list List of geo datasets.
+	 * @return array
+	 */
 	protected function buildMultipleGeodata(array $list) {
 		$data = array('geodata' => array());
 		foreach ($list as $geodata) {
@@ -37,6 +52,13 @@ class GeodataApiController extends BaseApiController {
 		return $data;
 	}
 	
+	/**
+	 * Builds the geodata response, which might contain additional data, depending on the request and the data given.
+	 * 
+	 * @param Geodata $geodata Geodata object to use for creation.
+	 * @param array $layers Layers to add to the response.
+	 * @return array
+	 */
 	protected function buildGeodataEntry(Geodata $geodata, $layers = null) {
 		$data =  array(
 			'id' => $geodata->id,
@@ -92,6 +114,12 @@ class GeodataApiController extends BaseApiController {
 		return $data;
 	}
 
+	/**
+	 * Builds the comments part of the JSON responses.
+	 * 
+	 * @param array $comments
+	 * @return array
+	 */
 	protected function buildCommentList(array $comments) {
 		$data = array();
 		foreach($comments as $comment) {
@@ -115,6 +143,12 @@ class GeodataApiController extends BaseApiController {
 		return $data;
 	}
 	
+	/**
+	 * Builds the time part of the JSON responses.
+	 * 
+	 * @param Eloquent $model
+	 * @return array
+	 */
 	protected function buildTime(Eloquent $model) {
 		return array(
 			'start' => ($model->start !== null) ? $this->toDate($model->start) : null,
@@ -122,6 +156,14 @@ class GeodataApiController extends BaseApiController {
 		);
 	}
 	
+	/**
+	 * Parses the metadata at the specified URL with the parser represented by the service code.
+	 * 
+	 * @param string $url URL to parse
+	 * @param string $code Service code
+	 * @param \GeoMetadata\Model\Metadata $model Model to store the metadata in
+	 * @return \GeoMetadata\Model\Metadata New instance of the model containing the metadata
+	 */
 	protected function parseMetadata($url, $code, $model = null) {
 		$geo = GeoMetadata::withUrl($url, $code);
 		if ($geo != null) {
@@ -130,7 +172,12 @@ class GeodataApiController extends BaseApiController {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Handles a POST requests that requests to add (a geo data set including) a comment to the database.
+	 * 
+	 * @return Response
+	 */
 	public function postAdd() {
 		$data = Input::only('url', 'datatype', 'layer', 'text', 'geometry', 'start', 'end', 'rating', 'title');
 		
@@ -209,6 +256,11 @@ class GeodataApiController extends BaseApiController {
 		return $this->getJsonResponse($this->buildSingleGeodata($geodata, null));
 	}
 	
+	/**
+	 * Handles a POST request that parses the data from a given URL and returns the metadata for it.
+	 * 
+	 * @return Response
+	 */
 	public function postMetadata() {
 		$data = Input::only('url', 'datatype');
 		
@@ -247,6 +299,13 @@ class GeodataApiController extends BaseApiController {
 		return $this->getConflictResponse(array('url' => $error));
 	}
 	
+	/**
+	 * Handles a POST request that returns auto complete suggestions for the keyword based search.
+	 * 
+	 * Implementation is delayed. Method is not working yet and returns a 404 Not Found so far.
+	 * 
+	 * @return Response
+	 */
 	public function postKeywords() {
 		$q = Input::get('q');
 		$metadata = Input::get('metadata');
@@ -256,6 +315,11 @@ class GeodataApiController extends BaseApiController {
 		return $this->getNotFoundResponse();
 	}
 	
+	/**
+	 * Handles a POST request thet stores the search settings and creates a permalink for it.
+	 * 
+	 * @return Response
+	 */
 	public function postSearchSave() {
 		$data = $this->getFilterInput(array('bbox'));
 		if (empty($data['bbox'])) {
@@ -280,6 +344,12 @@ class GeodataApiController extends BaseApiController {
 		}
 	}
 	
+	/**
+	 * Handles a POST request thet returns the search settings that were saved for the specified permalink.
+	 * 
+	 * @param string $id ID of the permalink
+	 * @return Response
+	 */
 	public function getSearchLoad($id) {
 		$search = SavedSearch::selectBbox()->find($id);
 		if ($search !== null) {
@@ -300,12 +370,23 @@ class GeodataApiController extends BaseApiController {
 		}
 	}
 	
+	/**
+	 * Handles a POST request that returns a list of geodata sets that suits the filter.
+	 * 
+	 * @return Response
+	 */
 	public function postList() {
 		$filter = $this->getFilterInput();
 		$geodata = Geodata::filter($filter)->get();
 		return $this->getJsonResponse($this->buildMultipleGeodata($geodata->all()));
 	}
 	
+	/**
+	 * Handles a POST request that returns the (filtered) comments.
+	 * 
+	 * @param int $id ID of the geo dataset,
+	 * @return Response
+	 */
 	public function postComments($id) {
 		$filter = $this->getFilterInput();
 		// Get geodata for the specified id
@@ -354,6 +435,12 @@ class GeodataApiController extends BaseApiController {
 		return $this->getJsonResponse($json);
 	}
 	
+	/**
+	 * Reads the request data from the query and validates the data. Returns the valid data.
+	 * 
+	 * @param array $required Fields that should be marked as required for validation.
+	 * @return array Validated data
+	 */
 	protected function getFilterInput(array $required = array()) {
 		$input = Input::only('q', 'bbox', 'radius', 'start', 'end', 'minrating', 'metadata', 'comment');
 		$rules = array(

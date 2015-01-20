@@ -53,6 +53,7 @@ return array(
 	'commNoLay' => 'Kommentar keinem Layer zuordnen',
 	'title' => 'Titel*',
 	'freetext' => 'Freitext*',
+	'spatial' => 'Räumliche Zuordnung des Kommentars',
 	'timerange' => 'Zeitraum',
 	'rating' => 'Bewertung',
 	'addMeta' => 'Zusätzliche Metadaten',

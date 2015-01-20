@@ -29,7 +29,7 @@ var Router = Backbone.Router.extend({
 
 	oauthFailed: function (action) {
 		this.map();
-		MessageBox.addError('Die Anmeldung über den gewählten Anbieter ist leider fehlgeschlagen.');
+		MessageBox.addError(Lang.t('providerFail'));
 	},
 
 	loginout: function () {

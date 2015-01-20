@@ -48,13 +48,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	/**
+	 * Implementation of the relation to the Comment table.
+	 * 
+	 * @return HasMany
+	 */
 	public function comments() {
 		return $this->hasMany('Comment');
 	}
 	
 	/**
+	 * Returns the last activity of the user from the session.
 	 * 
-	 * @return int Last activity 
+	 * @return int Last activity or 0 if no valid session exists.
 	 */
 	public static function getLastActivityFromSession() {
 		$bag = Session::getMetadataBag();
@@ -67,4 +73,3 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 }
-?>
