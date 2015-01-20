@@ -65,6 +65,17 @@ class HomeController extends BaseController {
 	}
 
 	/**
+	 * A simple JavaScript cross domain proxy.
+	 * 
+	 * @return Response
+	 */
+	public function getProxy() {
+		$url = Input::get('url');
+		$net = new \GeoMetadata\GmNet();
+		return Response::make($net->get($url));
+	}
+	
+	/**
 	 * Handles the OAuth authentification process.
 	 * 
 	 * The response from the external authentification provider is handled and might lead to a registration and/or a login.
