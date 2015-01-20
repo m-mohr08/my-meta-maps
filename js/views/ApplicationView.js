@@ -163,7 +163,6 @@ MapView = ContentView.extend({
 			 router.geodata(e.target.item(0).getId());
 			}
 		});
-		//select more than one feature
 		
 		// The basic page is now loaded. Now we set the default data depending on the context.
 		if (this.options.searchHash) {

@@ -177,7 +177,11 @@ CommentAddViewStep2 = ContentView.extend({
  */
 CommentsShowView = ModalView.extend({
 	map: null,
-	seviceLayer: null,
+	serviceLayer: new ol.layer.Tile(),
+	geometryLayer: new ol.layer.Vector({
+		source: new ol.source.Vector(),
+		style: Mapping.getBBoxStyle()
+	}),
 	bboxLayer: null,
 	getPageContent: function () {
 		return this.options.geodata;
@@ -191,7 +195,7 @@ CommentsShowView = ModalView.extend({
 		
 		this.bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
 		this.map = new ol.Map({
-			layers: Mapping.getBasemps([this.bboxLayer]),
+			layers: Mapping.getBasemps([this.bboxLayer, this.geometryLayer, this.serviceLayer]),
 			target: 'commentviewmap',
 			controls: Mapping.getControls(),
 			view: Mapping.getDefaultView()
@@ -261,9 +265,7 @@ CommentsShowView = ModalView.extend({
 		if (bbox) {
 			Mapping.addWktToLayer(this.map, this.bboxLayer, bbox, true);
 		}
-
-		// TODO: Add features to map
-
+			
 		// Load WMS/WMTS data
 		var datatype = this.options.geodata.metadata.datatype;
 		if (datatype == 'wms') {
@@ -272,25 +274,30 @@ CommentsShowView = ModalView.extend({
 		else if (datatype == 'wmts') {
 			this.loadWmts(this.options.geodata.url, data.id);
 		}
+		
+		// TODO: Add features to map
+		for (var index = 0; index < data.comments.length; index++){
+			Mapping.addWktToLayer(this.map, this.geometryLayer, data.comments[index].geometry, false, data.comments[index].id);
+		}
 	},
 	removeService: function () {
-		if (this.serviceLayer != null) {
+		if (this.serviceLayer.getSource() !== undefined) {
+			console.log(this.serviceLayer.getSource());
 			this.map.removeLayer(this.serviceLayer);
 		}
 	},
 	loadWms: function (url, layerId) {
 		this.removeService();
 		Debug.log('Loading WMS ' + url + ' with layer ' + layerId);
-		this.serviceLayer = new ol.layer.Tile({
-			source: new ol.source.TileWMS({
+		this.serviceLayer.setSource(
+			new ol.source.TileWMS({
 				url: url,
 				params: {
 					'LAYERS': layerId,
 					'TRANSPARENT': 'true'
 				}
 			})
-		});
-		this.map.addLayer(this.serviceLayer);
+		);
 	},
 	loadWmts: function (url, layerId) {
 		this.removeService();
@@ -304,8 +311,7 @@ CommentsShowView = ModalView.extend({
 			resolutions[z] = size / Math.pow(2, z);
 			matrixIds[z] = z;
 		}
-		this.serviceLayer = new ol.layer.Tile({
-			source: new ol.source.WMTS({
+		this.serviceLayer.setSource(new ol.source.WMTS({
 				extent: projectionExtent,
 				url: url,
 				layer: layerId,
@@ -319,8 +325,7 @@ CommentsShowView = ModalView.extend({
 				}),
 				style: 'default'
 			})
-		});
-		this.map.addLayer(this.serviceLayer);
+		);
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/showCommentsToGeodata';
