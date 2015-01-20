@@ -19,6 +19,9 @@ namespace GeoMetadata;
 
 use GeoMetadata\Service\Parser;
 
+/**
+ * GLobal class that handles config, service registration, logging, EPSG code handling, ...
+ */
 class GmRegistry {
 
 	private static $config = array();
@@ -26,6 +29,12 @@ class GmRegistry {
 	
 	// General config
 	
+	/**
+	 * Gets a config value.
+	 * 
+	 * @param string $key Name of the config variable
+	 * @return mixed
+	 */
 	public static function get($key) {
 		if (isset(self::$config[$key])) {
 			return self::$config[$key];
@@ -35,18 +44,34 @@ class GmRegistry {
 		}
 	}
 	
+	/**
+	 * Sets a config value.
+	 * 
+	 * @param string $key Name of the config variable
+	 * @param string $value Value to set
+	 */
 	public static function set($key, $value) {
 		self::$config[$key] = $value;
 	}
 	
 	// Register parsing services
 
+	/**
+	 * Registers a service (parser) that can be used by GeoMetadata.
+	 * 
+	 * @param Parser $parser
+	 */
 	public static function registerService(Parser $parser) {
 		if ($parser != null) {
 			self::$services[$parser->getCode()] = $parser;
 		}
 	}
 
+	/**
+	 * Returns all registered services.
+	 * 
+	 * @return array
+	 */
 	public static function getServices() {
 		$services = array();
 		foreach (self::$services as $service) {
@@ -55,10 +80,21 @@ class GmRegistry {
 		return $services;
 	}
 
+	/**
+	 * Returns all codes of the registered services.
+	 * 
+	 * @return array
+	 */
 	public static function getServiceCodes() {
 		return array_keys(self::$services);
 	}
 
+	/**
+	 * Returns the service that belongs to the specified service code.
+	 * 
+	 * @param string $type Service code
+	 * @return Parser|null
+	 */
 	public static function getService($type) {
 		if (is_string($type) && isset(self::$services[$type])) {
 			return self::$services[$type]->createObject();
@@ -70,12 +106,22 @@ class GmRegistry {
 	
 	// Logging
 	
+	/**
+	 * Sets the logger that is used for logging.
+	 * 
+	 * @param Object $logger
+	 */
 	public static function setLogger($logger) {
 		if (is_callable($logger)) {
 			self::set('gm.logger', $logger);
 		}
 	}
 	
+	/**
+	 * Logs a message.
+	 * 
+	 * @param string $message Message to log
+	 */
 	public static function log($message) {
 		$logger = self::get('gm.logger');
 		if (is_callable($logger)) {
@@ -85,6 +131,12 @@ class GmRegistry {
 	
 	// Proxy
 
+	/**
+	 * Sets the proxy that is used for network connections.
+	 * 
+	 * @param string $host Host
+	 * @param int $port Port
+	 */
 	public static function setProxy($host, $port = 0) {
 		self::set('gm.proxy.host', $host);
 		self::set('gm.proxy.port', $port);
