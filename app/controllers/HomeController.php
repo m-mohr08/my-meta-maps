@@ -20,6 +20,12 @@
  */
 class HomeController extends BaseController {
 
+	/**
+	 * Handles the default GET requests and returns our client side Single Page Application.
+	 * 
+	 * @param string $language Language code that is used to translate the page.
+	 * @return Response
+	 */
 	public function getFrontpage($language = null) {
 		if (Language::valid($language) && !Language::is($language)) {
 			Language::change($language);
@@ -27,18 +33,47 @@ class HomeController extends BaseController {
 		return View::make('frontpage');
 	}
 
+	/**
+	 * Redirects a GET request for the search permalinks to the SPA.
+	 * 
+	 * @param string $hash Hash code of the permalink
+	 * @return Response
+	 */
 	public function getSearch($hash) {
 		return Redirect::to('/' . Language::current() . '#/search/' . $hash);
 	}
 
+	/**
+	 * Redirects a GET request for a geodata set to the corresponding page in the SPA.
+	 * 
+	 * @param int $geodata ID of the Geodata
+	 * @return Response
+	 */
 	public function getGeodata($geodata) {
 		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata)->with('geodata', '\d+');
 	}
 
+	/**
+	 * Redirects a GET request for a comment to the corresponding page in the SPA.
+	 * 
+	 * @param int $geodata ID of the Geodata
+	 * @param int $comment ID of the Comment
+	 * @return Response
+	 */
 	public function getComment($geodata, $comment) {
 		return Redirect::to('/' . Language::current() . '#/geodata/' . $geodata . '/comment/' . $comment)->with('geodata', '\d+')->with('comment', '\d+');
 	}
 
+	/**
+	 * Handles the OAuth authentification process.
+	 * 
+	 * The response from the external authentification provider is handled and might lead to a registration and/or a login.
+	 * 
+	 * Redirects the user to the SPA and calls the suitable action.
+	 * 
+	 * @param \Opauth $opauth Opauth instance
+	 * @return Response
+	 */
 	public function oauth(\Opauth $opauth) {
 		session_start();
 		$response = $_SESSION['opauth'];

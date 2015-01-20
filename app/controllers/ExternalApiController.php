@@ -17,11 +17,16 @@
  */
 
 /**
- * This controller handles the internal API requests related to geodata/comment tasks, like adding and retrieving comments, parsing metadata, storing permalinks for searches etc.
- * Request is always a GET or POST request with JSON based parameters. Reponse is always JSON based, too.
+ * Implementation of the external API that is implementing a basic OGC Date&Time Search Extension.
  */
 class ExternalApiController extends BaseApiController {
 
+	/**
+	 * Implementation for the search API that is listening for the query parameters q and count.
+	 * 
+	 * @see https://github.com/m-mohr/my-meta-maps/wiki/External-API
+	 * @return Response
+	 */
 	public function getSearchApi() {
 		$q = Input::get('q');
 		$count = Input::get('count');
