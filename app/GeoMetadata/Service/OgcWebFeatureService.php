@@ -17,13 +17,14 @@
 
 namespace GeoMetadata\Service;
 
-class OgcWebFeatureService extends OgcWebServices {
+class OgcWebFeatureService extends OgcWebServicesCommon {
 
 	public function getSupportedNamespaces() {
-		return 'http://www.opengis.net/wfs';
+		return array('http://www.opengis.net/wfs', 'http://www.opengis.net/wfs/2.0');
 	}
 	
 	protected function registerNamespaces() {
+		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WFS
 	}
 
@@ -35,6 +36,18 @@ class OgcWebFeatureService extends OgcWebServices {
 		return 'wfs';
 	}
 	
-	// TODO: ...
+	protected function findLayerNodes() {
+		return $this->selectMany(array('wfs:FeatureTypeList', 'wfs:FeatureType'), null, false);
+	}
+	
+	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
+		$children = $node->children($this->getNamespace('wfs'));
+		return $this->n2s($children->Name);
+	}
+	
+	protected function parseTitleFromContents(\SimpleXMLElement $node) {
+		$children = $node->children($this->getNamespace('wfs'));
+		return $this->n2s($children->Title);
+	}
 
 }
