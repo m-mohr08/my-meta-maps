@@ -34,13 +34,13 @@ function userLogoutController() {
 		
 		success: function(){
 			Debug.log('Logout succeded');
-			MessageBox.addSuccess('Sie haben sich erfolgreich abgemeldet.');
+			MessageBox.addSuccess(Lang.t('succededRegister'));
 			AuthUser.setUser();
 		},
 		
 		error: function(){
 			Debug.log('Logout failed');
-			MessageBox.addError('Die Abmeldung ist fehlgeschlagen.');
+			MessageBox.addError(Lang.t('succededLogout'));
 		}
 	});
 }
@@ -60,7 +60,7 @@ function userLoginController(model, inputLogin) {
 			Debug.log('Login succeded');
 			FormErrorMessages.remove('#form-login');
         	$('#ModalLogin').modal('hide');
-			MessageBox.addSuccess('Sie haben sich erfolgreich angemeldet');
+			MessageBox.addSuccess(Lang.t('succededLogin'));
 			AuthUser.setUser(response.user.name);
 			if (config.locale !== response.user.language) {
 				registeredUserChangedLanguage();
@@ -70,7 +70,7 @@ function userLoginController(model, inputLogin) {
 		error: function () {
 			Debug.log('Login failed');
 			Progress.stop('.modal-progress');
-			var msg = 'Die Anmeldedaten sind nicht korrekt';
+			var msg = Lang.t('failedLogin');
 			var errorMessages = {
 				identifier: msg,
 				password: msg
@@ -95,7 +95,7 @@ function userChangeGeneralController(model, inputChangeGeneral) {
 			Debug.log('Change general user data succeded');
 			FormErrorMessages.remove('#form-changeGeneral');
 			$('#ModalUserAccountGeneral').modal('hide');
-			MessageBox.addSuccess('Ihre Profiländerungen wurden erfolgreich übernommen.');
+			MessageBox.addSuccess(Lang.t('succededChangeGeneral'));
 			// Änderung des Benutzernamens weiterleiten
 			AuthUser.setUser(model.get('name'));
 			// Bei Änderung der Sprache die Seite neuladen
@@ -127,7 +127,7 @@ function userChangePasswordController(model, inputChangePassword) {
 			Debug.log('Change password succeded');
 			FormErrorMessages.remove('#form-changePassword');
 			$('#ModalUserAccountPassword').modal('hide');
-			MessageBox.addSuccess('Ihr neues Passwort wurde erfolgreich übernommen.');
+			MessageBox.addSuccess(Lang.t('succededChangePW'));
 		},
 	
 		error: function (data, response) {

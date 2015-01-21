@@ -96,7 +96,15 @@ ModalView = ContentView.extend({
 
 	},
 	modal: function () {
-		$('#modal').find('.modal').modal('show');
+		var modal = $('#modal').find('.modal');
+		modal.modal('show');
+		// If we opened the modal without having a content view loaded (e.g. after opening a 
+		// permalink), we are redirecting the user to the frontpage.
+		modal.on('hidden.bs.modal', function() {
+			if (ContentView.active === null) {
+				router.navigate('/', true);
+			}
+		});
 	},
 	showProgress: function () {
 		Progress.show('.modal-progress');
@@ -131,9 +139,9 @@ MapView = ContentView.extend({
 		
 		var view = Mapping.getDefaultView();
 		// When the map view changes we need to search again
-		view.on('change:center', function() { that.onExtentChanged() });
-		view.on('change:resolution', function() { that.onExtentChanged() });
-		view.on('change:rotation', function() { that.onExtentChanged() });
+		view.on('change:center', function() { that.onExtentChanged(); });
+		view.on('change:resolution', function() { that.onExtentChanged(); });
+		view.on('change:rotation', function() { that.onExtentChanged(); });
 
 		// Layer with the bounding boxes
 		this.polyLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(true));
@@ -144,7 +152,26 @@ MapView = ContentView.extend({
 			controls: Mapping.getControls(),
 			view: view
 		});
-
+		
+		//highlight geometry on mousemouve
+		var selectMouseMove = new ol.interaction.Select({
+			condition: ol.events.condition.mouseMove
+		});
+		this.map.addInteraction(selectMouseMove);
+		// select geometry on mouseclick and open CommentView
+		var select = new ol.interaction.Select({
+			style: Mapping.getBBoxStyle(true)
+		});
+		this.map.addInteraction(select);
+		select.getFeatures().on('change:length', function(e) {
+			if (e.target.getArray().length === 0) {
+			//no features selected
+			} else {
+			//open CommentView of the feature
+			 router.geodata(e.target.item(0).getId());
+			}
+		});
+		
 		// The basic page is now loaded. Now we set the default data depending on the context.
 		if (this.options.searchHash) {
 			// We have a search permalink and need to get the stored parameters.
@@ -160,7 +187,7 @@ MapView = ContentView.extend({
 				},
 				error: function() {
 					Progress.stop('.filter-progress');
-					MessageBox.addError('Die Parameter der Suche konnten leider nicht geladen werden.');
+					MessageBox.addError(Lang.t('paramNoLoad'));
 					that.inititlizeData();
 				}
 			});
@@ -246,7 +273,6 @@ MapView = ContentView.extend({
 		geodataShowController({
 			before: function () {
 				Progress.start('.geodata-progress');
-				that.polyLayer.getSource().clear();
 			},
 			success: function (model, response) {
 				new GeodataShowView(response);
@@ -254,7 +280,7 @@ MapView = ContentView.extend({
 				that.addGeodataToMap(response);
 			},
 			error: function (model, response) {
-				MessageBox.addError('Die Geodaten konnten nicht geladen werden.');
+				MessageBox.addError(Lang.t('noLoad'));
 				Progress.stop('.geodata-progress');
 			},
 			skipped: function () {
@@ -281,9 +307,10 @@ MapView = ContentView.extend({
 	 * add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
+		this.polyLayer.getSource().clear();
 		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
 		for (var index = 0; index < data.geodata.length; index++) {
-			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox);
+			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox, false, data.geodata[index].id);
 		}
 	},
 	getPageTemplate: function () {

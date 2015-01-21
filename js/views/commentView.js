@@ -39,7 +39,6 @@ CommentAddViewStep1 = ModalView.extend({
 			"datatype": $("#inputDataType").val()
 		};
 
-		// Creates a new CommentAdd-Model
 		commentAddFirstStepController(new CommentAddFirstStep(), details);
 	}
 });
@@ -53,6 +52,7 @@ CommentAddViewStep2 = ContentView.extend({
 	map: null,
 	featureVector: null,
 	feature: null,
+	serviceLayer: null,
 	drawType: null,
 	getPageTemplate: function () {
 		return '/api/internal/doc/addCommentSecondStep';
@@ -62,19 +62,23 @@ CommentAddViewStep2 = ContentView.extend({
 	},
 	initialize: function () {
 		if (typeof this.options.metadata.url === undefined) {
-			MessageBox.addError('Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuchen Sie erneut.');
+			MessageBox.addError(Lang.t('failedLoadMeta'));
 		}
 		else {
 			this.render();
 		}
 	},
 	onLoaded: function () {
-
-		$('#ratingComment').barrating({showSelectedRating: false});
-		$("#inputDataType option[value='" + this.options.metadata.datatype + "']").attr('selected', true);
-
 		// this for the callbacks
 		var that = this;
+
+		$('#ratingComment').barrating({showSelectedRating: false});
+		if (this.options.layerID) {
+			$("#inputLayer option[value='" + this.options.layerID + "']").attr('selected', true);
+		}
+		$("#inputLayer").on('change', function() {
+			that.updateWebserviceLayer($("#inputLayer").val());
+		});
 
 		this.featureVector = new ol.source.Vector();
 		this.featureVector.on('addfeature', function (event) {
@@ -85,7 +89,8 @@ CommentAddViewStep2 = ContentView.extend({
 		});
 
 		var bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
-		var layers = [bboxLayer, Mapping.getFeatureLayer(this.featureVector)];
+		this.serviceLayer = new ol.layer.Vector();
+		var layers = [this.serviceLayer, bboxLayer, Mapping.getFeatureLayer(this.featureVector)];
 
 		this.map = new ol.Map({
 			layers: Mapping.getBasemps(layers),
@@ -110,6 +115,7 @@ CommentAddViewStep2 = ContentView.extend({
 		if (this.options.metadata.metadata.bbox) {
 			Mapping.addWktToLayer(this.map, bboxLayer, this.options.metadata.metadata.bbox, true);
 		}
+		this.updateWebserviceLayer(this.options.layerID);
 
 		/**
 		 * Let user change the geometry type.
@@ -120,6 +126,9 @@ CommentAddViewStep2 = ContentView.extend({
 		});
 
 		this.addInteraction();
+	},
+	updateWebserviceLayer: function(layerId) {
+		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.metadata.url, this.options.metadata.metadata.datatype, layerId);
 	},
 	setDrawType: function (type) {
 		this.map.removeInteraction(this.draw);
@@ -177,6 +186,7 @@ CommentAddViewStep2 = ContentView.extend({
 CommentsShowView = ModalView.extend({
 	map: null,
 	seviceLayer: null,
+	bboxLayer: null,
 	getPageContent: function () {
 		return this.options.geodata;
 	},
@@ -186,12 +196,23 @@ CommentsShowView = ModalView.extend({
 		$('[data-toggle="popover"]').popover({
 			html: true
 		});
-
+		
+		this.bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
+		this.serviceLayer = new ol.layer.Vector();
 		this.map = new ol.Map({
-			layers: Mapping.getBasemps(),
+			layers: Mapping.getBasemps([this.serviceLayer, this.bboxLayer]),
 			target: 'commentviewmap',
 			controls: Mapping.getControls(),
 			view: Mapping.getDefaultView()
+		});
+
+		// Without this the map is not shown on initial loading
+		$('#ModalShowCommentsToGeodata').on('shown.bs.modal', function () {
+			that.map.updateSize();
+
+			// Execute the onLayerShown event for the box visible by default
+			var defaultLayer = $('#showCommentsToGeodata').find('.in').parent().data('layer');
+			that.onLayerShown(defaultLayer);
 		});
 
 		// When other layer is selected remove and add the new data to the map
@@ -201,102 +222,59 @@ CommentsShowView = ModalView.extend({
 			that.onLayerHidden(layerId);
 		});
 		panels.on('shown.bs.collapse', function (event) {
-			var geodata = that.getPageContent();
 			var layerId = $(event.currentTarget).data('layer');
-			var layer = null;
-			// Find layer
-			if (layerId === '') {
-				// General comments
-				layer = {
-					id: null,
-					title: Lang.t('generalComm'),
-					bbox: geodata.metadata.bbox,
-					comments: geodata.comments
-				};
-			}
-			else {
-				// One of the layers, find it...
-				if (geodata.layer) {
-					_.each(geodata.layer, function (element) {
-						if (element.id === layerId) {
-							layer = element;
-						}
-					});
-				}
-			}
-			if (layer !== null) {
-				that.onLayerShown(layer);
-			}
+			that.onLayerShown(layerId);
 		});
-
 	},
 	onLayerHidden: function (layerId) {
 		Debug.log('Layer ' + layerId + ' hidden');
 
-		// TODO: Remove data from map
-	},
-	onLayerShown: function (data) {
-		Debug.log('Layer ' + data.id + ' shown');
+		// Remove the bbox from the map
+		this.bboxLayer.getSource().clear();
 
-		// TODO: Add data to map
+		// TODO: Remove features from map
+	},
+	onLayerShown: function(layerId) {
+		Debug.log('Layer ' + layerId + ' shown');
+
+		var geodata = this.getPageContent();
+		var layer = null;
+		// Find layer
+		if (layerId === '') {
+			// General comments
+			layer = {
+				id: null,
+				title: Lang.t('generalComm'),
+				bbox: geodata.metadata.bbox,
+				comments: geodata.comments
+			};
+		}
+		else {
+			// One of the layers, find it...
+			if (geodata.layer) {
+				_.each(geodata.layer, function (element) {
+					if (element.id === layerId) {
+						layer = element;
+					}
+				});
+			}
+		}
+		if (layer !== null) {
+			this.fillLayer(layer);
+		}	
+	},
+	fillLayer: function (data) {
+		// Get the bbox from the layer or as fallback from the global dataset
+		var bbox = data.bbox ? data.bbox : this.options.geodata.metadata.bbox;
+		// Add bbox extent and fit it into the window
+		if (bbox) {
+			Mapping.addWktToLayer(this.map, this.bboxLayer, bbox, true);
+		}
+
+		// TODO: Add features to map
 
 		// Load WMS/WMTS data
-		var datatype = this.options.geodata.metadata.datatype;
-		if (datatype == 'wms') {
-			this.loadWms(this.options.geodata.url, data.id);
-		}
-		else if (datatype == 'wmts') {
-			this.loadWmts(this.options.geodata.url, data.id);
-		}
-	},
-	removeService: function () {
-		if (this.serviceLayer != null) {
-			this.map.removeLayer(this.serviceLayer);
-		}
-	},
-	loadWms: function (url, layerId) {
-		this.removeService();
-		Debug.log('Loading WMS ' + url + ' with layer ' + layerId);
-		this.serviceLayer = new ol.layer.Tile({
-			source: new ol.source.TileWMS({
-				url: url,
-				params: {
-					'LAYERS': layerId,
-					'TRANSPARENT': 'true'
-				}
-			})
-		});
-		this.map.addLayer(this.serviceLayer);
-	},
-	loadWmts: function (url, layerId) {
-		this.removeService();
-		Debug.log('Loading WMTS ' + url + ' with layer ' + layerId);
-		var projection = ol.proj.get(this.getMapCrs());
-		var projectionExtent = projection.getExtent();
-		var size = ol.extent.getWidth(projectionExtent) / 256;
-		var resolutions = new Array(14);
-		var matrixIds = new Array(14);
-		for (var z = 0; z < 14; ++z) {
-			resolutions[z] = size / Math.pow(2, z);
-			matrixIds[z] = z;
-		}
-		this.serviceLayer = new ol.layer.Tile({
-			source: new ol.source.WMTS({
-				extent: projectionExtent,
-				url: url,
-				layer: layerId,
-				matrixSet: Mapping.getMapCrs(this.map),
-				format: 'image/png',
-				projection: projection,
-				tileGrid: new ol.tilegrid.WMTS({
-					origin: ol.extent.getTopLeft(projectionExtent),
-					resolutions: resolutions,
-					matrixIds: matrixIds
-				}),
-				style: 'default'
-			})
-		});
-		this.map.addLayer(this.serviceLayer);
+		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.geodata.url, this.options.geodata.metadata.datatype, data.id);
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/showCommentsToGeodata';

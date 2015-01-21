@@ -28,8 +28,8 @@ var Router = Backbone.Router.extend({
 	},
 
 	oauthFailed: function (action) {
-		this.map();
-		MessageBox.addError('Die Anmeldung über den gewählten Anbieter ist leider fehlgeschlagen.');
+		this.navigate('/', true);
+		MessageBox.addError(Lang.t('providerFail'));
 	},
 
 	loginout: function () {
@@ -46,7 +46,7 @@ var Router = Backbone.Router.extend({
 	},
 
 	profile: function () {
-		new ProfileView();
+		new ProfileView();et
 	},
 
 	password: function () {
@@ -54,7 +54,7 @@ var Router = Backbone.Router.extend({
 	},
 
 	addComment: function () {
-		this.navigate('comments/add'); // Set correct url if not already set.
+		this.navigate('/comments/add'); // Set correct url if not already set.
 		new CommentAddViewStep1();
 	},
 

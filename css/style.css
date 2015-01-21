@@ -85,7 +85,7 @@ h3 {
 	position: fixed;
 	bottom: 0px;
 	right: 45px;
-	z-index: 1000;
+	z-index: 2000;
 }
 
 #messages .alert {

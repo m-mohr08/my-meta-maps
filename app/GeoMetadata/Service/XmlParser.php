@@ -280,6 +280,9 @@ abstract class XmlParser extends CachedParser {
 		// Remove the trailing newline
 		if ($level == 0) {
 			$output = rtrim($output);
+			if (empty($output)) {
+				$output = null;
+			}
 		}
 
 		return $output;

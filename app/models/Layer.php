@@ -41,14 +41,29 @@ class Layer extends Eloquent {
 	 */
 	protected $hidden = array();
 
+	/**
+	 * Implementation of the relation to the Geodata table.
+	 * 
+	 * @return BelongsTo
+	 */
     public function geodata() {
         return $this->belongsTo('Geodata');
     }
 
+	/**
+	 * Implementation of the relation to the Comments table.
+	 * 
+	 * @return HasMany
+	 */
     public function comments() {
         return $this->hasMany('Comment', 'layer_id');
     }
-	
+
+	/**
+	 * Returns the bbox attribute of the table and converts it from PostGIS to WKT style.
+	 * 
+	 * @return string WKT based geometry
+	 */
 	public function getBboxAttribute($value) {
 		return Geodata::convertPostGis($value);
 	}
