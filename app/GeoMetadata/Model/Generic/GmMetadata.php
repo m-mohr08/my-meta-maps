@@ -135,6 +135,12 @@ class GmMetadata implements \GeoMetadata\Model\Metadata, \GeoMetadata\Model\Extr
 		$this->endTime = $end;
 	}
 
+	/**
+	 * Returns a new instance of a class implementing the BoundingBox interface and 
+	 * which is is compatible with this metadata implementation.
+	 * 
+	 * @return \GeoMetadata\Model\Generic\GmBoundingBox
+	 */
 	public function deliverBoundingBox() {
 		return new GmBoundingBox();
 	}

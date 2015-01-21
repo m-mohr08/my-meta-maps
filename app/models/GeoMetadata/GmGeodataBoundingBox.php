@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+/**
+ * Bounding box with the ability to be used as model in GeoMatadata Parser.
+ * 
+ * This is identical to the implementation of GeoMetadata\Model\Generic\GmBoundingBox,
+ * but we should have a complete set of classes of models to be used in My Meta Maps.
+ */
 class GmGeodataBoundingBox extends GeoMetadata\Model\Generic\GmBoundingBox {
 	
 	// Nothing important to change here. It's just to have a complete version of the Model.
