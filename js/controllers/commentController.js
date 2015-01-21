@@ -72,8 +72,9 @@ function commentAddFirstStepController(model, details) {
         	FormErrorMessages.remove('#form-comment-firstStep');
 			// Validate data
 			if (typeof(response.geodata.metadata.bbox) === 'string') {
-				$('#ModalAddComment').modal('hide');
 				ContentView.register(new CommentAddViewStep2({metadata: response.geodata}));
+				$('#ModalAddComment').modal('hide');
+				router.navigate('/comments/add');
 			}
 			else {
 				FormErrorMessages.apply('#form-comment-firstStep', {
@@ -125,10 +126,11 @@ function createCommentDirectly(url, datatype, layer) {
 			
 	        success: function (model, response) {
 	        	Debug.log('Try to get metadata');
-	        	$('#ModalShowCommentsToGeodata').modal('hide');
 	        	var commAddViewStep2 = new CommentAddViewStep2({metadata: response.geodata, layerID: layer});
 	        	Debug.log('Controller: ' + layer);
 				ContentView.register(commAddViewStep2);
+	        	$('#ModalShowCommentsToGeodata').modal('hide');
+				router.navigate('/comments/add');
 	        },
 	        
 	        error: function(model, response) {

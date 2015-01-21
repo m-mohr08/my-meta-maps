@@ -19,6 +19,9 @@ Route::get('/', function() {
 // Frontpage in the language chosen
 Route::get('/{language}', 'HomeController@getFrontpage')->where('language', '[a-z]{2}');
 
+// Javascript proxy
+Route::get('/proxy', 'HomeController@getProxy');
+
 Route::any('auth/social/{strategy}/{action?}', ['as' => 'auth.social', function ($strategy, $action = 'request') {
 	$app = app('opauth');
 	if ($strategy == 'callback') {

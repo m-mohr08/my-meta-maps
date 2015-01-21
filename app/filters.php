@@ -34,7 +34,7 @@ App::before(function($request)
 	GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcCatalogueService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebCoverageService());
-//	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebFeatureService());
+	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebFeatureService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcSensorObservationService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebMapTileService());
