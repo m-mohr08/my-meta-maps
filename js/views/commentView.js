@@ -52,6 +52,7 @@ CommentAddViewStep2 = ContentView.extend({
 	map: null,
 	featureVector: null,
 	feature: null,
+	serviceLayer: null,
 	drawType: null,
 	getPageTemplate: function () {
 		return '/api/internal/doc/addCommentSecondStep';
@@ -68,14 +69,16 @@ CommentAddViewStep2 = ContentView.extend({
 		}
 	},
 	onLoaded: function () {
-
-		$('#ratingComment').barrating({showSelectedRating: false});
-		$("#inputDataType option[value='" + this.options.metadata.datatype + "']").attr('selected', true);
-		$("#inputLayer option[value='" + this.options.layerID + "']").attr('selected', true);
-		Debug.log(this.options.metadata);
-
 		// this for the callbacks
 		var that = this;
+
+		$('#ratingComment').barrating({showSelectedRating: false});
+		if (this.options.layerID) {
+			$("#inputLayer option[value='" + this.options.layerID + "']").attr('selected', true);
+		}
+		$("#inputLayer").on('change', function() {
+			that.updateWebserviceLayer($("#inputLayer").val());
+		});
 
 		this.featureVector = new ol.source.Vector();
 		this.featureVector.on('addfeature', function (event) {
@@ -86,7 +89,8 @@ CommentAddViewStep2 = ContentView.extend({
 		});
 
 		var bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
-		var layers = [bboxLayer, Mapping.getFeatureLayer(this.featureVector)];
+		this.serviceLayer = new ol.layer.Vector();
+		var layers = [this.serviceLayer, bboxLayer, Mapping.getFeatureLayer(this.featureVector)];
 
 		this.map = new ol.Map({
 			layers: Mapping.getBasemps(layers),
@@ -111,6 +115,7 @@ CommentAddViewStep2 = ContentView.extend({
 		if (this.options.metadata.metadata.bbox) {
 			Mapping.addWktToLayer(this.map, bboxLayer, this.options.metadata.metadata.bbox, true);
 		}
+		this.updateWebserviceLayer(this.options.layerID);
 
 		/**
 		 * Let user change the geometry type.
@@ -121,6 +126,9 @@ CommentAddViewStep2 = ContentView.extend({
 		});
 
 		this.addInteraction();
+	},
+	updateWebserviceLayer: function(layerId) {
+		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.metadata.url, this.options.metadata.metadata.datatype, layerId);
 	},
 	setDrawType: function (type) {
 		this.map.removeInteraction(this.draw);
@@ -177,11 +185,7 @@ CommentAddViewStep2 = ContentView.extend({
  */
 CommentsShowView = ModalView.extend({
 	map: null,
-	serviceLayer: new ol.layer.Tile(),
-	geometryLayer: new ol.layer.Vector({
-		source: new ol.source.Vector(),
-		style: Mapping.getBBoxStyle()
-	}),
+	seviceLayer: null,
 	bboxLayer: null,
 	getPageContent: function () {
 		return this.options.geodata;
@@ -194,8 +198,9 @@ CommentsShowView = ModalView.extend({
 		});
 		
 		this.bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
+		this.serviceLayer = new ol.layer.Vector();
 		this.map = new ol.Map({
-			layers: Mapping.getBasemps([this.bboxLayer, this.geometryLayer, this.serviceLayer]),
+			layers: Mapping.getBasemps([this.serviceLayer, this.bboxLayer]),
 			target: 'commentviewmap',
 			controls: Mapping.getControls(),
 			view: Mapping.getDefaultView()
@@ -265,67 +270,11 @@ CommentsShowView = ModalView.extend({
 		if (bbox) {
 			Mapping.addWktToLayer(this.map, this.bboxLayer, bbox, true);
 		}
-			
-		// Load WMS/WMTS data
-		var datatype = this.options.geodata.metadata.datatype;
-		if (datatype == 'wms') {
-			this.loadWms(this.options.geodata.url, data.id);
-		}
-		else if (datatype == 'wmts') {
-			this.loadWmts(this.options.geodata.url, data.id);
-		}
-		
+
 		// TODO: Add features to map
-		for (var index = 0; index < data.comments.length; index++){
-			Mapping.addWktToLayer(this.map, this.geometryLayer, data.comments[index].geometry, false, data.comments[index].id);
-		}
-	},
-	removeService: function () {
-		if (this.serviceLayer.getSource() !== undefined) {
-			console.log(this.serviceLayer.getSource());
-			this.map.removeLayer(this.serviceLayer);
-		}
-	},
-	loadWms: function (url, layerId) {
-		this.removeService();
-		Debug.log('Loading WMS ' + url + ' with layer ' + layerId);
-		this.serviceLayer.setSource(
-			new ol.source.TileWMS({
-				url: url,
-				params: {
-					'LAYERS': layerId,
-					'TRANSPARENT': 'true'
-				}
-			})
-		);
-	},
-	loadWmts: function (url, layerId) {
-		this.removeService();
-		Debug.log('Loading WMTS ' + url + ' with layer ' + layerId);
-		var projection = ol.proj.get(this.getMapCrs());
-		var projectionExtent = projection.getExtent();
-		var size = ol.extent.getWidth(projectionExtent) / 256;
-		var resolutions = new Array(14);
-		var matrixIds = new Array(14);
-		for (var z = 0; z < 14; ++z) {
-			resolutions[z] = size / Math.pow(2, z);
-			matrixIds[z] = z;
-		}
-		this.serviceLayer.setSource(new ol.source.WMTS({
-				extent: projectionExtent,
-				url: url,
-				layer: layerId,
-				matrixSet: Mapping.getMapCrs(this.map),
-				format: 'image/png',
-				projection: projection,
-				tileGrid: new ol.tilegrid.WMTS({
-					origin: ol.extent.getTopLeft(projectionExtent),
-					resolutions: resolutions,
-					matrixIds: matrixIds
-				}),
-				style: 'default'
-			})
-		);
+
+		// Load WMS/WMTS data
+		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.geodata.url, this.options.geodata.metadata.datatype, data.id);
 	},
 	getPageTemplate: function () {
 		return '/api/internal/doc/showCommentsToGeodata';
