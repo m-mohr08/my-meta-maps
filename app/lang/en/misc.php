@@ -51,7 +51,7 @@ return array(
 	'enterData' => 'Enter data',
 	'commNoLay' => 'Don´t allocate comment to a Layer',
 	'title' => 'Title*',
-	'freetext' => 'Text*',
+	'freetext' => 'Your comment',
 	'spatial' => 'Spatial allocatio of the comment',
 	'timerange' => 'Timerange',
 	'rating' => 'Rating',

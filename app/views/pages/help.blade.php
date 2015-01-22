@@ -56,7 +56,7 @@
 			<div class='keywordSearch'>	
 				<h3>Stichwortsuche</h3>
 					<div>
-						Die Stichwortsuche ermöglicht
+						Die Stichwortsuche ermöglicht die Suche nach Wörtern die in einem Kommentar hinterlegt wurden.
 					</div>
 			</div>
 			<!-- End of keyword-search -->
