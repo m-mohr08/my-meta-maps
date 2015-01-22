@@ -87,15 +87,27 @@ Mapping = {
 	 */
 	getBasemps: function(layers){
 		var basemaps = [
-			// OSM
-			new ol.layer.Tile({
-				source: new ol.source.OSM()
+			new ol.layer.Group({
+				title: 'Basemaps',
+				layers: [
+					// OSM
+					new ol.layer.Tile({
+						title: 'OpenStreetMap',
+						type: 'base',
+						visible: true,
+						source: new ol.source.OSM()
+					})
+					// TODO: Add Bing
+				]
 			})
-			// TODO: Add Bing
 		];
 		//join the layers to the basemap
 		if (layers) {
-			basemaps = basemaps.concat(layers);
+			var overlays = new ol.layer.Group({
+				title: 'Overlays',
+				layers: layers
+			});
+			basemaps.push(overlays);
 		}
 		return basemaps;
 	},
@@ -120,12 +132,14 @@ Mapping = {
 		if (!controls) {
 			controls = [];
 		}
+		
+		var layerSwitcher = new ol.control.LayerSwitcher();
+		controls.push(layerSwitcher);
 		return ol.control.defaults({
 			attributionOptions: /** @type {olx.control.AttributionOptions} */({
 				collapsible: false
 			})
 		}).extend(controls);
-		// TODO: Add layer switcher
 	},
 	
 	/**
@@ -135,6 +149,7 @@ Mapping = {
 	 */
 	getFeatureLayer: function(source) {
 		return new ol.layer.Vector({
+			title: 'User defined geometries',
 			source: source,
 			style: Mapping.getFeatureStyle()
 		});
@@ -330,6 +345,7 @@ Mapping = {
 	loadWms: function (url, layerId) {
 		return new ol.layer.Tile({
 			source: new ol.source.TileWMS({
+				title: 'WMS',
 				url: url,
 				params: {
 					LAYERS: layerId,
@@ -357,6 +373,7 @@ Mapping = {
 		}
 		return new ol.layer.Tile({
 			source: new ol.source.WMTS({
+				title: 'WMTS',
 				extent: projectionExtent,
 				url: url,
 				layer: layerId,
