@@ -1,4 +1,4 @@
-<div class="list-group-item">
+<div class="list-group-item" id="CommentId<%- comment.id %>">
 	<div class="row clearfix">
 		<dd><pre><%= ViewUtils.parseComment(comment.text) %></pre></dd>
 	</div>
@@ -12,8 +12,8 @@
 				<span class="glyphicon glyphicon-user"></span>&nbsp;<span><%- comment.user.name %></span>
 			</span>
 		<% } %>
-		<% if (1 == 1 || !_.isEmpty(comment.time.geometry)) { %>
-		<span class="badge alert-default" title="Geodaten vorhanden">
+		<% if (!_.isEmpty(comment.geometry)) { %>
+		<span class="badge alert-default map-Marker" title="Geodaten vorhanden">
 			<span class="glyphicon glyphicon-map-marker"></span>
 		</span>
 		<% } if (!_.isEmpty(comment.time.start) || !_.isEmpty(comment.time.end)) { %>

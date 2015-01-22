@@ -52,7 +52,7 @@ return array(
 	'enterData' => 'Daten eingeben',
 	'commNoLay' => 'Kommentar keinem Layer zuordnen',
 	'title' => 'Titel*',
-	'freetext' => 'Freitext*',
+	'freetext' => 'Ihr Kommentar',
 	'spatial' => 'Räumliche Zuordnung des Kommentars',
 	'timerange' => 'Zeitraum',
 	'rating' => 'Bewertung',
@@ -135,6 +135,6 @@ return array(
 	//variables for \app\views\oauth-alert.de.blade.php
 
 	'hint' => 'Hinweis:',
-	'extAuth' => 'Sie haben sich über einen externen Anbieter authentifiziert. In diesem Zuge haben wir Ihnnen einen My Meta Maps-Account eingerichtet, dessen Daten Sie hier ändern können. Ihre Daten beim externen Anbieter bleiben unberührt!',
+	'extAuth' => 'Sie haben sich über einen externen Anbieter angemeldet. In diesem Zuge haben wir Ihnen einen My Meta Maps-Account eingerichtet, dessen Daten Sie hier ändern können. Ihre Daten beim externen Anbieter bleiben unberührt!',
 	
 );

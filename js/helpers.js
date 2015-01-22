@@ -1,4 +1,11 @@
+/**
+ * Class for Logging
+ */
 Debug = {
+	/**
+	 * loggs the message in the console
+	 * @param {String} message
+	 */
 	log: function(message) {
 		if (config.debug) {
 			console.log(message);
@@ -6,19 +13,35 @@ Debug = {
 	}
 };
 
+/**
+ * Class for all the base Functions to create, manage and work on the Map
+ */
 Mapping = {
 	
 	wkt: new ol.format.WKT(),
 	
+	/*+
+	 * Function to get the Projection from the Data
+	 * @returns {String} Projection
+	 */
 	getServerCrs: function () {
 		return 'EPSG:4326';
 	},
-
+	
+	/**
+	 * Function to get the Projection of the Map
+	 * @param {ol.Map} map
+	 * @returns {String} Projection
+	 */
 	getMapCrs: function (map) {
 		// ToDo: Get the real projection from the map object
 		return 'EPSG:3857';
 	},
 	
+	/**
+	 * tracks the Geolocation from the user and sets it as center of the map
+	 * @param {ol.View} view of the map
+	 */
 	geolocate: function(view) {
 		// gets the geolocation
 		var geolocation = new ol.Geolocation({
@@ -32,6 +55,12 @@ Mapping = {
 		});	
 	},
 	
+	/**
+	 * transforms the Geometry from an wkt object to a ol.geom.Geometry
+	 * @param {type} wkt format
+	 * @param {type} map
+	 * @returns {ol.geom.Geometry} Geometry
+	 */
 	fromWkt: function(wkt, map) {
 		var geom = Mapping.wkt.readGeometry(wkt);
 		if (geom) {
@@ -40,11 +69,22 @@ Mapping = {
 		return geom;
 	},
 
+	/**
+	 * transforms the Geometry from a ol.geom.Geometry to an wkt object
+	 * @param {ol.geom.Geometry} geom
+	 * @param {ol.Map} map
+	 * @returns {String} wkt
+	 */
 	toWkt: function(geom, map) {
 		geom.transform(Mapping.getMapCrs(map), Mapping.getServerCrs());
 		return Mapping.wkt.writeGeometry(geom);
 	},
 	
+	/**
+	 * creates the Layer of the map
+	 * @param {Array| <ol.layer>} Layers
+	 * @returns {Array| <ol.layer>} Layers of the map
+	 */
 	getBasemps: function(layers){
 		var basemaps = [
 			new ol.layer.Group({
@@ -61,6 +101,7 @@ Mapping = {
 				]
 			})
 		];
+		//join the layers to the basemap
 		if (layers) {
 			var overlays = new ol.layer.Group({
 				title: 'Overlays',
@@ -71,6 +112,10 @@ Mapping = {
 		return basemaps;
 	},
 	
+	/**
+	 * get the default View
+	 * @returns {ol.View} View
+	 */
 	getDefaultView: function() {
 		return new ol.View({
 			center: [0, 0],
@@ -78,6 +123,11 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * Get the Control Parameter of the Map
+	 * @param {ol.control} controls
+	 * @returns {ol.control.defaults} Controls of the map
+	 */
 	getControls: function(controls) {
 		if (!controls) {
 			controls = [];
@@ -92,6 +142,11 @@ Mapping = {
 		}).extend(controls);
 	},
 	
+	/**
+	 * get a new Vector Layer with the drawn features
+	 * @param {ol.source} source
+	 * @returns {ol.layer.Vector} Vector Layer with features
+	 */
 	getFeatureLayer: function(source) {
 		return new ol.layer.Vector({
 			title: 'User defined geometries',
@@ -100,6 +155,10 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * get the Style of the drawn features
+	 * @returns {ol.style.Style} Style
+	 */
 	getFeatureStyle: function() {
 		return new ol.style.Style({
 			fill: new ol.style.Fill({
@@ -118,6 +177,12 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * Returns a Vector Layer and if the source is given, add the BBox Feature to the Layer
+	 * @param {ol.style} style of the BBoxes
+	 * @param {ol.source} source of the BBoxes
+	 * @returns {ol.layer.Vector} Layer
+	 */
 	getBBoxLayer: function(style, source) {
 		if (!source) {
 			source = new ol.source.Vector();
@@ -128,6 +193,11 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * Returns the BBox Style and if the Boolean fill is true, add a transparent filling to the style
+	 * @param {Boolean} fill
+	 * @returns {ol.style.Style} Style
+	 */
 	getBBoxStyle: function(fill) {
 		var style = {
 			stroke: new ol.style.Stroke({
@@ -144,6 +214,15 @@ Mapping = {
 		return new ol.style.Style(style);
 	},
 	
+	/**
+	 * Adds the wkt Features as an ol.geom.Geometry to the source of the Layer, if fitExtent is true, the map is fitted to the Extent of Geometry
+	 * @param {ol.Map} map
+	 * @param {ol.layer} layer
+	 * @param {String} wkt
+	 * @param {Boolean} fitExtent
+	 * @param {int} idgeofeature
+	 * @returns {undefined}
+	 */
 	addWktToLayer: function(map, layer, wkt, fitExtent, idgeofeature) {
 		if (!map || !layer || !wkt ) {
 			return;
@@ -162,6 +241,14 @@ Mapping = {
 		}
 	},
 	
+	/**
+	 * Creates and Returns the Controls(Buttons etc) for the addCommentSecondStep Map
+	 * @param {String} content
+	 * @param {String} title
+	 * @param {String} className
+	 * @param {type} callback
+	 * @returns {ol.control.Control}
+	 */
 	createCustomControl: function(content, title, className, callback) {
 		var customControl = function (opt_options) {
 			var options = opt_options || {};
@@ -190,6 +277,16 @@ Mapping = {
 		ol.inherits(customControl, ol.control.Control);
 		return new customControl();
 	},
+	
+	/**
+	 * Calls the function loadWMS, loadWMTS, loadKML, loadWfs for the specific datatyp
+	 * @param {ol.Map} map
+	 * @param {ol.layer} mapLayer
+	 * @param {String} url
+	 * @param {String} datatype
+	 * @param {int} layerId
+	 * @returns {ol.layer} Layer
+	 */
 	loadWebservice: function (map, mapLayer, url, datatype, layerId) {
 		Debug.log('Loading webservice from ' + url + ' as ' + datatype + ' using layer ' + layerId);
 		var newLayer = null;
@@ -238,6 +335,13 @@ Mapping = {
 		// TODO
 		return null;
 	},
+	
+	/**
+	 * Creates and Returns a WMS Layer with a given URL
+	 * @param {string} url
+	 * @param {int} layerId
+	 * @returns {ol.layer.Tile}
+	 */
 	loadWms: function (url, layerId) {
 		return new ol.layer.Tile({
 			source: new ol.source.TileWMS({
@@ -250,6 +354,14 @@ Mapping = {
 			})
 		});
 	},
+	
+	/**
+	 * Creates and Returns a Layer with a WMTS source with a given URL
+	 * @param {String} url
+	 * @param {int} layerId
+	 * @param {String} projection
+	 * @returns {ol.layer.Tile}
+	 */
 	loadWmts: function (url, layerId, projection) {
 		var projectionExtent = projection.getExtent();
 		var size = ol.extent.getWidth(projectionExtent) / 256;

@@ -21,6 +21,12 @@ trait BoundingBoxContainerTrait {
 	
 	private $boundingBox = array();
 
+	/**
+	 * Returns a new instance of a class implementing the BoundingBox interface and 
+	 * which is is compatible with the implementation of the layer or metadata based class.
+	 * 
+	 * @return \GeoMetadata\Model\BoundingBox
+	 */
 	public abstract function deliverBoundingBox();
 	
 	public function getCoordinateReferenceSystems() {

@@ -11,7 +11,7 @@ return array(
 	| be used as javascript language phrases at client-side.
 	|
 	*/
-	'close' => 'Close',
+	'close' => 'Sluiten',
 	'generalComm' => 'Algemeene commentaaren',
 	'commentAddQuickError' => 'Adding comment failed',
 	
@@ -35,7 +35,7 @@ return array(
 	'try15' => 'Verzoek het na 15 seconden opnieuw alsjeblieft ;)',
 	'succededAddComm' => 'Je commentaar werd met succes toegevoegd.',
 	'failedLoadGeodata' => 'De reacties op deze set van geo-gegevens kunnen niet worden geladen.',
-	'bboxInvalid' => 'Der angegebene Datensatz ist nicht kompatibel. Ursache könnte sein, dass derzeit nur Datensätze in WGS84 unterstützt werden.',
+	'bboxInvalid' => 'De gegevens zijn niet compatibel. Oorzaak is misschien, dat de gegevens worden alleen ondersteunt in WGS84',
 	
 	//variables for \js\views\commentView.js
 	
@@ -43,8 +43,8 @@ return array(
 
 	//variables for \js\views\ApplicationView.js
 
-	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
-	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
+	'paramNoLoad' => 'De zoekresultaten zijn niet geladen.',
+	'noLoad' => 'De geo-gegevens hebben niet kunnen worden geladen.',
 
 	//variables for \js\router.js
 

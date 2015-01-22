@@ -157,7 +157,7 @@ h3 {
 	white-space: pre-wrap;
 	margin: 0;
 	padding: 0;
-	background-color: #ffffff;
+	background-color: transparent;
 	border: 0;
 }
 
@@ -263,4 +263,14 @@ h3 {
 
 .draw-polygon {
 	left: calc(0.5em + 90px);
+}
+
+#showCommentsToGeodata .comment-highlighter .map-Marker{
+	color: #31708f;
+	background: #d9edf7;
+}
+
+#showCommentsToGeodata .comment-highlighter dd pre {
+	color: #31708f;
+	font-weight: bold;
 }
