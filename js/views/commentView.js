@@ -186,6 +186,7 @@ CommentAddViewStep2 = ContentView.extend({
 CommentsShowView = ModalView.extend({
 	map: null,
 	seviceLayer: null,
+	geometryLayer: null,
 	bboxLayer: null,
 	getPageContent: function () {
 		return this.options.geodata;
@@ -199,8 +200,12 @@ CommentsShowView = ModalView.extend({
 		
 		this.bboxLayer = Mapping.getBBoxLayer(Mapping.getBBoxStyle(false));
 		this.serviceLayer = new ol.layer.Vector();
+		this.geometryLayer = new ol.layer.Vector({
+			source: new ol.source.Vector(),
+			style: Mapping.getBBoxStyle()
+		});
 		this.map = new ol.Map({
-			layers: Mapping.getBasemps([this.serviceLayer, this.bboxLayer]),
+			layers: Mapping.getBasemps([this.serviceLayer, this.geometryLayer, this.bboxLayer]),
 			target: 'commentviewmap',
 			controls: Mapping.getControls(),
 			view: Mapping.getDefaultView()
@@ -225,6 +230,29 @@ CommentsShowView = ModalView.extend({
 			var layerId = $(event.currentTarget).data('layer');
 			that.onLayerShown(layerId);
 		});
+		
+		//select features and make the features and its comment stand out
+		//highlight geometry on mousemouve
+		var selectMouseMove = new ol.interaction.Select({
+			condition: ol.events.condition.mouseMove,
+			layers: [this.geometryLayer]
+		});
+		this.map.addInteraction(selectMouseMove);
+		var select = new ol.interaction.Select({
+			layers: [this.geometryLayer]
+		});
+		this.map.addInteraction(select);
+		select.getFeatures().on('change:length', function(e) {
+			if (e.target.getArray().length === 0) {
+			//no features selected
+			$('.comment-highlighter').removeClass('comment-highlighter');
+			} else {
+			// highlight the comments
+			$('#CommentId'+e.target.item(0).getId()).addClass('comment-highlighter');
+			Debug.log(e.target.item(0).getId());
+			}
+		});
+		
 	},
 	onLayerHidden: function (layerId) {
 		Debug.log('Layer ' + layerId + ' hidden');
@@ -232,7 +260,8 @@ CommentsShowView = ModalView.extend({
 		// Remove the bbox from the map
 		this.bboxLayer.getSource().clear();
 
-		// TODO: Remove features from map
+		// Remove features from map
+		this.geometryLayer.getSource().clear();
 	},
 	onLayerShown: function(layerId) {
 		Debug.log('Layer ' + layerId + ' shown');
@@ -271,8 +300,11 @@ CommentsShowView = ModalView.extend({
 			Mapping.addWktToLayer(this.map, this.bboxLayer, bbox, true);
 		}
 
-		// TODO: Add features to map
-
+		//Add features to map
+		for (var index = 0; index < data.comments.length; index++){
+			Mapping.addWktToLayer(this.map, this.geometryLayer, data.comments[index].geometry, false, data.comments[index].id);
+		}
+		
 		// Load WMS/WMTS data
 		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.geodata.url, this.options.geodata.metadata.datatype, data.id);
 	},
