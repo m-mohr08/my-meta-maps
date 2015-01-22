@@ -4,9 +4,21 @@
 BaseModel = Backbone.Model.extend({
 	enableAntiFlood: true,
 
+	/**
+	 * TODO
+	 * 
+	 * @return{number} 
+	 */
 	time: function() {
 		return Math.floor(Date.now() / 1000);
 	},
+	
+	/**
+	 * Return false if there is a new request and allowed this request
+	 * Else return true
+	 * 
+ 	 * @param {Object} data
+	 */
 	isSameRequest: function(data) {
 		var request = JSON.stringify(data.request);
 		// If not old request available or last request is expired or request data is different => Allow new request
@@ -19,6 +31,13 @@ BaseModel = Backbone.Model.extend({
 			return true;
 		}
 	},
+	
+	/**
+	 * TODO
+	 * 
+ 	 * @param {Object} method
+	 * @param {Object} params
+	 */
 	serializeRequest: function(method, params) {
 		return {
 			expire: this.time() + 15, // Expire in 15 seconds
@@ -29,6 +48,12 @@ BaseModel = Backbone.Model.extend({
 			}
 		};
 	},
+	
+	/**
+	 * TODO
+	 * 
+ 	 * @param {Object} options
+	 */
 	fetch: function(options) {
 		var data = this.serializeRequest('fetch', options);
 		if (!this.enableAntiFlood || !this.isSameRequest(data)) {
@@ -40,6 +65,14 @@ BaseModel = Backbone.Model.extend({
 			return null;
 		}
 	},
+	
+	/**
+	 * TODO
+	 *  
+	 * @param {Object} key
+	 * @param {Object} val
+	 * @param {Object} options
+	 */
 	save: function(key, val, options) {
 		var data = this.serializeRequest('save', {key: key, val: val, options: options});
 		if (!this.enableAntiFlood || !this.isSameRequest(data)) {
@@ -51,6 +84,14 @@ BaseModel = Backbone.Model.extend({
 			return null;
 		}
 	},
+	
+	/**
+	 * TODO
+	 * 
+	 * @param {Object} key
+	 * @param {Object} val
+	 * @param {Object} options
+	 */
 	before: function(key, val, options) {
 		if (key == null || typeof key === 'object') {
 			attrs = key;
@@ -62,6 +103,14 @@ BaseModel = Backbone.Model.extend({
 			options.before();
 		}
 	},
+	
+	/**
+	 * TODO
+	 *  
+	 * @param {Object} key
+	 * @param {Object} val
+	 * @param {Object} options
+	 */
 	skipped: function(key, val, options) {
 		if (key == null || typeof key === 'object') {
 			attrs = key;
