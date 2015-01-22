@@ -238,12 +238,17 @@ CommentsShowView = ModalView.extend({
 			layers: [this.geometryLayer]
 		});
 		this.map.addInteraction(selectMouseMove);
-		selectMouseMove.getFeatures().on('change:length', function(e) {
+		var select = new ol.interaction.Select({
+			layers: [this.geometryLayer]
+		});
+		this.map.addInteraction(select);
+		select.getFeatures().on('change:length', function(e) {
 			if (e.target.getArray().length === 0) {
 			//no features selected
 			} else {
 			// highlight the comments
-			e.target.item(0).getId();
+			$('#CommentId'+e.target.item(0).getId()).addClass('comment-highlighter');
+			Debug.log(e.target.item(0).getId());
 			}
 		});
 		
