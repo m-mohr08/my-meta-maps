@@ -1,28 +1,68 @@
 /**
  * View for whole content 
  * All views that extend this view, will shown in this view
+ * The "el" property references the DOM object created in the browser. 
+ * Every Backbone.js view has an "el" property, and if it is not defined, 
+ * Backbone.js will construct its own, which is an empty div element.
  */
 ContentView = Backbone.View.extend({
 	el: $('#content'),
 	templateCache: [],
+	
+	/**
+	 * Constructor of this view
+	 * Call function configure()
+	 * 
+	 * @param {Object} options
+	 */
 	constructor: function (options) {
 		this.configure(options || {});
 		Backbone.View.prototype.constructor.apply(this, arguments);
 	},
+	
+	/**
+	 * TODO
+	 * 
+	 *  @param {Object} options
+	 */
 	configure: function (options) {
 		if (this.options) {
 			options = _.extend({}, _.result(this, 'options'), options);
 		}
 		this.options = options;
 	},
+	
+	/**
+	 * Called if this view is initialized
+	 * Call method render
+	 *  
+	 */
 	initialize: function () {
 		this.render();
 	},
+	
+	/**
+	 * Abstract function
+	 * Called if this view is loaded 
+	 */
 	onLoaded: function () {
 	},
+	
+	/**
+	 * Return false
+	 * 
+	 * @return {boolean} false
+	 */
 	noCache: function(url) {
 		return false;
 	},
+	
+	/**
+	 * Try to get template for the view
+	 * 
+	 * @param {String} url
+	 * @param {Object} callback 
+	 */
 	loadTemplate: function (url, callback) {
 		if (typeof (this.templateCache[url]) == 'string' && !this.noCache(url)) {
 			callback(this.templateCache[url]);
@@ -36,6 +76,10 @@ ContentView = Backbone.View.extend({
 		}
 		
 	},
+	
+	/**
+	 * Render methods loadTemplate(), getPageTemplate(), getPageContent() and onLoaded() from this class
+	 */
 	render: function () {
 		var that = this;
 		this.loadTemplate(this.getPageTemplate(), function (data) {
@@ -49,21 +93,36 @@ ContentView = Backbone.View.extend({
 			that.onLoaded();
 		});
 	},
+	
+	/**
+	 * Abstract method 
+	 * @return null
+	 */
 	getPageTemplate: function () {
 		Debug.log('Error: Called abstract method!');
 		return null;
 	},
+	
+	/**
+	 * TODO
+	 * Call methods stopListening(), undelegateEvents() and unbind() from ...
+	 */
 	close: function () {
 		// Normally we should remove the content from the DOM, but this is delayed for some reasons
 		// and destroys our cached and "fast" templates. Therefore we skip this as the DOM node 
 		// content is replaced anyway.
-//		this.$el.html('');
+		// this.$el.html('');
 
 		// Remove callbacks, events, listeners etc.
 		this.stopListening();
 		this.undelegateEvents();
 		this.unbind();
 	},
+	
+	/**
+	 * Abstract method
+	 * @return {Object} '{}'
+	 */
 	getPageContent: function () {
 		return {};
 	}
@@ -85,16 +144,29 @@ ContentView.register = function (view) {
  */
 ModalView = ContentView.extend({
 	el: $('#modal'),
-	// Called after modal is loaded (and not opened yet)
+	
+	/**
+	 * Called after modal is loaded (and not opened yet)
+	 * Call methods modal(), showProgress() and onOpend from this class
+	 * 
+	 * @override onLoaded() from ContentView
+	 */
 	onLoaded: function () {
 		this.modal();
 		this.showProgress();
 		this.onOpened();
 	},
-	// Called after modal is opened
+	
+	/**
+	 * Called after modal is opened
+	 */
 	onOpened: function () {
 
 	},
+	
+	/**
+	 * Show a certain modal 
+	 */
 	modal: function () {
 		var modal = $('#modal').find('.modal');
 		modal.modal('show');
@@ -106,6 +178,10 @@ ModalView = ContentView.extend({
 			}
 		});
 	},
+	
+	/**
+	 * TODO 
+	 */
 	showProgress: function () {
 		Progress.show('.modal-progress');
 	}
@@ -133,6 +209,11 @@ MapView = ContentView.extend({
         }
 	},
 	
+	/**
+	 * Initialize main-map
+	 *  
+	 * @override onLoaded() from ContentView
+	 */
 	onLoaded: function () {
 		// this for the callbacks
 		var that = this;
@@ -197,6 +278,12 @@ MapView = ContentView.extend({
 			this.inititlizeData();
 		}
 	},
+	
+	/**
+	 * Initialize data for the main-map
+	 * 
+	 * @param {Object} params 
+	 */
 	inititlizeData: function(params) {
 		// Override the given params in this.options
 		this.configure(params);
@@ -243,6 +330,10 @@ MapView = ContentView.extend({
 		// Execute the search
 		this.doSearch();
 	},
+	
+	/**
+	 * Update the datePicker to a new format
+	 */
 	updateDatePicker: function(selector, dateIso) {
 		if (_.isEmpty(dateIso)) {
 			return;
@@ -257,6 +348,10 @@ MapView = ContentView.extend({
 			$(selector).val(value);
 		}
 	},
+	
+	/**
+	 * TODO 
+	 */
 	onExtentChanged: function() {
 		// When multiple events occur in a certain time span (500ms) then only search once.
 		this.mapSearchExecuted = false;
@@ -268,6 +363,13 @@ MapView = ContentView.extend({
 			}
 		}, 500);
 	},
+	
+	/**
+	 * Search geodata
+	 * Initialize a 'geodataShowController' from file 'commentView.js'
+	 * In successfull case show geodata in the main-map
+	 * In failed case show a message-box
+	 */
 	doSearch: function () {
 		var that = this;
 		geodataShowController({
@@ -288,6 +390,11 @@ MapView = ContentView.extend({
 			}
 		});
 	},
+	
+	/**
+	 * Reset search
+	 * Reset all inputs and do a new search with empty inputs 
+	 */
 	resetSearch: function (form) {
 		form.reset();
 		// Remove visible feedback of barrating.
@@ -295,16 +402,20 @@ MapView = ContentView.extend({
 		$('#ratingFilter').barrating('clear');
 		this.doSearch();
 	},
-	/*
-	 * calculates the current bounding box of the map and returns it as an WKt String
+	
+	/**
+	 * Calculates the current bounding box of the map and returns it as an WKt String
+	 * 
+	 * @return TODO
 	 */
 	getBoundingBox: function () {
 		var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
 		var geom = new ol.geom.Polygon([[new ol.extent.getBottomLeft(mapbbox), new ol.extent.getBottomRight(mapbbox), new ol.extent.getTopRight(mapbbox), new ol.extent.getTopLeft(mapbbox), new ol.extent.getBottomLeft(mapbbox)]]);
 		return Mapping.toWkt(geom, this.map);
 	},
-	/*
-	 * add the bboxes from the Geodata to the map
+	
+	/**
+	 * Add the bboxes from the Geodata to the map
 	 */
 	addGeodataToMap: function (data) {
 		this.polyLayer.getSource().clear();
@@ -313,6 +424,12 @@ MapView = ContentView.extend({
 			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox, false, data.geodata[index].id);
 		}
 	},
+	
+	/**
+	 * Return the url for the map-template
+	 * 
+	 * @return {String} url for the map-template
+	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
 	}
@@ -324,6 +441,12 @@ MapView = ContentView.extend({
  * Extend ContentView
  */
 AboutView = ContentView.extend({
+	
+	/**
+	 * Return url for the template of the imprint
+	 * 
+	 * @return {String} url for the template of the imprint
+	 */
 	getPageTemplate: function () {
 		return 'api/internal/doc/about';
 	}
@@ -334,6 +457,12 @@ AboutView = ContentView.extend({
  * Extend ContentView
  */
 HelpView = ContentView.extend({
+	
+	/**
+	 * Return url for the template of the help-site
+	 * 
+	 * @return {String} url for the template of the help-site
+	 */
 	getPageTemplate: function () {
 		return 'api/internal/doc/help';
 	}
