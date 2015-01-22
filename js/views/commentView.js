@@ -188,6 +188,8 @@ CommentsShowView = ModalView.extend({
 	seviceLayer: null,
 	geometryLayer: null,
 	bboxLayer: null,
+	selectMouseMove: null,
+	select: null,
 	getPageContent: function () {
 		return this.options.geodata;
 	},
@@ -210,6 +212,28 @@ CommentsShowView = ModalView.extend({
 			controls: Mapping.getControls(),
 			view: Mapping.getDefaultView()
 		});
+		
+		//select features and make the features and its comment stand out
+		//highlight geometry on mousemouve
+		this.selectMouseMove = new ol.interaction.Select({
+			condition: ol.events.condition.mouseMove,
+			layers: [this.geometryLayer]
+		});
+		this.map.addInteraction(this.selectMouseMove);
+		this.select = new ol.interaction.Select({
+			layers: [this.geometryLayer]
+		});
+		this.map.addInteraction(this.select);
+		this.select.getFeatures().on('change:length', function(e) {
+			if (e.target.getArray().length === 0) {
+			//no features selected
+			$('.comment-highlighter').removeClass('comment-highlighter');
+			} else {
+			// highlight the comments
+			$('#CommentId'+e.target.item(0).getId()).addClass('comment-highlighter');
+			Debug.log(e.target.item(0).getId());
+			}
+		});
 
 		// Without this the map is not shown on initial loading
 		$('#ModalShowCommentsToGeodata').on('shown.bs.modal', function () {
@@ -231,27 +255,6 @@ CommentsShowView = ModalView.extend({
 			that.onLayerShown(layerId);
 		});
 		
-		//select features and make the features and its comment stand out
-		//highlight geometry on mousemouve
-		var selectMouseMove = new ol.interaction.Select({
-			condition: ol.events.condition.mouseMove,
-			layers: [this.geometryLayer]
-		});
-		this.map.addInteraction(selectMouseMove);
-		var select = new ol.interaction.Select({
-			layers: [this.geometryLayer]
-		});
-		this.map.addInteraction(select);
-		select.getFeatures().on('change:length', function(e) {
-			if (e.target.getArray().length === 0) {
-			//no features selected
-			$('.comment-highlighter').removeClass('comment-highlighter');
-			} else {
-			// highlight the comments
-			$('#CommentId'+e.target.item(0).getId()).addClass('comment-highlighter');
-			Debug.log(e.target.item(0).getId());
-			}
-		});
 		
 	},
 	onLayerHidden: function (layerId) {
@@ -262,6 +265,9 @@ CommentsShowView = ModalView.extend({
 
 		// Remove features from map
 		this.geometryLayer.getSource().clear();
+		this.select.getFeatures().clear();
+		this.selectMouseMove.getFeatures().clear();
+		
 	},
 	onLayerShown: function(layerId) {
 		Debug.log('Layer ' + layerId + ' shown');
