@@ -245,6 +245,7 @@ CommentsShowView = ModalView.extend({
 		select.getFeatures().on('change:length', function(e) {
 			if (e.target.getArray().length === 0) {
 			//no features selected
+			$('.comment-highlighter').removeClass('comment-highlighter');
 			} else {
 			// highlight the comments
 			$('#CommentId'+e.target.item(0).getId()).addClass('comment-highlighter');
