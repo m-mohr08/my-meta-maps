@@ -92,36 +92,36 @@
 
 	<dl class="dl-horizontal metadata-list">
 	<% if (!data.isNew) { %>
-		<dt>Titel</dt>
+		<dt>Titel</dt><!-- TODO: Language -->
 		<dd><%- data.metadata.title %></dd>
 	<% } %>
 	<% if (!_.isEmpty(data.metadata.language)) { %>
-		<dt>Sprache</dt>
+		<dt>Sprache</dt><!-- TODO: Language -->
 		<dd><%- data.metadata.language %></dd>
 	<% } if (!_.isEmpty(data.metadata.abstract)) { %>
-		<dt>Beschreibung</dt>
+		<dt>Beschreibung</dt><!-- TODO: Language -->
 		<dd><pre><%- data.metadata.abstract %></pre></dd>
 	<% } if (!_.isEmpty(data.metadata.keywords)) { %>
-		<dt>Tags</dt>
+		<dt>Tags</dt><!-- TODO: Language -->
 		<dd>
 			<% _.each(data.metadata.keywords, function(word) { %>
 			<span class="label label-default"><%- word %></span>
 			<% }); %>
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.time.start) || !_.isEmpty(data.metadata.time.end)) { %>
-		<dt>Zeitraum</dt>
+		<dt>Zeitraum</dt><!-- TODO: Language -->
 		<dd>
-			Anfangsdatum: <%- data.metadata.time.start ? data.metadata.time.start : 'Unbekannt' %><br />
-			Enddatum: <%- data.metadata.time.end ? data.metadata.time.end : 'Unbekannt' %>
+			Anfangsdatum: <%- data.metadata.time.start ? data.metadata.time.start : 'Unbekannt' %><br /><!-- TODO: Language -->
+			Enddatum: <%- data.metadata.time.end ? data.metadata.time.end : 'Unbekannt' %><!-- TODO: Language -->
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.author)) { %>
-		<dt>Autor</dt>
+		<dt>Autor</dt><!-- TODO: Language -->
 		<dd><pre><%- data.metadata.author %></pre></dd>
 	<% } if (!_.isEmpty(data.metadata.copyright)) { %>
-		<dt>Copyright</dt>
+		<dt>Copyright</dt><!-- TODO: Language -->
 		<dd><pre><%- data.metadata.copyright %></pre></dd>
 	<% } if (!_.isEmpty(data.metadata.license)) { %>
-		<dt>Lizenz</dt>
+		<dt>Lizenz</dt><!-- TODO: Language -->
 		<dd><pre><%- data.metadata.license %></pre></dd>
 	<% } %>
 	</dl>

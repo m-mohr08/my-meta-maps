@@ -97,7 +97,7 @@ Mapping = {
 	getBasemps: function(layers){
 		var basemaps = [
 			new ol.layer.Group({
-				title: 'Basemaps',
+				title: 'Basemaps', // TODO: Language
 				layers: [
 					// OSM
 					new ol.layer.Tile({
@@ -113,7 +113,7 @@ Mapping = {
 		//join the layers to the basemap
 		if (layers) {
 			var overlays = new ol.layer.Group({
-				title: 'Overlays',
+				title: 'Overlays', // TODO: Language
 				layers: layers
 			});
 			basemaps.push(overlays);
@@ -158,7 +158,7 @@ Mapping = {
 	 */
 	getFeatureLayer: function(source) {
 		return new ol.layer.Vector({
-			title: 'User defined geometries',
+			title: 'User defined geometries', // TODO: Language
 			source: source,
 			style: Mapping.getFeatureStyle()
 		});
@@ -424,7 +424,7 @@ Progress = {
 	},
 	
 	start: function(id) {
-		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />';
+		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />'; // TODO: Language
 		$(id).html(html);
 	},
 	

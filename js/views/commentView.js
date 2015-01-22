@@ -148,16 +148,16 @@ CommentAddViewStep2 = ContentView.extend({
 			layers: Mapping.getBasemps(layers),
 			target: 'mapAddComm',
 			controls: Mapping.getControls([
-				Mapping.createCustomControl('<img src="/img/draw/none.png" />', 'Disable drawing', 'draw-none', function () {
+				Mapping.createCustomControl('<img src="/img/draw/none.png" />', 'Disable drawing', 'draw-none', function () { // TODO: Language
 					that.setDrawType(null);
 				}),
-				Mapping.createCustomControl('<img src="/img/draw/point.png" />', 'Draw a Point', 'draw-point', function () {
+				Mapping.createCustomControl('<img src="/img/draw/point.png" />', 'Draw a Point', 'draw-point', function () { // TODO: Language
 					that.setDrawType('Point');
 				}),
-				Mapping.createCustomControl('<img src="/img/draw/line.png" />', 'Draw a Line', 'draw-line', function () {
+				Mapping.createCustomControl('<img src="/img/draw/line.png" />', 'Draw a Line', 'draw-line', function () { // TODO: Language
 					that.setDrawType('LineString');
 				}),
-				Mapping.createCustomControl('<img src="/img/draw/polygon.png" />', 'Draw a Polygon', 'draw-polygon', function () {
+				Mapping.createCustomControl('<img src="/img/draw/polygon.png" />', 'Draw a Polygon', 'draw-polygon', function () { // TODO: Language
 					that.setDrawType('Polygon');
 				})
 			]),
