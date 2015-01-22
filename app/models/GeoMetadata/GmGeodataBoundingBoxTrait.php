@@ -22,6 +22,12 @@ trait GmGeodataBoundingBoxTrait {
 
 	use \GeoMetadata\Model\BoundingBoxContainerTrait;
 
+	/**
+	 * Returns a new instance of a class implementing the BoundingBox interface and 
+	 * which is is compatible with the corresponding layer or metadata implementation.
+	 * 
+	 * @return \GmGeodataBoundingBox
+	 */
 	public function deliverBoundingBox() {
 		return new GmGeodataBoundingBox();
 	}
