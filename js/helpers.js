@@ -33,7 +33,7 @@ Mapping = {
 	},
 	
 	fromWkt: function(wkt, map) {
-		var geom = this.wkt.readGeometry(wkt);
+		var geom = Mapping.wkt.readGeometry(wkt);
 		if (geom) {
 			geom.transform(Mapping.getServerCrs(), Mapping.getMapCrs(map));
 		}
@@ -42,7 +42,7 @@ Mapping = {
 
 	toWkt: function(geom, map) {
 		geom.transform(Mapping.getMapCrs(map), Mapping.getServerCrs());
-		return this.wkt.writeGeometry(geom);
+		return Mapping.wkt.writeGeometry(geom);
 	},
 	
 	getBasemps: function(layers){
@@ -82,7 +82,7 @@ Mapping = {
 		return new ol.layer.Vector({
 			source: source,
 			style: Mapping.getFeatureStyle()
-		})
+		});
 	},
 	
 	getFeatureStyle: function() {
@@ -129,8 +129,8 @@ Mapping = {
 		return new ol.style.Style(style);
 	},
 	
-	addWktToLayer: function(map, layer, wkt, fitExtent) {
-		if (!map || !layer || !wkt) {
+	addWktToLayer: function(map, layer, wkt, fitExtent, idgeofeature) {
+		if (!map || !layer || !wkt ) {
 			return;
 		}
 		var geom = Mapping.fromWkt(wkt, map);
@@ -138,10 +138,12 @@ Mapping = {
 			if (fitExtent) {
 				map.getView().fitExtent(geom.getExtent(), map.getSize());
 			}
-			layer.getSource().addFeature(new ol.Feature({
+			var feature = new ol.Feature({
 				geometry: geom,
 				projection: Mapping.getMapCrs(map)
-			}));
+			});
+			feature.setId(idgeofeature);
+			layer.getSource().addFeature(feature);
 		}
 	},
 	
@@ -172,6 +174,91 @@ Mapping = {
 		};
 		ol.inherits(customControl, ol.control.Control);
 		return new customControl();
+	},
+	loadWebservice: function (map, mapLayer, url, datatype, layerId) {
+		Debug.log('Loading webservice from ' + url + ' as ' + datatype + ' using layer ' + layerId);
+		var newLayer = null;
+		if (!_.isEmpty(layerId)) {
+			switch(datatype) {
+				case 'wms':
+					newLayer = Mapping.loadWms(url, layerId);
+					break;
+				case 'wmts':
+					newLayer = Mapping.loadWmts(url, layerId);
+					break;
+				case 'kml':
+					newLayer = Mapping.loadKml(url, layerId);
+					break;
+				case 'wfs':
+					var projection = ol.proj.get(Mapping.getMapCrs(map));
+					newLayer = Mapping.loadWfs(url, layerId, projection);
+					break;
+			}
+		}
+
+		var layer_idx = -1;
+		$.each(map.getLayers().getArray(), function (k, v) {
+			if (mapLayer === v) {
+				layer_idx = k;
+			}
+		});
+
+		// Create empty layer as placeholder if no other layer should be set
+		if (newLayer === null) {
+			newLayer = new ol.layer.Vector();
+			newLayer.setVisible(false);
+		}
+		else {
+			newLayer.setVisible(true);
+		}
+		map.getLayers().setAt(layer_idx, newLayer);
+
+		return newLayer;
+	},
+	loadKml: function(url, layerId) {
+		// TODO
+		return null;
+	},
+	loadWfs: function(url, layerId) {
+		// TODO
+		return null;
+	},
+	loadWms: function (url, layerId) {
+		return new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: url,
+				params: {
+					LAYERS: layerId,
+					TRANSPARENT: 'true'
+				}
+			})
+		});
+	},
+	loadWmts: function (url, layerId, projection) {
+		var projectionExtent = projection.getExtent();
+		var size = ol.extent.getWidth(projectionExtent) / 256;
+		var resolutions = new Array(14);
+		var matrixIds = new Array(14);
+		for (var z = 0; z < 14; ++z) {
+			resolutions[z] = size / Math.pow(2, z);
+			matrixIds[z] = z;
+		}
+		return new ol.layer.Tile({
+			source: new ol.source.WMTS({
+				extent: projectionExtent,
+				url: url,
+				layer: layerId,
+				matrixSet: projection.getCode(),
+				format: 'image/png', // TODO: Determine which format is supported by the server...
+				projection: projection,
+				tileGrid: new ol.tilegrid.WMTS({
+					origin: ol.extent.getTopLeft(projectionExtent),
+					resolutions: resolutions,
+					matrixIds: matrixIds
+				}),
+				style: 'default'
+			})
+		});
 	}
 };
 

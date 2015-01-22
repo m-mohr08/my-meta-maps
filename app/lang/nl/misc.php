@@ -52,6 +52,7 @@ return array(
 	'commNoLay' => 'Commentaar niet aan een Layer toewijzen',
 	'title' => 'Titel*',
 	'freetext' => 'Vrijtekst*',
+	'spatial' => 'Ruimtelijke indeling van het commentaar',
 	'timerange' => 'Tijdsbestek',
 	'rating' => 'Evaluatie',
 	'addMeta' => 'Aanvullend meta gegevens',

@@ -21,6 +21,12 @@
  */
 abstract class BaseApiController extends BaseController {
 
+	/**
+	 * Converts a date into ISO 8601 date/time string.
+	 * 
+	 * @param mixed $value
+	 * @return string ISO-8601 date/time
+	 */
 	protected function toDate($value = null) {
 		$format = 'c';
 		// In ISO Format, we can parse it.
@@ -46,14 +52,29 @@ abstract class BaseApiController extends BaseController {
 		}
 	}
 	
+	/**
+	 * Returns a JSON response that uses an empty 403 Forbidden HTTP header.
+	 * 
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	protected function getForbiddenResponse() {
 		return $this->getJsonResponse(null, 403);
 	}
-
+	/**
+	 * Returns a JSON response that uses an empty 404 Not Found HTTP header.
+	 * 
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	protected function getNotFoundResponse() {
 		return $this->getJsonResponse(null, 404);
 	}
 
+	/**
+	 * Returns a JSON response that uses a 409 Conflict HTTP header.
+	 * 
+	 * @param mixed $data Data tht can be converted to a JSON string.
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	protected function getConflictResponse($data = null) {
 		if ($data instanceof MessageBag) {
 			$data = array_map(
@@ -65,7 +86,14 @@ abstract class BaseApiController extends BaseController {
 		}
 		return $this->getJsonResponse($data, 409);
 	}
-	
+
+	/**
+	 * Returns a JSON response that sends a spcific HTTP STatus Code.
+	 * 
+	 * @param mixed $data Data tht can be converted to a JSON string.
+	 * @param int HTTP Status Code, default: 200 OK
+	 * @return \Illuminate\Http\JsonResponse
+	 */	
 	protected function getJsonResponse($data = null, $statusCode = 200) {
 		return Response::json($data, $statusCode);
 	}

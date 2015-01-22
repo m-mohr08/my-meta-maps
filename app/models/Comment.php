@@ -41,22 +41,47 @@ class Comment extends Eloquent {
 	 */
 	protected $hidden = array();
 
+	/**
+	 * Implementation of the relation to the User table.
+	 * 
+	 * @return BelongsTo
+	 */
 	public function user() {
 		return $this->belongsTo('User');
 	}
 
+	/**
+	 * Implementation of the relation to the Layer table.
+	 * 
+	 * @return BelongsTo
+	 */
 	public function layer() {
 		return $this->belongsTo('Layer');
 	}
-	
+
+	/**
+	 * Implementation of the relation to the Geodata table.
+	 * 
+	 * @return BelongsTo
+	 */
     public function geodata() {
         return $this->belongsTo('Geodata');
     }
-	
+
+	/**
+	 * Returns the geom attribute of the table and converts it from PostGIS to WKT style.
+	 * 
+	 * @return string WKT based geometry
+	 */
 	public function getGeomAttribute($value) {
 		return Geodata::convertPostGis($value);
 	}
 	
+	/**
+	 * Creates the permalink URI for this comment.
+	 * 
+	 * @return string|null
+	 */
 	public function createPermalink() {
 		if ($this->id  && $this->geodata_id) {
 			return Config::get('app.url') . '/geodata/' . $this->geodata_id . '/comment/' . $this->id;
@@ -66,6 +91,17 @@ class Comment extends Eloquent {
 		}
 	}
 
+	/**
+	 * Implements the search filter for the comments.
+	 * 
+	 * In addition to Comment::applyFilter() this can contain an filter parameter 
+	 * comment that restricts by a comment ID.
+	 * 
+	 * @param Builder $query Query Builder
+	 * @param array $filter Filter parameters
+	 * @param int $id ID of the geodata set
+	 * @return Builder Query Builder
+	 */
 	public function scopeFilter($query, array $filter, $id = 0) {
 		// Table Names
 		$gt = (new Geodata())->getTable();
@@ -102,6 +138,21 @@ class Comment extends Eloquent {
 		return $query;
 	}
 	
+	/**
+	 * Generates the WHERE part of the SQL query to filter the comments/geodata sets.
+	 * 
+	 * Possible filter parameters:
+	 * + q = Keywords to search for
+	 * + metadata = true to search in metadata, false to search comment texts only
+	 * + bbox = Bounding Box in WKT
+	 * + radius = Radius in KM
+	 * + start = Time filter, beginning time in ISO 8601
+	 * + end, Time filter, ending time in ISO 8601
+	 * + minrating = Minimum rating that needs to be available in comments
+	 * 
+	 * @param Builder $query Query Builder
+	 * @param array $filter Filter parameters
+	 */
 	public static function applyFilter($query, array $filter) {
 		// Table Names
 		$gt = (new Geodata())->getTable();

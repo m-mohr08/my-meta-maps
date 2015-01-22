@@ -18,6 +18,8 @@
 /**
  * This controller handles the internal API requests related to user tasks, like login, logout, passwort retrival, settings, etc.
  * Request is always a GET or POST request with JSON based parameters. Reponse is always JSON based, too.
+ * 
+ * @see https://github.com/m-mohr/my-meta-maps/wiki/Client-Server-Protocol
  */
 class UserApiController extends BaseApiController {
 

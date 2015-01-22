@@ -16,30 +16,56 @@
  */
 
 /**
- * Extends the layer model with the ability to be used as model in GeoMatadata Parser.
+ * Extends the ORM layer model with the ability to be used as model in GeoMatadata Parser.
  */
 class GmGeodataLayer extends Layer implements GeoMetadata\Model\Layer, \GeoMetadata\Model\ExtraDataContainer  {
 
 	use GmGeodataBoundingBoxTrait, \GeoMetadata\Model\ExtraDataContainerTrait;
 
+	/**
+	 * Constructs a GmGeodataLayer.
+	 * 
+	 * @param string $name Service-wirde unique identifier
+	 * @param strin $title Title
+	 */
 	public function __construct($name = null, $title = null) {
 		parent::__construct();
 		$this->setId($name);
 		$this->setTitle($title);
 	}
-
+	
+	/**
+	 * Returns the identifier of the layer. Must be unique across the Service.
+	 * 
+	 * @return string
+	 */
 	public function getId() {
 		return $this->name;
 	}
 
+	/**
+	 * Sets the identifier of the layer. Must be unique across the Service.
+	 * 
+	 * @param string Identifier
+	 */
 	public function setId($id) {
 		$this->name = $id;
 	}
 
+	/**
+	 * Returns the title for the layer.
+	 * 
+	 * @return string
+	 */
 	public function getTitle() {
 		return $this->title;
 	}
 
+	/**
+	 * Sets a title for the layer.
+	 * 
+	 * @param string Title
+	 */
 	public function setTitle($title) {
 		$this->title = $title;
 	}
