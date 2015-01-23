@@ -85,35 +85,35 @@ Mapping = {
 				layers: [
 					// OSM
 					new ol.layer.Tile({
-						title: ' OpenStreetMap',
+						title: 'OpenStreetMap',
 						type: 'base',
 						visible: true,
 						source: new ol.source.OSM()
 					}),
 					new ol.layer.Tile({
-						title: ' BingMaps Aerial',
+						title: 'BingMaps Aerial',
 						type: 'base',
 						visible: false,
 						source: new ol.source.BingMaps({
-							key: ' 	AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r',
 							imagerySet: 'Aerial'
 						})
 					}),
 					new ol.layer.Tile({
-						title: ' BingMaps Aerial with Labels',
+						title: 'BingMaps Aerial with Labels',
 						type: 'base',
 						visible: false,
 						source: new ol.source.BingMaps({
-							key: ' 	AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r',
 							imagerySet: 'AerialWithLabels'
 						})
 					}),
 					new ol.layer.Tile({
-						title: ' BingMaps Roads',
+						title: 'BingMaps Roads',
 						type: 'base',
 						visible: false,
 						source: new ol.source.BingMaps({
-							key: ' 	AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r',
 							imagerySet: 'Road'
 						})
 					})
