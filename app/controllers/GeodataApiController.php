@@ -219,9 +219,12 @@ class GeodataApiController extends BaseApiController {
 			}
 			else {
 				// Parser added the layers, but hasn't stored them so far...
-				foreach($geodata->getLayers() as $layer) {
-					$layer->geodata()->associate($geodata);
-					$layer->save();
+				$layers = $geodata->getLayers();
+				if (is_array($layers)) {
+					foreach($layers as $layer) {
+						$layer->geodata()->associate($geodata);
+						$layer->save();
+					}
 				}
 			}
 		}

@@ -165,7 +165,6 @@ function createCommentDirectly(url, datatype, layer) {
 	        success: function (model, response) {
 	        	Debug.log('Try to get metadata');
 	        	var commAddViewStep2 = new CommentAddViewStep2({metadata: response.geodata, layerID: layer});
-	        	Debug.log('Controller: ' + layer);
 				ContentView.register(commAddViewStep2);
 	        	$('#ModalShowCommentsToGeodata').modal('hide');
 				router.navigate('/comments/add');

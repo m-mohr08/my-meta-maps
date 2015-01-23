@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<h2>Lizenz</h2>
+		<h2>Lizenz</h2><!-- TODO: Language -->
 		<p>Copyright 2014 C. Rendel, C. Rohtermundt, M. Mohr, M. Rieping, M. Köster</p>
 		<p>Licensed under the Apache License, Version 2.0 (the "License");
 		you may not use this file except in compliance with the License.

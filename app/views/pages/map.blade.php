@@ -73,12 +73,6 @@
 
 			</div>
 
-			<!-- For barRating-plugin; loaded in header, otherwise it doesnt works -->
-			<script type="text/javascript" src="/js/plugins/barRating/jquery.barrating.min.js"></script>
-
-			<!-- For the datePicker-plugin -->
-			<script type="text/javascript" src="/js/plugins/datePicker/datepicker.min.js"></script>
-
 		</div>
 	</form>
 	<div class="panel panel-default">
