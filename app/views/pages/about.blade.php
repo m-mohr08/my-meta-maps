@@ -1,4 +1,4 @@
-<h1>Impressum</h1>
+<h1>@lang('misc.imprint')</h1>
 <form role="form">
 	<div class="form-group">
 		<p>@lang('misc.intro')<p>
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<h2>Lizenz</h2><!-- TODO: Language -->
+		<h2>@lang('misc.license')</h2><!-- TODO: Language -->
 		<p>Copyright 2014 C. Rendel, C. Rohtermundt, M. Mohr, M. Rieping, M. Köster</p>
 		<p>Licensed under the Apache License, Version 2.0 (the "License");
 		you may not use this file except in compliance with the License.

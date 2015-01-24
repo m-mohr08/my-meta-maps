@@ -32,6 +32,8 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
+	'imprint' => 'Over My Meta Maps',
+	'license' => 'Licentie',
 	'intro' => 'My Meta Maps werd ontwikkeld van studenten van het instituut voor geoinformatie van de WWU Münster',
 	'team' => 'Het team bestaat uit:',
 	'pubAdress' => 'Adres van de openbaare gegevens-interface',

@@ -33,6 +33,8 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
+	'imprint' => 'Impressum',
+	'license' => 'Lizenz',
 	'intro' => 'My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.',
 	'team' => 'Das Team besteht aus:',
 	'pubAdress' => 'Adresse der öffentlichen Datenschnittstelle',
