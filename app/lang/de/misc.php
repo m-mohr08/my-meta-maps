@@ -43,6 +43,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Kommentar erstellen',
 	'dataFormat' => 'Datenformat*',
 	'chooseFormat' => 'Bitte Datenformat wählen',
@@ -51,6 +52,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentSecondStep.blade.php
 	
+	'url' => 'URL',
 	'enterData' => 'Daten eingeben',
 	'commNoLay' => 'Kommentar keinem Layer zuordnen',
 	'title' => 'Titel*',

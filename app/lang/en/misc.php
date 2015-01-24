@@ -42,6 +42,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Create comment',
 	'dataFormat' => 'Data format',
 	'chooseFormat' => 'Please choose data format',

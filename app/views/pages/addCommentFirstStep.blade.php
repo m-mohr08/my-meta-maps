@@ -12,7 +12,7 @@
 											
 								
 					<div class="row form-group form-group-marginSides">
-						<label for="url">URL</label><!-- TODO: Language -->
+						<label for="url">@lang('misc.url')</label><!-- TODO: Language -->
 						<input class="form-control" name="url" id="inputURL" type="text">
 						<div class="error-message"></div>
 					</div>

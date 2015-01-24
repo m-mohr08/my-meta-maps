@@ -42,6 +42,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Commentaar cre&eumlren',
 	'dataFormat' => 'Gegevens formaat',
 	'chooseFormat' => 'Kies een gegevens formaat',
