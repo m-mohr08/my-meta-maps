@@ -17,14 +17,30 @@
 
 namespace GeoMetadata\Model;
 
+/**
+ * Default implementation of the ExtraDataContainer interface to allow extra data to be added to a
+ * class repectively an object.
+ */
 trait ExtraDataContainerTrait {
 	
 	private $extra = array();
 
+	/**
+	 * Sets/adds/replaces (depending on the key) data and assigns it to the given key.
+	 * 
+	 * @param string $key Key
+	 * @param mixed $value Data
+	 */
 	public function setData($key, $value) {
 		$this->extra[$key] = $value;
 	}
-	
+
+	/**
+	 * Returns data that belongs to the given key if data is set for the key.
+	 * 
+	 * @param string $key Key
+	 * @returns mixed Data or null if nothing has been set for this key
+	 */
 	public function getData($key) {
 		if (isset($this->extra[$key])) {
 			return $this->extra[$key];
@@ -33,7 +49,13 @@ trait ExtraDataContainerTrait {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Checks whether data has been set for the given key.
+	 * 
+	 * @param string $key Key
+	 * @returns boolean true if data is available, false otherwise.
+	 */
 	public function hasData($key) {
 		return (isset($this->extra[$key]) && $this->extra[$key] !== null);
 	}
