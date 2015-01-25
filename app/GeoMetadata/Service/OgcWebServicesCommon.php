@@ -21,10 +21,22 @@ use \GeoMetadata\GmRegistry;
 
 abstract class OgcWebServicesCommon extends OgcWebServices {
 	
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'OGC OWS Common';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'ows';
 	}
@@ -37,6 +49,12 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWS
 	}
 
+	/**
+	 * Checks whether the given service data is of this type.
+	 * 
+	 * @param string $source String containing the data to parse.
+	 * @return boolean true if content can be parsed, false if not.
+	 */
 	public function verify($source) {
 		return (parent::verify($source) && $this->checkServiceType());
 	}

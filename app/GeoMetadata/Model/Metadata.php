@@ -17,6 +17,13 @@
 
 namespace GeoMetadata\Model;
 
+/**
+ * Interface that models the metadata of a geo dataset to be used by GeoMetadata to hold information
+ * about the service, like title, abstract, keywords, times, bboxes, layers, language, license etc.
+ * 
+ * @see BoundingBoxContainer
+ * @see LayerContainer
+ */
 interface Metadata extends BoundingBoxContainer, LayerContainer {
 
 	/**

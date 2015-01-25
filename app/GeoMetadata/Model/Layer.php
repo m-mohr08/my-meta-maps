@@ -17,6 +17,11 @@
 
 namespace GeoMetadata\Model;
 
+/**
+ * Interface that models a layer to be used by GeoMetadata to hold information about the layer, like id title and a bbox.
+ * 
+ * @see BoundingBoxContainer
+ */
 interface Layer extends BoundingBoxContainer {
 	
 	/**
