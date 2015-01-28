@@ -92,36 +92,36 @@
 
 	<dl class="dl-horizontal metadata-list">
 	<% if (!data.isNew) { %>
-		<dt>Titel</dt><!-- TODO: Language -->
+		<dt>@lang('misc.title')</dt>
 		<dd><%- data.metadata.title %></dd>
 	<% } %>
 	<% if (!_.isEmpty(data.metadata.language)) { %>
-		<dt>Sprache</dt><!-- TODO: Language -->
+		<dt>@lang('misc.lang')</dt>
 		<dd><%- data.metadata.language %></dd>
 	<% } if (!_.isEmpty(data.metadata.abstract)) { %>
-		<dt>Beschreibung</dt><!-- TODO: Language -->
+		<dt>@lang('misc.explane')</dt>
 		<dd><pre><%- data.metadata.abstract %></pre></dd>
 	<% } if (!_.isEmpty(data.metadata.keywords)) { %>
-		<dt>Tags</dt><!-- TODO: Language -->
+		<dt>@lang('misc.tags')</dt>
 		<dd>
 			<% _.each(data.metadata.keywords, function(word) { %>
 			<span class="label label-default"><%- word %></span>
 			<% }); %>
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.time.start) || !_.isEmpty(data.metadata.time.end)) { %>
-		<dt>Zeitraum</dt><!-- TODO: Language -->
+		<dt>@lang('misc.timerange')</dt>
 		<dd>
-			Anfangsdatum: <%- data.metadata.time.start ? data.metadata.time.start : 'Unbekannt' %><br /><!-- TODO: Language -->
-			Enddatum: <%- data.metadata.time.end ? data.metadata.time.end : 'Unbekannt' %><!-- TODO: Language -->
+			@lang('misc.startingDate') <%- data.metadata.time.start ? data.metadata.time.start : 'Unbekannt' %><br />
+			@lang('misc.endingDate') <%- data.metadata.time.end ? data.metadata.time.end : 'Unbekannt' %>
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.author)) { %>
-		<dt>Autor</dt><!-- TODO: Language -->
+		<dt>@lang('misc.author')</dt>
 		<dd><pre><%- data.metadata.author %></pre></dd>
 	<% } if (!_.isEmpty(data.metadata.copyright)) { %>
-		<dt>Copyright</dt><!-- TODO: Language -->
+		<dt>@lang('misc.copyright')</dt>
 		<dd><pre><%- data.metadata.copyright %></pre></dd>
 	<% } if (!_.isEmpty(data.metadata.license)) { %>
-		<dt>Lizenz</dt><!-- TODO: Language -->
+		<dt>@lang('misc.license')</dt>
 		<dd><pre><%- data.metadata.license %></pre></dd>
 	<% } %>
 	</dl>

@@ -59,7 +59,10 @@ return array(
 	'timerange' => 'Tijdsbestek',
 	'rating' => 'Evaluatie',
 	'addMeta' => 'Aanvullend meta gegevens',
-
+	'lang' => 'Taal',
+	'explane' => 'Beschrijving',
+	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -113,12 +116,13 @@ return array(
 	'map' => 'Kaart',
 	'metadata' => 'Meta-gegevens',
 	'description' => 'Beschrijving',
-	'startingDate' => 'Aanvang datum',
-	'endingDate' => 'Eind datum',
+	'startingDate' => 'Aanvang datum:',
+	'endingDate' => 'Eind datum:',
 	'author' => 'Autuer',
 	'license' => 'Licentie',
 	'generalData' => 'Algemeene gegevens',
-		
+	
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anoniem',

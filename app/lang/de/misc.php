@@ -55,13 +55,16 @@ return array(
 	'url' => 'URL',
 	'enterData' => 'Daten eingeben',
 	'commNoLay' => 'Kommentar keinem Layer zuordnen',
-	'title' => 'Titel*',
+	'title' => 'Titel',
 	'freetext' => 'Ihr Kommentar',
 	'spatial' => 'Räumliche Zuordnung des Kommentars',
 	'timerange' => 'Zeitraum',
 	'rating' => 'Bewertung',
 	'addMeta' => 'Zusätzliche Metadaten',
-
+	'lang' => 'Sprache',
+	'explane' => 'Beschreibung',
+	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -115,8 +118,8 @@ return array(
 	'map' => 'Karte',
 	'metadata' => 'Metadaten',
 	'description' => 'Beschreibung',
-	'startingDate' => 'Anfangsdatum',
-	'endingDate' => 'Enddatum',
+	'startingDate' => 'Anfangsdatum:',
+	'endingDate' => 'Enddatum:',
 	'author' => 'Autor',
 	'license' => 'Lizenz',
 	'generalData' => 'Allgemeine Daten',

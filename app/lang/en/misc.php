@@ -53,13 +53,15 @@ return array(
 	
 	'enterData' => 'Enter data',
 	'commNoLay' => 'Don´t allocate comment to a Layer',
-	'title' => 'Title*',
+	'title' => 'Title',
 	'freetext' => 'Your comment',
 	'spatial' => 'Spatial allocatio of the comment',
 	'timerange' => 'Timerange',
 	'rating' => 'Rating',
 	'addMeta' => 'Additional metadata',
-
+	'lang' => 'Language',
+	'explane' => 'Explanation',
+	'tags' => 'Tags',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -111,11 +113,12 @@ return array(
 	'map' => 'Map',
 	'metadata' => 'Metadata',
 	'description' => 'Description',
-	'startingDate' => 'Starting date',
-	'endingDate' => 'Ending date',
+	'startingDate' => 'Starting date:',
+	'endingDate' => 'Ending date:',
 	'author' => 'Author',
 	'license' => 'license',
 	'generalData' => 'General data',
+	'copyright' => 'Copyright',
 		
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
