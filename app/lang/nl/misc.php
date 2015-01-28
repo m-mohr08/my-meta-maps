@@ -121,7 +121,8 @@ return array(
 	'author' => 'Autuer',
 	'license' => 'Licentie',
 	'generalData' => 'Algemeene gegevens',
-	
+	'layer' => 'Layer:',
+	'permlink' => 'Permanent link',
 
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	

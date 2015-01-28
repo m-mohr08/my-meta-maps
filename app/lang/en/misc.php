@@ -62,6 +62,7 @@ return array(
 	'lang' => 'Language',
 	'explane' => 'Explanation',
 	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -118,8 +119,9 @@ return array(
 	'author' => 'Author',
 	'license' => 'license',
 	'generalData' => 'General data',
-	'copyright' => 'Copyright',
-		
+	'layer' => 'Layer:',
+	'permlink' => 'Permanent link',
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',

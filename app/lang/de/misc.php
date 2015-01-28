@@ -123,7 +123,9 @@ return array(
 	'author' => 'Autor',
 	'license' => 'Lizenz',
 	'generalData' => 'Allgemeine Daten',
-		
+	'layer' => 'Layer:',
+	'permlink' => 'Permalink',
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',
