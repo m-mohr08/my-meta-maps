@@ -17,6 +17,9 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Interface for a metadata parser. All service parsers should implement this to be used with GeoMetadata.
+ */
 interface Parser {
 	
 	/**

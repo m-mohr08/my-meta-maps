@@ -31,16 +31,36 @@ class OgcWebMapService extends OgcWebServices {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMS
 	}
 
+	/**
+	 * Checks whether the given service data is of this type.
+	 * 
+	 * We don't parse the XML here as the regexp matching the root tags is much faster and we don't
+	 * ask for validity anyway. Additionally the first versions of WMS had no xml namespace URI
+	 * required so we can't detect it with the normal verification process.
+	 * 
+	 * @param string $source String containing the data to parse.
+	 * @return boolean true if content can be parsed, false if not.
+	 */
 	public function verify($source) {
-		// We don't parse the XML here as the regexp matching the root tags is much faster and we don't ask for validity anyway.
-		// Additionally the first versions of WMS had no xml namespace URI required so we can't detect it with the normal verification process.
 		return preg_match('~<((?:[\w\d]:)?(?:WMS|WMT_MS)_Capabilities)(?:\s[^>]+)?>.+</\1>~is', $source);
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'OGC WMS';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'wms';
 	}

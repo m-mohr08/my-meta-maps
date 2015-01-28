@@ -24,15 +24,33 @@ class Kml extends XmlParser {
 	const ATOM_PREFIX = 'atom';
 	
 	use Traits\HttpGetTrait, Traits\SimpleFillModelTrait;
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'kml';
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'KML';
 	}
-
+	
+	/**
+	 * Takes the user specified URL and builds the service (or base) url from it.
+	 * 
+	 * @param string $url URL
+	 * @return string Base URL of the service
+	 */
 	public function getServiceUrl($url) {
 		return $url;
 	}

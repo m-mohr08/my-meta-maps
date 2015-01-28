@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'enable' => false,
 	'route' => 'auth.social',
 	'opauth' => [
 		'callback_transport' => 'session',
