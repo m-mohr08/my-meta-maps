@@ -50,4 +50,11 @@ return array(
 	//variables for \js\router.js
 
 	'providerFail' => 'Die Anmeldung über den gewählten Anbieter ist leider fehlgeschlagen.',
+
+	//variables for \js\helpers.js
+
+	'basemaps' => 'Basemaps',
+	'overlays' => 'Overlays',
+	'userGeo' => 'Benutzerdefinierte Geometrien',
+	'loading' => 'Lädt Daten...',
 );

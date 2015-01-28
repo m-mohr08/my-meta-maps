@@ -50,4 +50,11 @@ return array(
 	//variables for \js\router.js
 
 	'providerFail' => 'Aanmelding via gekozen provider is niet gelukkt.',
+
+	//variables for \js\helpers.js
+
+	'basemaps' => 'Basemaps',
+	'overlays' => 'Overlays',
+	'userGeo' => 'Door user definie&umlerde geometrie',
+	'loading' => 'Laadt gegevens...',
 );

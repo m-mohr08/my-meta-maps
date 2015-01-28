@@ -32,7 +32,7 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
-	'imprint' => 'imprint',
+	'imprint' => 'Imprint',
 	'license' => 'License',
 	'intro' => 'My Meta Maps has been developed by students of the institute for geoinformatics of the WWU Münster.',
 	'team' => 'The team consists of',

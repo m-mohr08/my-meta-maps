@@ -50,4 +50,11 @@ return array(
 	//variables for \js\router.js
 
 	'providerFail' => 'Login via chosen provider failed',
+
+	//variables for \js\helpers.js
+
+	'basemaps' => 'Basemaps',
+	'overlays' => 'Overlays',
+	'userGeo' => 'Userdefined geometry',
+	'loading' => 'Loading data...',
 );
