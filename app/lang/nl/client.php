@@ -24,6 +24,7 @@ return array(
 	'failedLogin' => 'De gegevens van de inschrijving zijn niet correct.',
 	'succededChangeGeneral' => 'De wijziging van het profiel werd met succes overgenomen.',
 	'succededChangePW' => 'Je nieuwe wachtwoord werd succesvol toegepast.',
+	'specUse' => 'Gespecificeerde gegevens kunnen gebruikt worden',
 	
 	//variables for \js\controllers\commentController.js
 	

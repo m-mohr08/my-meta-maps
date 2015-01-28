@@ -24,6 +24,7 @@ return array(
 	'failedLogin' => 'The credentials are incorrect.',
 	'succededChangeGeneral' => 'Your profile changes were successfully applied.',
 	'succededChangePW' => 'Your new password was successfully applied.',
+	'specUse' => 'The specified data can be used.',
 	
 	//variables for \js\controllers\commentController.js
 

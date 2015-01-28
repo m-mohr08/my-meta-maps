@@ -23,7 +23,7 @@ function userRegisterController(model, inputRegister) {
 			Debug.log('Registration succeded');
 			FormErrorMessages.remove('#form-register');
         	$('#ModalRegister').modal('hide');
-			MessageBox.addSuccess('Sie haben sich erfolgreich registriert und können sich nun anmelden.'); // TODO: Language
+			MessageBox.addSuccess(Lang.t('succededRegister'));
 		},
 	
 		/*
@@ -236,7 +236,7 @@ function userCheckDataController(model, idInput, idForm, key) {
 		success: function () {
 			Debug.log('User data has not already been taken.');
 			responseJSON = {};
-			responseJSON[key] = 'The specified data can be used.'; // TODO: Language
+			responseJSON[key] = Lang.t('specUse');
 			FormErrorMessages.applyPartially('#'+idForm, responseJSON, true);
 		},
 	

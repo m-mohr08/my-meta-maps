@@ -24,6 +24,7 @@ return array(
 	'failedLogin' => 'Die Anmeldedaten sind nicht korrekt.',
 	'succededChangeGeneral' => 'Ihre Profiländerungen wurden erfolgreich übernommen.',
 	'succededChangePW' => 'Ihr neues Passwort wurde erfolgreich übernommen.',
+	'specUse' => 'Die spezifizierten Daten können benutzt werden.',
 	
 	//variables for \js\controllers\commentController.js
 	
