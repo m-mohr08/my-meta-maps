@@ -41,7 +41,11 @@ return array(
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'An error occurred when downloading the metadata. Please try it again.',
-
+	'disDraw' => 'Disable drawing',
+	'drawPoint' => 'Draw a Point',
+	'drawLine' => 'Draw a Line',
+	'drawPolygon' => 'Draw a Polygon',
+	
 	//variables for \js\views\ApplicationView.js
 
 	'paramNoLoad' => 'Unable to load search parameters',

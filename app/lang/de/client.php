@@ -41,6 +41,10 @@ return array(
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuche sie es erneut.',
+	'disDraw' => 'Zeichnen deaktivieren',
+	'drawPoint' => 'Zeichne einen Punkt',
+	'drawLine' => 'Zeichne eine Linie',
+	'drawPolygon' => 'Zeichne ein Polygon',
 
 	//variables for \js\views\ApplicationView.js
 

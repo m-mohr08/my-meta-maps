@@ -41,6 +41,10 @@ return array(
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'Er is een fout opgetreden bij het downloaden van de metagegevens. Probeer het opnieuw alsjeblieft.',
+	'disDraw' => 'Tekenen uitdoen',
+	'drawPoint' => 'Punt tekenen',
+	'drawLine' => 'Lijn tekenen',
+	'drawPolygon' => 'Polygoon tekenen',
 
 	//variables for \js\views\ApplicationView.js
 
