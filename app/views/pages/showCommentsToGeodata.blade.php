@@ -127,8 +127,8 @@
 							<% } if (!_.isEmpty(data.metadata.beginTime) || !_.isEmpty(data.metadata.endTime)) { %>
 							<dt>@lang('misc.timerange')</dt>
 							<dd>
-								@lang('misc.startingDate'): <%- data.metadata.beginTime ? data.metadata.beginTime : '@lang('misc.unknown')' %><br />
-								@lang('misc.endingDate'): <%- data.metadata.endTime ? data.metadata.endTime : '@lang('misc.unknown')' %>
+								@lang('misc.startingDate'): <%- data.metadata.beginTime ? data.metadata.beginTime : @lang('misc.unknown') %><br />
+								@lang('misc.endingDate'): <%- data.metadata.endTime ? data.metadata.endTime : @lang('misc.unknown') %>
 							</dd>
 							<% } if (!_.isEmpty(data.metadata.author)) { %>
 							<dt>@lang('misc.author')</dt>

@@ -45,7 +45,7 @@ return array(
 
 	'url' => 'URL',
 	'createComm' => 'Kommentar erstellen',
-	'dataFormat' => 'Datenformat*',
+	'dataFormat' => 'Datenformat',
 	'chooseFormat' => 'Bitte Datenformat wählen',
 	'create' => 'Erstellen',
 
