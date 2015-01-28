@@ -121,10 +121,15 @@ return array(
 	'generalData' => 'General data',
 	'layer' => 'Layer:',
 	'permlink' => 'Permanent link',
+	'unknown' => 'Unknown',
 
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',
+	'rate' => 'Rating:',
+	'stars' => 'Stars',
+	'notSpec' => 'Not specified',
+	'geoData' => 'Geodata available',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
 

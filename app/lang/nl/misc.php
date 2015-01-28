@@ -123,10 +123,15 @@ return array(
 	'generalData' => 'Algemeene gegevens',
 	'layer' => 'Layer:',
 	'permlink' => 'Permanent link',
+	'unknown' => 'Onbekend',
 
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anoniem',
+	'rate' => 'Beoordeling:',
+	'stars' => 'Sterren',
+	'notSpec' => 'Niet gespecificeerd',
+	'geoData' => 'Geogegevens voorhanden',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
 
