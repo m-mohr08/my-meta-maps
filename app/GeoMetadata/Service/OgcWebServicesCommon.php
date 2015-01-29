@@ -19,7 +19,17 @@ namespace GeoMetadata\Service;
 
 use \GeoMetadata\GmRegistry;
 
-abstract class OgcWebServicesCommon extends OgcWebServices {
+/**
+ * Parser for OGC OWS Common.
+ * Code: ows
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ * 
+ * Note: This is currently only used as base class for other implementations, but might be used to parse 
+ * OGC OWS Common datasets aswell.
+ */
+class OgcWebServicesCommon extends OgcWebServices {
 	
 	/**
 	 * Returns the displayable name of the parser.
@@ -41,10 +51,23 @@ abstract class OgcWebServicesCommon extends OgcWebServices {
 		return 'ows';
 	}
 
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	public function getSupportedNamespaces() {
 		return array('http://www.opengis.net/ows/1.0', 'http://www.opengis.net/ows/1.1', 'http://www.opengis.net/ows/2.0');
 	}
-	
+
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // OWS
 	}

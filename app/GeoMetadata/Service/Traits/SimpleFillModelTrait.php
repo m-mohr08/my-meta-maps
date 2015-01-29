@@ -23,6 +23,12 @@ trait SimpleFillModelTrait {
 	private $called = array();
 	private $model;
 
+	/**
+	 * The given model will be filled with the parsed data.
+	 * 
+	 * @param \GeoMetadata\Model\Metadata $model Instance of the model to be filled with the parsed data.
+	 * @return boolean true on success, false on failure
+	 */
 	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
 		$this->model = $model;
 		// Get all data we want to parse. 

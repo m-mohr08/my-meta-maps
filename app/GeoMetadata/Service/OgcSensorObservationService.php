@@ -17,8 +17,21 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Parser for OGC SOS.
+ * Code: sos
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class OgcSensorObservationService extends OgcWebServicesCommon {
 
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/sos/1.0';
 	}
@@ -67,7 +80,14 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	protected function findLayerNodes() {
 		return $this->selectMany(array('sos:Contents', 'sos:ObservationOfferingList', 'sos:ObservationOffering'), null, false);
 	}
-	
+
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // SOS

@@ -19,14 +19,34 @@ namespace GeoMetadata\Service;
 
 use GeoMetadata\GmRegistry;
 
+/**
+ * Parser for OGC WMS.
+ * Code: wms
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class OgcWebMapService extends OgcWebServices {
 	
 	private $cache = array();
 
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/wms';
 	}
-	
+
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMS
 	}

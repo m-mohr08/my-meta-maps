@@ -18,6 +18,13 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Parser for KML.
+ * Code: kml
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class Kml extends XmlParser {
 	
 	const ATOM_NAMESPACE = 'http://www.w3.org/2005/Atom';
@@ -59,10 +66,23 @@ class Kml extends XmlParser {
 		return $url;
 	}
 
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	protected function getSupportedNamespaces() {
 		return array('http://www.opengis.net/kml/2.2');
 	}
 
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace(self::ATOM_PREFIX, self::ATOM_NAMESPACE); // Atom
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // KML

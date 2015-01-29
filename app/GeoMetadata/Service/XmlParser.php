@@ -29,10 +29,23 @@ abstract class XmlParser extends CachedParser {
 	private $namespaces = array();
 	private $usedNamespace;
 
+	/**
+	 * Creates the internal parser instance that should be used for parsing. 
+	 * 
+	 * The object returned here will be cached for further usage.
+	 * 
+	 * @return SimpleXMLElement $source Internal parser instance
+	 */
 	protected function createParser($source) {
 		return simplexml_load_string($source);
 	}
-	
+
+	/**
+	 * Sets the internal parser instance to be used for parsing.
+	 * 
+	 * @param mixed $parser
+	 * @return Returns true on success, false on falure (e.g. if given instance is null).
+	 */
 	protected function setParser($parser) {
 		$result = parent::setParser($parser);
 		if ($result) {
@@ -43,17 +56,18 @@ abstract class XmlParser extends CachedParser {
 
 	/**
 	 * Returns an array containing all supported namespaces by the implemnting parser.
-	 * 
-	 * This can be also a string conting one single supported namespace.
+	 * This can be also a string containing one single supported namespace.
 	 * 
 	 * @return array|string
 	 */
 	protected abstract function getSupportedNamespaces();
 	
 	/**
-	 * Define the namespaces you want to use in XPath.
+	 * Define the namespaces you want to use in XPath expressions.
 	 * 
-	 * @return void
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
 	 */
 	protected abstract function registerNamespaces();
 
@@ -148,8 +162,8 @@ abstract class XmlParser extends CachedParser {
 	 * Build the XPath expression from the path array.
 	 * 
 	 * @param array $path
-	 * @param type $hasNamespace
-	 * @return type
+	 * @param boolean $hasNamespace true to use namespaces, false otherwise.
+	 * @return string XPath expression
 	 */
 	private function buildQuery(array $path, $hasNamespace = true) {
 		// Remove namespace prefixes if no namespace is available.
@@ -187,10 +201,10 @@ abstract class XmlParser extends CachedParser {
 	/**
 	 * Select one node from the xml document.
 	 * 
-	 * @param type $path
-	 * @param \SimpleXMLElement $parent
-	 * @param type $string
-	 * @return type
+	 * @param array $path Parts of the XPath query, might have namespace prefixes followed by a double colon.
+	 * @param \SimpleXMLElement $parent Parent node to start the search from (regarding the XPath query specified as first parameter).
+	 * @param boolean $string Return the selected nodes as text (true) or as SimpleXML nodes (false).
+	 * @return mixed
 	 */
 	protected function selectOne(array $path, \SimpleXMLElement $parent = null, $string = true) {
 		$nodes = $this->xpath($path, $parent);
@@ -207,10 +221,10 @@ abstract class XmlParser extends CachedParser {
 	/**
 	 * Select many nodes as array from the xml document.
 	 * 
-	 * @param array $path
-	 * @param \SimpleXMLElement $parent
-	 * @param type $string
-	 * @return type
+	 * @param array $path Parts of the XPath query, might have namespace prefixes followed by a double colon.
+	 * @param \SimpleXMLElement $parent Parent node to start the search from (regarding the XPath query specified as first parameter).
+	 * @param boolean $string Return the selected nodes as text (true) or as SimpleXML nodes (false).
+	 * @return array
 	 */
 	protected function selectMany(array $path, \SimpleXMLElement $parent = null, $string = true) {
 		$nodes = $this->xpath($path, $parent);
@@ -230,9 +244,11 @@ abstract class XmlParser extends CachedParser {
 	/**
 	 * Returns one or many attributes from a node.
 	 * 
-	 * @param \SimpleXMLElement $node
-	 * @param type $ns
-	 * @return mixed
+	 * Returns an array where the key is the attribute name and the value the attribute value itself.
+	 * 
+	 * @param \SimpleXMLElement $node Node to use
+	 * @param string $ns Namespace to use
+	 * @return array Attributes
 	 */
 	protected function selectAttributes(\SimpleXMLElement $node, $ns = '') {
 		$data = array();
@@ -246,21 +262,40 @@ abstract class XmlParser extends CachedParser {
 	}
 	
 	/**
+	 * Returns the textual content of the node as hierarchically structured text.
 	 * 
-	 * @param type $path
-	 * @param \SimpleXMLElement $parent
-	 * @return type
+	 * Prepends the node names in front of the text content itself. Text is indented by tabs. Nodes
+	 * without content are ignored.
+	 * 
+	 * @param array $path Parts of the XPath query, might have namespace prefixes followed by a double colon.
+	 * @param string $namespace Namespace to use for the children
+	 * @param \SimpleXMLElement $parent Parent node to start the search from (regarding the XPath query specified as first parameter).
+	 * @return string|null Returns null on failure or if no text is found, otherwise a string.
 	 */
-	protected function selectNestedText($path, $namespace = '', \SimpleXMLElement $parent = null) {
+	protected function selectNestedText(array $path, $namespace = '', \SimpleXMLElement $parent = null) {
 		$node = $this->selectOne($path, $parent, false);
 		if ($node != null) {
-			return $this->nodeToNestedText($node, $namespace);
+			$output = rtrim($this->nodeToNestedText($node, $namespace)); // Get text and remove the trailing newline
+			if (empty($output)) {
+				$output = null;
+			}
+			return $output;
 		}
 		else {
 			return null;
 		}
 	}
 	
+	/**
+	 * Recursive function that is used by selectNestedText to build the nested text.
+	 * 
+	 * @see XmlParser::selectNestedText()
+	 * @param \SimpleXMLElement $node Node to get the text from.
+	 * @param string $namespace Namespace to use for the children.
+	 * @param string $output The current state of the parsed text.
+	 * @param int $level Level of indentation and recursion.
+	 * @return string Parsed text
+	 */
 	private function nodeToNestedText(\SimpleXMLElement $node, $namespace, $output = "", $level = 0) {
 		foreach ($node->children($namespace) as $key => $value) {
 			$children = $value->children($namespace);
@@ -274,14 +309,6 @@ abstract class XmlParser extends CachedParser {
 			else {
 				$output .= $value->getName() . "\r\n";
 				$output = $this->nodeToNestedText($value, $namespace, $output, $level + 1);
-			}
-		}
-
-		// Remove the trailing newline
-		if ($level == 0) {
-			$output = rtrim($output);
-			if (empty($output)) {
-				$output = null;
 			}
 		}
 
