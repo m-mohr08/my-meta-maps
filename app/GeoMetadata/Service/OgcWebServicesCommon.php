@@ -82,6 +82,11 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return (parent::verify($source) && $this->checkServiceType());
 	}
 	
+	/**
+	 * Checks whether the ServiceType specified in the metadata suits to this parser.
+	 * 
+	 * @return boolean
+	 */
 	protected function checkServiceType() {
 		$docCode = $this->selectOne(array('ows:ServiceIdentification', 'ows:ServiceType'));
 		$parserCode = preg_quote($this->getCode(), '~');
@@ -238,20 +243,53 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return $nodes;
 	}
 	
+	/**
+	 * Parses and returns the unique identifier from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
 		$children = $node->children($this->getNamespace('ows'));
 		return $this->n2s($children->Identifier);
 	}
 	
+	/**
+	 * Parses and returns the title from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseTitleFromContents(\SimpleXMLElement $node) {
 		$children = $node->children($this->getNamespace('ows'));
 		return $this->n2s($children->Title);
 	}
-	
+
+	/**
+	 * Parses and returns extra data from the specified layer node.
+	 * 
+	 * Extra data might contain data we need to gather as global data, e.g. bounding boxes or time
+	 * extents, but are not needed for the layer as of now.
+	 * 
+	 * Returns an array with key value pairs.
+	 * 
+	 * @see \GeoMetadata\Model\ExtraDataContainer
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return array
+	 */
 	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
 		return array();
 	}
-	
+
+	/**
+	 * Parses and returns the bounding boxes with their respective CRS from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return array An array containing BoundingBox based objects
+	 * @see \GeoMetadata\Model\BoundingBox
+	 * @see \GeoMetadata\Model\BoundingBoxContainer
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 */
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
 		$result = array();
 		
@@ -275,7 +313,19 @@ class OgcWebServicesCommon extends OgcWebServices {
 		
 		return $result;
 	}
-		
+	
+	/**
+	 * Parses and returns a bounding box with the respective CRS from the specified data.
+	 * 
+	 * @param string $min Coordinate with the minimum bounds
+	 * @param string $max Coordinate with the maximum bounds
+	 * @param string $crs Coordinate reference system of the coordinates
+	 * @param boolean $checkInverseAxisOrder Specifies whether we should check for inverse axis order by CRS and parse the coordinates using inverse axis order if needed.
+	 * @param boolean $forceChangeAxisOrder Specifies whether we should force to parse the coordinates using inverse axis order.
+	 * @return BoundingBox
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 * @see GmRegistry::isInversedAxisOrderEpsgCode()
+	 */
 	protected function parseCoords($min, $max, $crs = '', $checkInverseAxisOrder = false, $forceChangeAxisOrder = false) {
 		$regex = '~(-?\d*\.?\d+)\s+(-?\d*\.?\d+)~';
 		if (preg_match($regex, $min, $minMatch) && preg_match($regex, $max, $maxMatch)) {

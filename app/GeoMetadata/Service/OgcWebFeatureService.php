@@ -77,11 +77,23 @@ class OgcWebFeatureService extends OgcWebServicesCommon {
 		return $this->selectMany(array('wfs:FeatureTypeList', 'wfs:FeatureType'), null, false);
 	}
 	
+	/**
+	 * Parses and returns the unique identifier from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
 		$children = $node->children($this->getNamespace('wfs'));
 		return $this->n2s($children->Name);
 	}
 	
+	/**
+	 * Parses and returns the title from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseTitleFromContents(\SimpleXMLElement $node) {
 		$children = $node->children($this->getNamespace('wfs'));
 		return $this->n2s($children->Title);

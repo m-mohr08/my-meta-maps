@@ -78,6 +78,13 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		return $this->parseTime('endTime', function($a, $b) { return $a > $b; } );
 	}
 	
+	/**
+	 * Parses the time extent values for beginning and end time from the layers extra data.
+	 * 
+	 * @param string $key Key which is used to get the extra data from the layer.
+	 * @param callback $comparator Callback that compares the dates.
+	 * @return string Timestamp
+	 */
 	private function parseTime($key, $comparator) {
 		$result = null;
 		foreach($this->getLayers() as $content) {
@@ -113,11 +120,23 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		$this->registerNamespace('gml', 'http://www.opengis.net/gml'); // GML
 	}
 	
+	/**
+	 * Parses and returns the unique identifier from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
 		$gmlAttributes = $this->selectAttributes($node, $this->getNamespace('gml'));
 		return empty($gmlAttributes['id']) ? null : $gmlAttributes['id'];
 	}
 	
+	/**
+	 * Parses and returns the title from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseTitleFromContents(\SimpleXMLElement $node) {
 		$gmlNode = $node->children($this->getNamespace('gml'));
 		if (!empty($gmlNode->description)) {
@@ -130,7 +149,19 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Parses and returns extra data from the specified layer node.
+	 * 
+	 * Extra data might contain data we need to gather as global data, e.g. bounding boxes or time
+	 * extents, but are not needed for the layer as of now.
+	 * 
+	 * Returns an array with key value pairs.
+	 * 
+	 * @see \GeoMetadata\Model\ExtraDataContainer
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return array
+	 */
 	protected function parseExtraDataFromContents(\SimpleXMLElement $node) {
 		$sosNode = $node->children($this->getNamespace('sos'));
 		$data = array();
@@ -146,7 +177,16 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		}
 		return $data;
 	}
-	
+
+	/**
+	 * Parses and returns the bounding boxes with their respective CRS from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return array An array containing BoundingBox based objects
+	 * @see \GeoMetadata\Model\BoundingBox
+	 * @see \GeoMetadata\Model\BoundingBoxContainer
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 */
 	protected function parseBoundingBoxFromContents(\SimpleXMLElement $node) {
 		$list = array();
 		$gmlNs = $this->getNamespace('gml');

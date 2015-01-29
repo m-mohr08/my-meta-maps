@@ -77,6 +77,12 @@ class OgcWebCoverageService extends OgcWebServicesCommon {
 		return $this->selectMany(array('wcs:Contents', 'wcs:CoverageSummary'), null, false);
 	}
 	
+	/**
+	 * Parses and returns the unique identifier from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
 		$children = $node->children($this->getNamespace('wcs'));
 		if (!empty($children->CoverageId)) {
