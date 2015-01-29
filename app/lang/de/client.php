@@ -65,4 +65,7 @@ return array(
 	'bingAerial' => 'BingMaps Luftbild',
 	'bingLabel' => 'BingMaps Luftbild mit Beschriftung',
 	'bingRoad' => 'BingMaps Straßen',
+	'guest' => 'Gast',
+	'logout' => 'Abmelden',
+	'login' => 'Anmelden',
 );

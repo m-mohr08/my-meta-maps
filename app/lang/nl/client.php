@@ -65,4 +65,7 @@ return array(
 	'bingAerial' => 'BingMaps Luchtfoto',
 	'bingLabel' => 'BingMaps Luchtfoto met label',
 	'bingRoad' => 'BingMaps Straten',
+	'guest' => 'Gast',
+	'logout' => 'Afmelden',
+	'login' => 'Aanmelden',
 );

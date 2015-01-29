@@ -65,4 +65,7 @@ return array(
 	'bingAerial' => 'BingMaps Aerial',
 	'bingLabel' => 'BingMaps Aerial with Labels',
 	'bingRoad' => 'BingMaps Roads',
+	'guest' => 'Guest',
+	'logout' => 'Logout',
+	'login' => 'Login',
 );

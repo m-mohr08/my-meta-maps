@@ -490,14 +490,14 @@ AuthUser = {
 		if (!this.loggedIn) {
 			accountBtn.addClass('disabled');
 		}
-		$('#userAccountName').text(this.loggedIn ? name : 'Gast');
+		$('#userAccountName').text(this.loggedIn ? name : Lang.t('guest'));
 		
 		// Modify login account
 		var loginIcon = $('#loginBtnIcon');
 		loginIcon.removeClass('glyphicon-log-in');
 		loginIcon.removeClass('glyphicon-log-out');
 		loginIcon.addClass(this.loggedIn ? 'glyphicon-log-out' : 'glyphicon-log-in');
-		$('#logBtnText').text(this.loggedIn ? 'Abmelden' : 'Anmelden');
+		$('#logBtnText').text(this.loggedIn ? Lang.t('logout') : Lang.t('login'));
 		var loginBtn = $('#loginBtn');
 		loginBtn.removeClass('btn-danger');
 		loginBtn.removeClass('btn-primary');
