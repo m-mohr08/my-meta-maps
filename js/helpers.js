@@ -91,8 +91,8 @@ Mapping = {
 	
 	/**
 	 * creates the Layer of the map
-	 * @param {Array| <ol.layer>} Layers
-	 * @returns {Array| <ol.layer>} Layers of the map
+	 * @param {Array|ol.layer} Layers
+	 * @returns {Array|ol.layer} Layers of the map
 	 */
 	getBasemps: function(layers){
 		var basemaps = [
