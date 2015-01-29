@@ -152,6 +152,10 @@ ModalView = ContentView.extend({
 	 * @override onLoaded() from ContentView
 	 */
 	onLoaded: function () {
+		ModalView.active = this;
+		this.on('hidden.bs.modal', function () {
+			ModalView.active = null;
+		});
 		this.modal();
 		this.showProgress();
 		this.onOpened();
@@ -186,6 +190,7 @@ ModalView = ContentView.extend({
 		Progress.show('.modal-progress');
 	}
 });
+ModalView.active = null;
 
 /**
  * View for the map, the filters and the list of geodata 
