@@ -24,6 +24,7 @@ return array(
 	'failedLogin' => 'De gegevens van de inschrijving zijn niet correct.',
 	'succededChangeGeneral' => 'De wijziging van het profiel werd met succes overgenomen.',
 	'succededChangePW' => 'Je nieuwe wachtwoord werd succesvol toegepast.',
+	'specUse' => 'Gespecificeerde gegevens kunnen gebruikt worden',
 	
 	//variables for \js\controllers\commentController.js
 	
@@ -40,6 +41,10 @@ return array(
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'Er is een fout opgetreden bij het downloaden van de metagegevens. Probeer het opnieuw alsjeblieft.',
+	'disDraw' => 'Tekenen uitdoen',
+	'drawPoint' => 'Punt tekenen',
+	'drawLine' => 'Lijn tekenen',
+	'drawPolygon' => 'Polygoon tekenen',
 
 	//variables for \js\views\ApplicationView.js
 
@@ -49,4 +54,11 @@ return array(
 	//variables for \js\router.js
 
 	'providerFail' => 'Aanmelding via gekozen provider is niet gelukkt.',
+
+	//variables for \js\helpers.js
+
+	'basemaps' => 'Basemaps',
+	'overlays' => 'Overlays',
+	'userGeo' => 'Door user definie&umlerde geometrie',
+	'loading' => 'Laadt gegevens...',
 );

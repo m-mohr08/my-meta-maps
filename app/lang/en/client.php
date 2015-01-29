@@ -24,6 +24,7 @@ return array(
 	'failedLogin' => 'The credentials are incorrect.',
 	'succededChangeGeneral' => 'Your profile changes were successfully applied.',
 	'succededChangePW' => 'Your new password was successfully applied.',
+	'specUse' => 'The specified data can be used.',
 	
 	//variables for \js\controllers\commentController.js
 
@@ -40,7 +41,11 @@ return array(
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'An error occurred when downloading the metadata. Please try it again.',
-
+	'disDraw' => 'Disable drawing',
+	'drawPoint' => 'Draw a Point',
+	'drawLine' => 'Draw a Line',
+	'drawPolygon' => 'Draw a Polygon',
+	
 	//variables for \js\views\ApplicationView.js
 
 	'paramNoLoad' => 'Unable to load search parameters',
@@ -49,4 +54,11 @@ return array(
 	//variables for \js\router.js
 
 	'providerFail' => 'Login via chosen provider failed',
+
+	//variables for \js\helpers.js
+
+	'basemaps' => 'Basemaps',
+	'overlays' => 'Overlays',
+	'userGeo' => 'Userdefined geometry',
+	'loading' => 'Loading data...',
 );
