@@ -23,10 +23,22 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		return 'http://www.opengis.net/sos/1.0';
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'OGC SOS';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'sos';
 	}

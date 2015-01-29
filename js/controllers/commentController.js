@@ -1,5 +1,7 @@
 /**
 * Send a POST-request to the server to get geodata
+* 
+* @param {Object} callback
 */
 function geodataShowController(callback) {
 	var model = new GeodataShow();
@@ -58,14 +60,25 @@ function saveSearch() {
 
 /**
 * Send a POST-request to the server
+* 
+* @param {Object} model
+* @param {JSON} details 
 */
 function commentAddFirstStepController(model, details) {
 	model.save(details, {
 		
+		/*
+		 * Before get response of server show loading-symbol 
+		 */
 		before: function() {
 			Progress.start('.modal-progress');
 		},
 		
+		/*
+		 * In successfulled doing first step of adding comment 
+		 * remove error-messages in the formular and stop showing loading-symbol
+		 * If checked geodata is invalid add error-message, else initialize second step of adding comment
+		 */
         success: function (model, response) {
         	Debug.log('Try to validate URL');
 			Progress.stop('.modal-progress');
@@ -83,6 +96,10 @@ function commentAddFirstStepController(model, details) {
 			}
         },
         
+        /*
+		 * In failed doin first step of adding comment 
+		 * add error-messages and stop showing loading-symbol
+		 */
         error: function(model, response) {
         	Debug.log('Can not validate URL');
 			Progress.stop('.modal-progress');
@@ -93,10 +110,17 @@ function commentAddFirstStepController(model, details) {
 
 /**
 * Send a POST-request (because no id is specified) to the server to save a comment
+* 
+* @param {Object} model
+* @param {JSON} details  
 */
 function commentAddSecondStepController(model, details) {
 	model.save(details, {
 		
+		/*
+		 * In successfulled doing second step of adding comment 
+		 * remove error-messages in the formular and show message-box
+		 */
 		success: function (model, response) {
 			Debug.log("Adding comment was successful: " + JSON.stringify(response.responseJSON));
 			FormErrorMessages.remove('#form-comment-secondStep');
@@ -104,6 +128,10 @@ function commentAddSecondStepController(model, details) {
 			MessageBox.addSuccess(Lang.t('succededAddComm'));
 		},
 	
+	    /*
+		 * In failed doing second step of adding comment 
+		 * add error-messages 
+		 */
 		error: function (model, response) {
 			Debug.log("Adding comment failed");
 			FormErrorMessages.apply('#form-comment-secondStep', response.responseJSON);
@@ -111,6 +139,12 @@ function commentAddSecondStepController(model, details) {
 	});
 };
 
+/**
+ * Add a comment directly at the detail-site with the comments to a geodata
+ * 
+ * @param {String} url 
+ * @param {String} datatype 
+ */
 function createCommentDirectly(url, datatype, layer) {
 	
 	Debug.log('Try to add comment directly');
@@ -124,15 +158,21 @@ function createCommentDirectly(url, datatype, layer) {
 	
 	model.save(details, {
 			
+			/*
+		 	 * In successfulled adding comment directly hide modal of  the detail-site with the comments to a geodata
+		 	 * and initialize the second step of adding comments with specific parameters (set url, datatype and layer automatic)
+		 	 */
 	        success: function (model, response) {
 	        	Debug.log('Try to get metadata');
 	        	var commAddViewStep2 = new CommentAddViewStep2({metadata: response.geodata, layerID: layer});
-	        	Debug.log('Controller: ' + layer);
 				ContentView.register(commAddViewStep2);
 	        	$('#ModalShowCommentsToGeodata').modal('hide');
 				router.navigate('/comments/add');
 	        },
 	        
+	        /*
+			 * In failed adding comment directl add error-message
+			 */
 	        error: function(model, response) {
 	        	Debug.log('Can not get metadata');
 	        	MessageBox(lang.t('commentAddQuickError'));
@@ -145,6 +185,9 @@ function createCommentDirectly(url, datatype, layer) {
 
 /**
 * Send a POST-request to the server to get comments to a geodata
+* 
+* @param {Object} gid
+* @param {Object} cid
 */
 function commentsToGeodataController(gid, cid) {
 	if (typeof(cid) == 'undefined') {
@@ -158,6 +201,9 @@ function commentsToGeodataController(gid, cid) {
 	model.id = gid;
 	model.save(getFormData(cid), {
 		
+		/*
+		 * In successfulled getting comments to a geodata show detail-site with the comments to the geodata
+		 */
         success: function (data, response) {
         	Debug.log('Showing comments to geodata succeded');
 			Progress.stop(progressClass);
@@ -165,6 +211,9 @@ function commentsToGeodataController(gid, cid) {
 			new CommentsShowView(response);
         },
         
+        /*
+         * In failed getting comments to a geodata add error-message
+         */
         error: function() {
         	Debug.log('Showing comments to geodata failed');
 			Progress.stop(progressClass);
@@ -173,6 +222,12 @@ function commentsToGeodataController(gid, cid) {
    });
 };
 
+/**
+ * Get typed in values of the fitlers
+ *  
+ * @param {Object} commentId
+ * @return {JSON} values of filters
+ */
 function getFormData(commentId) {
 	
 	var bbox = null;

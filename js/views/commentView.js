@@ -1,14 +1,31 @@
 /**
  * View for GeodataShow; showing geodata
- * Extend ContentView
+ * Extend ContentView from the file ApplicationView.js
  */
 GeodataShowView = ContentView.extend({
+	
+	/**
+	 * Set the 'el'-property 
+	 */
 	el: function () {
 		return $('#showGeodata');
 	},
+	
+	/**
+	 * Return a list of geodata
+	 * 
+	 * @return {Object} list of geodata
+	 * @override getPageContent() from ContentView 
+	 */
 	getPageContent: function () {
 		return this.options.geodata;
 	},
+	
+	/**
+	 * Return url for the template of the geodata-list
+	 * 
+	 * @return {String} url for the template of the geodata-list
+	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/showGeodataBit';
 	}
@@ -21,14 +38,24 @@ GeodataShowView = ContentView.extend({
  * Extend ModalView
  */
 CommentAddViewStep1 = ModalView.extend({
+	
+	/**
+	 * Return url for the template of the first step to add a comment
+	 * 
+	 * @return {String} url for the template of the first step to add a comment
+	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/addCommentFirstStep';
 	},
+	
 	events: {
 		"click #addCommentBtn": "createComment"
 	},
-	/*
-	 * This function is called when anybody creates a comment
+	
+	/**
+	 * This function is called when anybody do the first step of adding a comment
+	 * Read typed in values for the url an the datatype
+	 * Call the method commentAddFirstStepController from the file commentController.js
 	 */
 	createComment: function (event) {
 		Debug.log('Try to get metadata');
@@ -54,12 +81,31 @@ CommentAddViewStep2 = ContentView.extend({
 	feature: null,
 	serviceLayer: null,
 	drawType: null,
+	
+	/**
+	 * Return url for the template of the second step to add a comment
+	 * 
+	 * @return {String} url for the template of the second step to add a comment
+	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/addCommentSecondStep';
 	},
+	
+	/**
+	 * Return the metadata of a geodata
+	 * 
+	 * @return {Object} metadata of a geodata
+	 * @override getPageContent() from ContentView 
+	 */
 	getPageContent: function () {
 		return this.options.metadata;
 	},
+	
+	/**
+	 * Called if this view is initialized
+	 * If the typed in url undefinded, show a message-box
+	 * Else call method render in this class 
+	 */
 	initialize: function () {
 		if (typeof this.options.metadata.url === undefined) {
 			MessageBox.addError(Lang.t('failedLoadMeta'));
@@ -68,6 +114,12 @@ CommentAddViewStep2 = ContentView.extend({
 			this.render();
 		}
 	},
+	
+	/**
+	 * Create the formular for the second step in the template
+	 * 
+	 * @override onLoaded() from ContentView from the file ApplicationView.js 
+	 */
 	onLoaded: function () {
 		// this for the callbacks
 		var that = this;
@@ -96,16 +148,16 @@ CommentAddViewStep2 = ContentView.extend({
 			layers: Mapping.getBasemps(layers),
 			target: 'mapAddComm',
 			controls: Mapping.getControls([
-				Mapping.createCustomControl('<img src="/img/draw/none.png" />', 'Disable drawing', 'draw-none', function () {
+				Mapping.createCustomControl('<img src="/img/draw/none.png" />', 'Disable drawing', 'draw-none', function () { // TODO: Language
 					that.setDrawType(null);
 				}),
-				Mapping.createCustomControl('<img src="/img/draw/point.png" />', 'Draw a Point', 'draw-point', function () {
+				Mapping.createCustomControl('<img src="/img/draw/point.png" />', 'Draw a Point', 'draw-point', function () { // TODO: Language
 					that.setDrawType('Point');
 				}),
-				Mapping.createCustomControl('<img src="/img/draw/line.png" />', 'Draw a Line', 'draw-line', function () {
+				Mapping.createCustomControl('<img src="/img/draw/line.png" />', 'Draw a Line', 'draw-line', function () { // TODO: Language
 					that.setDrawType('LineString');
 				}),
-				Mapping.createCustomControl('<img src="/img/draw/polygon.png" />', 'Draw a Polygon', 'draw-polygon', function () {
+				Mapping.createCustomControl('<img src="/img/draw/polygon.png" />', 'Draw a Polygon', 'draw-polygon', function () { // TODO: Language
 					that.setDrawType('Polygon');
 				})
 			]),
@@ -127,14 +179,26 @@ CommentAddViewStep2 = ContentView.extend({
 
 		this.addInteraction();
 	},
+	
+	/**
+	 * Load services for the map 
+	 */
 	updateWebserviceLayer: function(layerId) {
 		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.metadata.url, this.options.metadata.metadata.datatype, layerId);
 	},
+	
+	/**
+	 * Set the selected draw tpye (Point, LineString, Polygon) 
+	 */
 	setDrawType: function (type) {
 		this.map.removeInteraction(this.draw);
 		this.drawType = type;
 		this.addInteraction();
 	},
+	
+	/**
+	 * Add drawed element to the map (add-comment-map)
+	 */
 	addInteraction: function () {
 		if (this.drawType !== null) {
 			this.draw = new ol.interaction.Draw({
@@ -144,9 +208,16 @@ CommentAddViewStep2 = ContentView.extend({
 			this.map.addInteraction(this.draw);
 		}
 	},
+	
 	events: {
 		"click #addCommentSecondBtn": "createComment"
 	},
+	
+	/**
+	 * Get the geometry of the map
+	 * 
+	 * @return {Object} geometry if feauter is not null, else return null 
+	 */
 	getGeometryFromMap: function () {
 		if (this.feature !== null) {
 			return Mapping.toWkt(this.feature.getGeometry(), this.map);
@@ -155,8 +226,10 @@ CommentAddViewStep2 = ContentView.extend({
 			return null;
 		}
 	},
-	/*
-	 * This function is called when anybody creates a comment
+	
+	/**
+	 * This function is called when anybody do the second step for adding a comment
+	 * Call the method commentAddSecondStepController from the file commentController.js
 	 */
 	createComment: function (event) {
 		Debug.log('Try to add comment');
@@ -193,6 +266,10 @@ CommentsShowView = ModalView.extend({
 	getPageContent: function () {
 		return this.options.geodata;
 	},
+	
+	/**
+	 * Handle events to the list of comments to the geodata 
+	 */
 	onOpened: function () {
 		var that = this;
 
@@ -257,6 +334,12 @@ CommentsShowView = ModalView.extend({
 		
 		
 	},
+	
+	/**
+	 * If a certain layer is hidden, remove its bounding box and features from the map (map in comments-to-geodata)
+	 * 
+ 	 * @param {Object} layerId
+	 */
 	onLayerHidden: function (layerId) {
 		Debug.log('Layer ' + layerId + ' hidden');
 
@@ -269,6 +352,12 @@ CommentsShowView = ModalView.extend({
 		this.selectMouseMove.getFeatures().clear();
 		
 	},
+	
+	/**
+	 * Handle events if a certain layer is shown on map (map in comments-to-geodata)
+	 * 
+	 * @param {Object} layerId
+	 */
 	onLayerShown: function(layerId) {
 		Debug.log('Layer ' + layerId + ' shown');
 
@@ -298,6 +387,12 @@ CommentsShowView = ModalView.extend({
 			this.fillLayer(layer);
 		}	
 	},
+	
+	/**
+	 * Add bounding boxes and features of a layer to the map (map in comments-to-geodata)
+	 * 
+ 	 * @param {Object} data
+	 */
 	fillLayer: function (data) {
 		// Get the bbox from the layer or as fallback from the global dataset
 		var bbox = data.bbox ? data.bbox : this.options.geodata.metadata.bbox;
@@ -314,6 +409,12 @@ CommentsShowView = ModalView.extend({
 		// Load WMS/WMTS data
 		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.geodata.url, this.options.geodata.metadata.datatype, data.id);
 	},
+	
+	/**
+	 * Return url for the template of the detail-site with comments to a geodata
+	 * 
+	 * @return {String} url for the template of the detail-site with comments to a geodata
+	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/showCommentsToGeodata';
 	}

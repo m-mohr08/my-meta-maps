@@ -3,13 +3,22 @@
  */
 Debug = {
 	/**
-	 * loggs the message in the console
+	 * Logs a message for debugging purposes. 
+	 * 
+	 * Logging is only active when debug mode is activated in config files.
+	 * 
 	 * @param {String} message
 	 */
 	log: function(message) {
 		if (config.debug) {
 			console.log(message);
 		}
+	}
+};
+
+Utils = {
+	viaProxy: function(url) {
+		return '/proxy?url=' + encodeURI(url);
 	}
 };
 
@@ -87,15 +96,27 @@ Mapping = {
 	 */
 	getBasemps: function(layers){
 		var basemaps = [
-			// OSM
-			new ol.layer.Tile({
-				source: new ol.source.OSM()
+			new ol.layer.Group({
+				title: 'Basemaps', // TODO: Language
+				layers: [
+					// OSM
+					new ol.layer.Tile({
+						title: 'OpenStreetMap',
+						type: 'base',
+						visible: true,
+						source: new ol.source.OSM()
+					})
+					// TODO: Add Bing
+				]
 			})
-			// TODO: Add Bing
 		];
 		//join the layers to the basemap
 		if (layers) {
-			basemaps = basemaps.concat(layers);
+			var overlays = new ol.layer.Group({
+				title: 'Overlays', // TODO: Language
+				layers: layers
+			});
+			basemaps.push(overlays);
 		}
 		return basemaps;
 	},
@@ -120,12 +141,14 @@ Mapping = {
 		if (!controls) {
 			controls = [];
 		}
+		
+		var layerSwitcher = new ol.control.LayerSwitcher();
+		controls.push(layerSwitcher);
 		return ol.control.defaults({
 			attributionOptions: /** @type {olx.control.AttributionOptions} */({
 				collapsible: false
 			})
 		}).extend(controls);
-		// TODO: Add layer switcher
 	},
 	
 	/**
@@ -135,6 +158,7 @@ Mapping = {
 	 */
 	getFeatureLayer: function(source) {
 		return new ol.layer.Vector({
+			title: 'User defined geometries', // TODO: Language
 			source: source,
 			style: Mapping.getFeatureStyle()
 		});
@@ -262,9 +286,11 @@ Mapping = {
 		ol.inherits(customControl, ol.control.Control);
 		return new customControl();
 	},
-	
 	/**
-	 * Calls the function loadWMS, loadWMTS, loadKML, loadWfs for the specific datatyp
+	 * Calls the external services for layers/data to be shown for the given url and datatype.
+	 * 
+	 * Currently supported are WMS, WMTS, KML.
+	 * 
 	 * @param {ol.Map} map
 	 * @param {ol.layer} mapLayer
 	 * @param {String} url
@@ -275,30 +301,17 @@ Mapping = {
 	loadWebservice: function (map, mapLayer, url, datatype, layerId) {
 		Debug.log('Loading webservice from ' + url + ' as ' + datatype + ' using layer ' + layerId);
 		var newLayer = null;
-		if (!_.isEmpty(layerId)) {
-			switch(datatype) {
-				case 'wms':
-					newLayer = Mapping.loadWms(url, layerId);
-					break;
-				case 'wmts':
-					newLayer = Mapping.loadWmts(url, layerId);
-					break;
-				case 'kml':
-					newLayer = Mapping.loadKml(url, layerId);
-					break;
-				case 'wfs':
-					var projection = ol.proj.get(Mapping.getMapCrs(map));
-					newLayer = Mapping.loadWfs(url, layerId, projection);
-					break;
-			}
+		switch(datatype) {
+			case 'wms':
+				newLayer = Mapping.loadWms(url, layerId);
+				break;
+			case 'wmts':
+				newLayer = Mapping.loadWmts(url, layerId, Mapping.getMapCrs(map));
+				break;
+			case 'kml':
+				newLayer = Mapping.loadKml(url, Mapping.getMapCrs(map));
+				break;
 		}
-
-		var layer_idx = -1;
-		$.each(map.getLayers().getArray(), function (k, v) {
-			if (mapLayer === v) {
-				layer_idx = k;
-			}
-		});
 
 		// Create empty layer as placeholder if no other layer should be set
 		if (newLayer === null) {
@@ -308,19 +321,37 @@ Mapping = {
 		else {
 			newLayer.setVisible(true);
 		}
-		map.getLayers().setAt(layer_idx, newLayer);
+
+		// Find the old layer in the hierarchy of layers and replace it with the new layer.
+		$.each(map.getLayers().getArray(), function (k, v) {
+			if (v.getLayers) {
+				$.each(v.getLayers().getArray(), function (k2, v2) {
+					if (mapLayer === v2) {
+						v.getLayers().setAt(k2, newLayer);
+					}
+				});
+			}
+			else if (mapLayer === v) {
+				map.getLayers().setAt(k, newLayer);
+			}
+		});
 
 		return newLayer;
 	},
-	loadKml: function(url, layerId) {
-		// TODO
-		return null;
+	/**
+	 * Creates and Returns a KML Layer with a given URL.
+	 * @param {string} url
+	 * @param {string} projection
+	 * @returns {ol.layer.Vector}
+	 */
+	loadKml: function(url, projection) {
+		return new ol.layer.Vector({
+			source: new ol.source.KML({
+				projection: projection,
+				url: Utils.viaProxy(url)
+			})
+		});
 	},
-	loadWfs: function(url, layerId) {
-		// TODO
-		return null;
-	},
-	
 	/**
 	 * Creates and Returns a WMS Layer with a given URL
 	 * @param {string} url
@@ -328,8 +359,12 @@ Mapping = {
 	 * @returns {ol.layer.Tile}
 	 */
 	loadWms: function (url, layerId) {
+		if (_.isEmpty(layerId)) {
+			return null;
+		}
 		return new ol.layer.Tile({
 			source: new ol.source.TileWMS({
+				title: 'WMS',
 				url: url,
 				params: {
 					LAYERS: layerId,
@@ -347,6 +382,9 @@ Mapping = {
 	 * @returns {ol.layer.Tile}
 	 */
 	loadWmts: function (url, layerId, projection) {
+		if (_.isEmpty(layerId)) {
+			return null;
+		}
 		var projectionExtent = projection.getExtent();
 		var size = ol.extent.getWidth(projectionExtent) / 256;
 		var resolutions = new Array(14);
@@ -357,6 +395,7 @@ Mapping = {
 		}
 		return new ol.layer.Tile({
 			source: new ol.source.WMTS({
+				title: 'WMTS',
 				extent: projectionExtent,
 				url: url,
 				layer: layerId,
@@ -385,7 +424,7 @@ Progress = {
 	},
 	
 	start: function(id) {
-		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />';
+		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />'; // TODO: Language
 		$(id).html(html);
 	},
 	

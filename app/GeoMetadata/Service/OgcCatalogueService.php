@@ -29,7 +29,14 @@ class OgcCatalogueService extends CachedParser {
 	public function getName() {
 		return 'OGC Catalogue Service';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'csw';
 	}
@@ -127,10 +134,22 @@ class OgcCatalogueService extends CachedParser {
 		return (empty($text) ? null : $text);
 	}
 
+	/**
+	 * Takes the user specified URL and builds the metadata url of the service from it.
+	 * 
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
+	 */
 	public function getMetadataUrl($url) {
 		return $url;
 	}
-
+	
+	/**
+	 * Takes the user specified URL and builds the service (or base) url from it.
+	 * 
+	 * @param string $url URL
+	 * @return string Base URL of the service
+	 */
 	public function getServiceUrl($url) {
 		return $url;
 	}

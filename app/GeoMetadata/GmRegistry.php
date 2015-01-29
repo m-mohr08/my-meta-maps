@@ -174,6 +174,12 @@ class GmRegistry {
 		return $number;
 	}
 	
+	/**
+	 * Checks whether the given EPSG CRS (e.g. EPSG:4326) uses an inversed axis order or not.
+	 * 
+	 * @param string $code EPSG code
+	 * @return boolean returns true for inversed axis order (e.g. EPSG:4326), false for 'normal' axis order. Returns also false when detection failed.
+	 */
 	public static function isInversedAxisOrderEpsgCode($code) {
 		$number = self::getEpsgCodeNumber($code);
 		return $number > 0 && in_array($number, self::$invertedAxisOrderEpsCode);

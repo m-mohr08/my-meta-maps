@@ -19,12 +19,27 @@ namespace GeoMetadata\Service\Traits;
 
 use GeoMetadata\GmNet;
 
+/**
+ * Default implementation for services that use GET requests to get the metadata.
+ */
 trait HttpGetTrait {
 
+	/**
+	 * Returns the body data for the HTTP request sent to the server to get the metadata.
+	 * 
+	 * @return string HTTP request body data or null for no data to be sent.
+	 */
 	public function getMetadataRequestData() {
 		return null;
 	}
 
+	/**
+	 * Returns which request method should be used for get the metadata.
+	 * 
+	 * Use GmNet::POST for POST method or GmNet::GET for GET method of HTTP 1.1.
+	 * 
+	 * @return string URL giving the metadata for the service
+	 */
 	public function getMetadataRequestMethod() {
 		return GmNet::GET;
 	}

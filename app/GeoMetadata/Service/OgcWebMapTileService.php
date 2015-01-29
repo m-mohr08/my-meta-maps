@@ -19,11 +19,27 @@ namespace GeoMetadata\Service;
 
 class OgcWebMapTileService extends OgcWebServicesCommon {
 
-	// WMTS doesn't necessarily use the "normal" OGC way with &request=GetCapabilities&servcie=wmts
-	// Therefore the capabilities xml file will be our url for metadata and service
+
+	
+	/**
+	 * Takes the user specified URL and builds the service (or base) url from it.
+	 * 
+	 * WMTS doesn't necessarily use the "normal" OGC way with '&request=GetCapabilities&servcie=wmts'.
+	 * Therefore the capabilities xml file will be our url for metadata and service.
+	 * 
+	 * @param string $url URL
+	 * @return string Base URL of the service
+	 */
 	public function getServiceUrl($url) {
 		return $url;
 	}
+
+	/**
+	 * Takes the user specified URL and builds the metadata url of the service from it.
+	 * 
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
+	 */
 	public function getMetadataUrl($url) {
 		return $url;
 	}
@@ -37,10 +53,22 @@ class OgcWebMapTileService extends OgcWebServicesCommon {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMTS
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'OGC WMTS';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'wmts';
 	}

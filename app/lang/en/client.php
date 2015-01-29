@@ -43,8 +43,8 @@ return array(
 
 	//variables for \js\views\ApplicationView.js
 
-	'paramNoLoad' => 'Die Parameter der Suche konnten leider nicht geladen werden',
-	'noLoad' => 'Die Geodaten konnten nicht geladen werden.',
+	'paramNoLoad' => 'Unable to load search parameters',
+	'noLoad' => 'Unable to load geodata',
 
 	//variables for \js\router.js
 

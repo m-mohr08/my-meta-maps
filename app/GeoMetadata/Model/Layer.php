@@ -17,12 +17,37 @@
 
 namespace GeoMetadata\Model;
 
+/**
+ * Interface that models a layer to be used by GeoMetadata to hold information about the layer, like id title and a bbox.
+ * 
+ * @see BoundingBoxContainer
+ */
 interface Layer extends BoundingBoxContainer {
 	
+	/**
+	 * Returns the identifier of the layer. Must be unique across the Service.
+	 * 
+	 * @return string
+	 */
 	public function getId();
+	/**
+	 * Sets the identifier of the layer. Must be unique across the Service.
+	 * 
+	 * @param string Identifier
+	 */
 	public function setId($id);
 
+	/**
+	 * Returns the title for the layer.
+	 * 
+	 * @return string
+	 */
 	public function getTitle();
+	/**
+	 * Sets a title for the layer.
+	 * 
+	 * @param string Title
+	 */
 	public function setTitle($title);
 	
 }

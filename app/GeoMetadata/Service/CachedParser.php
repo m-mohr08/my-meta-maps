@@ -21,6 +21,11 @@ abstract class CachedParser implements Parser {
 	
 	private $parser;
 	
+	/**
+	 * Creates a new parser object that caches an internally used parser for multiple use (e.g. verify and parse).
+	 * 
+	 * @return Parser
+	 */
 	public function createObject() {
 		return new static();
 	}
@@ -34,6 +39,12 @@ abstract class CachedParser implements Parser {
 		return ($this->parser !== null);
 	}
 
+	/**
+	 * Checks whether the given service data is of this type.
+	 * 
+	 * @param string $source String containing the data to parse.
+	 * @return boolean true if content can be parsed, false if not.
+	 */
 	public function verify($source) {
 		if ($this->parser == null) {
 			$this->setParser($this->createParser($source));
