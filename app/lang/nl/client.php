@@ -61,4 +61,11 @@ return array(
 	'overlays' => 'Overlays',
 	'userGeo' => 'Door user definie&umlerde geometrie',
 	'loading' => 'Laadt gegevens...',
+	'osm' => 'OpenStreetMap',
+	'bingAerial' => 'BingMaps Luchtfoto',
+	'bingLabel' => 'BingMaps Luchtfoto met label',
+	'bingRoad' => 'BingMaps Straten',
+	'guest' => 'Gast',
+	'logout' => 'Afmelden',
+	'login' => 'Aanmelden',
 );
