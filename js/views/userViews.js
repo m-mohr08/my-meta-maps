@@ -1,6 +1,7 @@
 /**
  * View for register an user 
  * Extend ModalView
+ * @namespace
  */
 RegisterView = ModalView.extend({
 
@@ -39,6 +40,7 @@ RegisterView = ModalView.extend({
 /**
  * View for login as an user 
  * Extend ModalView
+ * @namespace
  */
 LoginView = ModalView.extend({
 
@@ -78,6 +80,7 @@ LoginView = ModalView.extend({
 /**
  * View for change general user data as an registered user
  * Extend ModalView
+ * @namespace
  */
 ProfileView = ModalView.extend({
 	
@@ -126,6 +129,7 @@ ProfileView = ModalView.extend({
 /**
  * View for change the password as an registered user
  * Extend ModalView
+ * @namespace
  */
 PasswordView = ModalView.extend({
 	

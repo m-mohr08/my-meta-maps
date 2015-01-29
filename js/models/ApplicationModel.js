@@ -1,5 +1,6 @@
 /**
  * This is a basic Backbone.Model which tries to avoid multiple server requests with the same data (flooding)
+ * @namespace
  */
 BaseModel = Backbone.Model.extend({
 	enableAntiFlood: true,

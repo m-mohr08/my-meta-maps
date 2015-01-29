@@ -1,6 +1,7 @@
 /**
  * View for GeodataShow; showing geodata
  * Extend ContentView from the file ApplicationView.js
+ * @namespace
  */
 GeodataShowView = ContentView.extend({
 	
@@ -15,7 +16,7 @@ GeodataShowView = ContentView.extend({
 	 * Return a list of geodata
 	 * 
 	 * @return {Object} list of geodata
-	 * @override getPageContent() from ContentView 
+	 * @override
 	 */
 	getPageContent: function () {
 		return this.options.geodata;
@@ -36,6 +37,7 @@ GeodataShowView = ContentView.extend({
 /**
  * View for CommentAddFirstStep
  * Extend ModalView
+ * @namespace
  */
 CommentAddViewStep1 = ModalView.extend({
 	
@@ -73,6 +75,7 @@ CommentAddViewStep1 = ModalView.extend({
 /**
  * View for CommentAddSecondStep; will only shown after CommentAddViewStep1
  * Extend ContentView
+ * @namespace
  */
 CommentAddViewStep2 = ContentView.extend({
 	draw: null,
@@ -95,7 +98,7 @@ CommentAddViewStep2 = ContentView.extend({
 	 * Return the metadata of a geodata
 	 * 
 	 * @return {Object} metadata of a geodata
-	 * @override getPageContent() from ContentView 
+	 * @override
 	 */
 	getPageContent: function () {
 		return this.options.metadata;
@@ -118,7 +121,7 @@ CommentAddViewStep2 = ContentView.extend({
 	/**
 	 * Create the formular for the second step in the template
 	 * 
-	 * @override onLoaded() from ContentView from the file ApplicationView.js 
+	 * @override
 	 */
 	onLoaded: function () {
 		// this for the callbacks
@@ -255,6 +258,7 @@ CommentAddViewStep2 = ContentView.extend({
 /**
  * View for CommentsToGeodata
  * Extend ModalView
+ * @namespace
  */
 CommentsShowView = ModalView.extend({
 	map: null,

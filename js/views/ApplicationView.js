@@ -4,6 +4,7 @@
  * The "el" property references the DOM object created in the browser. 
  * Every Backbone.js view has an "el" property, and if it is not defined, 
  * Backbone.js will construct its own, which is an empty div element.
+ * @namespace
  */
 ContentView = Backbone.View.extend({
 	el: $('#content'),
@@ -141,6 +142,7 @@ ContentView.register = function (view) {
  * View for modals
  * Extend ContentView
  * All views that extend this view, will shown in this view
+ * @namespace
  */
 ModalView = ContentView.extend({
 	el: $('#modal'),
@@ -149,7 +151,7 @@ ModalView = ContentView.extend({
 	 * Called after modal is loaded (and not opened yet)
 	 * Call methods modal(), showProgress() and onOpend from this class
 	 * 
-	 * @override onLoaded() from ContentView
+	 * @override
 	 */
 	onLoaded: function () {
 		ModalView.active = this;
@@ -194,6 +196,7 @@ ModalView.active = null;
 
 /**
  * View for the map, the filters and the list of geodata 
+ * @namespace
  */
 MapView = ContentView.extend({
 	// OpenLayers/Map
@@ -217,7 +220,7 @@ MapView = ContentView.extend({
 	/**
 	 * Initialize main-map
 	 *  
-	 * @override onLoaded() from ContentView
+	 * @override
 	 */
 	onLoaded: function () {
 		// this for the callbacks
@@ -444,6 +447,7 @@ MapView = ContentView.extend({
 /**
  * View for imprint site
  * Extend ContentView
+ * @namespace
  */
 AboutView = ContentView.extend({
 	
@@ -460,6 +464,7 @@ AboutView = ContentView.extend({
 /**
  * View for help site 
  * Extend ContentView
+ * @namespace
  */
 HelpView = ContentView.extend({
 	

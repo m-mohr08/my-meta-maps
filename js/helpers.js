@@ -1,5 +1,6 @@
 /**
- * Class for Logging
+ * Tools for Logging
+ * @namespace
  */
 Debug = {
 	/**
@@ -16,6 +17,10 @@ Debug = {
 	}
 };
 
+/**
+ * General Utilities
+ * @namespace
+ */
 Utils = {
 	viaProxy: function(url) {
 		return '/proxy?url=' + encodeURI(url);
@@ -24,6 +29,7 @@ Utils = {
 
 /**
  * Class for all the base Functions to create, manage and work on the Map
+ * @namespace
  */
 Mapping = {
 	
@@ -439,6 +445,10 @@ Mapping = {
 	}
 };
 
+/**
+ * Progress control
+ * @namespace
+ */
 Progress = {
 	
 	show: function(id) {
@@ -462,6 +472,7 @@ Progress = {
 
 /**
  * Class to handle submissions form a user in a form
+ * @namespace
  */
 FormErrorMessages = {
 
@@ -490,7 +501,8 @@ FormErrorMessages = {
 };
 
 /**
- * Class for logged in user 
+ * Class to manage user authentification on client side.
+ * @namespace
  */
 AuthUser = {
 	
@@ -533,7 +545,8 @@ AuthUser = {
 };
 
 /**
- * Class to handle alerts for user-iteractions 
+ * Class to handle alerts for user-iteractions
+ * @namespace
  */
 MessageBox = {
 
@@ -582,6 +595,7 @@ MessageBox = {
  * The code is released under the MIT license.
  * 
  * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+ * @namespace
  */
 Lang = {
 	
@@ -692,6 +706,10 @@ Lang = {
 	
 };
 
+/**
+ * Utitilies for the views/templates.
+ * @namespace
+ */
 ViewUtils = {
 
 	parseComment: function(text) {

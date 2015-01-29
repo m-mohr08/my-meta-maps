@@ -1,6 +1,7 @@
 /**
  * Model for validate URL of a new comment which will be added
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 CommentAddFirstStep = BaseModel.extend({
 	urlRoot: '/api/internal/geodata/metadata'	
@@ -8,7 +9,8 @@ CommentAddFirstStep = BaseModel.extend({
 
 /**
  * Model for adding comments
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 CommentAddSecondStep = BaseModel.extend({     
 	urlRoot: '/api/internal/geodata/add'
@@ -16,7 +18,8 @@ CommentAddSecondStep = BaseModel.extend({
 
 /**
  * Model for (showing) geodata
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 GeodataShow = BaseModel.extend({
 	urlRoot: '/api/internal/geodata/list'
@@ -24,7 +27,8 @@ GeodataShow = BaseModel.extend({
 
 /**
  * Model for (showing) comments to a geodata
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 CommentsToGeodata = BaseModel.extend({
 	id: null,
@@ -36,7 +40,8 @@ CommentsToGeodata = BaseModel.extend({
 
 /**
  * Model for saving search permalinks
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 PermalinkSave = BaseModel.extend({
 	urlRoot: '/api/internal/geodata/search/save'
@@ -44,7 +49,8 @@ PermalinkSave = BaseModel.extend({
 
 /**
  * Model for loading search permalinks
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 PermalinkLoad = BaseModel.extend({
 	id: null,
