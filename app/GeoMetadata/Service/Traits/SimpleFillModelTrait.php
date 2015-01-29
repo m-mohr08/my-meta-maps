@@ -111,18 +111,44 @@ trait SimpleFillModelTrait {
 	protected function parseLayers() {
 		return array();
 	}
-	
+
+	/**
+	 * Creates a new layer using a class implementing the Layer interface.
+	 * It sets the id and title of the layer and returns it.
+	 * The layer object is delivered by the model which should be filled.
+	 * 
+	 * @param int|string $id ID/Name of the layer
+	 * @param string $title Title of the layer
+	 * @return \GeoMetadata\Model\Layer
+	 */
 	protected function createLayer($id, $title) {
 		$layer = $this->model->deliverLayer();
 		$layer->setId($id);
 		$layer->setTitle($title);
 		return $layer;
 	}
-	
+
+	/**
+	 * Returns a new and empty instance of a class implementing the BoundingBox interface.
+	 * The bounding box object is delivered by the model which should be filled.
+	 * 
+	 * @return \GeoMetadata\Model\BoundingBox
+	 */
 	protected function createEmptyBoundingBox() {
 		return $this->model->deliverBoundingBox();
 	}
-	
+
+	/**
+	 * Returns a new but filled instance of a class implementing the BoundingBox interface.
+	 * The bounding box object is delivered by the model which should be filled.
+	 * 
+	 * @param double $west Western edge of the bbox
+	 * @param double $south Southern edge of the bbox
+	 * @param double $east Eastern edge of the bbox
+	 * @param double $north Northern edge of the bbox
+	 * @param string $crs CRS name (can be an empty string)
+	 * @return \GeoMetadata\Model\BoundingBox
+	 */
 	protected function createBoundingBox($west, $south, $east, $north, $crs = '') {
 		$bbox = $this->model->deliverBoundingBox();
 		$bbox->set($west, $south, $east, $north);

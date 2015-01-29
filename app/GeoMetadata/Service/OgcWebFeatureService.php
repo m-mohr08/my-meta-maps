@@ -28,10 +28,22 @@ class OgcWebFeatureService extends OgcWebServicesCommon {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WFS
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'OGC WFS';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'wfs';
 	}
