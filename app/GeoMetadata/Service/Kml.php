@@ -62,6 +62,12 @@ class Kml extends XmlParser {
 		return $url;
 	}
 
+	/**
+	 * Takes the user specified URL and builds the metadata url of the service from it.
+	 * 
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
+	 */
 	public function getMetadataUrl($url) {
 		return $url;
 	}
@@ -87,7 +93,14 @@ class Kml extends XmlParser {
 		$this->registerNamespace(self::ATOM_PREFIX, self::ATOM_NAMESPACE); // Atom
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // KML
 	}
-	
+
+	/**
+	 * Parses and returns the author/service provider.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAuthor()
+	 * @see \GeoMetadata\Model\Metadata::setAuthor()
+	 */
 	protected function parseAuthor() {
 		// When the Atom namespace is not set we can't find the author
 		$ns = $this->getUsedNamespace(self::ATOM_NAMESPACE);
@@ -99,14 +112,36 @@ class Kml extends XmlParser {
 		}
 	}
 
+	/**
+	 * Parses and returns the description/abstract.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAbstract()
+	 * @see \GeoMetadata\Model\Metadata::setAbstract()
+	 */
 	protected function parseAbstract() {
 		return $this->selectOne(array('kml:Document', 'kml:description'));
 	}
 
+	/**
+	 * Parses and returns the title.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getTitle()
+	 * @see \GeoMetadata\Model\Metadata::setTitle()
+	 */
 	protected function parseTitle() {
 		return $this->selectOne(array('kml:Document', 'kml:name'));
 	}
 
+	/**
+	 * Parses and returns the service wide bounding boxes with their respective CRS of the geo dataset.
+	 * 
+	 * @return array An array containing BoundingBox based objects
+	 * @see \GeoMetadata\Model\BoundingBox
+	 * @see \GeoMetadata\Model\BoundingBoxContainer
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 */
 	protected function parseBoundingBox() {
 		// There is no required bbox entry in KML, so we need to check several options
 		// 1. LatLonBox
@@ -117,6 +152,11 @@ class Kml extends XmlParser {
 		return $this->parseBoundingBoxFromCoordinates();
 	}
 
+	/**
+	 * Parses a bounding box from the coordinates specified in the KML document.
+	 * 
+	 * @return array Returns an array containing one BoundingBox object with 0..1 bbox in EPSG:4326.
+	 */
 	private function parseBoundingBoxFromCoordinates() {
 		$bbox = array();
 		$minx = null; // west

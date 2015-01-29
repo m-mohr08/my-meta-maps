@@ -90,7 +90,12 @@ class OgcWebMapTileService extends OgcWebServicesCommon {
 	public function getCode() {
 		return 'wmts';
 	}
-	
+
+	/**
+	 * Returns the node(s) that contain the data for the individual layers of the geo dataset.
+
+	 * @return array Array containing SimpleXMLElement nodes
+	 */
 	protected function findLayerNodes() {
 		return $this->selectMany(array('wmts:Contents', 'wmts:Layer'), null, false);
 	}

@@ -88,18 +88,49 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return (preg_match('~^\s*(urn:ogc:service:|OGC[:\s]?)?'.$parserCode.'\s*$~i', $docCode) == 1); // There might be a "OGC" prefix in front in some implementations.
 	}
 
+	/**
+	 * Parses and returns the description/abstract.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAbstract()
+	 * @see \GeoMetadata\Model\Metadata::setAbstract()
+	 */
 	protected function parseAbstract() {
 		return $this->selectOne(array('ows:ServiceIdentification', 'ows:Abstract'));
 	}
 
+	/**
+	 * Parses and returns the author/service provider.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAuthor()
+	 * @see \GeoMetadata\Model\Metadata::setAuthor()
+	 */
 	protected function parseAuthor() {
 		return $this->selectNestedText(array('ows:ServiceProvider'), $this->getNamespace('ows'));
 	}
 
+	/**
+	 * Parses and returns the keywords/tags.
+	 * 
+	 * @return array
+	 * @see \GeoMetadata\Model\Metadata::getKeywords()
+	 * @see \GeoMetadata\Model\Metadata::setKeywords()
+	 * @see \GeoMetadata\Model\Metadata::addKeyword()
+	 */
 	protected function parseKeywords() {
 		return $this->selectMany(array('ows:ServiceIdentification', 'ows:Keywords', 'ows:Keyword'));
 	}
 
+	/**
+	 * Parses and returns the language of the geo dataset.
+	 * 
+	 * This should be an ISO 639-1 based language code.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getLanguage()
+	 * @see \GeoMetadata\Model\Metadata::setLanguage()
+	 */
 	protected function parseLanguage() {
 		// Language tag can appear in several areas, just try to parse one of them...
 		// The format of this language tag is according to RFC 4646. We expect ISO 639-1, which is not always compatible.
@@ -107,6 +138,13 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return $this->selectOne(array('ows:Language'));
 	}
 
+	/**
+	 * Parses and returns the licensing information.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getLicense()
+	 * @see \GeoMetadata\Model\Metadata::setLicense()
+	 */
 	protected function parseLicense() {
 		$license = $this->selectOne(array('ows:ServiceIdentification', 'ows:AccessConstraints'));
 		if (!empty($license) && strtolower($license) != 'none') {
@@ -117,10 +155,25 @@ class OgcWebServicesCommon extends OgcWebServices {
 		}
 	}
 
+	/**
+	 * Parses and returns the title.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getTitle()
+	 * @see \GeoMetadata\Model\Metadata::setTitle()
+	 */
 	protected function parseTitle() {
 		return $this->selectOne(array('ows:ServiceIdentification', 'ows:Title'));
 	}
 
+	/**
+	 * Parses and returns the service wide bounding boxes with their respective CRS of the geo dataset.
+	 * 
+	 * @return array An array containing BoundingBox based objects
+	 * @see \GeoMetadata\Model\BoundingBox
+	 * @see \GeoMetadata\Model\BoundingBoxContainer
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 */
 	protected function parseBoundingBox() {
 		// There is no bounding box in the metadata for the complete dataset.
 		// We are calculation a bounding box by joining all bboxes of the layers.
@@ -137,6 +190,13 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return $growingBBoxes;
 	}
 
+	/**
+	 * Parses and returns the layers (or similar things) of the geo dataset.
+	 * 
+	 * @return array An array containing Layer based objects
+	 * @see \GeoMetadata\Model\LayerContainer
+	 * @see SimpleFillModelTrait::createLayer()
+	 */
 	protected function parseLayers() {
 		// Version 1.0.0 of OWS Common doesn't specify anything for the contents.
 		// This implementation parses for contents of version 1.1.0 and ignores the contents section in version 1.0.0.
@@ -159,6 +219,16 @@ class OgcWebServicesCommon extends OgcWebServices {
 		return $data;
 	}
 	
+	/**
+	 * Returns the node(s) that contain the data for the individual layers of the geo dataset.
+	 * 
+	 * Usually the nodes containing the layer data are childs from the 'Contents' node as specified
+	 * in the OGC OWS Common specification. They can be parsed by calling 
+	 * XmlParser::selectMany(..., ..., false) for example.
+	 * 
+	 * @see \GeoMetadata\Service\XmlParser::selectMany()
+	 * @return array Array containing SimpleXMLElement nodes (as returned by XmlParser::selectMany() )
+	 */
 	protected function findLayerNodes() {
 		$nodes = $this->selectMany(array('ows:Contents', 'ows:DatasetSummary'), null, false);
 		if (empty($nodes)) {

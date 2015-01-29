@@ -55,11 +55,25 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 	public function getCode() {
 		return 'sos';
 	}
-	
+
+	/**
+	 * Parses and returns the minimum timestamp.
+	 * 
+	 * @return \DateTime|null
+	 * @see \GeoMetadata\Model\Metadata::getBeginTime()
+	 * @see \GeoMetadata\Model\Metadata::setBeginTime()
+	 */
 	protected function parseBeginTime() {
 		return $this->parseTime('beginTime', function($a, $b) { return $a < $b; } );
 	}
 
+	/**
+	 * Parses and returns the maximum timestamp.
+	 * 
+	 * @return \DateTime|null
+	 * @see \GeoMetadata\Model\Metadata::getEndTime()
+	 * @see \GeoMetadata\Model\Metadata::setEndTime()
+	 */
 	protected function parseEndTime() {
 		return $this->parseTime('endTime', function($a, $b) { return $a > $b; } );
 	}
@@ -76,7 +90,12 @@ class OgcSensorObservationService extends OgcWebServicesCommon {
 		}
 		return $result;
 	}
-	
+
+	/**
+	 * Returns the node(s) that contain the data for the individual layers of the geo dataset.
+
+	 * @return array Array containing SimpleXMLElement nodes
+	 */
 	protected function findLayerNodes() {
 		return $this->selectMany(array('sos:Contents', 'sos:ObservationOfferingList', 'sos:ObservationOffering'), null, false);
 	}

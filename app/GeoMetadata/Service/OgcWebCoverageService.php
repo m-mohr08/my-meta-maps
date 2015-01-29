@@ -67,7 +67,12 @@ class OgcWebCoverageService extends OgcWebServicesCommon {
 	public function getCode() {
 		return 'wcs';
 	}
-	
+
+	/**
+	 * Returns the node(s) that contain the data for the individual layers of the geo dataset.
+
+	 * @return array Array containing SimpleXMLElement nodes
+	 */
 	protected function findLayerNodes() {
 		return $this->selectMany(array('wcs:Contents', 'wcs:CoverageSummary'), null, false);
 	}
