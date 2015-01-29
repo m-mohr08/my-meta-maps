@@ -411,6 +411,17 @@ CommentsShowView = ModalView.extend({
 	},
 	
 	/**
+	 * Adds an Feature from a selected Comment to the Collection of the ol.interaction
+	 * @param {int} id
+	 */
+	selectFeatureViaItem: function(id){
+		if (this.select.getFeatures().getArray()=== 0){
+			this.select.getFeatures().push(this.geometryLayer.getSource().getFeatureById(id));
+		} else {
+			this.select.getFeatures().clear();
+		}
+	},
+	/**
 	 * Return url for the template of the detail-site with comments to a geodata
 	 * 
 	 * @return {String} url for the template of the detail-site with comments to a geodata
