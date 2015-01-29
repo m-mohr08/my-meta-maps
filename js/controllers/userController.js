@@ -51,7 +51,7 @@ function userLogoutController() {
 		 */
 		success: function(){
 			Debug.log('Logout succeded');
-			MessageBox.addSuccess(Lang.t('succededRegister'));
+			MessageBox.addSuccess(Lang.t('succededLogout'));
 			AuthUser.setUser();
 		},
 		
@@ -60,7 +60,7 @@ function userLogoutController() {
 		 */
 		error: function(){
 			Debug.log('Logout failed');
-			MessageBox.addError(Lang.t('succededLogout'));
+			MessageBox.addError(Lang.t('failedLogout'));
 		}
 	});
 }
