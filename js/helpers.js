@@ -101,12 +101,38 @@ Mapping = {
 				layers: [
 					// OSM
 					new ol.layer.Tile({
-						title: 'OpenStreetMap',
+						title: Lang.t('osm'),
 						type: 'base',
 						visible: true,
 						source: new ol.source.OSM()
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingAerial'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'Aerial'
+						})
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingLabel'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'AerialWithLabels'
+						})
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingRoad'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'Road'
+						})
 					})
-					// TODO: Add Bing
 				]
 			})
 		];
