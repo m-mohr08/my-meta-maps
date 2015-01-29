@@ -24,6 +24,7 @@ return array(
 	'failedLogin' => 'Die Anmeldedaten sind nicht korrekt.',
 	'succededChangeGeneral' => 'Ihre Profiländerungen wurden erfolgreich übernommen.',
 	'succededChangePW' => 'Ihr neues Passwort wurde erfolgreich übernommen.',
+	'specUse' => 'Die spezifizierten Daten können benutzt werden.',
 	
 	//variables for \js\controllers\commentController.js
 	
@@ -40,6 +41,10 @@ return array(
 	//variables for \js\views\commentView.js
 	
 	'failedLoadMeta' =>	'Es ist ein Fehler beim Laden der Metadaten aufgetreten. Bitte versuche sie es erneut.',
+	'disDraw' => 'Zeichnen deaktivieren',
+	'drawPoint' => 'Zeichne einen Punkt',
+	'drawLine' => 'Zeichne eine Linie',
+	'drawPolygon' => 'Zeichne ein Polygon',
 
 	//variables for \js\views\ApplicationView.js
 
@@ -49,4 +54,11 @@ return array(
 	//variables for \js\router.js
 
 	'providerFail' => 'Die Anmeldung über den gewählten Anbieter ist leider fehlgeschlagen.',
+
+	//variables for \js\helpers.js
+
+	'basemaps' => 'Basemaps',
+	'overlays' => 'Overlays',
+	'userGeo' => 'Benutzerdefinierte Geometrien',
+	'loading' => 'Lädt Daten...',
 );

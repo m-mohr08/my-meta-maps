@@ -32,6 +32,8 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
+	'imprint' => 'Imprint',
+	'license' => 'License',
 	'intro' => 'My Meta Maps has been developed by students of the institute for geoinformatics of the WWU Münster.',
 	'team' => 'The team consists of',
 	'pubAdress' => 'Link of the public data interface',
@@ -40,6 +42,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Create comment',
 	'dataFormat' => 'Data format',
 	'chooseFormat' => 'Please choose data format',
@@ -50,13 +53,16 @@ return array(
 	
 	'enterData' => 'Enter data',
 	'commNoLay' => 'Don´t allocate comment to a Layer',
-	'title' => 'Title*',
+	'title' => 'Title',
 	'freetext' => 'Your comment',
 	'spatial' => 'Spatial allocatio of the comment',
 	'timerange' => 'Timerange',
 	'rating' => 'Rating',
 	'addMeta' => 'Additional metadata',
-
+	'lang' => 'Language',
+	'explane' => 'Explanation',
+	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -108,15 +114,22 @@ return array(
 	'map' => 'Map',
 	'metadata' => 'Metadata',
 	'description' => 'Description',
-	'startingDate' => 'Starting date',
-	'endingDate' => 'Ending date',
+	'startingDate' => 'Starting date:',
+	'endingDate' => 'Ending date:',
 	'author' => 'Author',
 	'license' => 'license',
 	'generalData' => 'General data',
-		
+	'layer' => 'Layer:',
+	'permlink' => 'Permanent link',
+	'unknown' => 'Unknown',
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',
+	'rate' => 'Rating:',
+	'stars' => 'Stars',
+	'notSpec' => 'Not specified',
+	'geoData' => 'Geodata available',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
 

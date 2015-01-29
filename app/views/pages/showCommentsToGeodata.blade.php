@@ -47,7 +47,7 @@
 									<div class="panel-heading" role="tab" id="Layer<%= key %>Header">
 										<h4 class="panel-title">
 											<a data-toggle="collapse" href="#Layer<%= key %>Body" data-parent="#commentAccordion" aria-expanded="false" aria-controls="Layer<%= key %>Body">
-												<!-- TODO: Language -->Layer: <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
+												@lang('misc.layer') <%- ViewUtils.join(' - ', [layer.title, layer.id]) %>
 											</a>
 											<span class="pull-right">
 												<a class="badge" href="javascript:createCommentDirectly('<%- data.url %>', '<%- data.metadata.datatype %>', '<%- layer.id %>')" role="button" title="@lang('misc.addComment')">+</a>&nbsp;
@@ -88,7 +88,7 @@
 							<dd><%- data.commentCount.filtered %> (<%- data.commentCount.all %> @lang('misc.total'))</dd>
 							<dt>Ø @lang('misc.rating')</dt>
 							<dd><%- data.ratingAvg.filtered %> (<%- data.ratingAvg.all %> @lang('misc.total'))</dd>
-							<dt>Permalink</dt><!-- TODO: Language -->
+							<dt>@lang('misc.permlink')</dt>
 							<dd><a href="<%- data.permalink %>" target="_blank"><%- data.permalink %></a></dd>
 						</dl>
 					</div>
@@ -115,7 +115,7 @@
 							<dt>@lang('misc.description')</dt>
 							<dd><pre><%- data.metadata.abstract %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.keywords)) { %>
-							<dt>Tags</dt><!-- TODO: Language -->
+							<dt>@lang('misc.tags')</dt>
 							<dd>
 								<% _.each(data.metadata.keywords, function(word) { %>
 								<span class="label label-default"><%- word %></span>
@@ -127,14 +127,14 @@
 							<% } if (!_.isEmpty(data.metadata.beginTime) || !_.isEmpty(data.metadata.endTime)) { %>
 							<dt>@lang('misc.timerange')</dt>
 							<dd>
-								@lang('misc.startingDate'): <%- data.metadata.beginTime ? data.metadata.beginTime : 'Unbekannt' %><br /><!-- TODO: Language -->
-								@lang('misc.endingDate'): <%- data.metadata.endTime ? data.metadata.endTime : 'Unbekannt' %><!-- TODO: Language -->
+								@lang('misc.startingDate'): <%- data.metadata.beginTime ? data.metadata.beginTime : @lang('misc.unknown') %><br />
+								@lang('misc.endingDate'): <%- data.metadata.endTime ? data.metadata.endTime : @lang('misc.unknown') %>
 							</dd>
 							<% } if (!_.isEmpty(data.metadata.author)) { %>
 							<dt>@lang('misc.author')</dt>
 							<dd><pre><%- data.metadata.author %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.copyright)) { %>
-							<dt>Copyright</dt><!-- TODO: Language -->
+							<dt>@lang('misc.copyright')</dt>
 							<dd><pre><%- data.metadata.copyright %></pre></dd>
 							<% } if (!_.isEmpty(data.metadata.license)) { %>
 							<dt>@lang('misc.license')</dt>

@@ -32,6 +32,8 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
+	'imprint' => 'Over My Meta Maps',
+	'license' => 'Licentie',
 	'intro' => 'My Meta Maps werd ontwikkeld van studenten van het instituut voor geoinformatie van de WWU Münster',
 	'team' => 'Het team bestaat uit:',
 	'pubAdress' => 'Adres van de openbaare gegevens-interface',
@@ -40,6 +42,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Commentaar cre&eumlren',
 	'dataFormat' => 'Gegevens formaat',
 	'chooseFormat' => 'Kies een gegevens formaat',
@@ -56,7 +59,10 @@ return array(
 	'timerange' => 'Tijdsbestek',
 	'rating' => 'Evaluatie',
 	'addMeta' => 'Aanvullend meta gegevens',
-
+	'lang' => 'Taal',
+	'explane' => 'Beschrijving',
+	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -110,15 +116,22 @@ return array(
 	'map' => 'Kaart',
 	'metadata' => 'Meta-gegevens',
 	'description' => 'Beschrijving',
-	'startingDate' => 'Aanvang datum',
-	'endingDate' => 'Eind datum',
+	'startingDate' => 'Aanvang datum:',
+	'endingDate' => 'Eind datum:',
 	'author' => 'Autuer',
 	'license' => 'Licentie',
 	'generalData' => 'Algemeene gegevens',
-		
+	'layer' => 'Layer:',
+	'permlink' => 'Permanent link',
+	'unknown' => 'Onbekend',
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anoniem',
+	'rate' => 'Beoordeling:',
+	'stars' => 'Sterren',
+	'notSpec' => 'Niet gespecificeerd',
+	'geoData' => 'Geogegevens voorhanden',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
 
