@@ -101,13 +101,13 @@ Mapping = {
 				layers: [
 					// OSM
 					new ol.layer.Tile({
-						title: 'OpenStreetMap',
+						title: Lang.t('osm'),
 						type: 'base',
 						visible: true,
 						source: new ol.source.OSM()
 					}),
 					new ol.layer.Tile({
-						title: 'BingMaps Aerial',
+						title: Lang.t('bingAerial'),
 						type: 'base',
 						visible: false,
 						source: new ol.source.BingMaps({
@@ -116,7 +116,7 @@ Mapping = {
 						})
 					}),
 					new ol.layer.Tile({
-						title: 'BingMaps Aerial with Labels',
+						title: Lang.t('bingLabel'),
 						type: 'base',
 						visible: false,
 						source: new ol.source.BingMaps({
@@ -125,7 +125,7 @@ Mapping = {
 						})
 					}),
 					new ol.layer.Tile({
-						title: 'BingMaps Roads',
+						title: Lang.t('bingRoad'),
 						type: 'base',
 						visible: false,
 						source: new ol.source.BingMaps({
