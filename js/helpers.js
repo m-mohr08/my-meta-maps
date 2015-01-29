@@ -101,12 +101,38 @@ Mapping = {
 				layers: [
 					// OSM
 					new ol.layer.Tile({
-						title: 'OpenStreetMap',
+						title: Lang.t('osm'),
 						type: 'base',
 						visible: true,
 						source: new ol.source.OSM()
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingAerial'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'Aerial'
+						})
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingLabel'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'AerialWithLabels'
+						})
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingRoad'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'Road'
+						})
 					})
-					// TODO: Add Bing
 				]
 			})
 		];
@@ -490,14 +516,14 @@ AuthUser = {
 		if (!this.loggedIn) {
 			accountBtn.addClass('disabled');
 		}
-		$('#userAccountName').text(this.loggedIn ? name : 'Gast');
+		$('#userAccountName').text(this.loggedIn ? name : Lang.t('guest'));
 		
 		// Modify login account
 		var loginIcon = $('#loginBtnIcon');
 		loginIcon.removeClass('glyphicon-log-in');
 		loginIcon.removeClass('glyphicon-log-out');
 		loginIcon.addClass(this.loggedIn ? 'glyphicon-log-out' : 'glyphicon-log-in');
-		$('#logBtnText').text(this.loggedIn ? 'Abmelden' : 'Anmelden');
+		$('#logBtnText').text(this.loggedIn ? Lang.t('logout') : Lang.t('login'));
 		var loginBtn = $('#loginBtn');
 		loginBtn.removeClass('btn-danger');
 		loginBtn.removeClass('btn-primary');

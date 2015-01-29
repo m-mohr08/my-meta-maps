@@ -61,4 +61,11 @@ return array(
 	'overlays' => 'Overlays',
 	'userGeo' => 'Userdefined geometry',
 	'loading' => 'Loading data...',
+	'osm' => 'OpenStreetMap',
+	'bingAerial' => 'BingMaps Aerial',
+	'bingLabel' => 'BingMaps Aerial with Labels',
+	'bingRoad' => 'BingMaps Roads',
+	'guest' => 'Guest',
+	'logout' => 'Logout',
+	'login' => 'Login',
 );

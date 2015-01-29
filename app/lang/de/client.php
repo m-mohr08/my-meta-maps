@@ -61,4 +61,11 @@ return array(
 	'overlays' => 'Overlays',
 	'userGeo' => 'Benutzerdefinierte Geometrien',
 	'loading' => 'Lädt Daten...',
+	'osm' => 'OpenStreetMap',
+	'bingAerial' => 'BingMaps Luftbild',
+	'bingLabel' => 'BingMaps Luftbild mit Beschriftung',
+	'bingRoad' => 'BingMaps Straßen',
+	'guest' => 'Gast',
+	'logout' => 'Abmelden',
+	'login' => 'Anmelden',
 );
