@@ -12,7 +12,7 @@ UserRegister = BaseModel.extend({
  * @extends BaseModel
  * @namespace
  */
-UserLogin = BaseModel.extend({     
+UserLogin = BaseModel.extend({
 	urlRoot: '/api/internal/user/login/mmm'
 });
 
@@ -21,7 +21,8 @@ UserLogin = BaseModel.extend({
  * @extends BaseModel
  * @namespace
  */
-UserLogout = BaseModel.extend({     
+UserLogout = BaseModel.extend({
+	enableAntiFlood: false,
 	urlRoot: '/api/internal/user/logout'
 });
 
@@ -39,7 +40,7 @@ UserLoginOAuth = BaseModel.extend({
  * @extends BaseModel
  * @namespace
  */
-UserChangeGeneral = BaseModel.extend({     
+UserChangeGeneral = BaseModel.extend({
 	urlRoot: '/api/internal/user/change/general'
 });
 
@@ -48,7 +49,7 @@ UserChangeGeneral = BaseModel.extend({
  * @extends BaseModel
  * @namespace
  */
-UserChangePassword = BaseModel.extend({     
+UserChangePassword = BaseModel.extend({
 	urlRoot: '/api/internal/user/change/password'
 });
 
@@ -58,5 +59,6 @@ UserChangePassword = BaseModel.extend({
  * @namespace
  */
 UserCheckData = BaseModel.extend({
+	enableAntiFlood: false,
 	urlRoot: '/api/internal/user/check'
 });
