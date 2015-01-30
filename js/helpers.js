@@ -483,6 +483,8 @@ FormErrorMessages = {
 		var that = this;
 		$.each(json, function(field, message) {
 			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
+			elm.removeClass(that.successClass);
+			elm.removeClass(that.errorClass);
 			elm.addClass(success ? that.successClass : that.errorClass);
 			elm.find('.error-message').text(message);
 		});
