@@ -1,6 +1,6 @@
 /**
  * View for register an user 
- * Extend ModalView
+ * @extends ModalView
  * @namespace
  */
 RegisterView = ModalView.extend({
@@ -9,6 +9,7 @@ RegisterView = ModalView.extend({
 	 * Return url for the template of the registration
 	 * 
 	 * @return {String} url for the template of the registration
+	 * @memberof RegisterView
 	 */
 	getPageTemplate: function() {
 		return '/api/internal/doc/register';
@@ -21,6 +22,7 @@ RegisterView = ModalView.extend({
 	/**
 	 * Called if a user want to register
 	 * Call the method userRegisterController from the file userController.js 
+	 * @memberof RegisterView
 	 */
 	register: function(event) {
 		Debug.log('Trying to register');
@@ -39,7 +41,7 @@ RegisterView = ModalView.extend({
 
 /**
  * View for login as an user 
- * Extend ModalView
+ * @extends ModalView
  * @namespace
  */
 LoginView = ModalView.extend({
@@ -48,6 +50,7 @@ LoginView = ModalView.extend({
 	 * Return url for the template of the login
 	 * 
 	 * @return {String} url for the template of the login
+	 * @memberof LoginView
 	 */
 	getPageTemplate: function() {
 		return '/api/internal/doc/login';
@@ -60,6 +63,7 @@ LoginView = ModalView.extend({
 	/**
 	 * Called if a user want to login
 	 * Call the method userLoginController from the file userController.js 
+	 * @memberof LoginView
 	 */
 	login: function(event) {
 		Debug.log('Try to login');
@@ -79,7 +83,7 @@ LoginView = ModalView.extend({
 
 /**
  * View for change general user data as an registered user
- * Extend ModalView
+ * @extends ModalView
  * @namespace
  */
 ProfileView = ModalView.extend({
@@ -88,15 +92,17 @@ ProfileView = ModalView.extend({
 	 * Return url for the template of the profil of a registred user
 	 * 
 	 * @return {String} url for the template of the profil of a registred user
+	 * @memberof ProfileView
 	 */
 	getPageTemplate: function() {
 		return '/api/internal/doc/userAccount';
 	},
 	
 	/**
-	 * Return true
+	 * Sets that this view is not cached.
 	 * 
 	 * @return {boolean} true  
+	 * @memberof ProfileView
 	 */
 	noCache: function(url) {
 		// The templates contain the user data, therefore we shouldn't cache them!
@@ -110,6 +116,7 @@ ProfileView = ModalView.extend({
 	/**
 	 * Called if a user want to change the profil
 	 * Call the method userChangeGeneralController from the file userController.js 
+	 * @memberof ProfileView
 	 */
 	changeGeneral: function(event) {
 		Debug.log('Try to change general user data');
@@ -128,7 +135,7 @@ ProfileView = ModalView.extend({
 
 /**
  * View for change the password as an registered user
- * Extend ModalView
+ * @extends ModalView
  * @namespace
  */
 PasswordView = ModalView.extend({
@@ -137,6 +144,7 @@ PasswordView = ModalView.extend({
 	 * Return url for the template of the formular to change the password
 	 * 
 	 * @return {String} url for the template of the formular to change the password
+	 * @memberof PasswordView
 	 */
 	getPageTemplate: function() {
 		return '/api/internal/doc/password';
@@ -151,6 +159,7 @@ PasswordView = ModalView.extend({
 	 * Call method userChangePasswordControlle from the file userController.js
 	 * 
 	 * @param {Object} event
+	 * @memberof PasswordView
 	 */
 	changePassword: function(event) {
 		Debug.log('Try to change password of user');

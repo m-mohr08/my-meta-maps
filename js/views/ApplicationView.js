@@ -15,6 +15,7 @@ ContentView = Backbone.View.extend({
 	 * Call function configure()
 	 * 
 	 * @param {Object} options
+	 * @memberof ContentView
 	 */
 	constructor: function (options) {
 		this.configure(options || {});
@@ -25,6 +26,7 @@ ContentView = Backbone.View.extend({
 	 * TODO
 	 * 
 	 *  @param {Object} options
+	 * @memberof ContentView
 	 */
 	configure: function (options) {
 		if (this.options) {
@@ -37,6 +39,7 @@ ContentView = Backbone.View.extend({
 	 * Called if this view is initialized
 	 * Call method render
 	 *  
+	 * @memberof ContentView
 	 */
 	initialize: function () {
 		this.render();
@@ -45,6 +48,7 @@ ContentView = Backbone.View.extend({
 	/**
 	 * Abstract function
 	 * Called if this view is loaded 
+	 * @memberof ContentView
 	 */
 	onLoaded: function () {
 	},
@@ -53,6 +57,7 @@ ContentView = Backbone.View.extend({
 	 * Return false
 	 * 
 	 * @return {boolean} false
+	 * @memberof ContentView
 	 */
 	noCache: function(url) {
 		return false;
@@ -63,6 +68,7 @@ ContentView = Backbone.View.extend({
 	 * 
 	 * @param {String} url
 	 * @param {Object} callback 
+	 * @memberof ContentView
 	 */
 	loadTemplate: function (url, callback) {
 		if (typeof (this.templateCache[url]) == 'string' && !this.noCache(url)) {
@@ -80,6 +86,7 @@ ContentView = Backbone.View.extend({
 	
 	/**
 	 * Render methods loadTemplate(), getPageTemplate(), getPageContent() and onLoaded() from this class
+	 * @memberof ContentView
 	 */
 	render: function () {
 		var that = this;
@@ -98,6 +105,7 @@ ContentView = Backbone.View.extend({
 	/**
 	 * Abstract method 
 	 * @return null
+	 * @memberof ContentView
 	 */
 	getPageTemplate: function () {
 		Debug.log('Error: Called abstract method!');
@@ -107,6 +115,7 @@ ContentView = Backbone.View.extend({
 	/**
 	 * TODO
 	 * Call methods stopListening(), undelegateEvents() and unbind() from ...
+	 * @memberof ContentView
 	 */
 	close: function () {
 		// Normally we should remove the content from the DOM, but this is delayed for some reasons
@@ -123,6 +132,7 @@ ContentView = Backbone.View.extend({
 	/**
 	 * Abstract method
 	 * @return {Object} '{}'
+	 * @memberof ContentView
 	 */
 	getPageContent: function () {
 		return {};
@@ -140,8 +150,8 @@ ContentView.register = function (view) {
 
 /**
  * View for modals
- * Extend ContentView
  * All views that extend this view, will shown in this view
+ * @extends ContentView
  * @namespace
  */
 ModalView = ContentView.extend({
@@ -152,6 +162,7 @@ ModalView = ContentView.extend({
 	 * Call methods modal(), showProgress() and onOpend from this class
 	 * 
 	 * @override
+	 * @memberof ModalView
 	 */
 	onLoaded: function () {
 		ModalView.active = this;
@@ -165,6 +176,7 @@ ModalView = ContentView.extend({
 	
 	/**
 	 * Called after modal is opened
+	 * @memberof ModalView
 	 */
 	onOpened: function () {
 
@@ -172,6 +184,7 @@ ModalView = ContentView.extend({
 	
 	/**
 	 * Show a certain modal 
+	 * @memberof ModalView
 	 */
 	modal: function () {
 		var modal = $('#modal').find('.modal');
@@ -187,6 +200,7 @@ ModalView = ContentView.extend({
 	
 	/**
 	 * TODO 
+	 * @memberof ModalView
 	 */
 	showProgress: function () {
 		Progress.show('.modal-progress');
@@ -221,6 +235,7 @@ MapView = ContentView.extend({
 	 * Initialize main-map
 	 *  
 	 * @override
+	 * @memberof MapView
 	 */
 	onLoaded: function () {
 		// this for the callbacks
@@ -291,6 +306,7 @@ MapView = ContentView.extend({
 	 * Initialize data for the main-map
 	 * 
 	 * @param {Object} params 
+	 * @memberof MapView
 	 */
 	inititlizeData: function(params) {
 		// Override the given params in this.options
@@ -341,6 +357,7 @@ MapView = ContentView.extend({
 	
 	/**
 	 * Update the datePicker to a new format
+	 * @memberof MapView
 	 */
 	updateDatePicker: function(selector, dateIso) {
 		if (_.isEmpty(dateIso)) {
@@ -359,6 +376,7 @@ MapView = ContentView.extend({
 	
 	/**
 	 * TODO 
+	 * @memberof MapView
 	 */
 	onExtentChanged: function() {
 		// When multiple events occur in a certain time span (500ms) then only search once.
@@ -377,6 +395,7 @@ MapView = ContentView.extend({
 	 * Initialize a 'geodataShowController' from file 'commentView.js'
 	 * In successfull case show geodata in the main-map
 	 * In failed case show a message-box
+	 * @memberof MapView
 	 */
 	doSearch: function () {
 		var that = this;
@@ -402,6 +421,7 @@ MapView = ContentView.extend({
 	/**
 	 * Reset search
 	 * Reset all inputs and do a new search with empty inputs 
+	 * @memberof MapView
 	 */
 	resetSearch: function (form) {
 		form.reset();
@@ -415,6 +435,7 @@ MapView = ContentView.extend({
 	 * Calculates the current bounding box of the map and returns it as an WKt String
 	 * 
 	 * @return TODO
+	 * @memberof MapView
 	 */
 	getBoundingBox: function () {
 		var mapbbox = this.map.getView().calculateExtent(this.map.getSize());
@@ -424,6 +445,7 @@ MapView = ContentView.extend({
 	
 	/**
 	 * Add the bboxes from the Geodata to the map
+	 * @memberof MapView
 	 */
 	addGeodataToMap: function (data) {
 		this.polyLayer.getSource().clear();
@@ -437,6 +459,7 @@ MapView = ContentView.extend({
 	 * Return the url for the map-template
 	 * 
 	 * @return {String} url for the map-template
+	 * @memberof MapView
 	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
@@ -446,7 +469,7 @@ MapView = ContentView.extend({
 
 /**
  * View for imprint site
- * Extend ContentView
+ * @extends ContentView
  * @namespace
  */
 AboutView = ContentView.extend({
@@ -455,6 +478,7 @@ AboutView = ContentView.extend({
 	 * Return url for the template of the imprint
 	 * 
 	 * @return {String} url for the template of the imprint
+	 * @memberof AboutView
 	 */
 	getPageTemplate: function () {
 		return 'api/internal/doc/about';
@@ -463,7 +487,7 @@ AboutView = ContentView.extend({
 
 /**
  * View for help site 
- * Extend ContentView
+ * @extends ContentView
  * @namespace
  */
 HelpView = ContentView.extend({
@@ -472,6 +496,7 @@ HelpView = ContentView.extend({
 	 * Return url for the template of the help-site
 	 * 
 	 * @return {String} url for the template of the help-site
+	 * @memberof HelpView
 	 */
 	getPageTemplate: function () {
 		return 'api/internal/doc/help';

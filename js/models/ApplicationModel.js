@@ -8,7 +8,8 @@ BaseModel = Backbone.Model.extend({
 	/**
 	 * TODO
 	 * 
-	 * @return{number} 
+	 * @return{number}
+	 * @memberof BaseModel
 	 */
 	time: function() {
 		return Math.floor(Date.now() / 1000);
@@ -19,6 +20,7 @@ BaseModel = Backbone.Model.extend({
 	 * Else return true
 	 * 
  	 * @param {Object} data
+	 * @memberof BaseModel
 	 */
 	isSameRequest: function(data) {
 		var request = JSON.stringify(data.request);
@@ -38,6 +40,7 @@ BaseModel = Backbone.Model.extend({
 	 * 
  	 * @param {Object} method
 	 * @param {Object} params
+	 * @memberof BaseModel
 	 */
 	serializeRequest: function(method, params) {
 		return {
@@ -54,6 +57,7 @@ BaseModel = Backbone.Model.extend({
 	 * TODO
 	 * 
  	 * @param {Object} options
+	 * @memberof BaseModel
 	 */
 	fetch: function(options) {
 		var data = this.serializeRequest('fetch', options);
@@ -73,6 +77,7 @@ BaseModel = Backbone.Model.extend({
 	 * @param {Object} key
 	 * @param {Object} val
 	 * @param {Object} options
+	 * @memberof BaseModel
 	 */
 	save: function(key, val, options) {
 		var data = this.serializeRequest('save', {key: key, val: val, options: options});
@@ -92,6 +97,7 @@ BaseModel = Backbone.Model.extend({
 	 * @param {Object} key
 	 * @param {Object} val
 	 * @param {Object} options
+	 * @memberof BaseModel
 	 */
 	before: function(key, val, options) {
 		if (key == null || typeof key === 'object') {
@@ -111,6 +117,7 @@ BaseModel = Backbone.Model.extend({
 	 * @param {Object} key
 	 * @param {Object} val
 	 * @param {Object} options
+	 * @memberof BaseModel
 	 */
 	skipped: function(key, val, options) {
 		if (key == null || typeof key === 'object') {
