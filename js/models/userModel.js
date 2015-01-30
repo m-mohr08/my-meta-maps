@@ -1,6 +1,7 @@
 /**
  * Model for register as user
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 UserRegister = BaseModel.extend({     
 	urlRoot: '/api/internal/user/register'
@@ -8,23 +9,27 @@ UserRegister = BaseModel.extend({
 
 /**
  * Model for login as user with mmm method 
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
-UserLogin = BaseModel.extend({     
+UserLogin = BaseModel.extend({
 	urlRoot: '/api/internal/user/login/mmm'
 });
 
 /**
  * Model for login as user with mmm method 
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
-UserLogout = BaseModel.extend({     
+UserLogout = BaseModel.extend({
+	enableAntiFlood: false,
 	urlRoot: '/api/internal/user/logout'
 });
 
 /**
  * Model for login as user with mmm method 
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 UserLoginOAuth = BaseModel.extend({     
 	urlRoot: '/api/internal/user/login/oauth'
@@ -32,24 +37,28 @@ UserLoginOAuth = BaseModel.extend({
 
 /**
  * Model for change general user data
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
-UserChangeGeneral = BaseModel.extend({     
+UserChangeGeneral = BaseModel.extend({
 	urlRoot: '/api/internal/user/change/general'
 });
 
 /**
  * Model for change password
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
-UserChangePassword = BaseModel.extend({     
+UserChangePassword = BaseModel.extend({
 	urlRoot: '/api/internal/user/change/password'
 });
 
 /**
  * Model to check user data before registration
- * Extend BaseModel
+ * @extends BaseModel
+ * @namespace
  */
 UserCheckData = BaseModel.extend({
+	enableAntiFlood: false,
 	urlRoot: '/api/internal/user/check'
 });

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright 2014/15 Matthias Mohr
  *
@@ -18,11 +17,20 @@
 
 namespace GeoMetadata\Service\Traits;
 
+/**
+ * Simple trait that can be used to separate the parsing of the single data in the fillModel method.
+ */
 trait SimpleFillModelTrait {
 
 	private $called = array();
 	private $model;
 
+	/**
+	 * The given model will be filled with the parsed data.
+	 * 
+	 * @param \GeoMetadata\Model\Metadata $model Instance of the model to be filled with the parsed data.
+	 * @return boolean true on success, false on failure
+	 */
 	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
 		$this->model = $model;
 		// Get all data we want to parse. 
@@ -42,6 +50,24 @@ trait SimpleFillModelTrait {
 		return true;
 	}
 	
+	/**
+	 * Some PHP magic happens here. All parseXXX methods have an additional getXXX method which are
+	 * implemented here and should be called instead of parseXXX. The getXXX methods cache the result 
+	 * of the parseXXX methods and can be called whenever needed. This makes the parsing faster in
+	 * case some parseXXX depend on data from other parseXXX methods, e.g. when we need to calculate
+	 * the bbox and time extent from the layers. Additionally we don't need to care about the calling
+	 * order for the parse/get methods. All arguments given to the getXXX methods will be forwarded
+	 * to the parseXXX methods. This method is automatically called when no getXXX method is found 
+	 * therefore you could implement your own getXXX method for a parseXXX method that does other things
+	 * than this method. This also make the trait easier for extensions, e.g. if you like to parse more
+	 * metadata.
+	 * 
+	 * @see PHP::_call()
+	 * @param string $method Method name
+	 * @param array $args Parameters
+	 * @return mixed
+	 * @throws \BadMethodCallException Thrown when no implementation is given for the specified method.
+	 */
 	public function __call($method, $args) {
 		if (strpos($method, 'get') === 0) {
 			// Redirect all 'undefined' getXXX requests to this code for parsing and caching of the data.
@@ -68,46 +94,128 @@ trait SimpleFillModelTrait {
 		}
 	}
 
+	/**
+	 * Parses and returns the author/service provider.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAuthor()
+	 * @see \GeoMetadata\Model\Metadata::setAuthor()
+	 */
 	protected function parseAuthor() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the copyright notice.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getCopyright()
+	 * @see \GeoMetadata\Model\Metadata::setCopyright()
+	 */
 	protected function parseCopyright() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the minimum timestamp.
+	 * 
+	 * @return \DateTime|null
+	 * @see \GeoMetadata\Model\Metadata::getBeginTime()
+	 * @see \GeoMetadata\Model\Metadata::setBeginTime()
+	 */
 	protected function parseBeginTime() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the maximum timestamp.
+	 * 
+	 * @return \DateTime|null
+	 * @see \GeoMetadata\Model\Metadata::getEndTime()
+	 * @see \GeoMetadata\Model\Metadata::setEndTime()
+	 */
 	protected function parseEndTime() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the description/abstract.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAbstract()
+	 * @see \GeoMetadata\Model\Metadata::setAbstract()
+	 */
 	protected function parseAbstract() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the keywords/tags.
+	 * 
+	 * @return array
+	 * @see \GeoMetadata\Model\Metadata::getKeywords()
+	 * @see \GeoMetadata\Model\Metadata::setKeywords()
+	 * @see \GeoMetadata\Model\Metadata::addKeyword()
+	 */
 	protected function parseKeywords() {
 		return array();
 	}
 
+	/**
+	 * Parses and returns the language of the geo dataset.
+	 * 
+	 * This should be an ISO 639-1 based language code.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getLanguage()
+	 * @see \GeoMetadata\Model\Metadata::setLanguage()
+	 */
 	protected function parseLanguage() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the licensing information.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getLicense()
+	 * @see \GeoMetadata\Model\Metadata::setLicense()
+	 */
 	protected function parseLicense() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the title.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getTitle()
+	 * @see \GeoMetadata\Model\Metadata::setTitle()
+	 */
 	protected function parseTitle() {
 		return null;
 	}
 
+	/**
+	 * Parses and returns the service wide bounding boxes with their respective CRS of the geo dataset.
+	 * 
+	 * @return array An array containing BoundingBox based objects
+	 * @see \GeoMetadata\Model\BoundingBox
+	 * @see \GeoMetadata\Model\BoundingBoxContainer
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 */
 	protected function parseBoundingBox() {
 		return array();
 	}
 
+	/**
+	 * Parses and returns the layers (or similar things) of the geo dataset.
+	 * 
+	 * @return array An array containing Layer based objects
+	 * @see \GeoMetadata\Model\Layer
+	 * @see \GeoMetadata\Model\LayerContainer
+	 * @see SimpleFillModelTrait::createLayer()
+	 */
 	protected function parseLayers() {
 		return array();
 	}

@@ -13,9 +13,9 @@
 			</span>
 		<% } %>
 		<% if (!_.isEmpty(comment.geometry)) { %>
-		<span class="badge alert-default map-Marker" title="@lang('misc.geoData')">
+		<a href="javascript:selectMapMarker(<%- comment.id %>)" class="badge alert-default map-Marker" title="@lang('misc.geoData')">
 			<span class="glyphicon glyphicon-map-marker"></span>
-		</span>
+		</a>
 		<% } if (!_.isEmpty(comment.time.start) || !_.isEmpty(comment.time.end)) { %>
 		<a href="#" class="badge alert-default" title="@lang('misc.timerange')" role="button" data-placement="left" data-toggle="popover" data-container="#showCommentsToGeodata"
 		   data-content="@lang('misc.startingDate') <%- comment.time.start ? comment.time.start : '@lang('misc.notSpec')' %>&lt;br /&gt;@lang('misc.endingDate') <%- comment.time.end ? comment.time.end : '@lang('misc.notSpec')' %>">		

@@ -1,5 +1,6 @@
 /**
- * Class for Logging
+ * Tools for Logging
+ * @namespace
  */
 Debug = {
 	/**
@@ -8,6 +9,7 @@ Debug = {
 	 * Logging is only active when debug mode is activated in config files.
 	 * 
 	 * @param {String} message
+	 * @memberof Debug
 	 */
 	log: function(message) {
 		if (config.debug) {
@@ -16,6 +18,10 @@ Debug = {
 	}
 };
 
+/**
+ * General Utilities
+ * @namespace
+ */
 Utils = {
 	viaProxy: function(url) {
 		return '/proxy?url=' + encodeURI(url);
@@ -24,6 +30,7 @@ Utils = {
 
 /**
  * Class for all the base Functions to create, manage and work on the Map
+ * @namespace
  */
 Mapping = {
 	
@@ -32,6 +39,7 @@ Mapping = {
 	/*+
 	 * Function to get the Projection from the Data
 	 * @returns {String} Projection
+	 * @memberof Mapping
 	 */
 	getServerCrs: function () {
 		return 'EPSG:4326';
@@ -41,6 +49,7 @@ Mapping = {
 	 * Function to get the Projection of the Map
 	 * @param {ol.Map} map
 	 * @returns {String} Projection
+	 * @memberof Mapping
 	 */
 	getMapCrs: function (map) {
 		// ToDo: Get the real projection from the map object
@@ -50,6 +59,7 @@ Mapping = {
 	/**
 	 * tracks the Geolocation from the user and sets it as center of the map
 	 * @param {ol.View} view of the map
+	 * @memberof Mapping
 	 */
 	geolocate: function(view) {
 		// gets the geolocation
@@ -69,6 +79,7 @@ Mapping = {
 	 * @param {type} wkt format
 	 * @param {type} map
 	 * @returns {ol.geom.Geometry} Geometry
+	 * @memberof Mapping
 	 */
 	fromWkt: function(wkt, map) {
 		var geom = Mapping.wkt.readGeometry(wkt);
@@ -83,6 +94,7 @@ Mapping = {
 	 * @param {ol.geom.Geometry} geom
 	 * @param {ol.Map} map
 	 * @returns {String} wkt
+	 * @memberof Mapping
 	 */
 	toWkt: function(geom, map) {
 		geom.transform(Mapping.getMapCrs(map), Mapping.getServerCrs());
@@ -91,8 +103,9 @@ Mapping = {
 	
 	/**
 	 * creates the Layer of the map
-	 * @param {Array| <ol.layer>} Layers
-	 * @returns {Array| <ol.layer>} Layers of the map
+	 * @param {Array|ol.layer} Layers
+	 * @returns {Array|ol.layer} Layers of the map
+	 * @memberof Mapping
 	 */
 	getBasemps: function(layers){
 		var basemaps = [
@@ -150,6 +163,7 @@ Mapping = {
 	/**
 	 * get the default View
 	 * @returns {ol.View} View
+	 * @memberof Mapping
 	 */
 	getDefaultView: function() {
 		return new ol.View({
@@ -162,6 +176,7 @@ Mapping = {
 	 * Get the Control Parameter of the Map
 	 * @param {ol.control} controls
 	 * @returns {ol.control.defaults} Controls of the map
+	 * @memberof Mapping
 	 */
 	getControls: function(controls) {
 		if (!controls) {
@@ -181,6 +196,7 @@ Mapping = {
 	 * get a new Vector Layer with the drawn features
 	 * @param {ol.source} source
 	 * @returns {ol.layer.Vector} Vector Layer with features
+	 * @memberof Mapping
 	 */
 	getFeatureLayer: function(source) {
 		return new ol.layer.Vector({
@@ -193,6 +209,7 @@ Mapping = {
 	/**
 	 * get the Style of the drawn features
 	 * @returns {ol.style.Style} Style
+	 * @memberof Mapping
 	 */
 	getFeatureStyle: function() {
 		return new ol.style.Style({
@@ -217,6 +234,7 @@ Mapping = {
 	 * @param {ol.style} style of the BBoxes
 	 * @param {ol.source} source of the BBoxes
 	 * @returns {ol.layer.Vector} Layer
+	 * @memberof Mapping
 	 */
 	getBBoxLayer: function(style, source) {
 		if (!source) {
@@ -232,6 +250,7 @@ Mapping = {
 	 * Returns the BBox Style and if the Boolean fill is true, add a transparent filling to the style
 	 * @param {Boolean} fill
 	 * @returns {ol.style.Style} Style
+	 * @memberof Mapping
 	 */
 	getBBoxStyle: function(fill) {
 		var style = {
@@ -257,6 +276,7 @@ Mapping = {
 	 * @param {Boolean} fitExtent
 	 * @param {int} idgeofeature
 	 * @returns {undefined}
+	 * @memberof Mapping
 	 */
 	addWktToLayer: function(map, layer, wkt, fitExtent, idgeofeature) {
 		if (!map || !layer || !wkt ) {
@@ -283,6 +303,7 @@ Mapping = {
 	 * @param {String} className
 	 * @param {type} callback
 	 * @returns {ol.control.Control}
+	 * @memberof Mapping
 	 */
 	createCustomControl: function(content, title, className, callback) {
 		var customControl = function (opt_options) {
@@ -323,6 +344,7 @@ Mapping = {
 	 * @param {String} datatype
 	 * @param {int} layerId
 	 * @returns {ol.layer} Layer
+	 * @memberof Mapping
 	 */
 	loadWebservice: function (map, mapLayer, url, datatype, layerId) {
 		Debug.log('Loading webservice from ' + url + ' as ' + datatype + ' using layer ' + layerId);
@@ -369,6 +391,7 @@ Mapping = {
 	 * @param {string} url
 	 * @param {string} projection
 	 * @returns {ol.layer.Vector}
+	 * @memberof Mapping
 	 */
 	loadKml: function(url, projection) {
 		return new ol.layer.Vector({
@@ -383,6 +406,7 @@ Mapping = {
 	 * @param {string} url
 	 * @param {int} layerId
 	 * @returns {ol.layer.Tile}
+	 * @memberof Mapping
 	 */
 	loadWms: function (url, layerId) {
 		if (_.isEmpty(layerId)) {
@@ -406,6 +430,7 @@ Mapping = {
 	 * @param {int} layerId
 	 * @param {String} projection
 	 * @returns {ol.layer.Tile}
+	 * @memberof Mapping
 	 */
 	loadWmts: function (url, layerId, projection) {
 		if (_.isEmpty(layerId)) {
@@ -439,6 +464,10 @@ Mapping = {
 	}
 };
 
+/**
+ * Progress control
+ * @namespace
+ */
 Progress = {
 	
 	show: function(id) {
@@ -462,6 +491,7 @@ Progress = {
 
 /**
  * Class to handle submissions form a user in a form
+ * @namespace
  */
 FormErrorMessages = {
 
@@ -472,6 +502,8 @@ FormErrorMessages = {
 		var that = this;
 		$.each(json, function(field, message) {
 			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
+			elm.removeClass(that.successClass);
+			elm.removeClass(that.errorClass);
 			elm.addClass(success ? that.successClass : that.errorClass);
 			elm.find('.error-message').text(message);
 		});
@@ -490,7 +522,8 @@ FormErrorMessages = {
 };
 
 /**
- * Class for logged in user 
+ * Class to manage user authentification on client side.
+ * @namespace
  */
 AuthUser = {
 	
@@ -533,7 +566,8 @@ AuthUser = {
 };
 
 /**
- * Class to handle alerts for user-iteractions 
+ * Class to handle alerts for user-iteractions
+ * @namespace
  */
 MessageBox = {
 
@@ -582,6 +616,7 @@ MessageBox = {
  * The code is released under the MIT license.
  * 
  * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+ * @namespace
  */
 Lang = {
 	
@@ -594,6 +629,7 @@ Lang = {
 	 * @param {Object} [replacements]   Associative array: { variableName: "replacement", ... }
 	 * @return {String} Translated message.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
 	 */
 	t: function(messageKey, replacements) {
 		if (typeof phrases[messageKey] == "undefined") {
@@ -628,6 +664,7 @@ Lang = {
 	 * @param {String} messageKey   Message key.
 	 * @return {Boolean} True if the given message exists.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
 	 */
 	has : function(messageKey) {
 		return typeof phrases[messageKey] != "undefined";
@@ -647,6 +684,7 @@ Lang = {
 	 * @param {Object} [replacements]   Associative array: { variableName: "replacement", ... }
 	 * @return {String} Translated message.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
 	 */
 	choice : function(messageKey, count, replacements) {
 		if (typeof phrases[messageKey] == "undefined") {
@@ -678,6 +716,7 @@ Lang = {
      * @param {Object} replacements Associative array: { variableName: "replacement", ... }
      * @return {String} The input message with all replacements applied.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
      */
     applyReplacements: function (message, replacements) {
         for (var replacementName in replacements) {
@@ -692,6 +731,10 @@ Lang = {
 	
 };
 
+/**
+ * Utitilies for the views/templates.
+ * @namespace
+ */
 ViewUtils = {
 
 	parseComment: function(text) {

@@ -17,6 +17,11 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Base class for OGC based webservices like WMS, WFS, OWS Common, etc.
+ * 
+ * Offers some common functionality and a core framework to write parsers for OGC based services.
+ */
 abstract class OgcWebServices extends XmlParser {
 	
 	use Traits\SimpleFillModelTrait, Traits\HttpGetTrait;
