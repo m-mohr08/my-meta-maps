@@ -274,3 +274,8 @@ h3 {
 	color: #31708f;
 	font-weight: bold;
 }
+
+.pos_left {
+	position: relative;
+	left: 50px;
+}
