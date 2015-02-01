@@ -51,7 +51,7 @@ function userLogoutController() {
 		 */
 		success: function(){
 			Debug.log('Logout succeded');
-			MessageBox.addSuccess(Lang.t('succededRegister'));
+			MessageBox.addSuccess(Lang.t('succededLogout'));
 			AuthUser.setUser();
 		},
 		
@@ -60,7 +60,7 @@ function userLogoutController() {
 		 */
 		error: function(){
 			Debug.log('Logout failed');
-			MessageBox.addError(Lang.t('succededLogout'));
+			MessageBox.addError(Lang.t('failedLogout'));
 		}
 	});
 }
@@ -216,11 +216,12 @@ function registeredUserChangedLanguage() {
  * @param {String} idForm
  * @param {String} key
  */
-function userCheckDataController(model, idInput, idForm, key) {
+function userCheckDataController(idInput, idForm, key) {
 	
 	var inputCheckData = {};
 	inputCheckData[key] = $("#" + idInput).val();
 	
+	var model = new UserCheckData();
 	model.save(inputCheckData, {
 		
 		/*
@@ -235,6 +236,7 @@ function userCheckDataController(model, idInput, idForm, key) {
 		 */
 		success: function () {
 			Debug.log('User data has not already been taken.');
+			Progress.stop('.modal-progress');
 			responseJSON = {};
 			responseJSON[key] = Lang.t('specUse');
 			FormErrorMessages.applyPartially('#'+idForm, responseJSON, true);
@@ -245,7 +247,9 @@ function userCheckDataController(model, idInput, idForm, key) {
 		 */
 		error: function (data, response) {
 			Debug.log('User data has already been taken.');
+			Progress.stop('.modal-progress');
 			FormErrorMessages.applyPartially('#'+idForm, response.responseJSON, false);
 		}
+
 	});
 };

@@ -19,14 +19,34 @@ namespace GeoMetadata\Service;
 
 use GeoMetadata\GmRegistry;
 
+/**
+ * Parser for OGC WMS.
+ * Code: wms
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class OgcWebMapService extends OgcWebServices {
 	
 	private $cache = array();
 
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/wms';
 	}
-	
+
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMS
 	}
@@ -65,14 +85,36 @@ class OgcWebMapService extends OgcWebServices {
 		return 'wms';
 	}
 
+	/**
+	 * Parses and returns the description/abstract.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAbstract()
+	 * @see \GeoMetadata\Model\Metadata::setAbstract()
+	 */
 	protected function parseAbstract() {
 		return $this->selectOne(array('wms:Service', 'wms:Abstract'));
 	}
 
+	/**
+	 * Parses and returns the author/service provider.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getAuthor()
+	 * @see \GeoMetadata\Model\Metadata::setAuthor()
+	 */
 	protected function parseAuthor() {
 		return $this->selectNestedText(array('wms:Service', 'wms:ContactInformation'), $this->getNamespace('wms'));
 	}
 	
+	/**
+	 * Checks whether the parsed WMS data is specified in the given version or not.
+	 * 
+	 * The version numbers must match exactly. "1.3.0" is NOT equal to "1.3".
+	 * 
+	 * @param string $version Version number to check for
+	 * @return boolean true if the version numbers match, false if not.
+	 */
 	private function isWmsVersion($version) {
 		if (!isset($this->cache['version'][$version])) {
 			$wmsNode = $this->xpath(array("wms:WMS_Capabilities[@version='{$version}']"));
@@ -80,12 +122,29 @@ class OgcWebMapService extends OgcWebServices {
 		}
 		return $this->cache['version'][$version];
 	}
-	
+
+	/**
+	 * Parses and returns the service wide bounding boxes with their respective CRS of the geo dataset.
+	 * 
+	 * @return array An array containing BoundingBox based objects
+	 * @see \GeoMetadata\Model\BoundingBox
+	 * @see \GeoMetadata\Model\BoundingBoxContainer
+	 * @see SimpleFillModelTrait::createEmptyBoundingBox()
+	 */
 	protected function parseBoundingBox() {
 		$parent = $this->selectOne(array('wms:Capability', 'wms:Layer'), null, false);
 		return $this->parseBoundingBoxFromNode($parent);
 	}
 	
+	/**
+	 * Parses the bounding box from a node where the bounding boxed might be contained in.
+	 * 
+	 * This method tries different approaches specified in the WMS specification to get a bbox. 
+	 * 
+	 * @see OgcWebMapService::parseBoundingBox()
+	 * @param \SimpleXMLElement $parent Parent node to use for searching bboxes
+	 * @return array List of BoundingBox objects.
+	 */
 	protected function parseBoundingBoxFromNode(\SimpleXMLElement $parent) {
 		$isVersion130 = $this->isWmsVersion('1.3.0');
 
@@ -134,20 +193,49 @@ class OgcWebMapService extends OgcWebServices {
 		return $list;
 	}
 
+	/**
+	 * Parses and returns the minimum timestamp.
+	 * 
+	 * @return \DateTime|null
+	 * @see \GeoMetadata\Model\Metadata::getBeginTime()
+	 * @see \GeoMetadata\Model\Metadata::setBeginTime()
+	 */
 	protected function parseBeginTime() {
 		// TODO: There is a <Dimension name="time" ...> tag for layers which we should use for this data.
 		return null; // Not supported
 	}
 
+	/**
+	 * Parses and returns the maximum timestamp.
+	 * 
+	 * @return \DateTime|null
+	 * @see \GeoMetadata\Model\Metadata::getEndTime()
+	 * @see \GeoMetadata\Model\Metadata::setEndTime()
+	 */
 	protected function parseEndTime() {
 		// TODO: There is a <Dimension name="time" ...> tag for layers which we should use for this data.
 		return null; // Not supported
 	}
 
+	/**
+	 * Parses and returns the keywords/tags.
+	 * 
+	 * @return array
+	 * @see \GeoMetadata\Model\Metadata::getKeywords()
+	 * @see \GeoMetadata\Model\Metadata::setKeywords()
+	 * @see \GeoMetadata\Model\Metadata::addKeyword()
+	 */
 	protected function parseKeywords() {
 		return $this->selectMany(array('wms:Service', 'wms:KeywordList', 'wms:Keyword'));
 	}
 
+	/**
+	 * Parses and returns the layers (or similar things) of the geo dataset.
+	 * 
+	 * @return array An array containing Layer based objects
+	 * @see \GeoMetadata\Model\LayerContainer
+	 * @see SimpleFillModelTrait::createLayer()
+	 */
 	protected function parseLayers() {
 		$nodes = $this->selectMany(array('wms:Capability', 'wms:Layer', 'wms:Layer'), null, false);
 		$layers = array();
@@ -168,6 +256,13 @@ class OgcWebMapService extends OgcWebServices {
 		return $layers;
 	}
 
+	/**
+	 * Parses and returns the licensing information.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getLicense()
+	 * @see \GeoMetadata\Model\Metadata::setLicense()
+	 */
 	protected function parseLicense() {
 		$license = $this->selectOne(array('wms:Service', 'wms:AccessConstraints'));
 		if (!empty($license) && strtolower($license) != 'none') {
@@ -178,6 +273,13 @@ class OgcWebMapService extends OgcWebServices {
 		}
 	}
 
+	/**
+	 * Parses and returns the title.
+	 * 
+	 * @return string|null
+	 * @see \GeoMetadata\Model\Metadata::getTitle()
+	 * @see \GeoMetadata\Model\Metadata::setTitle()
+	 */
 	protected function parseTitle() {
 		return $this->selectOne(array('wms:Service', 'wms:Title'));
 	}

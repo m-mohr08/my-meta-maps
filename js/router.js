@@ -1,3 +1,8 @@
+/**
+ * Router for the Single-Page-Application.
+ * 
+ * @namespace
+ */
 var Router = Backbone.Router.extend({
 	routes: {
 		'': 'map',

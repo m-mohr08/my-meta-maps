@@ -17,10 +17,15 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Parser for OGC WMTS.
+ * Code: wmts
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class OgcWebMapTileService extends OgcWebServicesCommon {
 
-
-	
 	/**
 	 * Takes the user specified URL and builds the service (or base) url from it.
 	 * 
@@ -43,11 +48,24 @@ class OgcWebMapTileService extends OgcWebServicesCommon {
 	public function getMetadataUrl($url) {
 		return $url;
 	}
-	
+
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	public function getSupportedNamespaces() {
 		return 'http://www.opengis.net/wmts/1.0';
 	}
-	
+
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WMTS
@@ -72,7 +90,12 @@ class OgcWebMapTileService extends OgcWebServicesCommon {
 	public function getCode() {
 		return 'wmts';
 	}
-	
+
+	/**
+	 * Returns the node(s) that contain the data for the individual layers of the geo dataset.
+
+	 * @return array Array containing SimpleXMLElement nodes
+	 */
 	protected function findLayerNodes() {
 		return $this->selectMany(array('wmts:Contents', 'wmts:Layer'), null, false);
 	}

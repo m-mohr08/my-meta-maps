@@ -245,3 +245,9 @@ function getFormData(commentId) {
 		comment: commentId
 	};
 }
+
+function selectMapMarker(commentId) {
+	if (ModalView.active instanceof CommentsShowView) {
+		ModalView.active.selectFeatureViaItem(commentId);
+	}
+}
