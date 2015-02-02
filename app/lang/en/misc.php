@@ -55,7 +55,7 @@ return array(
 	'commNoLay' => 'Don´t allocate comment to a Layer',
 	'title' => 'Title',
 	'freetext' => 'Your comment',
-	'spatial' => 'Spatial allocatio of the comment',
+	'spatial' => 'Spatial allocation of the comment',
 	'timerange' => 'Timerange',
 	'rating' => 'Rating',
 	'addMeta' => 'Additional metadata',
