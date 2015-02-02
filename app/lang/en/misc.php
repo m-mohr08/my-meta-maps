@@ -117,7 +117,6 @@ return array(
 	'startingDate' => 'Starting date:',
 	'endingDate' => 'Ending date:',
 	'author' => 'Author',
-	'license' => 'license',
 	'generalData' => 'General data',
 	'layer' => 'Layer:',
 	'permlink' => 'Permanent link',
