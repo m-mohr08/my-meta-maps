@@ -13,7 +13,6 @@ ContentView = Backbone.View.extend({
 	/**
 	 * Constructor of this view
 	 * Call function configure()
-	 * 
 	 * @param {Object} options
 	 * @memberof ContentView
 	 */
@@ -23,9 +22,8 @@ ContentView = Backbone.View.extend({
 	},
 	
 	/**
-	 * TODO
-	 * 
-	 *  @param {Object} options
+	 * Configure what happens in the constructor
+	 * @param {Object} options
 	 * @memberof ContentView
 	 */
 	configure: function (options) {
@@ -113,8 +111,9 @@ ContentView = Backbone.View.extend({
 	},
 	
 	/**
-	 * TODO
-	 * Call methods stopListening(), undelegateEvents() and unbind() from ...
+	 * Remove callbacks, events, listeners, etc.
+	 * 
+	 * Call methods stopListening(), undelegateEvents() and unbind()
 	 * @memberof ContentView
 	 */
 	close: function () {
@@ -199,7 +198,8 @@ ModalView = ContentView.extend({
 	},
 	
 	/**
-	 * TODO 
+	 * Show a modal for progress from helpers.js 
+	 * 
 	 * @memberof ModalView
 	 */
 	showProgress: function () {
@@ -233,7 +233,6 @@ MapView = ContentView.extend({
 	
 	/**
 	 * Initialize main-map
-	 *  
 	 * @override
 	 * @memberof MapView
 	 */
@@ -304,7 +303,6 @@ MapView = ContentView.extend({
 	
 	/**
 	 * Initialize data for the main-map
-	 * 
 	 * @param {Object} params 
 	 * @memberof MapView
 	 */
@@ -375,7 +373,7 @@ MapView = ContentView.extend({
 	},
 	
 	/**
-	 * TODO 
+	 * Call method executeSearch from commentController.js if mapSearchExecuted is not true
 	 * @memberof MapView
 	 */
 	onExtentChanged: function() {
@@ -433,8 +431,7 @@ MapView = ContentView.extend({
 	
 	/**
 	 * Calculates the current bounding box of the map and returns it as an WKt String
-	 * 
-	 * @return TODO
+	 * @return a bounding box
 	 * @memberof MapView
 	 */
 	getBoundingBox: function () {
@@ -457,7 +454,6 @@ MapView = ContentView.extend({
 	
 	/**
 	 * Return the url for the map-template
-	 * 
 	 * @return {String} url for the map-template
 	 * @memberof MapView
 	 */
@@ -476,7 +472,6 @@ AboutView = ContentView.extend({
 	
 	/**
 	 * Return url for the template of the imprint
-	 * 
 	 * @return {String} url for the template of the imprint
 	 * @memberof AboutView
 	 */
@@ -494,7 +489,6 @@ HelpView = ContentView.extend({
 	
 	/**
 	 * Return url for the template of the help-site
-	 * 
 	 * @return {String} url for the template of the help-site
 	 * @memberof HelpView
 	 */
