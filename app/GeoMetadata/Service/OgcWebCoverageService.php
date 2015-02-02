@@ -17,29 +17,72 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Parser for OGC WCS.
+ * Code: wcs
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class OgcWebCoverageService extends OgcWebServicesCommon {
-	
+
+	/**
+	 * Returns an array containing all supported namespaces by the implemnting parser.
+	 * This can be also a string containing one single supported namespace.
+	 * 
+	 * @return array|string
+	 */
 	public function getSupportedNamespaces() {
 		return array('http://www.opengis.net/wcs/2.0', 'http://www.opengis.net/wcs/1.1.1', 'http://www.opengis.net/wcs/1.1');
 	}
-	
+
+	/**
+	 * Define the namespaces you want to use in XPath expressions.
+	 * 
+	 * You should register all namespaces with a prefix using the registerNamespace() method.
+	 * 
+	 * @see XmlParser::registerNamespace()
+	 */
 	protected function registerNamespaces() {
 		$this->registerNamespace(parent::getCode(), parent::getUsedNamespace(parent::getSupportedNamespaces())); // OWS
 		$this->registerNamespace($this->getCode(), $this->getUsedNamespace()); // WCS
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
 	public function getName() {
 		return 'OGC WCS';
 	}
-
+	
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'wcs';
 	}
-	
+
+	/**
+	 * Returns the node(s) that contain the data for the individual layers of the geo dataset.
+
+	 * @return array Array containing SimpleXMLElement nodes
+	 */
 	protected function findLayerNodes() {
 		return $this->selectMany(array('wcs:Contents', 'wcs:CoverageSummary'), null, false);
 	}
 	
+	/**
+	 * Parses and returns the unique identifier from the specified layer node.
+	 * 
+	 * @param \SimpleXMLElement $node Node of the layer to use
+	 * @return string
+	 */
 	protected function parseIdentifierFromContents(\SimpleXMLElement $node) {
 		$children = $node->children($this->getNamespace('wcs'));
 		if (!empty($children->CoverageId)) {

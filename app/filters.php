@@ -13,8 +13,31 @@
 
 use \GeoMetadata\GmRegistry;
 
+/**
+ * Recusively iterates over an array and trims all contained strings.
+ * 
+ * @param array $input Array to trim data in
+ * @param array $except Keys that should be skipped
+ * @return array Array with trimmed data
+ */
+function trimInputArray(array $input, array $except = array()) {
+	foreach ($input as $key => $value) {
+		if (is_string($value) && !in_array($key, $except)) {
+			$input[$key] = trim($value);
+		}
+		else if (is_array($value)) {
+			$input[$key] = trimInputArray($value);
+		}
+	}
+	return $input;
+}
+
 App::before(function($request)
 {
+	// Trim input data, but except password fields
+	$except = array('password', 'password_confirmation', 'old_password');
+	$request->merge(trimInputArray($request->all(), $except));
+	
 	// Set the locale for all requests
 	App::setLocale(Language::current());
 	
@@ -30,7 +53,8 @@ App::before(function($request)
 	}
 	
 	// Set up GeoMetadata
-//	GmRegistry::registerService(new \GeoMetadata\Service\Kml());
+//	GmRegistry::registerService(new \GeoMetadata\Service\WorldFileJpeg());
+	GmRegistry::registerService(new \GeoMetadata\Service\Kml());
 	GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcCatalogueService());
 	GmRegistry::registerService(new \GeoMetadata\Service\OgcWebCoverageService());

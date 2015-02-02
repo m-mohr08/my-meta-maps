@@ -1,4 +1,16 @@
+/**
+ * Tools for Logging
+ * @namespace
+ */
 Debug = {
+	/**
+	 * Logs a message for debugging purposes. 
+	 * 
+	 * Logging is only active when debug mode is activated in config files.
+	 * 
+	 * @param {String} message
+	 * @memberof Debug
+	 */
 	log: function(message) {
 		if (config.debug) {
 			console.log(message);
@@ -6,19 +18,49 @@ Debug = {
 	}
 };
 
+/**
+ * General Utilities
+ * @namespace
+ */
+Utils = {
+	viaProxy: function(url) {
+		return '/proxy?url=' + encodeURI(url);
+	}
+};
+
+/**
+ * Class for all the base Functions to create, manage and work on the Map
+ * @namespace
+ */
 Mapping = {
 	
 	wkt: new ol.format.WKT(),
 	
+	/*+
+	 * Function to get the Projection from the Data
+	 * @returns {String} Projection
+	 * @memberof Mapping
+	 */
 	getServerCrs: function () {
 		return 'EPSG:4326';
 	},
-
+	
+	/**
+	 * Function to get the Projection of the Map
+	 * @param {ol.Map} map
+	 * @returns {String} Projection
+	 * @memberof Mapping
+	 */
 	getMapCrs: function (map) {
 		// ToDo: Get the real projection from the map object
 		return 'EPSG:3857';
 	},
 	
+	/**
+	 * tracks the Geolocation from the user and sets it as center of the map
+	 * @param {ol.View} view of the map
+	 * @memberof Mapping
+	 */
 	geolocate: function(view) {
 		// gets the geolocation
 		var geolocation = new ol.Geolocation({
@@ -32,6 +74,13 @@ Mapping = {
 		});	
 	},
 	
+	/**
+	 * transforms the Geometry from an wkt object to a ol.geom.Geometry
+	 * @param {type} wkt format
+	 * @param {type} map
+	 * @returns {ol.geom.Geometry} Geometry
+	 * @memberof Mapping
+	 */
 	fromWkt: function(wkt, map) {
 		var geom = Mapping.wkt.readGeometry(wkt);
 		if (geom) {
@@ -40,25 +89,82 @@ Mapping = {
 		return geom;
 	},
 
+	/**
+	 * transforms the Geometry from a ol.geom.Geometry to an wkt object
+	 * @param {ol.geom.Geometry} geom
+	 * @param {ol.Map} map
+	 * @returns {String} wkt
+	 * @memberof Mapping
+	 */
 	toWkt: function(geom, map) {
 		geom.transform(Mapping.getMapCrs(map), Mapping.getServerCrs());
 		return Mapping.wkt.writeGeometry(geom);
 	},
 	
+	/**
+	 * creates the Layer of the map
+	 * @param {Array|ol.layer} Layers
+	 * @returns {Array|ol.layer} Layers of the map
+	 * @memberof Mapping
+	 */
 	getBasemps: function(layers){
 		var basemaps = [
-			// OSM
-			new ol.layer.Tile({
-				source: new ol.source.OSM()
+			new ol.layer.Group({
+				title: Lang.t('basemaps'), 
+				layers: [
+					// OSM
+					new ol.layer.Tile({
+						title: Lang.t('osm'),
+						type: 'base',
+						visible: true,
+						source: new ol.source.OSM()
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingAerial'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'Aerial'
+						})
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingLabel'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'AerialWithLabels'
+						})
+					}),
+					new ol.layer.Tile({
+						title: Lang.t('bingRoad'),
+						type: 'base',
+						visible: false,
+						source: new ol.source.BingMaps({
+							key: 'AjTvNHxIyiVOXLjCKpI5y-jay8RI0a3jemuBzmm7UjsVgX7WL6VIaurzgccmsF8r ',
+							imagerySet: 'Road'
+						})
+					})
+				]
 			})
-			// TODO: Add Bing
 		];
+		//join the layers to the basemap
 		if (layers) {
-			basemaps = basemaps.concat(layers);
+			var overlays = new ol.layer.Group({
+				title: Lang.t('overlays'),
+				layers: layers
+			});
+			basemaps.push(overlays);
 		}
 		return basemaps;
 	},
 	
+	/**
+	 * get the default View
+	 * @returns {ol.View} View
+	 * @memberof Mapping
+	 */
 	getDefaultView: function() {
 		return new ol.View({
 			center: [0, 0],
@@ -66,25 +172,45 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * Get the Control Parameter of the Map
+	 * @param {ol.control} controls
+	 * @returns {ol.control.defaults} Controls of the map
+	 * @memberof Mapping
+	 */
 	getControls: function(controls) {
 		if (!controls) {
 			controls = [];
 		}
+		
+		var layerSwitcher = new ol.control.LayerSwitcher();
+		controls.push(layerSwitcher);
 		return ol.control.defaults({
 			attributionOptions: /** @type {olx.control.AttributionOptions} */({
 				collapsible: false
 			})
 		}).extend(controls);
-		// TODO: Add layer switcher
 	},
 	
+	/**
+	 * get a new Vector Layer with the drawn features
+	 * @param {ol.source} source
+	 * @returns {ol.layer.Vector} Vector Layer with features
+	 * @memberof Mapping
+	 */
 	getFeatureLayer: function(source) {
 		return new ol.layer.Vector({
+			title: Lang.t('userGeo'),
 			source: source,
 			style: Mapping.getFeatureStyle()
 		});
 	},
 	
+	/**
+	 * get the Style of the drawn features
+	 * @returns {ol.style.Style} Style
+	 * @memberof Mapping
+	 */
 	getFeatureStyle: function() {
 		return new ol.style.Style({
 			fill: new ol.style.Fill({
@@ -103,6 +229,13 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * Returns a Vector Layer and if the source is given, add the BBox Feature to the Layer
+	 * @param {ol.style} style of the BBoxes
+	 * @param {ol.source} source of the BBoxes
+	 * @returns {ol.layer.Vector} Layer
+	 * @memberof Mapping
+	 */
 	getBBoxLayer: function(style, source) {
 		if (!source) {
 			source = new ol.source.Vector();
@@ -113,6 +246,12 @@ Mapping = {
 		});
 	},
 	
+	/**
+	 * Returns the BBox Style and if the Boolean fill is true, add a transparent filling to the style
+	 * @param {Boolean} fill
+	 * @returns {ol.style.Style} Style
+	 * @memberof Mapping
+	 */
 	getBBoxStyle: function(fill) {
 		var style = {
 			stroke: new ol.style.Stroke({
@@ -129,6 +268,16 @@ Mapping = {
 		return new ol.style.Style(style);
 	},
 	
+	/**
+	 * Adds the wkt Features as an ol.geom.Geometry to the source of the Layer, if fitExtent is true, the map is fitted to the Extent of Geometry
+	 * @param {ol.Map} map
+	 * @param {ol.layer} layer
+	 * @param {String} wkt
+	 * @param {Boolean} fitExtent
+	 * @param {int} idgeofeature
+	 * @returns {undefined}
+	 * @memberof Mapping
+	 */
 	addWktToLayer: function(map, layer, wkt, fitExtent, idgeofeature) {
 		if (!map || !layer || !wkt ) {
 			return;
@@ -147,6 +296,15 @@ Mapping = {
 		}
 	},
 	
+	/**
+	 * Creates and Returns the Controls(Buttons etc) for the addCommentSecondStep Map
+	 * @param {String} content
+	 * @param {String} title
+	 * @param {String} className
+	 * @param {type} callback
+	 * @returns {ol.control.Control}
+	 * @memberof Mapping
+	 */
 	createCustomControl: function(content, title, className, callback) {
 		var customControl = function (opt_options) {
 			var options = opt_options || {};
@@ -175,33 +333,33 @@ Mapping = {
 		ol.inherits(customControl, ol.control.Control);
 		return new customControl();
 	},
+	/**
+	 * Calls the external services for layers/data to be shown for the given url and datatype.
+	 * 
+	 * Currently supported are WMS, WMTS, KML.
+	 * 
+	 * @param {ol.Map} map
+	 * @param {ol.layer} mapLayer
+	 * @param {String} url
+	 * @param {String} datatype
+	 * @param {int} layerId
+	 * @returns {ol.layer} Layer
+	 * @memberof Mapping
+	 */
 	loadWebservice: function (map, mapLayer, url, datatype, layerId) {
 		Debug.log('Loading webservice from ' + url + ' as ' + datatype + ' using layer ' + layerId);
 		var newLayer = null;
-		if (!_.isEmpty(layerId)) {
-			switch(datatype) {
-				case 'wms':
-					newLayer = Mapping.loadWms(url, layerId);
-					break;
-				case 'wmts':
-					newLayer = Mapping.loadWmts(url, layerId);
-					break;
-				case 'kml':
-					newLayer = Mapping.loadKml(url, layerId);
-					break;
-				case 'wfs':
-					var projection = ol.proj.get(Mapping.getMapCrs(map));
-					newLayer = Mapping.loadWfs(url, layerId, projection);
-					break;
-			}
+		switch(datatype) {
+			case 'wms':
+				newLayer = Mapping.loadWms(url, layerId);
+				break;
+			case 'wmts':
+				newLayer = Mapping.loadWmts(url, layerId, Mapping.getMapCrs(map));
+				break;
+			case 'kml':
+				newLayer = Mapping.loadKml(url, Mapping.getMapCrs(map));
+				break;
 		}
-
-		var layer_idx = -1;
-		$.each(map.getLayers().getArray(), function (k, v) {
-			if (mapLayer === v) {
-				layer_idx = k;
-			}
-		});
 
 		// Create empty layer as placeholder if no other layer should be set
 		if (newLayer === null) {
@@ -211,21 +369,52 @@ Mapping = {
 		else {
 			newLayer.setVisible(true);
 		}
-		map.getLayers().setAt(layer_idx, newLayer);
+
+		// Find the old layer in the hierarchy of layers and replace it with the new layer.
+		$.each(map.getLayers().getArray(), function (k, v) {
+			if (v.getLayers) {
+				$.each(v.getLayers().getArray(), function (k2, v2) {
+					if (mapLayer === v2) {
+						v.getLayers().setAt(k2, newLayer);
+					}
+				});
+			}
+			else if (mapLayer === v) {
+				map.getLayers().setAt(k, newLayer);
+			}
+		});
 
 		return newLayer;
 	},
-	loadKml: function(url, layerId) {
-		// TODO
-		return null;
+	/**
+	 * Creates and Returns a KML Layer with a given URL.
+	 * @param {string} url
+	 * @param {string} projection
+	 * @returns {ol.layer.Vector}
+	 * @memberof Mapping
+	 */
+	loadKml: function(url, projection) {
+		return new ol.layer.Vector({
+			source: new ol.source.KML({
+				projection: projection,
+				url: Utils.viaProxy(url)
+			})
+		});
 	},
-	loadWfs: function(url, layerId) {
-		// TODO
-		return null;
-	},
+	/**
+	 * Creates and Returns a WMS Layer with a given URL
+	 * @param {string} url
+	 * @param {int} layerId
+	 * @returns {ol.layer.Tile}
+	 * @memberof Mapping
+	 */
 	loadWms: function (url, layerId) {
+		if (_.isEmpty(layerId)) {
+			return null;
+		}
 		return new ol.layer.Tile({
 			source: new ol.source.TileWMS({
+				title: 'WMS',
 				url: url,
 				params: {
 					LAYERS: layerId,
@@ -234,7 +423,19 @@ Mapping = {
 			})
 		});
 	},
+	
+	/**
+	 * Creates and Returns a Layer with a WMTS source with a given URL
+	 * @param {String} url
+	 * @param {int} layerId
+	 * @param {String} projection
+	 * @returns {ol.layer.Tile}
+	 * @memberof Mapping
+	 */
 	loadWmts: function (url, layerId, projection) {
+		if (_.isEmpty(layerId)) {
+			return null;
+		}
 		var projectionExtent = projection.getExtent();
 		var size = ol.extent.getWidth(projectionExtent) / 256;
 		var resolutions = new Array(14);
@@ -245,6 +446,7 @@ Mapping = {
 		}
 		return new ol.layer.Tile({
 			source: new ol.source.WMTS({
+				title: 'WMTS',
 				extent: projectionExtent,
 				url: url,
 				layer: layerId,
@@ -262,6 +464,10 @@ Mapping = {
 	}
 };
 
+/**
+ * Progress control
+ * @namespace
+ */
 Progress = {
 	
 	show: function(id) {
@@ -273,7 +479,7 @@ Progress = {
 	},
 	
 	start: function(id) {
-		var html = '<img src="/img/loading.gif" alt="Loading data..." title="Loading data..." />';
+		var html = '<img src="/img/loading.gif" alt="' + Lang.t('loading') + ' title="' + Lang.t('loading') + '" />';
 		$(id).html(html);
 	},
 	
@@ -284,7 +490,8 @@ Progress = {
 };
 
 /**
- * Class to handle submissions form a user in a form 
+ * Class to handle submissions form a user in a form
+ * @namespace
  */
 FormErrorMessages = {
 
@@ -295,6 +502,8 @@ FormErrorMessages = {
 		var that = this;
 		$.each(json, function(field, message) {
 			var elm = $(form).find("*[name='" + field + "']").parent(".form-group");
+			elm.removeClass(that.successClass);
+			elm.removeClass(that.errorClass);
 			elm.addClass(success ? that.successClass : that.errorClass);
 			elm.find('.error-message').text(message);
 		});
@@ -313,7 +522,8 @@ FormErrorMessages = {
 };
 
 /**
- * Class for logged in user 
+ * Class to manage user authentification on client side.
+ * @namespace
  */
 AuthUser = {
 	
@@ -339,14 +549,14 @@ AuthUser = {
 		if (!this.loggedIn) {
 			accountBtn.addClass('disabled');
 		}
-		$('#userAccountName').text(this.loggedIn ? name : 'Gast');
+		$('#userAccountName').text(this.loggedIn ? name : Lang.t('guest'));
 		
 		// Modify login account
 		var loginIcon = $('#loginBtnIcon');
 		loginIcon.removeClass('glyphicon-log-in');
 		loginIcon.removeClass('glyphicon-log-out');
 		loginIcon.addClass(this.loggedIn ? 'glyphicon-log-out' : 'glyphicon-log-in');
-		$('#logBtnText').text(this.loggedIn ? 'Abmelden' : 'Anmelden');
+		$('#logBtnText').text(this.loggedIn ? Lang.t('logout') : Lang.t('login'));
 		var loginBtn = $('#loginBtn');
 		loginBtn.removeClass('btn-danger');
 		loginBtn.removeClass('btn-primary');
@@ -356,7 +566,8 @@ AuthUser = {
 };
 
 /**
- * Class to handle alerts for user-iteractions 
+ * Class to handle alerts for user-iteractions
+ * @namespace
  */
 MessageBox = {
 
@@ -405,6 +616,7 @@ MessageBox = {
  * The code is released under the MIT license.
  * 
  * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+ * @namespace
  */
 Lang = {
 	
@@ -417,6 +629,7 @@ Lang = {
 	 * @param {Object} [replacements]   Associative array: { variableName: "replacement", ... }
 	 * @return {String} Translated message.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
 	 */
 	t: function(messageKey, replacements) {
 		if (typeof phrases[messageKey] == "undefined") {
@@ -451,6 +664,7 @@ Lang = {
 	 * @param {String} messageKey   Message key.
 	 * @return {Boolean} True if the given message exists.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
 	 */
 	has : function(messageKey) {
 		return typeof phrases[messageKey] != "undefined";
@@ -470,6 +684,7 @@ Lang = {
 	 * @param {Object} [replacements]   Associative array: { variableName: "replacement", ... }
 	 * @return {String} Translated message.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
 	 */
 	choice : function(messageKey, count, replacements) {
 		if (typeof phrases[messageKey] == "undefined") {
@@ -501,6 +716,7 @@ Lang = {
      * @param {Object} replacements Associative array: { variableName: "replacement", ... }
      * @return {String} The input message with all replacements applied.
 	 * @author Andy Wermke, https://github.com/andywer/laravel-js-localization
+	 * @memberof Lang
      */
     applyReplacements: function (message, replacements) {
         for (var replacementName in replacements) {
@@ -515,6 +731,10 @@ Lang = {
 	
 };
 
+/**
+ * Utitilies for the views/templates.
+ * @namespace
+ */
 ViewUtils = {
 
 	parseComment: function(text) {

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright 2014/15 Matthias Mohr
  *
@@ -18,6 +17,17 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Parser for OGC Catalogue Service (for the Web).
+ * Code: csw
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ * 
+ * Note: This parser parses the search queries returned by a GetRecord-request. This does not parse the
+ * GetCapabilities-request from the service. There is an additional restriction as this parser
+ * only parses the first result of the GetRecord-response.
+ */
 class OgcCatalogueService extends CachedParser {
 	
 	use Traits\HttpGetTrait;
@@ -30,15 +40,34 @@ class OgcCatalogueService extends CachedParser {
 		return 'OGC Catalogue Service';
 	}
 
+	/**
+	 * Returns the displayable name of the parser.
+	 * 
+	 * @return string Name of the parser
+	 */
+	/**
+	 * Returns the internal name of the parser.
+	 * 
+	 * Should be unique across all parsers.
+	 * 
+	 * @return string Internal type name of the parser.
+	 */
 	public function getCode() {
 		return 'csw';
 	}
 
+	/**
+	 * Creates the internal parser instance that should be used for parsing. 
+	 * 
+	 * The object returned here will be cached for further usage.
+	 * 
+	 * @return \Parser $source Internal parser instance
+	 */
 	protected function createParser($source) {
 		// IMP is not very well written, throws E_NOTICES. Therefore we turn error_reporting off for this parser.
 		error_reporting(E_WARNING);
 		// We don't use IMP class as we don't need the fancy JSON/PDF/HTML stuff, we just need plain PHP
-		// and we get this straight from the parser. THis is nothing different from what IMP does directly.
+		// and we get this straight from the parser. This is nothing different from what IMP does directly.
 		$parser = new \Parser();
 		try {
 			return $parser->parseXML($source);
@@ -47,6 +76,12 @@ class OgcCatalogueService extends CachedParser {
 		}
 	}
 
+	/**
+	 * The given model will be filled with the parsed data.
+	 * 
+	 * @param \GeoMetadata\Model\Metadata $model Instance of the model to be filled with the parsed data.
+	 * @return boolean true on success, false on failure
+	 */
 	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
 		$records = $this->getParser();
 		
@@ -113,6 +148,16 @@ class OgcCatalogueService extends CachedParser {
 		return true;
 	}
 	
+	/**
+	 * Simply converts an array to text.
+	 * 
+	 * Returns a key value pair representation separated by a double colon and a space.
+	 * Each entry is in a new line, but the calues might contain a newline aswell, therefore a pair
+	 * can be more than one line long.
+	 * 
+	 * @param array $array Array to build a string from
+	 * @return string|null Returns null if the string would be empty.
+	 */
 	private function arrayTotext($array) {
 		$text = '';
 		if (!empty($array)) {
@@ -127,10 +172,22 @@ class OgcCatalogueService extends CachedParser {
 		return (empty($text) ? null : $text);
 	}
 
+	/**
+	 * Takes the user specified URL and builds the metadata url of the service from it.
+	 * 
+	 * @param string $url URL
+	 * @return string URL giving the metadata for the service
+	 */
 	public function getMetadataUrl($url) {
 		return $url;
 	}
-
+	
+	/**
+	 * Takes the user specified URL and builds the service (or base) url from it.
+	 * 
+	 * @param string $url URL
+	 * @return string Base URL of the service
+	 */
 	public function getServiceUrl($url) {
 		return $url;
 	}

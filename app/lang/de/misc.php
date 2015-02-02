@@ -33,6 +33,8 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
+	'imprint' => 'Impressum',
+	'license' => 'Lizenz',
 	'intro' => 'My Meta Maps wurde von Studenten des Instituts für Geoinformatik der WWU Münster entwickelt.',
 	'team' => 'Das Team besteht aus:',
 	'pubAdress' => 'Adresse der öffentlichen Datenschnittstelle',
@@ -41,23 +43,28 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Kommentar erstellen',
-	'dataFormat' => 'Datenformat*',
+	'dataFormat' => 'Datenformat',
 	'chooseFormat' => 'Bitte Datenformat wählen',
 	'create' => 'Erstellen',
 
 
 	//variables for \app\views\pages\addCommentSecondStep.blade.php
 	
+	'url' => 'URL',
 	'enterData' => 'Daten eingeben',
 	'commNoLay' => 'Kommentar keinem Layer zuordnen',
-	'title' => 'Titel*',
-	'freetext' => 'Freitext*',
+	'title' => 'Titel',
+	'freetext' => 'Ihr Kommentar',
 	'spatial' => 'Räumliche Zuordnung des Kommentars',
 	'timerange' => 'Zeitraum',
 	'rating' => 'Bewertung',
 	'addMeta' => 'Zusätzliche Metadaten',
-
+	'lang' => 'Sprache',
+	'explane' => 'Beschreibung',
+	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -111,15 +118,22 @@ return array(
 	'map' => 'Karte',
 	'metadata' => 'Metadaten',
 	'description' => 'Beschreibung',
-	'startingDate' => 'Anfangsdatum',
-	'endingDate' => 'Enddatum',
+	'startingDate' => 'Anfangsdatum:',
+	'endingDate' => 'Enddatum:',
 	'author' => 'Autor',
 	'license' => 'Lizenz',
 	'generalData' => 'Allgemeine Daten',
-		
+	'layer' => 'Layer:',
+	'permlink' => 'Permalink',
+	'unknown' => 'Unbekannt',
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anonym',
+	'rate' => 'Bewertung:',
+	'stars' => 'Sterne',
+	'notSpec' => 'Keine Angabe',
+	'geoData' => 'Geodaten vorhanden',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
 
@@ -135,6 +149,6 @@ return array(
 	//variables for \app\views\oauth-alert.de.blade.php
 
 	'hint' => 'Hinweis:',
-	'extAuth' => 'Sie haben sich über einen externen Anbieter authentifiziert. In diesem Zuge haben wir Ihnnen einen My Meta Maps-Account eingerichtet, dessen Daten Sie hier ändern können. Ihre Daten beim externen Anbieter bleiben unberührt!',
+	'extAuth' => 'Sie haben sich über einen externen Anbieter angemeldet. In diesem Zuge haben wir Ihnen einen My Meta Maps-Account eingerichtet, dessen Daten Sie hier ändern können. Ihre Daten beim externen Anbieter bleiben unberührt!',
 	
 );

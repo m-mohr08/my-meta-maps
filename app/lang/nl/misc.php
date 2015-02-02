@@ -22,7 +22,7 @@ return array(
 	'imprint' => 'Over My Meta Maps',
 	'help' => 'Hulp',
 	'userinfo' => 'User-hulp',
-	'clicktop' => 'Nieuw op My Meta Maps? Wij verklaren jou graag hoe je de eerste stappen kan maken. Tik alleen maar op ',
+	'clicktop' => 'Nieuw op My Meta Maps? Wij verklaren je graag hoe je de eerste stappen kunt maken. Tik alleen maar op ',
 	'furtherInfo' => '.',
 	
 
@@ -32,6 +32,8 @@ return array(
 
 	//variables for \app\views\pages\about.blade.php
 
+	'imprint' => 'Over My Meta Maps',
+	'license' => 'Licentie',
 	'intro' => 'My Meta Maps werd ontwikkeld van studenten van het instituut voor geoinformatie van de WWU Münster',
 	'team' => 'Het team bestaat uit:',
 	'pubAdress' => 'Adres van de openbaare gegevens-interface',
@@ -40,6 +42,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
 
+	'url' => 'URL',
 	'createComm' => 'Commentaar cre&eumlren',
 	'dataFormat' => 'Gegevens formaat',
 	'chooseFormat' => 'Kies een gegevens formaat',
@@ -51,12 +54,15 @@ return array(
 	'enterData' => 'Gegevens ingeven',
 	'commNoLay' => 'Commentaar niet aan een Layer toewijzen',
 	'title' => 'Titel*',
-	'freetext' => 'Vrijtekst*',
+	'freetext' => 'Jou commentaar',
 	'spatial' => 'Ruimtelijke indeling van het commentaar',
 	'timerange' => 'Tijdsbestek',
 	'rating' => 'Evaluatie',
 	'addMeta' => 'Aanvullend meta gegevens',
-
+	'lang' => 'Taal',
+	'explane' => 'Beschrijving',
+	'tags' => 'Tags',
+	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
 
@@ -110,30 +116,37 @@ return array(
 	'map' => 'Kaart',
 	'metadata' => 'Meta-gegevens',
 	'description' => 'Beschrijving',
-	'startingDate' => 'Aanvang datum',
-	'endingDate' => 'Eind datum',
+	'startingDate' => 'Aanvang datum:',
+	'endingDate' => 'Eind datum:',
 	'author' => 'Autuer',
 	'license' => 'Licentie',
 	'generalData' => 'Algemeene gegevens',
-		
+	'layer' => 'Layer:',
+	'permlink' => 'Permanent link',
+	'unknown' => 'Onbekend',
+
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
 	
 	'anonym' => 'Anoniem',
+	'rate' => 'Beoordeling:',
+	'stars' => 'Sterren',
+	'notSpec' => 'Niet gespecificeerd',
+	'geoData' => 'Geogegevens voorhanden',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
 
-	'noSearch' => 'Es entsprechen leider keine Daten der Suchanfrage.',
+	'noSearch' => 'De gegevens stemmen niet met je zoekworden overeen.',
 
 	//variables for \app\views\emails\auth\reminder.blade.php
 
-	'pwReset' => 'Password Reset',
-	'resetForm' => 'To reset your password, complete this form:',
-	'expire' => 'This link will expire in',
-	'minutes' => 'Minuten',
+	'pwReset' => 'Wachtwoord opnieuw instellen',
+	'resetForm' => 'Om het wachtwoord opnieuw intestellen, full het formulier uit alsjeblieft:',
+	'expire' => 'De link loopt af in',
+	'minutes' => 'minuten',
 
 	//variables for \app\views\oauth-alert.de.blade.php
 
-	'hint' => 'Hinweis:',
-	'extAuth' => 'Sie haben sich über einen externen Anbieter authentifiziert. In diesem Zuge haben wir Ihnnen einen My Meta Maps-Account eingerichtet, dessen Daten Sie hier ändern können. Ihre Daten beim externen Anbieter bleiben unberührt!',
+	'hint' => 'Tip:',
+	'extAuth' => 'Je bent nu over een extern aanbieder aangemeld. Daroom hebben we je een My Meta Maps-account aangelegd. De account-gegevens kunt je hier wijzigen. Je gegevens bij de externe aanbieder blijven ongewijzigd!',
 	
 );

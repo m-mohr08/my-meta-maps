@@ -17,6 +17,11 @@
 
 namespace GeoMetadata\Service;
 
+/**
+ * Base class for OGC based webservices like WMS, WFS, OWS Common, etc.
+ * 
+ * Offers some common functionality and a core framework to write parsers for OGC based services.
+ */
 abstract class OgcWebServices extends XmlParser {
 	
 	use Traits\SimpleFillModelTrait, Traits\HttpGetTrait;
@@ -49,6 +54,12 @@ abstract class OgcWebServices extends XmlParser {
 		return $this->getServiceUrl($url) . "request=GetCapabilities&service=" . strtoupper($this->getCode());
 	}
 
+	/**
+	 * Checks whether the given service data is of this type.
+	 * 
+	 * @param string $source String containing the data to parse.
+	 * @return boolean true if content can be parsed, false if not.
+	 */
 	public function verify($source) {
 		return (parent::verify($source) && $this->getUsedNamespace());
 	}

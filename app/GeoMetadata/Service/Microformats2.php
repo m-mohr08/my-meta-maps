@@ -19,6 +19,13 @@ namespace GeoMetadata\Service;
 
 use Mf2;
 
+/**
+ * Parser for Microformats2 (h-geo).
+ * Code: mf2
+ * 
+ * For more information about the capabilities of this parser see the description here:
+ * https://github.com/m-mohr/my-meta-maps/wiki/Metadata-Formats
+ */
 class Microformats2 extends CachedParser {
 	
 	use Traits\HttpGetTrait;
@@ -65,6 +72,13 @@ class Microformats2 extends CachedParser {
 		return 'microformats2';
 	}
 
+	/**
+	 * Creates the internal parser instance that should be used for parsing. 
+	 * 
+	 * The object returned here will be cached for further usage.
+	 * 
+	 * @return \Mf2 $source Internal parser instance
+	 */
 	protected function createParser($source) {
 		$parser = Mf2\parse($source);
 
@@ -76,6 +90,12 @@ class Microformats2 extends CachedParser {
 		return $parser;
 	}
 
+	/**
+	 * The given model will be filled with the parsed data.
+	 * 
+	 * @param \GeoMetadata\Model\Metadata $model Instance of the model to be filled with the parsed data.
+	 * @return boolean true on success, false on failure
+	 */
 	protected function fillModel(\GeoMetadata\Model\Metadata &$model) {
 		$json = $this->getParser();
 
