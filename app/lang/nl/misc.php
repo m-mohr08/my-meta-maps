@@ -119,7 +119,6 @@ return array(
 	'startingDate' => 'Aanvang datum:',
 	'endingDate' => 'Eind datum:',
 	'author' => 'Autuer',
-	'license' => 'Licentie',
 	'generalData' => 'Algemeene gegevens',
 	'layer' => 'Layer:',
 	'permlink' => 'Permanent link',
