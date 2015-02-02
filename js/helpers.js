@@ -103,7 +103,7 @@ Mapping = {
 	
 	/**
 	 * creates the Layer of the map
-	 * @param {Array|ol.layer} Layers
+	 * @param {Array|ol.layer} layers
 	 * @returns {Array|ol.layer} Layers of the map
 	 * @memberof Mapping
 	 */
@@ -470,19 +470,39 @@ Mapping = {
  */
 Progress = {
 	
+	/**
+	 * Shows the Progress bar
+	 * @param {int} id
+	 * @memberOf Progress
+	 */
 	show: function(id) {
 		// This progress bar style doesn't need a show
 	},
 	
+	/**
+	 * Hide the progress bar
+	 * @param {int} id
+	 * @memberOf Progress
+	 */
 	hide: function(id) {
 		$(id).html('');
 	},
 	
+	/**
+	 * start progress bar
+	 * @param {int} id
+	 * @memberOf Progress
+	 */
 	start: function(id) {
 		var html = '<img src="/img/loading.gif" alt="' + Lang.t('loading') + ' title="' + Lang.t('loading') + '" />';
 		$(id).html(html);
 	},
 	
+	/**
+	 * stop progress bar
+	 * @param {int} id
+	 * @memberOf Progress
+	 */
 	stop: function(id) {
 		Progress.hide(id);
 	}
@@ -498,6 +518,13 @@ FormErrorMessages = {
 	errorClass: 'invalid',
 	successClass: 'success',
 	
+	/**
+	 * Applies to one form an Errormessage
+	 * @param {DOM} form
+	 * @param {Object} json
+	 * @param {Boolean} success
+	 * @memberOf FormErrorMessage
+	 */
 	applyPartially: function(form, json, success) {
 		var that = this;
 		$.each(json, function(field, message) {
@@ -509,11 +536,23 @@ FormErrorMessages = {
 		});
 	},
 	
+	/**
+	 * Apply Errormessage
+	 * @param {DOM} form
+	 * @param {Object} json
+	 * @param {Boolean} success
+	 * @memberOf FormErrorMessage
+	 */
 	apply: function(form, json, success) {
 		this.remove(form);
 		this.applyPartially(form, json, success);
 	},
 	
+	/**
+	 * Remove Errormessage
+	 * @param {DOM} form
+	 * @memberOf FormErrorMessage
+	 */
 	remove: function(form) {
 		$(form).find("." + this.errorClass).removeClass(this.errorClass);
 		$(form).find("." + this.successClass).removeClass(this.successClass);
