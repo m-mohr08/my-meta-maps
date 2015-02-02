@@ -15,7 +15,6 @@ GeodataShowView = ContentView.extend({
 	
 	/**
 	 * Return a list of geodata
-	 * 
 	 * @return {Object} list of geodata
 	 * @override
 	 * @memberof GeodataShowView
@@ -26,7 +25,6 @@ GeodataShowView = ContentView.extend({
 	
 	/**
 	 * Return url for the template of the geodata-list
-	 * 
 	 * @return {String} url for the template of the geodata-list
 	 * @memberof GeodataShowView
 	 */
@@ -46,7 +44,6 @@ CommentAddViewStep1 = ModalView.extend({
 	
 	/**
 	 * Return url for the template of the first step to add a comment
-	 * 
 	 * @return {String} url for the template of the first step to add a comment
 	 * @memberof CommentAddViewStep1
 	 */
@@ -92,7 +89,6 @@ CommentAddViewStep2 = ContentView.extend({
 	
 	/**
 	 * Return url for the template of the second step to add a comment
-	 * 
 	 * @return {String} url for the template of the second step to add a comment
 	 * @memberof CommentAddViewStep2
 	 */
@@ -102,7 +98,6 @@ CommentAddViewStep2 = ContentView.extend({
 	
 	/**
 	 * Return the metadata of a geodata
-	 * 
 	 * @return {Object} metadata of a geodata
 	 * @override
 	 * @memberof CommentAddViewStep2
@@ -128,7 +123,6 @@ CommentAddViewStep2 = ContentView.extend({
 	
 	/**
 	 * Create the formular for the second step in the template
-	 * 
 	 * @override
 	 * @memberof CommentAddViewStep2
 	 */
@@ -411,7 +405,6 @@ CommentsShowView = ModalView.extend({
 	
 	/**
 	 * Add bounding boxes and features of a layer to the map (map in comments-to-geodata)
-	 * 
  	 * @param {Object} data
 	 * @memberof CommentsShowView
 	 */
@@ -450,7 +443,6 @@ CommentsShowView = ModalView.extend({
 	},
 	/**
 	 * Return url for the template of the detail-site with comments to a geodata
-	 * 
 	 * @return {String} url for the template of the detail-site with comments to a geodata
 	 * @memberof CommentsShowView
 	 */
