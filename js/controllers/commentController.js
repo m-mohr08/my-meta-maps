@@ -1,6 +1,5 @@
 /**
 * Send a POST-request to the server to get geodata
-* 
 * @param {Object} callback
 */
 function geodataShowController(callback) {
@@ -18,7 +17,7 @@ function executeSearch() {
 }
 
 /**
- * Executes the search if the MapView is active.
+ * Resets the search if the MapView is active.
  * @param object form element, e.g. this.form
  */
 function resetSearch(form) {
@@ -60,7 +59,6 @@ function saveSearch() {
 
 /**
 * Send a POST-request to the server
-* 
 * @param {Object} model
 * @param {JSON} details 
 */
@@ -110,7 +108,6 @@ function commentAddFirstStepController(model, details) {
 
 /**
 * Send a POST-request (because no id is specified) to the server to save a comment
-* 
 * @param {Object} model
 * @param {JSON} details  
 */
@@ -141,12 +138,10 @@ function commentAddSecondStepController(model, details) {
 
 /**
  * Add a comment directly at the detail-site with the comments to a geodata
- * 
  * @param {String} url 
  * @param {String} datatype 
  */
 function createCommentDirectly(url, datatype, layer) {
-	
 	Debug.log('Try to add comment directly');
 		
 	var details = {
@@ -185,7 +180,6 @@ function createCommentDirectly(url, datatype, layer) {
 
 /**
 * Send a POST-request to the server to get comments to a geodata
-* 
 * @param {Object} gid
 * @param {Object} cid
 */
@@ -224,7 +218,6 @@ function commentsToGeodataController(gid, cid) {
 
 /**
  * Get typed in values of the fitlers
- *  
  * @param {Object} commentId
  * @return {JSON} values of filters
  */
@@ -246,6 +239,10 @@ function getFormData(commentId) {
 	};
 }
 
+/**
+ * Execute the method selectFeatureViaItem from commentView.js
+ * @param {Object} commentId
+ */
 function selectMapMarker(commentId) {
 	if (ModalView.active instanceof CommentsShowView) {
 		ModalView.active.selectFeatureViaItem(commentId);
