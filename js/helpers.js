@@ -472,7 +472,7 @@ Progress = {
 	
 	/**
 	 * Shows the Progress bar
-	 * @param {int} id
+	 * @param {string} id
 	 * @memberOf Progress
 	 */
 	show: function(id) {
@@ -481,7 +481,7 @@ Progress = {
 	
 	/**
 	 * Hide the progress bar
-	 * @param {int} id
+	 * @param {string} id
 	 * @memberOf Progress
 	 */
 	hide: function(id) {
@@ -490,7 +490,7 @@ Progress = {
 	
 	/**
 	 * start progress bar
-	 * @param {int} id
+	 * @param {string} id
 	 * @memberOf Progress
 	 */
 	start: function(id) {
@@ -500,7 +500,7 @@ Progress = {
 	
 	/**
 	 * stop progress bar
-	 * @param {int} id
+	 * @param {string} id
 	 * @memberOf Progress
 	 */
 	stop: function(id) {
