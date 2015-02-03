@@ -27,15 +27,15 @@ return array(
 	
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'De user-hulp geeft je de antwoorden van veelgestelde vragen en de bediening van My Meta Maps.',
-	'howtoReg' => 'Wie registriere ich mich?',
-	'howtoLogin' => 'Wie melde ich mich an?',
-	'howtoComm' => 'Wie füge ich ein Kommentar hinzu?',
-	'whichFilter' => 'Welche Filter gibt es?',
-	'spatialFilter' => 'Räumlicher Filter',
-	'timeFilter' => 'Zeitlicher Filter',
-	'rateFilter' => 'Filter nach Bewertung',
-	'keywordSearch' => 'Stichwortsuche',
-	
+	'howtoReg' => 'Hoe kan ik me registreren?',
+	'howtoLogin' => 'Hoe meld ik me aan?',
+	'howtoComm' => 'Hoe kan je een commentaar toevoegen?',
+	'whichFilter' => 'Welk filter zijn er?',
+	'spatialFilter' => 'Ruijmtelijk filter',
+	'timeFilter' => 'Temporeel filter',
+	'rateFilter' => 'Filter naar beoordeling',
+	'keywordSearch' => 'Trefwoordzoek',
+
 	//variables for \app\views\pages\about.blade.php
 	'imprint' => 'Over My Meta Maps',
 	'license' => 'Licentie',

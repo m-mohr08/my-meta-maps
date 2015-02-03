@@ -16,8 +16,7 @@
 	<!-- Beginning howto comment -->
 	<h2>@lang('misc.howtoComm')</h2>
 		<div class='pos_left'>
-			Text für Kommentierung eventuell mit Bildchen<br>
-			<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
+			Ebenfalls oben rechts befindet sich die Schaltfläche zur Erstellung eines Kommentares <a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
 		</div>
 	<!-- End of howto comment -->
 	<!-- Beginning howto filter -->

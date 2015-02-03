@@ -15,9 +15,9 @@ return array(
 	//variables for frontpage.blade.php
 	'register' => 'Register',
 	'addComment' => 'Add comment',
-	'guest' => 'Guest',
 	'profilChange' => 'Edit profil',
 	'pwchange' => 'Change password',
+	'guest' => 'Guest',
 	'login' => 'Login',
 	'imprint' => 'Imprint',
 	'help' => 'Help',
@@ -27,14 +27,14 @@ return array(
 
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'The help contains the FAQ and how to use My Meta Maps',
-	'howtoReg' => 'Wie registriere ich mich?',
-	'howtoLogin' => 'Wie melde ich mich an?',
-	'howtoComm' => 'Wie füge ich ein Kommentar hinzu?',
-	'whichFilter' => 'Welche Filter gibt es?',
-	'spatialFilter' => 'Räumlicher Filter',
-	'timeFilter' => 'Zeitlicher Filter',
-	'rateFilter' => 'Filter nach Bewertung',
-	'keywordSearch' => 'Stichwortsuche',
+	'howtoReg' => 'How to register?',
+	'howtoLogin' => 'How to login?',
+	'howtoComm' => 'How to add a comment?',
+	'whichFilter' => 'Which filters are available?',
+	'spatialFilter' => 'Spatial filter',
+	'timeFilter' => 'Filter by time',
+	'rateFilter' => 'Filter by rating',
+	'keywordSearch' => 'Search for keywords',
 
 	//variables for \app\views\pages\about.blade.php
 	'imprint' => 'Imprint',
