@@ -5,21 +5,21 @@
 	<h2>Wie registriere ich mich?</h2>
 		<div class='pos_left'>
 			Text für Registrierung mit Bildchen<br>
-			<img src="/img/help/register.png" alt="register" width="1001" height="600">
+			<a href="javascript:router.register();" class="btn btn-primary" id="registerBtn">@lang('misc.register')&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
 		</div>
 	<!-- End of howto registration -->
 	<!-- Beginning howto sign in -->
 	<h2>Wie melde ich mich an?</h2>
 		<div class='pos_left'>
 			Text für Login mit Bildchen<br>
-			<img src="/img/help/login.png" alt="login" width="1001" height="600">
+			<a href="javascript:router.loginout();" class="btn btn-primary" id="loginBtn"><span id="logBtnText">@lang('misc.login')</span>&nbsp;<span class="glyphicon glyphicon-log-in" id="loginBtnIcon"></span></a>
 		</div>
 	<!-- End of howto sign in -->
 	<!-- Beginning howto comment -->
 	<h2>Wie füge ich ein Kommentar hinzu?</h2>
 		<div class='pos_left'>
 			Text für Kommentierung eventuell mit Bildchen<br>
-			<img src="/img/help/add_comment.png" alt="add_comment" width="1001" height="600">
+			<a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a>
 		</div>
 	<!-- End of howto comment -->
 	<!-- Beginning howto filter -->
