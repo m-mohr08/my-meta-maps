@@ -25,13 +25,18 @@ return array(
 	'clicktop' => 'Nieuw op My Meta Maps? Wij verklaren je graag hoe je de eerste stappen kunt maken. Tik alleen maar op ',
 	'furtherInfo' => '.',
 	
-
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'De user-hulp geeft je de antwoorden van veelgestelde vragen en de bediening van My Meta Maps.',
-
+	'howtoReg' => 'Hoe kan ik me registreren?',
+	'howtoLogin' => 'Hoe meld ik me aan?',
+	'howtoComm' => 'Hoe kan je een commentaar toevoegen?',
+	'whichFilter' => 'Welk filter zijn er?',
+	'spatialFilter' => 'Ruijmtelijk filter',
+	'timeFilter' => 'Temporeel filter',
+	'rateFilter' => 'Filter naar beoordeling',
+	'keywordSearch' => 'Trefwoordzoek',
 
 	//variables for \app\views\pages\about.blade.php
-
 	'imprint' => 'Over My Meta Maps',
 	'license' => 'Licentie',
 	'intro' => 'My Meta Maps werd ontwikkeld van studenten van het instituut voor geoinformatie van de WWU Münster',
@@ -39,18 +44,14 @@ return array(
 	'pubAdress' => 'Adres van de openbaare gegevens-interface',
 	'libs' => 'Gebruikte bibliotheken',
 
-
 	//variables for \app\views\pages\addCommentFirstStep.blade.php
-
 	'url' => 'URL',
 	'createComm' => 'Commentaar cre&eumlren',
 	'dataFormat' => 'Gegevens formaat',
 	'chooseFormat' => 'Kies een gegevens formaat',
 	'create' => 'Cre&eumlren',
 
-
 	//variables for \app\views\pages\addCommentSecondStep.blade.php
-	
 	'enterData' => 'Gegevens ingeven',
 	'commNoLay' => 'Commentaar niet aan een Layer toewijzen',
 	'title' => 'Titel*',
@@ -65,14 +66,11 @@ return array(
 	'copyright' => 'Copyright',
 
 	//variables for \app\views\pages\login.blade.php
-
 	'mailname' => 'E-mailadres / Usernaam',
 	'pw' => 'Wachtwoord',
 	'stay' => 'Aangemeld blijven?',
 
-
 	//variables for \app\views\pages\map.blade.php
-
 	'setFilter' => 'Filter instellen',
 	'reset' => 'Opnieuw instellen',
 	'metaUse' => 'Ook in meta-gegevens zoeken',
@@ -84,29 +82,22 @@ return array(
 	'geodata' => 'Geogegevens',
 	'share' => 'Delen',
 
-
 	//variables for \app\views\pages\password.blade.php
-
 	'oldpw' => 'Het oude wachtwoord', 
 	'newpw' => 'Het nieuwe wachtwoord',
 	'pwagain' => 'Het nieuwe wachtwoord herhalen',
 	'save' => 'Opslaan',
 	'loginAgain' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je wachtwoord te wijzigen.',
 	
-
 	//variables for \app\views\pages\register.blade.php
-
 	'user' => 'Usernaam',
 	'mail' => 'E-mailadres',
 	
-
 	//variables for \app\views\pages\userAccount.blade.php
-
 	'lang' => 'Taal',
 	'loginAgainAcc' => 'Je bent niet meer aangemeld. Meld je opnieuw aan alsjeblieft, om je profiel te wijzigen.',
 	
 	//variables for \app\views\pages\showCommentsToGeodata.blade.php
-	
 	'noComm' => 'Er zijn geen algemeene opmerkingen.',
 	'noCommLayer' => 'Er zijn nog geen reacties op deze laag.',
 	'adress' => 'Adres',
@@ -125,7 +116,6 @@ return array(
 	'unknown' => 'Onbekend',
 
 	//variables for \app\views\pages\showCommentsToGeodataBit.blade.php
-	
 	'anonym' => 'Anoniem',
 	'rate' => 'Beoordeling:',
 	'stars' => 'Sterren',
@@ -133,19 +123,15 @@ return array(
 	'geoData' => 'Geogegevens voorhanden',
 
 	//variables for \app\views\pages\show GeodataBit.blade.php
-
 	'noSearch' => 'De gegevens stemmen niet met je zoekworden overeen.',
 
 	//variables for \app\views\emails\auth\reminder.blade.php
-
 	'pwReset' => 'Wachtwoord opnieuw instellen',
 	'resetForm' => 'Om het wachtwoord opnieuw intestellen, full het formulier uit alsjeblieft:',
 	'expire' => 'De link loopt af in',
 	'minutes' => 'minuten',
 
 	//variables for \app\views\oauth-alert.de.blade.php
-
 	'hint' => 'Tip:',
 	'extAuth' => 'Je bent nu over een extern aanbieder aangemeld. Daroom hebben we je een My Meta Maps-account aangelegd. De account-gegevens kunt je hier wijzigen. Je gegevens bij de externe aanbieder blijven ongewijzigd!',
-	
 );
