@@ -23,11 +23,11 @@ use \GeoMetadata\GeoMetadata;
  */
 class ParserTest extends TestCase {
 	
-	/**
-	 * Initializes the GeoMetadata environment.
+  /**
+	 * Default preparation for each test
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function setUp() {
+		parent::setUp();
 		
 		GmRegistry::registerService(new \GeoMetadata\Service\Kml());
 		GmRegistry::registerService(new \GeoMetadata\Service\Microformats2());
@@ -61,7 +61,7 @@ class ParserTest extends TestCase {
 	}
 	
 	private function getExampleData($name) {
-		$path = "./assets/parser/{$name}";
+		$path = $this->testsPath() . "/assets/parser/{$name}";
 		return file_get_contents($path);
 	}
 
