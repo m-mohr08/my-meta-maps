@@ -321,7 +321,6 @@ CommentsShowView = ModalView.extend({
 			} else {
 				// highlight the comments
 				$('#CommentId'+e.target.item(0).getId()).addClass('comment-highlighter');
-				Debug.log(e.target.item(0).getId());
 			}
 		});
 
@@ -424,22 +423,13 @@ CommentsShowView = ModalView.extend({
 		// Load WMS/WMTS data
 		this.serviceLayer = Mapping.loadWebservice(this.map, this.serviceLayer, this.options.geodata.url, this.options.geodata.metadata.datatype, data.id);
 	},
-	
 	/**
 	 * Adds an Feature from a selected Comment to the Collection of the ol.interaction
 	 * @param {int} id
 	 * @memberof CommentsShowView
 	 */
-	selectFeatureViaItem: function(id){
-		var selectedFeature = this.geometryLayer.getSource().getFeatureById(id);
-		var currentFeature = null;
-		if (this.select.getFeatures().getLength() > 0){
-			currentFeature = this.select.getFeatures().item(0);
-			this.select.getFeatures().clear();
-		}
-		if (selectedFeature !== currentFeature) {
-			this.select.getFeatures().push(selectedFeature);
-		}
+	selectFeatureById: function(id){
+		Mapping.selectFeatureById(id, this.geometryLayer, this.select);
 	},
 	/**
 	 * Return url for the template of the detail-site with comments to a geodata

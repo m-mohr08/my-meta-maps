@@ -240,11 +240,21 @@ function getFormData(commentId) {
 }
 
 /**
- * Execute the method selectFeatureViaItem from commentView.js
- * @param {Object} commentId
+ * Selects a map marker by it's id in the comment view.
+ * @param {int} commentId
  */
 function selectMapMarker(commentId) {
 	if (ModalView.active instanceof CommentsShowView) {
-		ModalView.active.selectFeatureViaItem(commentId);
+		ModalView.active.selectFeatureById(commentId);
+	}
+}
+
+/**
+ * Selects a map marker by it's id in the map view.
+ * @param {int} geodataId
+ */
+function hoverGeodataBbox(geodataId) {
+	if (ContentView.active instanceof MapView) {
+		ContentView.active.selectFeatureById(geodataId);
 	}
 }

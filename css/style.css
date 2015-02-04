@@ -266,7 +266,7 @@ h3 {
 	left: calc(0.5em + 90px);
 }
 
-#showCommentsToGeodata .comment-highlighter .map-Marker{
+#showCommentsToGeodata .comment-highlighter .map-Marker {
 	color: #31708f;
 	background: #d9edf7;
 }
@@ -274,6 +274,10 @@ h3 {
 #showCommentsToGeodata .comment-highlighter dd pre {
 	color: #31708f;
 	font-weight: bold;
+}
+
+a.list-group-item.geodata-highlighter {
+	background-color: #f5f5f5;
 }
 
 .pos_left {
