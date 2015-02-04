@@ -35,6 +35,18 @@ return array(
 	'timeFilter' => 'Temporeel filter',
 	'rateFilter' => 'Filter naar beoordeling',
 	'keywordSearch' => 'Trefwoordzoek',
+	'buttonReg' => 'Je kan je op My Meta Maps door een click op de volgende knopje registreren:',
+	'buttonLogin' => 'Om je na de registratie inteloggen, click je boven op het knopje:',
+	'buttonComment' => 'Boven vindt je ook het knopje om een commentaar toetevoegen:',
+	'noRegNec' => 'Het is niet nodig geregistreerd of angemeeld te zijn om een commentaar toetevoegen.',
+	'acceptedFormats' => 'De volgende gegevens-formaten worden van My Meta Maps geaccepteerd:',
+	'surrounding' => 'Met de ruimtelijk filter kan je gegevens binnen een gekozen afstand om het middelpunt van de kaart selecteren.',
+	'searchDist' => 'De zoek is mogelijk in trappen van 5km tot 500km.',
+	'timeFiltDef' => 'met de temporeel filter kan je gegevens van vastgelegde perioden selecteren.',
+	'timeStartEnd' => 'Je kan een tijdstipbegin en een einde vastleggen.',
+	'rateDef' => 'Met de beoordelingsfilter kan je gegevens met vastgelegde beoordelingen selecteren.',
+	'rateScale' => 'De beoordelingen gaan van 1 tot 5 sterren.',
+	'keyDef' => 'Met de trefwoordzoek kan je naar worden uit commentaren zoeken.',
 
 	//variables for \app\views\pages\about.blade.php
 	'imprint' => 'Over My Meta Maps',
@@ -53,7 +65,7 @@ return array(
 
 	//variables for \app\views\pages\addCommentSecondStep.blade.php
 	'enterData' => 'Gegevens ingeven',
-	'commNoLay' => 'Commentaar niet aan een Layer toewijzen',
+	'commNoLay' => 'Commentaar niet aan een layer toewijzen',
 	'title' => 'Titel*',
 	'freetext' => 'Jou commentaar',
 	'spatial' => 'Ruimtelijke indeling van het commentaar',
