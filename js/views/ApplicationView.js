@@ -216,6 +216,8 @@ MapView = ContentView.extend({
 	// OpenLayers/Map
 	map: null,
 	polyLayer: null,
+	externalHover: null,
+	selectMouseMove: null,
 	mapSearchExecuted: true,
 	// Default options for filters
 	options: {
@@ -255,25 +257,37 @@ MapView = ContentView.extend({
 			controls: Mapping.getControls(),
 			view: view
 		});
-		
-		//highlight geometry on mousemouve
-		var selectMouseMove = new ol.interaction.Select({
+
+		// Hovering the links of the geodata should lead to a highlighted bbox
+		this.externalHover = new ol.interaction.Select();
+		this.map.addInteraction(this.externalHover);
+		// highlight geometry on mousemouve
+		this.selectMouseMove = new ol.interaction.Select({
 			condition: ol.events.condition.mouseMove
 		});
-		this.map.addInteraction(selectMouseMove);
+		this.selectMouseMove.getFeatures().on('change:length', function (e) {
+			if (e.target.getArray().length === 0) {
+				//no features selected
+				$('.geodata-highlighter').removeClass('geodata-highlighter');
+			} else {
+				// highlight the comments
+				$('#GeodataLink'+e.target.item(0).getId()).addClass('geodata-highlighter');
+			}
+		});
+		this.map.addInteraction(this.selectMouseMove);
 		// select geometry on mouseclick and open CommentView
 		var select = new ol.interaction.Select({
 			style: Mapping.getBBoxStyle(true)
 		});
-		this.map.addInteraction(select);
-		select.getFeatures().on('change:length', function(e) {
+		select.getFeatures().on('change:length', function (e) {
 			if (e.target.getArray().length === 0) {
-			//no features selected
+				//no features selected
 			} else {
-			//open CommentView of the feature
-			 router.geodata(e.target.item(0).getId());
+				//open CommentView of the feature
+				router.geodata(e.target.item(0).getId());
 			}
 		});
+		this.map.addInteraction(select);
 		
 		// The basic page is now loaded. Now we set the default data depending on the context.
 		if (this.options.searchHash) {
@@ -446,6 +460,9 @@ MapView = ContentView.extend({
 	 */
 	addGeodataToMap: function (data) {
 		this.polyLayer.getSource().clear();
+		// Clear the selection handler aswell or there will remain a marked bbox
+		this.selectMouseMove.getFeatures().clear();
+		this.externalHover.getFeatures().clear();
 		// gets each bbox(wkt format), transforms it into a geometry and adds it to the vector source 
 		for (var index = 0; index < data.geodata.length; index++) {
 			Mapping.addWktToLayer(this.map, this.polyLayer, data.geodata[index].metadata.bbox, false, data.geodata[index].id);
@@ -459,6 +476,16 @@ MapView = ContentView.extend({
 	 */
 	getPageTemplate: function () {
 		return '/api/internal/doc/map';
+	},
+	
+	/**
+	 * Adds an Feature from a selected Comment to the Collection of the ol.interaction
+	 * @param {int} id
+	 * @pa
+	 * @memberof CommentsShowView
+	 */
+	selectFeatureById: function(id){
+		Mapping.selectFeatureById(id, this.polyLayer, this.externalHover);
 	}
 
 });
