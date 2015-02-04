@@ -39,14 +39,14 @@ return array(
 	'buttonLogin' => 'After the registration you can login via the following buttonon the upper right side:',
 	'buttonComment' => 'Also in the upper right side you can find the button for adding a comment:',
 	'noRegNec' => 'It is not necessary to be registrated or logged in to add a comment.',
-	'acceptedFormats' => 'My Meta maps acceptsthe following data-formats:',
+	'acceptedFormats' => 'My Meta Maps accepts the following data-formats:',
 	'surrounding' => 'The spatial filter allows you to select datasets within a radius arround the center of the map',
 	'searchDist' => 'The search is possible in predefined steps from 5km to 500km.',
 	'timeFiltDef' => 'The timefilter allows you to select datasets within defined timeranges.',
 	'timeStartEnd' => 'To define the timerange you have to set a starting date and an ending date.',
 	'rateDef' => 'The rating-filter allows you to select datasets with a defined rating.',
 	'rateScale' => 'The ratings can reach from 1 to 5 stars.',
-	'keyDef' => 'The keywordsearch allows you to search for words that are contained in comments.',
+	'keyDef' => 'The keyword-search allows you to search for words that are contained in comments.',
 
 	//variables for \app\views\pages\about.blade.php
 	'imprint' => 'Imprint',

@@ -39,7 +39,7 @@ return array(
 	'buttonLogin' => 'Um sich nach der Registrierung einzuloggen klicken Sie oben rechts auf die Schaltfläche',
 	'buttonComment' => 'Ebenfalls oben rechts befindet sich die Schaltfläche zur Erstellung eines Kommentares',
 	'noRegNec' => 'Es ist nicht nötig registriert oder angemeldet zu sein um ein Kommentar hinzuzufügen.',
-	'acceptedFormats' => 'Folgende Datenformate werden von My meta Maps akzeptiert:',
+	'acceptedFormats' => 'Folgende Datenformate werden von My Meta Maps akzeptiert:',
 	'surrounding' => 'Der Umkreisfilter ermöglicht die selektierte Anzeige von Datensätzen in einem gewählten Umkreis um den Kartenmittelpunkt.',
 	'searchDist' => 'Die Suche ist in festgelegten Stufen von 5km bis 500km möglich.',
 	'timeFiltDef' => 'Der zeitliche Filter ermöglicht die Filterung von Datensätzen von bestimmten Zeiträumen.',
