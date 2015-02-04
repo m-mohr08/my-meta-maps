@@ -66,7 +66,7 @@ class ParserTest extends TestCase {
 	}
 	
 	private function getExampleData($name) {
-		$path = $this->testsPath() . "/assets/parser/{$name}";
+		$path = $this->path() . "/assets/parser/{$name}";
 		return file_get_contents($path);
 	}
 
