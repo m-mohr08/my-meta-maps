@@ -68,7 +68,8 @@ return array(
 	'timeStartEnd' => 'Je kan een tijdstipbegin en een einde vastleggen.',
 	'rateDef' => 'Met de beoordelingsfilter kan je gegevens met vastgelegde beoordelingen selecteren.',
 	'rateScale' => 'De beoordelingen gaan van 1 tot 5 sterren.',
-	'keyDef' => 'Met de trefwoordzoek kan je naar worden uit commentaren zoeken.','seeComments' => 'Unten links kannst du eine Liste mit Geodatensätzen sehen, zu denen es - passend zu den Filtern - Kommentare gibt. Durch einen Klick gelangst du zur Ansicht mit den Kommentaren.
+	'keyDef' => 'Met de trefwoordzoek kan je naar worden uit commentaren zoeken.',
+	'seeComments' => 'Unten rechts kannst du eine Liste mit Geodatensätzen sehen, zu denen es - passend zu den Filtern - Kommentare gibt. Durch einen Klick gelangst du zur Ansicht mit den Kommentaren.
 	 Dir wird zudem angezeigt, wie viele Kommentare es zu den jeweiligen Geodatensätzen gibt. Falls die Filter Kommentare herausselektieren,
 	 passt sich diese Zahl an und in der Ansicht mit den Kommentaren werden auch nur noch die selektierten angezeigt.',
 	'commentsFurtherInfos' => 'Du siehts zunächst eine Liste mit zum einen allgemeine Kommentaren und zum anderen zu den jeweiligen Layern.

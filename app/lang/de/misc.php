@@ -50,7 +50,7 @@ return array(
 	'buttonReg' => 'Die Registrierung auf My Meta Maps erfolgt über einen Klick auf die Schaltfläche',
 	'buttonLogin' => 'Um sich nach der Registrierung einzuloggen klicken Sie oben rechts auf die Schaltfläche',
 	'loginViaOAuth' => 'Alternativ kannst du dich sowohl über Facebook, GitHub, Google oder Twitter anmelden. Dir wird anschließend automatisch eine Account bei My Meta Maps erstellt.',
-	'changeGeneral' => 'Oben rechts befindet sich ein Button mit ihrem Profilnamen. Dort kannst du zu einer Ansicht gelangen, um die Daten ihres Profils zu ändern.
+	'changeGeneral' => 'Oben rechts befindet sich ein Button mit ihrem Profilnamen. Dort kannst du zu einer Ansicht gelangen, um die Daten deines Profils zu ändern.
 	 Du kannst sowohl deinen Benutzernamen als auch deine Email-Adresse ändern und zudem deine bevorzugte Sprache auswählen.',
 	'changePassword' => 'Oben rechts befindet sich ein Button mit ihrem Profilnamen. Dort kannst du zu einer Ansicht gelangen, um dein Passwort zu ändern.',
 	'buttonComment' => 'Oben rechts befindet sich die Schaltfläche zur Erstellung eines Kommentares',
@@ -69,10 +69,10 @@ return array(
 	'rateDef' => 'Der Bewertungsfilter ermöglicht die selektierte Anzeige von Datensätzen mit bestimmten Bewertungen.',
 	'rateScale' => 'Die Bewertungen reichen von 1 bis 5 Sternen.',
 	'keyDef' => 'Die Stichwortsuche ermöglicht die Suche nach Wörtern die in einem Kommentar hinterlegt wurden.',
-	'seeComments' => 'Unten links kannst du eine Liste mit Geodatensätzen sehen, zu denen es - passend zu den Filtern - Kommentare gibt. Durch einen Klick gelangst du zur Ansicht mit den Kommentaren.
+	'seeComments' => 'Unten rechts kannst du eine Liste mit Geodatensätzen sehen, zu denen es - passend zu den Filtern - Kommentare gibt. Durch einen Klick gelangst du zur Ansicht mit den Kommentaren.
 	 Dir wird zudem angezeigt, wie viele Kommentare es zu den jeweiligen Geodatensätzen gibt. Falls die Filter Kommentare herausselektieren,
 	 passt sich diese Zahl an und in der Ansicht mit den Kommentaren werden auch nur noch die selektierten angezeigt.',
-	'commentsFurtherInfos' => 'Du siehts zunächst eine Liste mit zum einen allgemeine Kommentaren und zum anderen zu den jeweiligen Layern.
+	'commentsFurtherInfos' => 'Du siehst zunächst eine Liste mit zum einen allgemeine Kommentaren und zum anderen zu den jeweiligen Layern.
 	 Durch Klick auf das jeweilige Element lassen sich die jeweiligen Kommentare anzeigen. Hier siehst du zudem von wem der Kommentar stammt, die Bewertung und den Zeitraum des Kommentares.
 	 Rechts kannst du außerdem allgemeine und Metadaten und auf einer Karte die Bounding Box zu dem Geodatensatz sehen.',
 	'shareMMM' => 'Sowohl in der Liste mit den Geodatensätzen als auch in der Ansicht mit den Kommentaren zu einem Geodatensatz wirst du dieses Symbol sehen ',
