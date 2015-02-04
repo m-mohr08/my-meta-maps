@@ -279,4 +279,11 @@ h3 {
 .pos_left {
 	position: relative;
 	left: 50px;
+	max-width: 90%;
+	word-wrap: break-word;
+}
+
+.info-list {
+	position: relative;
+	max-width: 400px;
 }
