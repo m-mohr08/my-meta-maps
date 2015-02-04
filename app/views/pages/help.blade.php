@@ -18,7 +18,9 @@
 		<div class='pos_left'>
 			@lang('misc.buttonComment') <a href="javascript:router.addComment();" class="btn btn-primary" id="commentBtn">@lang('misc.addComment')&nbsp;<span class="glyphicon glyphicon-plus-sign"></span></a><br>
 			@lang('misc.noRegNec')<br>
+			<br>
 			@lang('misc.acceptedFormats')<br>
+			<br>
 			<!-- Beginning format-list -->
 			<div class="list-group">
 				<a href="http://www.opengeospatial.org/standards/kml" class="list-group-item" target="_blank">KML</a>
