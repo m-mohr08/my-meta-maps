@@ -28,7 +28,7 @@ return array(
 	//variables for \app\views\pages\help.blade.php
 	'headline' => 'De user-hulp geeft je de antwoorden van veelgestelde vragen en de bediening van My Meta Maps.',
 	'whatIsMMMTitle' => 'Wat is My Meta Maps?',
-	'whatIsMMM' => 'My Meta Maps ist ein Web-Verzeichnis, das auf Basis von aggregierten Metadaten und Benutzerrezensionen das leichte Auffinden von Geodaten ermöglicht.',
+	'whatIsMMM' => 'My Meta Maps ist een web-directory, dat op basis van aggregeerde meta-gegevens en user-beoordelingen het vinden van geo-gegevens zal verzachten.',
 	'howtoReg' => 'Hoe kan ik me registreren?',
 	'howtoLogin' => 'Hoe meld ik me aan?',
 	'howtoChangeUserdata' => 'Hoe kan ik mijn personlijk gegevens wijzigen?',
@@ -44,6 +44,7 @@ return array(
 	'spatialFilter' => 'Ruijmtelijk filter',
 	'timeFilter' => 'Temporeel filter',
 	'rateFilter' => 'Filter naar beoordeling',
+	'commentsFurtherInfosTitle' => 'Wat zie ik nu',
 	'keywordSearch' => 'Trefwoordzoek',
 	'buttonReg' => 'Je kan je op My Meta Maps door een click op het volgende knopje registreren:',
 	'buttonLogin' => 'Om je na de registratie inteloggen, click je boven op het knopje:',
