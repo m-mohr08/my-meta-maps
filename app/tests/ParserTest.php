@@ -52,16 +52,21 @@ class ParserTest extends TestCase {
 		$this->assertNotNull($gm);
 		$model = $gm->parse();
 		$this->assertNotNull($model);
-//		$this->assertEquals('', $model->getCopyright());
-//		$this->assertEquals('', $model->getKeywords());
-//		$this->assertEquals('', $model->getAbstract());
-//		$this->assertEquals('', $model->getLicense());
-//		$this->assertEquals('', $model->getAuthor());
-//		$this->assertEquals('', $model->getBouningBox());
+		$this->assertEquals('http://www.microformats.org/copyright', $model->getCopyright());
+		$this->assertCount(2, $model->getKeywords());
+		$this->assertContains('http://microformats.org/wiki/', $model->getKeywords());
+		$this->assertContains('http://microformats.org/wiki/microformats-2#h-geo', $model->getKeywords());
+		$this->assertEquals('http://www.microformats.org/toc', $model->getAbstract());
+		$this->assertEquals('http://www.microformats.org/license', $model->getLicense());
+		$this->assertEquals('http://www.microformats.org/author', $model->getAuthor());
+		$this->assertEquals(
+			'POLYGON((-4.076148 54.155278,-4.076148 53.069406,-2.249722 53.069406,-2.249722 54.155278,-4.076148 54.155278))',
+			$model->getBoundingBox(\GeoMetadata\Service\Microformats2::CRS)->toWkt()
+		);
 	}
 	
 	private function getExampleData($name) {
-		$path = $this->testsPath() . "/assets/parser/{$name}";
+		$path = $this->path() . "/assets/parser/{$name}";
 		return file_get_contents($path);
 	}
 

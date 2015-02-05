@@ -36,7 +36,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	 * Returns the path to the tests directory.
 	 * @return string
 	 */
-	protected function testsPath() {
+	protected function path() {
 		return app_path('tests');
 	}
 	
