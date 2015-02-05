@@ -32,7 +32,7 @@ function resetSearch(form) {
 function saveSearch() {
 	$('#mapFilterShare').popover({
 		title: Lang.t('searchShare'),
-		placement: 'left auto',
+		placement: 'left',
 		content: '<div id="permalinkContent"><img src="/img/loading.gif" />' + Lang.t('permLink')+'</div>',
 		html: true,
 		trigger: 'manual',
