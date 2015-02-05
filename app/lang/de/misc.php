@@ -49,7 +49,7 @@ return array(
 	'commentsFurtherInfosTitle' => 'Was sehe ich nun?',
 	'buttonReg' => 'Die Registrierung auf My Meta Maps erfolgt über einen Klick auf die Schaltfläche',
 	'buttonLogin' => 'Um sich nach der Registrierung einzuloggen klicken Sie oben rechts auf die Schaltfläche',
-	'loginViaOAuth' => 'Alternativ kannst du dich sowohl über Facebook, GitHub, Google oder Twitter anmelden. Dir wird anschließend automatisch eine Account bei My Meta Maps erstellt.',
+	'loginViaOAuth' => 'Alternativ kannst du dich sowohl über Facebook, GitHub, Google oder Twitter anmelden. Dir wird anschließend automatisch ein Account bei My Meta Maps erstellt.',
 	'changeGeneral' => 'Oben rechts befindet sich ein Button mit ihrem Profilnamen. Dort kannst du zu einer Ansicht gelangen, um die Daten deines Profils zu ändern.
 	 Du kannst sowohl deinen Benutzernamen als auch deine Email-Adresse ändern und zudem deine bevorzugte Sprache auswählen.',
 	'changePassword' => 'Oben rechts befindet sich ein Button mit ihrem Profilnamen. Dort kannst du zu einer Ansicht gelangen, um dein Passwort zu ändern.',

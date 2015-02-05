@@ -44,6 +44,7 @@ return array(
 	'spatialFilter' => 'Ruijmtelijk filter',
 	'timeFilter' => 'Temporeel filter',
 	'rateFilter' => 'Filter naar beoordeling',
+	'commentsFurtherInfosTitle' => 'Wat zie ik nu',
 	'keywordSearch' => 'Trefwoordzoek',
 	'buttonReg' => 'Je kan je op My Meta Maps door een click op het volgende knopje registreren:',
 	'buttonLogin' => 'Om je na de registratie inteloggen, click je boven op het knopje:',
