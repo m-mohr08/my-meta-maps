@@ -54,7 +54,7 @@
 		<label for="startDate">@lang('misc.timerange')</label>
 			<div class="input-group">
 				<span id="show-datepicker-startComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-				<input class="form-control" name="start" id="inputStartDate" type="text"placeholder="Startzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-startComment">
+				<input class="form-control" name="start" id="inputStartDate" type="text"placeholder="@lang('misc.startingDate') ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-startComment">
 			</div>
 			<span class="error-message"></span>
 	</div>
@@ -62,7 +62,7 @@
 	<div class="row form-group">
 		<div class="input-group">
 			<span id="show-datepicker-endComment" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			<input class="form-control" name="end" id="inputEndDate" type="text"placeholder="Endzeitpunkt ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-endComment">
+			<input class="form-control" name="end" id="inputEndDate" type="text"placeholder="@lang('misc.endingDate') ({{ Config::get('view.datepicker.placeholder') }})" datepicker data-date-format="{{ Config::get('view.datepicker.format') }}" data-trigger="#show-datepicker-endComment">
 		</div>
 		<div class="error-message"></div>
 	</div>
@@ -111,8 +111,8 @@
 	<% } if (!_.isEmpty(data.metadata.time.start) || !_.isEmpty(data.metadata.time.end)) { %>
 		<dt>@lang('misc.timerange')</dt>
 		<dd>
-			@lang('misc.startingDate') <%- data.metadata.time.start ? data.metadata.time.start : @lang('misc.unknown') %><br />
-			@lang('misc.endingDate') <%- data.metadata.time.end ? data.metadata.time.end : @lang('misc.unknown') %>
+			@lang('misc.startingDate') <%- data.metadata.time.start ? data.metadata.time.start : '@lang('misc.unknown')' %><br />
+			@lang('misc.endingDate') <%- data.metadata.time.end ? data.metadata.time.end : '@lang('misc.unknown')' %>
 		</dd>
 	<% } if (!_.isEmpty(data.metadata.author)) { %>
 		<dt>@lang('misc.author')</dt>
